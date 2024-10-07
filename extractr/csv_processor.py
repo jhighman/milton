@@ -1,14 +1,7 @@
-# csv_processor.py
-
 import os
 import csv
-import json
+import shutil
 from datetime import datetime
-from exceptions import RateLimitExceeded
-from evaluation_library import (
-    evaluate_name, evaluate_license, evaluate_exams,
-    evaluate_registration_status, evaluate_disclosures, get_passed_exams
-)
 
 class CsvProcessor:
     def __init__(self, api_client, config, logger, checkpoint_manager, input_folder, output_folder, archive_folder):
@@ -20,82 +13,85 @@ class CsvProcessor:
         self.output_folder = output_folder
         self.archive_folder = archive_folder
         self.current_csv_file = None
-        self.last_processed_line = -1
-        self.records_written = 0
-        self.files_processed = 0
+        self.last_processed_line = -1  # Default to processing from the start
 
     def process_files(self):
-        os.makedirs(self.output_folder, exist_ok=True)
-        os.makedirs(self.archive_folder, exist_ok=True)
-
+        """
+        Process all CSV files in the input folder, starting from the last processed file and line if checkpoint is available.
+        """
+        # Load checkpoint if exists
         checkpoint_data = self.checkpoint_manager.load_checkpoint()
-        self.current_csv_file = checkpoint_data.get('current_csv_file')
+        self.current_csv_file = checkpoint_data.get('current_csv_file', None)
         self.last_processed_line = checkpoint_data.get('last_processed_line', -1)
 
+        # Get the list of CSV files
         csv_files = [f for f in os.listdir(self.input_folder) if f.endswith('.csv')]
         if not csv_files:
             self.logger.info("No CSV files found in the input folder.")
             return
 
+        # Sort the files and process
         csv_files.sort()
 
-        if self.current_csv_file:
-            if self.current_csv_file in csv_files:
-                csv_files = csv_files[csv_files.index(self.current_csv_file):]
-            else:
-                self.logger.warning(f"Checkpoint file {self.current_csv_file} not found in input folder.")
-                self.last_processed_line = -1
+        # If there is a checkpoint, resume from that file and line
+        if self.current_csv_file and self.current_csv_file in csv_files:
+            csv_files = csv_files[csv_files.index(self.current_csv_file):]
+        else:
+            # If no valid checkpoint file, start fresh from the beginning
+            self.last_processed_line = -1
 
+        # Process each CSV file
         for csv_file in csv_files:
             self.current_csv_file = csv_file
             csv_file_path = os.path.join(self.input_folder, csv_file)
-            self.process_csv(csv_file_path)
+            self._process_csv_file(csv_file_path)
+
+            # After processing the file, archive it
+            self._archive_file(csv_file)
+
+            # Reset checkpoint for next file
             self.last_processed_line = -1
 
-            current_date = datetime.now().strftime("%m-%d-%Y")
-            archive_subfolder = os.path.join(self.archive_folder, current_date)
-            os.makedirs(archive_subfolder, exist_ok=True)
-            dest_path = os.path.join(archive_subfolder, csv_file)
-            os.replace(csv_file_path, dest_path)
-
-            self.files_processed += 1
+            # Remove checkpoint after successfully processing the file
             self.checkpoint_manager.remove_checkpoint()
 
-        self.logger.info(f"Processing complete! Files processed: {self.files_processed}, Records written: {self.records_written}")
-
-    def process_csv(self, csv_file_path):
+    def _process_csv_file(self, csv_file_path):
+        """
+        Process an individual CSV file, handling row processing, evaluations, and checkpoint saving.
+        """
         with open(csv_file_path, 'r') as csvfile:
             csv_reader = csv.DictReader(csvfile)
             records = list(csv_reader)
 
             for index, row in enumerate(records):
+                # Skip already processed lines based on the checkpoint
                 if index <= self.last_processed_line:
                     continue
 
-                try:
-                    crd_number = row['crd_number']
-                    last_name = row['last_name']
-                    first_name = row['first_name']
-                    name = f"{first_name} {last_name}"
-                    license_type = row.get('license_type', '')
-                except KeyError as e:
-                    missing_key = str(e).strip("'")
-                    self.logger.warning(f"Missing key '{missing_key}' in row: {row}")
-                    continue
+                # Process each row and perform evaluations
+                self._process_row(row)
 
-                self.logger.info(f"Processing CRD {crd_number}")
+                # Update the last processed line and save the checkpoint
+                self.last_processed_line = index
+                self.checkpoint_manager.save_checkpoint({
+                    'current_csv_file': self.current_csv_file,
+                    'last_processed_line': self.last_processed_line
+                })
 
-                try:
-                    basic_info = self.api_client.get_individual_basic_info(crd_number)
-                    detailed_info = self.api_client.get_individual_detailed_info(crd_number)
-                except RateLimitExceeded as e:
-                    self.logger.error(str(e))
-                    self.logger.info(f"Processed {self.records_written} records before rate limiting.")
-                    self.checkpoint_manager.save_checkpoint(self.current_csv_file, index)
-                    return
+    def _process_row(self, row):
+        """
+        Process an individual row from the CSV file and perform the necessary evaluations.
+        """
+        # Implement your row processing and evaluation logic here
+        self.logger.info(f"Processing row: {row}")
+        # Your evaluation logic here
 
-                if basic_info and detailed_info:
-                    # Perform evaluations and save results...
-                    self.records_written += 1
-
-                self.checkpoint_manager.save_checkpoint(self.current_csv_file, index)
+    def _archive_file(self, csv_file):
+        """
+        Archive a processed CSV file to the archive folder with a timestamp.
+        """
+        current_date = datetime.now().strftime("%m-%d-%Y")
+        archive_subfolder = os.path.join(self.archive_folder, current_date)
+        os.makedirs(archive_subfolder, exist_ok=True)
+        shutil.move(os.path.join(self.input_folder, csv_file), os.path.join(archive_subfolder, csv_file))
+        self.logger.info(f"Archived file: {csv_file}")

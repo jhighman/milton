@@ -1,5 +1,6 @@
 import signal
 import sys
+import traceback
 
 def register_signal_handlers(save_checkpoint_callback):
     """
@@ -10,7 +11,11 @@ def register_signal_handlers(save_checkpoint_callback):
     """
     def handler(sig, frame):
         print(f"Signal {sig} received, saving checkpoint...")
-        save_checkpoint_callback()
+        try:
+            save_checkpoint_callback()
+        except Exception as e:
+            print(f"Error in save_checkpoint_callback: {e}")
+            print(traceback.format_exc())
         sys.exit(0)
     
     # Register handler for SIGINT (Ctrl+C)
