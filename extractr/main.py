@@ -31,7 +31,7 @@ output_folder = os.path.join(folder_path, 'output')
 archive_folder = os.path.join(folder_path, 'archive')
 cache_folder = os.path.join(folder_path, 'cache')
 checkpoint_file = os.path.join(output_folder, 'checkpoint.json')
-log_file_path = os.path.join(output_folder, 'unresolved_crd_cases.csv')  # Updated to use CSV for unresolved cases
+log_file_path = os.path.join(output_folder, 'unresolved_crd_cases.csv')  # CSV for unresolved cases
 
 # Initialize counters
 files_processed = 0
@@ -41,7 +41,6 @@ last_processed_line = -1
 
 # Canonical field mappings for CSV header flexibility
 canonical_fields = {
-    # Personal Information
     'crd': ['CRD', 'crd', 'CRDNumber', 'crd_number'],
     'first_name': ['firstName', 'first_name', 'FirstName'],
     'middle_name': ['middleName', 'middle_name', 'MiddleName'],
@@ -50,8 +49,6 @@ canonical_fields = {
     'ssn': ['ssn', 'SSN'],
     'dob': ['dob', 'DOB', 'dateOfBirth'],
     'gender': ['gender', 'Gender'],
-
-    # Address Information
     'address_line1': ['addressLine1', 'address1', 'Address1'],
     'address_line2': ['addressLine2', 'address2', 'Address2'],
     'city': ['city', 'City'],
@@ -59,12 +56,8 @@ canonical_fields = {
     'state': ['state', 'State'],
     'zip': ['zip', 'ZipCode', 'PostalCode'],
     'country': ['country', 'Country'],
-
-    # Contact Information
     'email': ['email', 'EmailAddress'],
     'phone': ['phone', 'PhoneNumber'],
-
-    # Employment Information
     'employee_number': ['employeeNumber', 'employeeID', 'EmployeeID'],
     'role': ['role', 'Role'],
     'title': ['title', 'Title'],
@@ -77,8 +70,6 @@ canonical_fields = {
     'last_hire_date': ['lastHireDate', 'LastHireDate'],
     'employee_status': ['employeeStatus', 'EmploymentStatus'],
     'employment_type': ['employmentType', 'EmploymentType'],
-
-    # Professional Information
     'organization_name': ['organizationName', 'OrgName', 'Organization'],
     'professional_license_number1': ['professionalLicenseNumber1', 'LicenseNumber'],
     'professional_license_industry1': ['professionalLicenseIndustry1', 'LicenseIndustry'],
@@ -88,16 +79,12 @@ canonical_fields = {
     'professional_license_state1': ['professionalLicenseState1', 'LicenseState'],
     'professional_license_issued_date1': ['professionalLicenseIssuedDate1', 'LicenseIssuedDate'],
     'professional_license_exp_date1': ['professionalLicenseExpDate1', 'LicenseExpDate'],
-
-    # Driving License Information
     'driving_license_number': ['drivingLicenseNumber', 'DriverLicenseNumber'],
     'driving_license_state': ['drivingLicenseState', 'DriverLicenseState'],
     'driving_license_issue_date': ['drivingLicenseIssueDate', 'DriverLicenseIssuedDate'],
     'driving_license_expiry_date': ['drivingLicenseExpiryDate', 'DriverLicenseExpDate'],
     'driving_license_class_code': ['drivingLicenseClassCode', 'DriverLicenseClass'],
     'driving_license_restriction_code': ['drivingLicenseRestrictionCode', 'LicenseRestrictionCode'],
-
-    # Birth Information
     'city_of_birth': ['cityofBirth', 'BirthCity'],
     'state_of_birth': ['stateofBirth', 'BirthState'],
     'county_of_birth': ['countyofBirth', 'BirthCounty']
@@ -116,10 +103,16 @@ def resolve_headers(headers):
     resolved_fields = {}
     for canon, aliases in canonical_fields.items():
         for alias in aliases:
-            if alias in headers:
-                resolved_fields[canon] = alias
+            normalized_alias = alias.lstrip('\ufeff')  # Remove BOM if present
+            if normalized_alias in headers:
+                resolved_fields[canon] = normalized_alias
                 break
+    # Log any missing mappings for easier debugging
+    missing_mappings = [canon for canon in canonical_fields if canon not in resolved_fields]
+    if missing_mappings:
+        logging.warning(f"Unmapped canonical fields: {missing_mappings}")
     return resolved_fields
+
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Evaluation Framework')
@@ -178,18 +171,28 @@ def log_unresolved_crd(row, resolved_fields):
     """Log unresolved CRD cases to a CSV file using canonical headers."""
     unresolved_file = log_file_path
     write_headers = not os.path.exists(unresolved_file)  # Check if headers are needed
-
-    # Map row data to the canonical headers
     unresolved_data = {field: row.get(resolved_fields.get(field, ''), '') for field in canonical_fields.keys()}
-
-    # Open the file in append mode; write headers if file does not already exist
     with open(unresolved_file, mode='a', newline='') as file:
         writer = csv.DictWriter(file, fieldnames=list(canonical_fields.keys()))
         if write_headers:
             writer.writeheader()
         writer.writerow(unresolved_data)
 
-# Process each row with full evaluation logic
+# Process each CSV file
+def process_csv(csv_file_path, start_line):
+    """Process each CSV file, iterating through rows and handling checkpoints."""
+    global last_processed_line, current_csv_file
+    current_csv_file = os.path.basename(csv_file_path)
+    last_processed_line = start_line
+    with open(csv_file_path, 'r', encoding='utf-8-sig') as csvfile:
+        csv_reader = csv.DictReader(csvfile)
+        resolved_fields = resolve_headers(csv_reader.fieldnames)
+        for index, row in enumerate(csv_reader):
+            if index <= last_processed_line:
+                continue
+            process_row(row, resolved_fields)
+            save_checkpoint()
+
 def process_row(row, resolved_fields):
     """Process a single row of data, performing validation and evaluation tasks."""
     global records_written, last_processed_line
@@ -202,6 +205,21 @@ def process_row(row, resolved_fields):
         last_name = row.get(resolved_fields['last_name'], '').strip()
         name = f"{first_name} {last_name}"
         license_type = row.get(resolved_fields.get('license_type', ''), '')
+
+        # Initialize the evaluation report with employee_number first, then crd_number
+        evaluation_report = {}
+        
+        # Add employee_number if it exists
+        employee_number = row.get(resolved_fields.get('employee_number', ''), '').strip()
+        if employee_number:
+            evaluation_report['employee_number'] = employee_number
+
+        # Add remaining fields
+        evaluation_report['crd_number'] = crd_number
+        evaluation_report['data_source'] = None  # To be set after data source determination
+        evaluation_report['name'] = {
+            'expected_name': name,
+        }
 
         log_diagnostic(f"Processing CRD {crd_number}")
 
@@ -221,11 +239,11 @@ def process_row(row, resolved_fields):
         if basic_info and basic_info.get('hits', {}).get('hits', []):
             selected_basic_info = basic_info
             selected_detailed_info = detailed_info
-            data_source = "BrokerCheck"
+            evaluation_report['data_source'] = "BrokerCheck"
         elif basic_info_sec and basic_info_sec.get('hits', {}).get('hits', []):
             selected_basic_info = basic_info_sec
             selected_detailed_info = detailed_info_sec
-            data_source = "SEC"
+            evaluation_report['data_source'] = "SEC"
         else:
             logging.warning(f"No data available from either BrokerCheck or SEC for CRD {crd_number}.")
             log_unresolved_crd(row, resolved_fields)
@@ -239,17 +257,15 @@ def process_row(row, resolved_fields):
         ia_scope = individual.get('ind_ia_scope', '')
 
         alerts = []
-        evaluation_report = {'data_source': data_source}
 
         # Name Evaluation
         if config.get('evaluate_name', True):
             name_match, name_alert = evaluate_name(name, fetched_name, other_names)
-            evaluation_report['name'] = {
-                'expected_name': name,
+            evaluation_report['name'].update({
                 'fetched_name': fetched_name,
                 'name_match': name_match,
                 'name_match_explanation': "" if name_match else "Expected name did not match fetched name."
-            }
+            })
             if name_alert:
                 alerts.append(name_alert)
             log_diagnostic(f"Name evaluation: {'PASSED' if name_match else 'FAILED'}")
@@ -356,34 +372,15 @@ def process_row(row, resolved_fields):
         os.makedirs(output_folder, exist_ok=True)
         output_file_path = os.path.join(output_folder, f"{crd_number}.json")
         with open(output_file_path, 'w') as json_file:
-            json.dump({'crd_number': crd_number, **evaluation_report}, json_file, indent=2)
+            json.dump(evaluation_report, json_file, indent=2)
 
         # Increment counters and update checkpoint
         records_written += 1
         last_processed_line += 1
-
     else:
         # Log unresolved CRD cases if validation fails
         log_unresolved_crd(row, resolved_fields)
 
-# Process each CSV file
-def process_csv(csv_file_path, start_line):
-    """Process each CSV file, iterating through rows and handling checkpoints."""
-    global last_processed_line, current_csv_file
-    current_csv_file = os.path.basename(csv_file_path)
-    last_processed_line = start_line
-
-    with open(csv_file_path, 'r') as csvfile:
-        csv_reader = csv.DictReader(csvfile)
-        resolved_fields = resolve_headers(csv_reader.fieldnames)
-
-        for index, row in enumerate(csv_reader):
-            if index <= last_processed_line:
-                continue  # Skip already processed records
-
-            # Process each row and handle checkpoint
-            process_row(row, resolved_fields)
-            save_checkpoint()
 
 # Main function to manage file processing and archiving
 def main():
