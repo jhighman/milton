@@ -43,9 +43,11 @@ def aggregate_reports(output_folder: str, csv_report_path: str):
     csv_headers = [
         'crd_number',
         'overall_compliance',
-        'disclosure_alerts',
-        'exam_compliance',
+        'name_match',
         'license_compliance',
+        'exam_compliance',
+        'status_compliance',
+        'disclosure_compliance',
         'alerts_count'
     ]
 
@@ -86,20 +88,31 @@ def aggregate_reports(output_folder: str, csv_report_path: str):
                     if overall_compliance == '':
                         logger.warning(f"Overall compliance missing for CRD {crd_number} in file '{json_file}'")
 
-                    disclosure_review = data.get('disclosure_review', {})
-                    disclosure_alerts = disclosure_review.get('disclosure_alerts', '')
-                    if disclosure_alerts == '':
-                        logger.warning(f"Disclosure alerts missing for CRD {crd_number} in file '{json_file}'")
+                    # Extract individual compliance checks
+                    name_evaluation = data.get('name', {})
+                    name_match = name_evaluation.get('name_match', '')
+                    if name_match == '':
+                        logger.warning(f"Name match missing for CRD {crd_number} in file '{json_file}'")
+
+                    license_verification = data.get('license_verification', {})
+                    license_compliance = license_verification.get('license_compliance', '')
+                    if license_compliance == '':
+                        logger.warning(f"License compliance missing for CRD {crd_number} in file '{json_file}'")
 
                     exam_evaluation = data.get('exam_evaluation', {})
                     exam_compliance = exam_evaluation.get('exam_compliance', '')
                     if exam_compliance == '':
                         logger.warning(f"Exam compliance missing for CRD {crd_number} in file '{json_file}'")
 
-                    license_verification = data.get('license_verification', {})
-                    license_compliance = license_verification.get('license_compliance', '')
-                    if license_compliance == '':
-                        logger.warning(f"License compliance missing for CRD {crd_number} in file '{json_file}'")
+                    registration_status = data.get('registration_status', {})
+                    status_compliance = registration_status.get('status_compliance', '')
+                    if status_compliance == '':
+                        logger.warning(f"Status compliance missing for CRD {crd_number} in file '{json_file}'")
+
+                    disclosure_review = data.get('disclosure_review', {})
+                    disclosure_compliance = disclosure_review.get('disclosure_compliance', '')
+                    if disclosure_compliance == '':
+                        logger.warning(f"Disclosure compliance missing for CRD {crd_number} in file '{json_file}'")
 
                     # Count the number of alerts
                     alerts = final_evaluation.get('alerts', [])
@@ -113,9 +126,11 @@ def aggregate_reports(output_folder: str, csv_report_path: str):
                     row = {
                         'crd_number': crd_number,
                         'overall_compliance': overall_compliance,
-                        'disclosure_alerts': disclosure_alerts,
-                        'exam_compliance': exam_compliance,
+                        'name_match': name_match,
                         'license_compliance': license_compliance,
+                        'exam_compliance': exam_compliance,
+                        'status_compliance': status_compliance,
+                        'disclosure_compliance': disclosure_compliance,
                         'alerts_count': alerts_count
                     }
 

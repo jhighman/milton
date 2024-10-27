@@ -1,3 +1,5 @@
+# main.py
+
 import os
 import csv
 import json
@@ -13,6 +15,7 @@ from typing import Dict, Any, List, Optional
 # Import the ApiClient from api_client.py
 from api_client import ApiClient, RateLimitExceeded
 
+# Import evaluation functions and classes from evaluation_library.py
 from evaluation_library import (
     evaluate_name,
     evaluate_license,
@@ -41,53 +44,13 @@ last_processed_line = -1
 
 # Canonical field mappings for CSV header flexibility
 canonical_fields = {
-    'crd': ['CRD', 'crd', 'CRDNumber', 'crd_number'],
-    'first_name': ['firstName', 'first_name', 'FirstName'],
-    'middle_name': ['middleName', 'middle_name', 'MiddleName'],
-    'last_name': ['lastName', 'last_name', 'LastName'],
-    'suffix': ['suffix', 'Suffix'],
-    'ssn': ['ssn', 'SSN'],
-    'dob': ['dob', 'DOB', 'dateOfBirth'],
-    'gender': ['gender', 'Gender'],
-    'address_line1': ['addressLine1', 'address1', 'Address1'],
-    'address_line2': ['addressLine2', 'address2', 'Address2'],
-    'city': ['city', 'City'],
-    'county': ['county', 'County'],
-    'state': ['state', 'State'],
-    'zip': ['zip', 'ZipCode', 'PostalCode'],
-    'country': ['country', 'Country'],
-    'email': ['email', 'EmailAddress'],
-    'phone': ['phone', 'PhoneNumber'],
-    'employee_number': ['employeeNumber', 'employeeID', 'EmployeeID'],
-    'role': ['role', 'Role'],
-    'title': ['title', 'Title'],
-    'department_number': ['departmentNumber', 'DeptNumber', 'DepartmentID'],
-    'division_name': ['divisionName', 'Division'],
-    'division_code': ['divisionCode', 'DivisionCode'],
-    'business_unit': ['businessUnit', 'BusinessUnit'],
-    'location': ['location', 'Location'],
-    'original_hire_date': ['originalHireDate', 'OriginalHireDate'],
-    'last_hire_date': ['lastHireDate', 'LastHireDate'],
-    'employee_status': ['employeeStatus', 'EmploymentStatus'],
-    'employment_type': ['employmentType', 'EmploymentType'],
-    'organization_name': ['organizationName', 'OrgName', 'Organization'],
-    'professional_license_number1': ['professionalLicenseNumber1', 'LicenseNumber'],
-    'professional_license_industry1': ['professionalLicenseIndustry1', 'LicenseIndustry'],
-    'professional_license_category1': ['professionalLicenseCategory1', 'LicenseCategory'],
-    'professional_license_speciality1': ['professionalLicenseSpeciality1', 'LicenseSpeciality'],
-    'professional_license_name1': ['professionalLicenseName1', 'LicenseName'],
-    'professional_license_state1': ['professionalLicenseState1', 'LicenseState'],
-    'professional_license_issued_date1': ['professionalLicenseIssuedDate1', 'LicenseIssuedDate'],
-    'professional_license_exp_date1': ['professionalLicenseExpDate1', 'LicenseExpDate'],
-    'driving_license_number': ['drivingLicenseNumber', 'DriverLicenseNumber'],
-    'driving_license_state': ['drivingLicenseState', 'DriverLicenseState'],
-    'driving_license_issue_date': ['drivingLicenseIssueDate', 'DriverLicenseIssuedDate'],
-    'driving_license_expiry_date': ['drivingLicenseExpiryDate', 'DriverLicenseExpDate'],
-    'driving_license_class_code': ['drivingLicenseClassCode', 'DriverLicenseClass'],
-    'driving_license_restriction_code': ['drivingLicenseRestrictionCode', 'LicenseRestrictionCode'],
-    'city_of_birth': ['cityofBirth', 'BirthCity'],
-    'state_of_birth': ['stateofBirth', 'BirthState'],
-    'county_of_birth': ['countyofBirth', 'BirthCounty']
+    'crd': ['crd', 'CRD', 'CRDNumber', 'crd_number', 'crdnumber', 'CRD Number'],
+    'first_name': ['first_name', 'First Name', 'firstname', 'FirstName', 'first'],
+    'last_name': ['last_name', 'Last Name', 'lastname', 'LastName', 'last'],
+    'middle_name': ['middle_name', 'Middle Name', 'middlename', 'MiddleName', 'middle'],
+    'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
+    'employee_number': ['employee_number', 'Employee Number', 'employeenumber', 'EmployeeNumber'],
+    # Add other canonical fields and their variations as needed
 }
 
 # Load configuration file
@@ -99,20 +62,19 @@ config = load_config()
 
 # Resolve headers to canonical model
 def resolve_headers(headers):
-    """Map CSV headers to a canonical model based on predefined aliases."""
-    resolved_fields = {}
-    for canon, aliases in canonical_fields.items():
-        for alias in aliases:
-            normalized_alias = alias.lstrip('\ufeff')  # Remove BOM if present
-            if normalized_alias in headers:
-                resolved_fields[canon] = normalized_alias
+    resolved_headers = {}
+    unmapped_canonical_fields = set(canonical_fields.keys())
+    header_map = {header.lower().strip(): header for header in headers}  # Map lowercase headers to original headers
+    for canonical, variations in canonical_fields.items():
+        for variation in variations:
+            variation_lower = variation.lower().strip()
+            if variation_lower in header_map:
+                resolved_headers[canonical] = header_map[variation_lower]
+                unmapped_canonical_fields.discard(canonical)
                 break
-    # Log any missing mappings for easier debugging
-    missing_mappings = [canon for canon in canonical_fields if canon not in resolved_fields]
-    if missing_mappings:
-        logging.warning(f"Unmapped canonical fields: {missing_mappings}")
-    return resolved_fields
-
+    if unmapped_canonical_fields:
+        logging.warning(f"Unmapped canonical fields: {unmapped_canonical_fields}")
+    return resolved_headers
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Evaluation Framework')
@@ -121,25 +83,25 @@ parser.add_argument('--wait-time', type=int, default=7, help='Wait time between 
 args = parser.parse_args()
 
 # Logging setup
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+if args.diagnostic:
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+else:
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def log_diagnostic(message):
     """Log diagnostic information if diagnostic mode is enabled."""
-    if args.diagnostic:
-        logging.info(f"[DIAGNOSTIC] {message}")
+    logging.debug(message)
 
 # Save checkpoint
 def save_checkpoint():
     """Save the current processing state to a checkpoint file."""
     checkpoint_data = {
-        'current_csv_file': current_csv_file,
-        'last_processed_line': last_processed_line
+        'csv_file': current_csv_file,
+        'line': last_processed_line
     }
-    temp_checkpoint_file = checkpoint_file + '.tmp'
-    with open(temp_checkpoint_file, 'w') as f:
+    with open(checkpoint_file, 'w') as f:
         json.dump(checkpoint_data, f)
-    os.replace(temp_checkpoint_file, checkpoint_file)
-    log_diagnostic("Checkpoint saved.")
+    log_diagnostic(f"Checkpoint saved: {checkpoint_data}")
 
 # Load checkpoint
 def load_checkpoint():
@@ -147,15 +109,14 @@ def load_checkpoint():
     if os.path.exists(checkpoint_file):
         with open(checkpoint_file, 'r') as f:
             checkpoint_data = json.load(f)
-        log_diagnostic("Checkpoint loaded.")
-        return checkpoint_data.get('current_csv_file'), checkpoint_data.get('last_processed_line')
-    else:
-        return None, -1
+        log_diagnostic(f"Checkpoint loaded: {checkpoint_data}")
+        return checkpoint_data.get('csv_file'), checkpoint_data.get('line', -1)
+    return None, -1  # Return default values if no checkpoint exists
 
 # Signal handling for safe exit
 def signal_handler(sig, frame):
     """Handle interrupts to save the checkpoint and exit gracefully."""
-    logging.info('Interrupt received, saving checkpoint...')
+    logging.info("Interrupt received. Saving checkpoint and exiting...")
     save_checkpoint()
     sys.exit(0)
 
@@ -169,14 +130,14 @@ api_client = ApiClient(cache_folder=cache_folder, wait_time=args.wait_time, logg
 # Log unresolved CRD cases to a CSV file
 def log_unresolved_crd(row, resolved_fields):
     """Log unresolved CRD cases to a CSV file using canonical headers."""
-    unresolved_file = log_file_path
-    write_headers = not os.path.exists(unresolved_file)  # Check if headers are needed
-    unresolved_data = {field: row.get(resolved_fields.get(field, ''), '') for field in canonical_fields.keys()}
-    with open(unresolved_file, mode='a', newline='') as file:
-        writer = csv.DictWriter(file, fieldnames=list(canonical_fields.keys()))
-        if write_headers:
+    os.makedirs(output_folder, exist_ok=True)
+    file_exists = os.path.isfile(log_file_path)
+    with open(log_file_path, 'a', newline='', encoding='utf-8-sig') as csvfile:
+        fieldnames = resolved_fields.values()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        if not file_exists:
             writer.writeheader()
-        writer.writerow(unresolved_data)
+        writer.writerow({field: row.get(field, '') for field in fieldnames})
 
 # Process each CSV file
 def process_csv(csv_file_path, start_line):
@@ -186,11 +147,13 @@ def process_csv(csv_file_path, start_line):
     last_processed_line = start_line
     with open(csv_file_path, 'r', encoding='utf-8-sig') as csvfile:
         csv_reader = csv.DictReader(csvfile)
-        resolved_fields = resolve_headers(csv_reader.fieldnames)
+        resolved_headers = resolve_headers(csv_reader.fieldnames)
         for index, row in enumerate(csv_reader):
             if index <= last_processed_line:
                 continue
-            process_row(row, resolved_fields)
+            log_diagnostic(f"Processing line {index} in file {current_csv_file}")
+            process_row(row, resolved_headers)
+            last_processed_line = index
             save_checkpoint()
 
 def process_row(row, resolved_fields):
@@ -198,24 +161,34 @@ def process_row(row, resolved_fields):
     global records_written, last_processed_line
 
     # Retrieve and validate CRD value
-    crd_value = row.get(resolved_fields.get('crd', ''), None)
+    crd_value = row.get(resolved_fields.get('crd', ''), '').strip()
     if crd_value and crd_value.isdigit() and int(crd_value) > 0:
         crd_number = int(crd_value)
-        first_name = row.get(resolved_fields['first_name'], '').strip()
-        last_name = row.get(resolved_fields['last_name'], '').strip()
-        name = f"{first_name} {last_name}"
-        license_type = row.get(resolved_fields.get('license_type', ''), '')
+        first_name = row.get(resolved_fields.get('first_name', ''), '').strip()
+        last_name = row.get(resolved_fields.get('last_name', ''), '').strip()
+        name = f"{first_name} {last_name}".strip()
+        license_type = row.get(resolved_fields.get('license_type', ''), '').strip()
 
-        # Initialize the evaluation report with employee_number first, then crd_number
+        # Initialize the evaluation report
         evaluation_report = {}
-        
+
         # Add employee_number if it exists
         employee_number = row.get(resolved_fields.get('employee_number', ''), '').strip()
         if employee_number:
             evaluation_report['employee_number'] = employee_number
 
-        # Add remaining fields
+        # Add crd_number
         evaluation_report['crd_number'] = crd_number
+
+        # Populate the "claim" object with all canonical fields
+        claim = {}
+        for canonical_field in canonical_fields:
+            value = row.get(resolved_fields.get(canonical_field, ''), '').strip()
+            if value:
+                claim[canonical_field] = value
+        evaluation_report['claim'] = claim  # Add the "claim" object to the report
+
+        # Add remaining fields to evaluation_report
         evaluation_report['data_source'] = None  # To be set after data source determination
         evaluation_report['name'] = {
             'expected_name': name,
@@ -289,13 +262,13 @@ def process_row(row, resolved_fields):
 
         # Registration Status Evaluation
         if config.get('evaluate_registration_status', True):
-            status_ok, status_alerts = evaluate_registration_status(individual)
+            status_compliant, status_alerts = evaluate_registration_status(individual)
             evaluation_report['registration_status'] = {
-                'status_alerts': not status_ok,
-                'status_summary': "Active registration found." if status_ok else "Registration status is concerning."
+                'status_compliance': status_compliant,
+                'status_compliance_explanation': "Registration status is active and acceptable." if status_compliant else "Registration status is concerning."
             }
             alerts.extend(status_alerts)
-            log_diagnostic(f"Registration status evaluation: {'PASSED' if status_ok else 'FAILED'}")
+            log_diagnostic(f"Registration status evaluation: {'PASSED' if status_compliant else 'FAILED'}")
         else:
             evaluation_report['registration_status'] = {'evaluation_skipped': True}
             log_diagnostic("Registration status evaluation skipped as per configuration.")
@@ -321,13 +294,13 @@ def process_row(row, resolved_fields):
         # Disclosures Review
         if config.get('evaluate_disclosures', True):
             disclosures = detailed_data.get('disclosures', [])
-            disclosure_alerts, disclosure_summary = evaluate_disclosures(disclosures, name)
+            disclosure_compliance, disclosure_summary, disclosure_alerts = evaluate_disclosures(disclosures, name)
             evaluation_report['disclosure_review'] = {
-                'disclosure_alerts': bool(disclosure_alerts),
-                'disclosure_review_summary': disclosure_summary if disclosure_summary else "No disclosures found."
+                'disclosure_compliance': disclosure_compliance,
+                'disclosure_compliance_explanation': disclosure_summary
             }
             alerts.extend(disclosure_alerts)
-            log_diagnostic(f"Disclosure evaluation: {'FOUND' if disclosure_alerts else 'NONE'}")
+            log_diagnostic(f"Disclosure evaluation: {'PASSED' if disclosure_compliance else 'FAILED'}")
         else:
             evaluation_report['disclosure_review'] = {'evaluation_skipped': True}
             log_diagnostic("Disclosure evaluation skipped as per configuration.")
@@ -341,7 +314,9 @@ def process_row(row, resolved_fields):
         if config.get('evaluate_exams', True):
             evaluations_performed.append(evaluation_report['exam_evaluation']['exam_compliance'])
         if config.get('evaluate_registration_status', True):
-            evaluations_performed.append(not evaluation_report['registration_status']['status_alerts'])
+            evaluations_performed.append(evaluation_report['registration_status']['status_compliance'])
+        if config.get('evaluate_disclosures', True):
+            evaluations_performed.append(evaluation_report['disclosure_review']['disclosure_compliance'])
 
         overall_compliance = all(evaluations_performed)
 
@@ -373,14 +348,17 @@ def process_row(row, resolved_fields):
         output_file_path = os.path.join(output_folder, f"{crd_number}.json")
         with open(output_file_path, 'w') as json_file:
             json.dump(evaluation_report, json_file, indent=2)
+        log_diagnostic(f"Evaluation report saved to {output_file_path}")
 
         # Increment counters and update checkpoint
         records_written += 1
         last_processed_line += 1
+
     else:
         # Log unresolved CRD cases if validation fails
+        line_number = last_processed_line + 1
+        logging.warning(f"Invalid or missing CRD value at line {line_number}: '{crd_value}'. Row data: {row}")
         log_unresolved_crd(row, resolved_fields)
-
 
 # Main function to manage file processing and archiving
 def main():
@@ -407,6 +385,7 @@ def main():
     if checkpoint_csv_file and checkpoint_csv_file in csv_files:
         csv_files = csv_files[csv_files.index(checkpoint_csv_file):]
         last_processed_line = checkpoint_line
+        log_diagnostic(f"Resuming from checkpoint: {checkpoint_csv_file} at line {last_processed_line}")
     else:
         last_processed_line = -1
 
@@ -414,6 +393,7 @@ def main():
     for csv_file in csv_files:
         current_csv_file = csv_file
         csv_file_path = os.path.join(input_folder, csv_file)
+        logging.info(f"Processing file: {csv_file}")
         process_csv(csv_file_path, last_processed_line)
         files_processed += 1
         last_processed_line = -1  # Reset for next file
@@ -422,6 +402,7 @@ def main():
         archive_subfolder = os.path.join(archive_folder, datetime.now().strftime("%m-%d-%Y"))
         os.makedirs(archive_subfolder, exist_ok=True)
         shutil.move(csv_file_path, os.path.join(archive_subfolder, csv_file))
+        logging.info(f"Archived processed file: {csv_file}")
 
     # Completion log
     logging.info(f"Processing complete! Files processed: {files_processed}, Records written: {records_written}")
