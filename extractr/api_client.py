@@ -403,184 +403,184 @@ class ApiClient:
                 "error": str(e)
             }
 
-def get_sec_enforcement_actions(self, employee_number: str, first_name: str, last_name: str, alternate_names: List[str] = None) -> Dict[str, Dict]:
-    """
-    Retrieves SEC enforcement actions for the given individual and optional alternate names.
-    This method:
-      - Checks the cache folder for existing results before making a new request.
-      - If no cached data is found, uses WebDriver to fetch the page and parse results.
-    Returns a dict keyed by name variation (f_name_l_name) with the corresponding enforcement action data.
-    """
-    if not self.webdriver_enabled or not self.driver:
-        self.logger.error("WebDriver not enabled. Cannot perform SEC enforcement action lookups.")
-        return {}
+    def get_sec_enforcement_actions(self, employee_number: str, first_name: str, last_name: str, alternate_names: List[str] = None) -> Dict[str, Dict]:
+        """
+        Retrieves SEC enforcement actions for the given individual and optional alternate names.
+        This method:
+          - Checks the cache folder for existing results before making a new request.
+          - If no cached data is found, uses WebDriver to fetch the page and parse results.
+        Returns a dict keyed by name variation (f_name_l_name) with the corresponding enforcement action data.
+        """
+        if not self.webdriver_enabled or not self.driver:
+            self.logger.error("WebDriver not enabled. Cannot perform SEC enforcement action lookups.")
+            return {}
 
-    if alternate_names is None:
-        alternate_names = []
+        if alternate_names is None:
+            alternate_names = []
 
-    # Compile all name variations: primary plus alternates
-    name_variations = [(first_name, last_name)]
-    for alt_name in alternate_names:
-        parts = alt_name.strip().split()
-        if len(parts) >= 2:
-            name_variations.append((parts[0], parts[-1]))
+        # Compile all name variations: primary plus alternates
+        name_variations = [(first_name, last_name)]
+        for alt_name in alternate_names:
+            parts = alt_name.strip().split()
+            if len(parts) >= 2:
+                name_variations.append((parts[0], parts[-1]))
 
-    results = {}
-    employee_dir_cache = os.path.join(self.cache_folder, employee_number)
-    os.makedirs(employee_dir_cache, exist_ok=True)
+        results = {}
+        employee_dir_cache = os.path.join(self.cache_folder, employee_number)
+        os.makedirs(employee_dir_cache, exist_ok=True)
 
-    for idx, (f_name, l_name) in enumerate(name_variations, start=1):
-        cache_filename = os.path.join(employee_dir_cache, f"sec_result_{idx}.json")
-        name_key = f"{f_name}_{l_name}"
+        for idx, (f_name, l_name) in enumerate(name_variations, start=1):
+            cache_filename = os.path.join(employee_dir_cache, f"sec_result_{idx}.json")
+            name_key = f"{f_name}_{l_name}"
 
-        # Construct the URL for the query
-        url = f"https://sec-enforcement-actions.example.com/search?firstName={f_name}&lastName={l_name}"
+            # Construct the URL for the query (example URL placeholder)
+            url = f"https://sec-enforcement-actions.example.com/search?firstName={f_name}&lastName={l_name}"
 
-        # Check cache
-        if os.path.exists(cache_filename):
-            self.logger.debug(f"Cache hit for SEC data: {cache_filename}")
-            with open(cache_filename, 'r', encoding='utf-8') as infile:
-                result = json.load(infile)
-            # Add the URL to the result if it's not already there
-            result["url"] = url
+            # Check cache
+            if os.path.exists(cache_filename):
+                self.logger.debug(f"Cache hit for SEC data: {cache_filename}")
+                with open(cache_filename, 'r', encoding='utf-8') as infile:
+                    result = json.load(infile)
+                # Add the URL to the result if it's not already there
+                result["url"] = url
+                results[name_key] = result
+                continue
+
+            # If not cached, fetch and parse
+            self.logger.debug(f"No cache found for SEC data, querying for {f_name} {l_name}.")
+            data = self._fetch_and_parse_sec(f_name, l_name)
+
+            # Add the URL to the result
+            result = {
+                "data": data,
+                "url": url
+            }
+
+            # Save to cache
+            with open(cache_filename, 'w', encoding='utf-8') as outfile:
+                json.dump(result, outfile, indent=4)
+
             results[name_key] = result
-            continue
+            # Delay to respect wait_time
+            time.sleep(self.wait_time)
 
-        # If not cached, fetch and parse
-        self.logger.debug(f"No cache found for SEC data, querying for {f_name} {l_name}.")
-        data = self._fetch_and_parse_sec(f_name, l_name)
+        return results
 
-        # Add the URL to the result
-        result = {
-            "data": data,
-            "url": url
-        }
+    def get_finra_disciplinary_actions(self, employee_number: str, first_name: str, last_name: str, alternate_names: List[str] = None) -> Dict[str, Dict]:
+        """
+        Retrieves FINRA disciplinary actions for the given individual and optional alternate names.
+        This method:
+        - Checks the cache folder for existing results before making a new request.
+        - If no cached data is found, queries FINRA Disciplinary Actions Online and parses results.
+        Returns a dict keyed by name variation (f_name_l_name) with the corresponding disciplinary action data.
+        """
+        if alternate_names is None:
+            alternate_names = []
 
-        # Save to cache
-        with open(cache_filename, 'w', encoding='utf-8') as outfile:
-            json.dump(result, outfile, indent=4)
+        # Compile all name variations: primary plus alternates
+        name_variations = [(first_name, last_name)]
+        for alt_name in alternate_names:
+            parts = alt_name.strip().split()
+            if len(parts) >= 2:
+                name_variations.append((parts[0], parts[-1]))
 
-        results[name_key] = result
-        # Delay to respect wait_time
-        time.sleep(self.wait_time)
+        results = {}
+        employee_dir_cache = os.path.join(self.cache_folder, employee_number)
+        os.makedirs(employee_dir_cache, exist_ok=True)
 
-    return results
+        base_url = ("https://www.finra.org/rules-guidance/oversight-enforcement/finra-disciplinary-actions"
+                    "?search={}&firms=&individuals=&field_fda_case_id_txt=&"
+                    "field_core_official_dt%5Bmin%5D=&field_core_official_dt%5Bmax%5D=&field_fda_document_type_tax=All")
 
-def get_finra_disciplinary_actions(self, employee_number: str, first_name: str, last_name: str, alternate_names: List[str] = None) -> Dict[str, Dict]:
-    """
-    Retrieves FINRA disciplinary actions for the given individual and optional alternate names.
-    This method:
-      - Checks the cache folder for existing results before making a new request.
-      - If no cached data is found, queries FINRA Disciplinary Actions Online and parses results.
-    Returns a dict keyed by name variation (f_name_l_name) with the corresponding disciplinary action data.
-    """
-    if alternate_names is None:
-        alternate_names = []
+        for idx, (f_name, l_name) in enumerate(name_variations, start=1):
+            cache_filename = os.path.join(employee_dir_cache, f"finra_disciplinary_result_{idx}.json")
+            name_key = f"{f_name}_{l_name}"
 
-    # Compile all name variations: primary plus alternates
-    name_variations = [(first_name, last_name)]
-    for alt_name in alternate_names:
-        parts = alt_name.strip().split()
-        if len(parts) >= 2:
-            name_variations.append((parts[0], parts[-1]))
+            # Construct the URL for the query
+            search_query = f"{f_name}+{l_name}"
+            url = base_url.format(search_query)
 
-    results = {}
-    employee_dir_cache = os.path.join(self.cache_folder, employee_number)
-    os.makedirs(employee_dir_cache, exist_ok=True)
+            # Check cache
+            if os.path.exists(cache_filename):
+                self.logger.debug(f"Cache hit for FINRA disciplinary data: {cache_filename}")
+                with open(cache_filename, 'r', encoding='utf-8') as infile:
+                    result = json.load(infile)
+                # Add the URL to the result if it's not already there
+                result["url"] = url
+                results[name_key] = result
+                continue
 
-    base_url = ("https://www.finra.org/rules-guidance/oversight-enforcement/finra-disciplinary-actions"
-                "?search={}&firms=&individuals=&field_fda_case_id_txt=&"
-                "field_core_official_dt%5Bmin%5D=&field_core_official_dt%5Bmax%5D=&field_fda_document_type_tax=All")
+            # If not cached, fetch and parse
+            self.logger.debug(f"No cache found for FINRA disciplinary data, querying for {f_name} {l_name}.")
+            input_data = {"name": name_key, "search": url}
+            result_data = self._fetch_and_parse_finra(input_data)
 
-    for idx, (f_name, l_name) in enumerate(name_variations, start=1):
-        cache_filename = os.path.join(employee_dir_cache, f"finra_disciplinary_result_{idx}.json")
-        name_key = f"{f_name}_{l_name}"
+            # Add the URL to the result
+            result = {
+                "data": result_data,
+                "url": url
+            }
 
-        # Construct the URL for the query
-        search_query = f"{f_name}+{l_name}"
-        url = base_url.format(search_query)
+            # Save to cache
+            with open(cache_filename, 'w', encoding='utf-8') as outfile:
+                json.dump(result, outfile, indent=4)
 
-        # Check cache
-        if os.path.exists(cache_filename):
-            self.logger.debug(f"Cache hit for FINRA disciplinary data: {cache_filename}")
-            with open(cache_filename, 'r', encoding='utf-8') as infile:
-                result = json.load(infile)
-            # Add the URL to the result if it's not already there
-            result["url"] = url
             results[name_key] = result
-            continue
+            # Delay to respect wait_time
+            time.sleep(self.wait_time)
 
-        # If not cached, fetch and parse
-        self.logger.debug(f"No cache found for FINRA disciplinary data, querying for {f_name} {l_name}.")
-        input_data = {"name": name_key, "search": url}
-        result_data = self._fetch_and_parse_finra(input_data)
+        return results
 
-        # Add the URL to the result
-        result = {
-            "data": result_data,
-            "url": url
-        }
+    def _fetch_and_parse_finra(self, input_data: Dict[str, str]) -> Dict:
+        """
+        Fetches and parses the FINRA Disciplinary Actions Online results.
 
-        # Save to cache
-        with open(cache_filename, 'w', encoding='utf-8') as outfile:
-            json.dump(result, outfile, indent=4)
+        Parameters:
+            input_data (dict): Input object containing "name" and "search" URL.
 
-        results[name_key] = result
-        # Delay to respect wait_time
-        time.sleep(self.wait_time)
+        Returns:
+            dict: Extracted data or a "No Results Found" message.
+        """
+        search_url = input_data.get("search")
+        name = input_data.get("name", "Unknown")
 
-    return results
+        try:
+            # Perform the web request
+            response = requests.get(search_url)
+            response.raise_for_status()
+            html_content = response.text
 
-def _fetch_and_parse_finra(self, input_data: Dict[str, str]) -> Dict:
-    """
-    Fetches and parses the FINRA Disciplinary Actions Online results.
+            # Parse the HTML content
+            soup = BeautifulSoup(html_content, 'html.parser')
 
-    Parameters:
-        input_data (dict): Input object containing "name" and "search" URL.
+            # Locate table rows
+            table = soup.find("table", class_="views-table")
+            if not table:
+                return {"name": name, "result": "No Results Found"}
 
-    Returns:
-        dict: Extracted data or a "No Results Found" message.
-    """
-    search_url = input_data.get("search")
-    name = input_data.get("name", "Unknown")
+            rows = table.find_all("tr")[1:]  # Skip header row
+            if not rows:
+                return {"name": name, "result": "No Results Found"}
 
-    try:
-        # Perform the web request
-        response = requests.get(search_url)
-        response.raise_for_status()
-        html_content = response.text
+            data = []
+            for row in rows:
+                cells = row.find_all("td")
+                case_id = cells[0].text.strip() if len(cells) > 0 else "N/A"
+                case_summary = cells[1].text.strip() if len(cells) > 1 else "N/A"
+                document_type = cells[2].text.strip() if len(cells) > 2 else "N/A"
+                firms_individuals = cells[3].text.strip() if len(cells) > 3 else "N/A"
+                action_date = cells[4].text.strip() if len(cells) > 4 else "N/A"
 
-        # Parse the HTML content
-        soup = BeautifulSoup(html_content, 'html.parser')
+                data.append({
+                    "Case ID": case_id,
+                    "Case Summary": case_summary,
+                    "Document Type": document_type,
+                    "Firms/Individuals": firms_individuals,
+                    "Action Date": action_date
+                })
 
-        # Locate table rows
-        table = soup.find("table", class_="views-table")
-        if not table:
-            return {"name": name, "result": "No Results Found"}
+            return {"name": name, "result": data}
 
-        rows = table.find_all("tr")[1:]  # Skip header row
-        if not rows:
-            return {"name": name, "result": "No Results Found"}
-
-        data = []
-        for row in rows:
-            cells = row.find_all("td")
-            case_id = cells[0].text.strip() if len(cells) > 0 else "N/A"
-            case_summary = cells[1].text.strip() if len(cells) > 1 else "N/A"
-            document_type = cells[2].text.strip() if len(cells) > 2 else "N/A"
-            firms_individuals = cells[3].text.strip() if len(cells) > 3 else "N/A"
-            action_date = cells[4].text.strip() if len(cells) > 4 else "N/A"
-
-            data.append({
-                "Case ID": case_id,
-                "Case Summary": case_summary,
-                "Document Type": document_type,
-                "Firms/Individuals": firms_individuals,
-                "Action Date": action_date
-            })
-
-        return {"name": name, "result": data}
-
-    except requests.exceptions.RequestException as e:
-        self.logger.error(f"Error fetching FINRA disciplinary data for {name}: {e}")
-        return {"name": name, "error": str(e)}
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Error fetching FINRA disciplinary data for {name}: {e}")
+            return {"name": name, "error": str(e)}
