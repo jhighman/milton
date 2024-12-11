@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Benjamin",
+    "middle_name": "",
+    "last_name": "Justice",
+    "name": "Benjamin Justice",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-057187"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:21:23",
+    "cache_files": {
+      "basic_info": "./cache/sec_Benjamin Justice_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6053543_detailed_info.json"
+    },
+    "individual_name": "Benjamin Justice",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6053543",
+      "ind_firstname": "BENJAMIN",
+      "ind_middlename": "WEST",
+      "ind_lastname": "JUSTICE",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2013-03-15",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71833",
+          "firm_ia_full_sec_number": "801-71833"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6053543, \"firstName\": \"BENJAMIN\", \"middleName\": \"WEST\", \"lastName\": \"JUSTICE\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/15/2013\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/26/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"71833\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/18/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"CHANDLER\", \"state\": \"AZ\", \"registrationBeginDate\": \"12/17/2012\", \"registrationEndDate\": \"4/25/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"CHANDLER\", \"state\": \"AZ\", \"country\": \"United States\", \"registrationBeginDate\": \"3/31/2015\", \"registrationEndDate\": \"4/27/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"3/31/2015\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/22/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/25/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/15/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/26/2016\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/4/2016\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/26/2016\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Benjamin Justice",
+    "fetched_name": "BENJAMIN WEST JUSTICE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Benjamin Justice' did not match fetched name 'BENJAMIN WEST JUSTICE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

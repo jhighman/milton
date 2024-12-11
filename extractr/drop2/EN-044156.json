@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Elizabeth",
+    "middle_name": "",
+    "last_name": "Cady",
+    "name": "Elizabeth Cady",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044156"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:29:08",
+    "cache_files": {
+      "basic_info": "./cache/sec_Elizabeth Cady_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5231671_detailed_info.json"
+    },
+    "individual_name": "Elizabeth Cady",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5231671",
+      "ind_firstname": "ELIZABETH",
+      "ind_middlename": "NAYLOR",
+      "ind_lastname": "CADY",
+      "ind_other_names": [
+        "ELIZABETH N CADY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2008-03-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Littleton",
+          "branch_state": "CO",
+          "branch_zip": "80127",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5231671, \"firstName\": \"ELIZABETH\", \"middleName\": \"NAYLOR\", \"lastName\": \"CADY\", \"otherNames\": [\"ELIZABETH N CADY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/4/2008\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/19/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8081 Shaffer Parkway, Suite 4\", \"city\": \"Littleton\", \"cityAlias\": [\"DENVER\", \"LITTLETON\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80127\", \"latitude\": \"39.533292\", \"longitude\": \"-105.15699\", \"geoLocation\": \"39.533292,-105.15699\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/09/2017\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"DENVER\", \"state\": \"CO\", \"registrationBeginDate\": \"3/22/2013\", \"registrationEndDate\": \"10/23/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"DENVER\", \"state\": \"CO\", \"registrationBeginDate\": \"10/1/2008\", \"registrationEndDate\": \"4/5/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"36950\", \"firmId\": 18718, \"firmName\": \"J.P. MORGAN SECURITIES INC.\", \"city\": \"DENVER\", \"state\": \"CO\", \"registrationBeginDate\": \"12/7/2006\", \"registrationEndDate\": \"10/1/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"DENVER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"5/14/2013\", \"registrationEndDate\": \"10/23/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/5/2007\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/23/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/6/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/19/2017\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/19/2017\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Elizabeth Cady",
+    "fetched_name": "ELIZABETH NAYLOR CADY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Elizabeth Cady' did not match fetched name 'ELIZABETH NAYLOR CADY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

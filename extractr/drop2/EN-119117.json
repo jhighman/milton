@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Angela",
+    "middle_name": "",
+    "last_name": "Thomas",
+    "name": "Angela Thomas",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119117"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:16:11",
+    "cache_files": {
+      "basic_info": "./cache/sec_Angela Thomas_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5261099_detailed_info.json"
+    },
+    "individual_name": "Angela Thomas",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5261099",
+      "ind_firstname": "ANGELA",
+      "ind_middlename": "LEITZKE",
+      "ind_lastname": "THOMAS",
+      "ind_other_names": [
+        "ANGELA MARIE LEITZKE"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-05-06",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Bloomington",
+          "branch_state": "MN",
+          "branch_zip": "55431",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5261099, \"firstName\": \"ANGELA\", \"middleName\": \"LEITZKE\", \"lastName\": \"THOMAS\", \"otherNames\": [\"ANGELA MARIE LEITZKE\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/6/2014\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/3/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3800 American Blvd\", \"street2\": \"Suite 1000\", \"city\": \"Bloomington\", \"cityAlias\": [\"BLOOMINGTON\", \"MINNEAPOLIS\"], \"state\": \"MN\", \"country\": \"United States\", \"zipCode\": \"55431\", \"latitude\": \"44.826575\", \"longitude\": \"-93.310778\", \"geoLocation\": \"44.826575,-93.310778\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"67536\", \"iaSECNumberType\": \"801\", \"firmId\": 143038, \"firmName\": \"BERGANKDV WEALTH MANAGEMENT, LLC\", \"city\": \"BLOOMINGTON\", \"state\": \"MN\", \"country\": \"United States\", \"registrationBeginDate\": \"5/6/2014\", \"registrationEndDate\": \"9/25/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"5/6/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Minnesota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/3/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/28/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Angela Thomas",
+    "fetched_name": "ANGELA LEITZKE THOMAS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Angela Thomas' did not match fetched name 'ANGELA LEITZKE THOMAS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

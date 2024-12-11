@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Adam",
+    "middle_name": "",
+    "last_name": "Heathcote",
+    "name": "Adam Heathcote",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-042983"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:20:37",
+    "cache_files": {
+      "basic_info": "./cache/sec_Adam Heathcote_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4811685_detailed_info.json"
+    },
+    "individual_name": "Adam Heathcote",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4811685",
+      "ind_firstname": "ADAM",
+      "ind_middlename": "DONALD",
+      "ind_lastname": "HEATHCOTE",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-10-25",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Bloomington",
+          "branch_state": "MN",
+          "branch_zip": "55431",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4811685, \"firstName\": \"ADAM\", \"middleName\": \"DONALD\", \"lastName\": \"HEATHCOTE\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/25/2004\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/3/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3800 American Blvd\", \"street2\": \"Suite 1000\", \"city\": \"Bloomington\", \"cityAlias\": [\"BLOOMINGTON\", \"MINNEAPOLIS\"], \"state\": \"MN\", \"country\": \"United States\", \"zipCode\": \"55431\", \"latitude\": \"44.826575\", \"longitude\": \"-93.310778\", \"geoLocation\": \"44.826575,-93.310778\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"45463\", \"firmId\": 31243, \"firmName\": \"VALMARK SECURITIES, INC.\", \"city\": \"ST. CLOUD\", \"state\": \"MN\", \"registrationBeginDate\": \"6/3/2011\", \"registrationEndDate\": \"10/1/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"68953\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"48572\", \"firmId\": 39262, \"firmName\": \"WESTERN INTERNATIONAL SECURITIES, INC.\", \"city\": \"ST. CLOUD\", \"state\": \"MN\", \"registrationBeginDate\": \"1/10/2006\", \"registrationEndDate\": \"6/8/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"47805\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"46167\", \"firmId\": 32444, \"firmName\": \"FIRST ALLIED SECURITIES, INC.\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"10/25/2004\", \"registrationEndDate\": \"1/13/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"67536\", \"iaSECNumberType\": \"801\", \"firmId\": 143038, \"firmName\": \"BERGANKDV WEALTH MANAGEMENT, LLC\", \"city\": \"St. Cloud\", \"state\": \"MN\", \"country\": \"United States\", \"registrationBeginDate\": \"12/10/2013\", \"registrationEndDate\": \"9/25/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/14/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/23/2004\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Minnesota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/3/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/28/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Adam Heathcote",
+    "fetched_name": "ADAM DONALD HEATHCOTE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Adam Heathcote' did not match fetched name 'ADAM DONALD HEATHCOTE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

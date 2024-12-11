@@ -1,0 +1,26 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "",
+    "middle_name": "",
+    "last_name": "",
+    "name": "",
+    "organization_name": "WAS Setup",
+    "license_type": "",
+    "employee_number": "EN-119085"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:23:26",
+    "cache_files": {},
+    "crd_number": "",
+    "search_outcome": "Invalid or missing CRD value",
+    "search_compliance": false
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

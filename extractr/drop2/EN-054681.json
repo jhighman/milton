@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Scott",
+    "middle_name": "",
+    "last_name": "Poulin",
+    "name": "Scott Poulin",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-054681"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Scott Poulin_143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5764973_detailed_info.json"
+    },
+    "individual_name": "Scott Poulin",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5764973",
+      "ind_firstname": "SCOTT",
+      "ind_middlename": "ALVIN",
+      "ind_lastname": "POULIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-08-27",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "Coral Gables",
+          "branch_state": "FL",
+          "branch_zip": "33134",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5764973, \"firstName\": \"SCOTT\", \"middleName\": \"ALVIN\", \"lastName\": \"POULIN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/27/2010\"}, \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/28/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"220 Alhambra Circle\", \"street2\": \"Suite 700\", \"city\": \"Coral Gables\", \"cityAlias\": [\"COCONUT GROVE\", \"CORAL GABLES\", \"MIAMI\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"33134\", \"latitude\": \"25.752956\", \"longitude\": \"-80.271061\", \"geoLocation\": \"25.752956,-80.271061\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"29752\", \"iaSECNumberType\": \"801\", \"firmId\": 105989, \"firmName\": \"WESCOTT FINANCIAL ADVISORY GROUP LLC\", \"city\": \"MIAMI\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"8/27/2010\", \"registrationEndDate\": \"11/24/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/25/2010\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/2/2015\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/28/2015\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Scott Poulin",
+    "fetched_name": "SCOTT ALVIN POULIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Scott Poulin' did not match fetched name 'SCOTT ALVIN POULIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

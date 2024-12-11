@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Bradley \"Brad\"",
+    "middle_name": "",
+    "last_name": "Smith",
+    "name": "Bradley \"Brad\" Smith",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-044024"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:10:58",
+    "cache_files": {
+      "basic_info": "./cache/sec_Bradley \"Brad\" Smith_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4630968_detailed_info.json"
+    },
+    "individual_name": "Bradley \"Brad\" Smith",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4630968",
+      "ind_firstname": "BRADLEY",
+      "ind_middlename": "JON",
+      "ind_lastname": "SMITH",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-06-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "RESTON",
+          "branch_state": "VA",
+          "branch_zip": "20190",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4630968, \"firstName\": \"BRADLEY\", \"middleName\": \"JON\", \"lastName\": \"SMITH\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/2/2007\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/1/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"11710 Plaza America Drive, Suite 1010\", \"city\": \"RESTON\", \"cityAlias\": [\"HERNDON\", \"RESTON\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"20190\", \"latitude\": \"38.960974\", \"longitude\": \"-77.342467\", \"geoLocation\": \"38.960974,-77.342467\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/14/2019\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"67357\", \"iaSECNumberType\": \"801\", \"firmId\": 142616, \"firmName\": \"MTX WEALTH MANAGEMENT, LLC\", \"city\": \"RESTON\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/20/2016\", \"registrationEndDate\": \"6/28/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67357\", \"iaSECNumberType\": \"801\", \"firmId\": 142616, \"firmName\": \"MTX WEALTH MANAGEMENT, LLC\", \"city\": \"BETHESDA\", \"state\": \"MD\", \"country\": \"United States\", \"registrationBeginDate\": \"11/22/2010\", \"registrationEndDate\": \"12/31/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"66114\", \"iaSECNumberType\": \"801\", \"firmId\": 139379, \"firmName\": \"KEEL POINT ADVISORS, LLC\", \"city\": \"VIENNA\", \"state\": \"VA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/23/2007\", \"registrationEndDate\": \"11/23/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"48596\", \"iaSECNumberType\": \"801\", \"firmId\": 110921, \"firmName\": \"ERNST & YOUNG INVESTMENT ADVISERS LLP\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/30/2003\", \"registrationEndDate\": \"2/10/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/22/2007\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/1/2019\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/1/2019\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Bradley \"Brad\" Smith",
+    "fetched_name": "BRADLEY JON SMITH",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Bradley \"Brad\" Smith' did not match fetched name 'BRADLEY JON SMITH' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

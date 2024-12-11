@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Anthony",
+    "middle_name": "",
+    "last_name": "Intagliata",
+    "name": "Anthony Intagliata",
+    "organization_name": "Hightower Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-053945"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:47:21",
+    "cache_files": {
+      "basic_info": "./cache/sec_Anthony Intagliata_145323_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5599061_detailed_info.json"
+    },
+    "individual_name": "Anthony Intagliata",
+    "firm_crd": "145323",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5599061",
+      "ind_firstname": "ANTHONY",
+      "ind_middlename": "NUNZIO",
+      "ind_lastname": "INTAGLIATA",
+      "ind_other_names": [
+        "ANTHONY  INTAGLIATA",
+        "ANTHONY Nunzio INTAGLIATTA"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2018-09-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "145323",
+          "firm_name": "HIGHTOWER ADVISORS, LLC",
+          "branch_city": "Naples",
+          "branch_state": "FL",
+          "branch_zip": "34102",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "69625",
+          "firm_ia_full_sec_number": "801-69625"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5599061, \"firstName\": \"ANTHONY\", \"middleName\": \"NUNZIO\", \"lastName\": \"INTAGLIATA\", \"otherNames\": [\"ANTHONY  INTAGLIATA\", \"ANTHONY Nunzio INTAGLIATTA\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/7/2018\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 145323, \"firmName\": \"HIGHTOWER ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/3/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"69625\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"599 Tamiami Trail North, Suite 201 Naples, FL 3410\", \"city\": \"Naples\", \"cityAlias\": [\"NAPLES\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"34102\", \"latitude\": \"26.132305\", \"longitude\": \"-81.798729\", \"geoLocation\": \"26.132305,-81.798729\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/16/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"31826\", \"firmId\": 15340, \"firmName\": \"CETERA INVESTMENT SERVICES LLC\", \"city\": \"ST. CLOUD\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/11/2021\", \"registrationEndDate\": \"10/6/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"64563\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41562\", \"firmId\": 19585, \"firmName\": \"HSBC SECURITIES (USA) INC.\", \"city\": \"MIAMI\", \"state\": \"FL\", \"registrationBeginDate\": \"1/19/2018\", \"registrationEndDate\": \"8/17/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"52081\", \"iaSECNumberType\": \"801\", \"firmId\": 107553, \"firmName\": \"FARR MILLER & WASHINGTON LLC\", \"city\": \"Naples\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"11/30/2021\", \"registrationEndDate\": \"6/30/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/3/2021\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/9/2018\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"1/19/2018\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/13/2022\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/3/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Anthony Intagliata",
+    "fetched_name": "ANTHONY NUNZIO INTAGLIATA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Anthony Intagliata' did not match fetched name 'ANTHONY NUNZIO INTAGLIATA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

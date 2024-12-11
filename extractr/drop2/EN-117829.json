@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Battaglia",
+    "name": "Michael Battaglia",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-117829"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Battaglia_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2963466_detailed_info.json"
+    },
+    "individual_name": "Michael Battaglia",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2963466",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "JAMES",
+      "ind_lastname": "BATTAGLIA",
+      "ind_other_names": [
+        "MIKE JAMES BATTAGLIA"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-12-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "McLean",
+          "branch_state": "VA",
+          "branch_zip": "22102",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2963466, \"firstName\": \"MICHAEL\", \"middleName\": \"JAMES\", \"lastName\": \"BATTAGLIA\", \"otherNames\": [\"MIKE JAMES BATTAGLIA\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/7/2007\"}, \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/10/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8270 Greenboro Drive\", \"street2\": \"Suite 725\", \"city\": \"McLean\", \"cityAlias\": [\"MACLEAN\", \"MC LEAN\", \"MCLEAN\", \"TYSONS\", \"TYSONS CORNER\", \"WEST MCLEAN\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"22102\", \"latitude\": \"38.959942\", \"longitude\": \"-77.224902\", \"geoLocation\": \"38.959942,-77.224902\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/01/2019\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/13/2011\", \"registrationEndDate\": \"12/31/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"51193\", \"iaSECNumberType\": \"801\", \"firmId\": 110974, \"firmName\": \"PRICEWATERHOUSECOOPERS INVESTMENT ADVISERS LLC\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/1/2005\", \"registrationEndDate\": \"7/15/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/30/2004\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"3/20/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/11/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/10/2017\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/21/2020\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/10/2017\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Battaglia",
+    "fetched_name": "MICHAEL JAMES BATTAGLIA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Battaglia' did not match fetched name 'MICHAEL JAMES BATTAGLIA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

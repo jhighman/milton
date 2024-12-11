@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "2866359",
+    "first_name": "Michelle",
+    "middle_name": "",
+    "last_name": "Knight",
+    "name": "Michelle Knight",
+    "organization_name": "RWA Wealth Partners LLC",
+    "license_type": "",
+    "employee_number": "EN-114448"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:13:29",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_2866359_basic_info.json",
+      "detailed_info": "./cache/brokercheck_2866359_detailed_info.json"
+    },
+    "crd_number": "2866359",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2866359",
+      "ind_firstname": "MICHELLE",
+      "ind_middlename": "ANN",
+      "ind_lastname": "KNIGHT",
+      "ind_other_names": [
+        "MICHELLE A KELLY",
+        "MICHELLE A KNIGHT"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "156984",
+          "firm_name": "RWA WEALTH PARTNERS",
+          "branch_city": "Boston",
+          "branch_state": "MA",
+          "branch_zip": "02199-3600",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 2866359, \"firstName\": \"MICHELLE\", \"middleName\": \"ANN\", \"lastName\": \"KNIGHT\", \"otherNames\": [\"MICHELLE A KELLY\", \"MICHELLE A KNIGHT\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"51912\", \"firmId\": 47837, \"firmName\": \"AT INVESTOR SERVICES, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/11/2004\", \"registrationEndDate\": \"5/24/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/28/2008\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/9/2004\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/14/2023\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michelle Knight",
+    "fetched_name": "MICHELLE ANN KNIGHT",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michelle Knight' did not match fetched name 'MICHELLE ANN KNIGHT' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

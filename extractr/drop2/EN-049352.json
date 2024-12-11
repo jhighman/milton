@@ -1,0 +1,31 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Reed",
+    "middle_name": "",
+    "last_name": "Manning Jr",
+    "name": "Reed Manning Jr",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049352"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:41:15",
+    "cache_files": {
+      "basic_info": "./cache/sec_Reed Manning Jr_106223_correlated_firm_info.json"
+    },
+    "individual_name": "Reed Manning Jr",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "No matching individual found",
+    "search_compliance": false
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

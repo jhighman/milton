@@ -1,0 +1,129 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Robert",
+    "middle_name": "",
+    "last_name": "Fincher",
+    "name": "Robert Fincher",
+    "organization_name": "CIBC Private Wealth Management, Inc.",
+    "license_type": "",
+    "employee_number": "EN-044969"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Robert Fincher_109644_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4168267_detailed_info.json"
+    },
+    "individual_name": "Robert Fincher",
+    "firm_crd": "109644",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4168267",
+      "ind_firstname": "ROBERT",
+      "ind_middlename": "BRADLEY",
+      "ind_lastname": "FINCHER",
+      "ind_other_names": [
+        "BRAD  FINCHER",
+        "BRADLEY  FINCHER"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "2010-02-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109644",
+          "firm_name": "CIBC PRIVATE WEALTH ADVISORS, INC.",
+          "branch_city": "Tampa",
+          "branch_state": "FL",
+          "branch_zip": "33602",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57986",
+          "firm_ia_full_sec_number": "801-57986"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "Tampa",
+          "branch_state": "FL",
+          "branch_zip": "33602",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4168267, \"firstName\": \"ROBERT\", \"middleName\": \"BRADLEY\", \"lastName\": \"FINCHER\", \"otherNames\": [\"BRAD  FINCHER\", \"BRADLEY  FINCHER\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/24/2010\"}, \"currentEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"3/24/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": []}], \"currentIAEmployments\": [{\"firmId\": 109644, \"firmName\": \"CIBC PRIVATE WEALTH ADVISORS, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/25/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57986\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"100 North Tampa Street\", \"street2\": \"Suite 1645\", \"city\": \"Tampa\", \"cityAlias\": [\"TAMPA\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"33602\", \"latitude\": \"27.94946\", \"longitude\": \"-82.46118\", \"geoLocation\": \"27.94946,-82.46118\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2023\"}]}, {\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"3/24/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"100 North Tampa Street\", \"street2\": \"Suite 1645\", \"city\": \"Tampa\", \"cityAlias\": [\"TAMPA\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"33602\", \"latitude\": \"27.94946\", \"longitude\": \"-82.46118\", \"geoLocation\": \"27.94946,-82.46118\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"57937\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"52942\", \"firmId\": 104474, \"firmName\": \"SANFORD C. BERNSTEIN & CO., LLC\", \"city\": \"TAMPA\", \"state\": \"FL\", \"registrationBeginDate\": \"7/4/2011\", \"registrationEndDate\": \"3/9/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERICAN EXPRESS FINANCIAL ADVISORS INC.\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/26/2000\", \"registrationEndDate\": \"11/15/2001\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14124\", \"firmId\": 6321, \"firmName\": \"IDS LIFE INSURANCE COMPANY\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/26/2000\", \"registrationEndDate\": \"11/15/2001\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56720\", \"iaSECNumberType\": \"801\", \"firmId\": 108477, \"firmName\": \"ALLIANCEBERNSTEIN L.P.\", \"city\": \"TAMPA\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"10/5/2011\", \"registrationEndDate\": \"3/9/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"9/22/2017\", \"disclosureType\": \"Financial\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Type\": \"Compromise\", \"Disposition\": \"Dismissed\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Financial\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/15/2023\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/27/2011\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/26/2001\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"7/24/2013\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/2/2011\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 11, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 26, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/5/2016\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/25/2024\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/31/2016\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"Maine\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/29/2016\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"Missouri\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/4/2016\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2016\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2016\"}, {\"state\": \"North Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2016\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Oregon\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Rhode Island\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/28/2016\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/9/2016\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/25/2016\"}], \"registeredSROs\": [{\"sro\": \"Cboe BYX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BZX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"FINRA\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE American LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE Arca, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq GEMX, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq ISE, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq PHLX LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq Stock Market\", \"status\": \"APPROVED\"}, {\"sro\": \"New York Stock Exchange\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Robert Fincher",
+    "fetched_name": "ROBERT BRADLEY FINCHER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Robert Fincher' did not match fetched name 'ROBERT BRADLEY FINCHER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Robert Fincher has 1 financial disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Financial Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "9/22/2017",
+          "resolution": "Final",
+          "details": {
+            "Type": "Compromise",
+            "Disposition": "Dismissed"
+          }
+        },
+        "description": "Unknown disclosure type Financial on 9/22/2017."
+      }
+    ]
+  }
+}

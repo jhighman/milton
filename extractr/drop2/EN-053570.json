@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Glozer",
+    "name": "Michael Glozer",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053570"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Glozer_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2490170_detailed_info.json"
+    },
+    "individual_name": "Michael Glozer",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2490170",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "JEFF",
+      "ind_lastname": "GLOZER",
+      "ind_other_names": [
+        "MICHAEL J GLOZER"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-08-09",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Leesburg",
+          "branch_state": "VA",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2490170, \"firstName\": \"MICHAEL\", \"middleName\": \"JEFF\", \"lastName\": \"GLOZER\", \"otherNames\": [\"MICHAEL J GLOZER\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/9/2006\"}, \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/16/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Leesburg\", \"state\": \"VA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/30/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"RESTON\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/17/2006\", \"registrationEndDate\": \"4/16/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"RESTON\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/10/2006\", \"registrationEndDate\": \"4/16/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/9/2006\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/7/1996\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/1/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 55\", \"examName\": \"Limited Representative-Equity Trader Exam\", \"examTakenDate\": \"4/9/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"10/18/1996\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/4/1996\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"6/28/1994\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/30/2020\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/13/2020\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/16/2008\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Glozer",
+    "fetched_name": "MICHAEL JEFF GLOZER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Glozer' did not match fetched name 'MICHAEL JEFF GLOZER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jeffrey",
+    "middle_name": "",
+    "last_name": "Baty",
+    "name": "Jeffrey Baty",
+    "organization_name": "Exencial Wealth Advisors",
+    "license_type": "",
+    "employee_number": "EN-046335"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:37:24",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jeffrey Baty_130475_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4130613_detailed_info.json"
+    },
+    "individual_name": "Jeffrey Baty",
+    "firm_crd": "130475",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4130613",
+      "ind_firstname": "JEFFREY",
+      "ind_middlename": "LEE",
+      "ind_lastname": "BATY",
+      "ind_other_names": [
+        "JEFF LEE BATY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2000-06-05",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "130475",
+          "firm_name": "EXENCIAL WEALTH ADVISORS",
+          "branch_city": "OKLAHOMA CITY",
+          "branch_state": "OK",
+          "branch_zip": "73131",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "62789",
+          "firm_ia_full_sec_number": "801-62789"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4130613, \"firstName\": \"JEFFREY\", \"middleName\": \"LEE\", \"lastName\": \"BATY\", \"otherNames\": [\"JEFF LEE BATY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/5/2000\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 130475, \"firmName\": \"EXENCIAL WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/13/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"62789\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"55596\", \"street1\": \"9108 N. KELLEY AVENUE\", \"city\": \"OKLAHOMA CITY\", \"cityAlias\": [\"OKC\", \"OKLAHOMA CITY\"], \"state\": \"OK\", \"country\": \"United States\", \"zipCode\": \"73131\", \"latitude\": \"35.580129\", \"longitude\": \"-97.460268\", \"geoLocation\": \"35.580129,-97.460268\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"11/12/2019\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"57198\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"38485\", \"firmId\": 20804, \"firmName\": \"UNITED PLANNERS' FINANCIAL SERVICES OF AMERICA A LIMITED PARTNER\", \"city\": \"NORMAN\", \"state\": \"OK\", \"registrationBeginDate\": \"9/29/2015\", \"registrationEndDate\": \"11/19/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"26602\", \"firmId\": 10205, \"firmName\": \"SECURITIES AMERICA, INC.\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"registrationBeginDate\": \"10/1/2008\", \"registrationEndDate\": \"10/1/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44870\", \"firmId\": 30349, \"firmName\": \"1ST GLOBAL CAPITAL CORP.\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"registrationBeginDate\": \"9/15/2005\", \"registrationEndDate\": \"10/1/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"USA\", \"registrationBeginDate\": \"7/6/2005\", \"registrationEndDate\": \"8/31/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"34881\", \"firmId\": 16999, \"firmName\": \"BANC ONE SECURITIES CORPORATION\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"USA\", \"registrationBeginDate\": \"7/20/2004\", \"registrationEndDate\": \"7/6/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"SMITHFIELD\", \"state\": \"RI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"11/3/2000\", \"registrationEndDate\": \"7/26/2004\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERICAN EXPRESS FINANCIAL ADVISORS INC.\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/20/2000\", \"registrationEndDate\": \"8/30/2000\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14124\", \"firmId\": 6321, \"firmName\": \"IDS LIFE INSURANCE COMPANY\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/20/2000\", \"registrationEndDate\": \"8/30/2000\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"64548\", \"iaSECNumberType\": \"801\", \"firmId\": 113564, \"firmName\": \"EIDE BAILLY ADVISORS, LLC\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"country\": \"United States\", \"registrationBeginDate\": \"10/8/2008\", \"registrationEndDate\": \"11/14/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"41517\", \"iaSECNumberType\": \"801\", \"firmId\": 111133, \"firmName\": \"1ST GLOBAL ADVISORS INC\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"country\": \"United States\", \"registrationBeginDate\": \"10/10/2007\", \"registrationEndDate\": \"10/1/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"NORMAN\", \"state\": \"OK\", \"country\": \"United States\", \"registrationBeginDate\": \"7/6/2005\", \"registrationEndDate\": \"8/31/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"34881\", \"firmId\": 16999, \"firmName\": \"BANC ONE SECURITIES CORPORATION\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"country\": \"United States\", \"registrationBeginDate\": \"11/18/2004\", \"registrationEndDate\": \"7/6/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/17/2004\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/18/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"11/16/2005\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/17/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 5}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/14/2019\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/14/2019\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jeffrey Baty",
+    "fetched_name": "JEFFREY LEE BATY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jeffrey Baty' did not match fetched name 'JEFFREY LEE BATY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Clark",
+    "middle_name": "",
+    "last_name": "Taylor",
+    "name": "Clark Taylor",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-053279"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:22:21",
+    "cache_files": {
+      "basic_info": "./cache/sec_Clark Taylor_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4261299_detailed_info.json"
+    },
+    "individual_name": "Clark Taylor",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4261299",
+      "ind_firstname": "CLARK",
+      "ind_middlename": "VALANTINE",
+      "ind_lastname": "TAYLOR",
+      "ind_namesuffix": "MR.",
+      "ind_other_names": [
+        "CLARK VALANTINE TAYLOR"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-04-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4261299, \"firstName\": \"CLARK\", \"middleName\": \"VALANTINE\", \"lastName\": \"TAYLOR\", \"nameSuffix\": \"MR.\", \"otherNames\": [\"CLARK VALANTINE TAYLOR\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/19/2004\"}, \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/21/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/20/2010\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"43962\", \"iaSECNumberType\": \"801\", \"firmId\": 106134, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, INC.\", \"city\": \"ST GEORGE\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"4/19/2004\", \"registrationEndDate\": \"12/12/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/16/2004\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/28/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/25/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"9/28/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 5}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/1/2011\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/23/2010\"}, {\"state\": \"Idaho\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/21/2010\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/1/2010\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/29/2010\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Clark Taylor",
+    "fetched_name": "CLARK VALANTINE TAYLOR",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Clark Taylor' did not match fetched name 'CLARK VALANTINE TAYLOR' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "James",
+    "middle_name": "",
+    "last_name": "Fitzpatrick",
+    "name": "James Fitzpatrick",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044460"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:30:48",
+    "cache_files": {
+      "basic_info": "./cache/sec_James Fitzpatrick_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1385674_detailed_info.json"
+    },
+    "individual_name": "James Fitzpatrick",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1385674",
+      "ind_firstname": "JAMES",
+      "ind_middlename": "RICHARD",
+      "ind_lastname": "FITZPATRICK",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1991-08-12",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Irvine",
+          "branch_state": "CA",
+          "branch_zip": "92612",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1385674, \"firstName\": \"JAMES\", \"middleName\": \"RICHARD\", \"lastName\": \"FITZPATRICK\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/12/1991\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/7/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"18301 Von Karman Ave, Suite 1050\", \"city\": \"Irvine\", \"cityAlias\": [\"IRVINE\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92612\", \"latitude\": \"33.661515\", \"longitude\": \"-117.821661\", \"geoLocation\": \"33.661515,-117.821661\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/23/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"5/3/2018\", \"registrationEndDate\": \"9/16/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"67499\", \"firmId\": 142866, \"firmName\": \"SHOPOFF SECURITIES, INC.\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"8/13/2015\", \"registrationEndDate\": \"8/22/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"22306\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30447\", \"firmId\": 14251, \"firmName\": \"METLIFE SECURITIES INC.\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"registrationBeginDate\": \"3/21/2013\", \"registrationEndDate\": \"3/6/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"66179\", \"firmId\": 128800, \"firmName\": \"KBR CAPITAL MARKETS, LLC\", \"city\": \"PALO ALTO\", \"state\": \"CA\", \"country\": \"USA\", \"registrationBeginDate\": \"9/28/2011\", \"registrationEndDate\": \"12/31/2012\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"67373\", \"firmId\": 141277, \"firmName\": \"STEADFAST CAPITAL MARKETS GROUP, LLC\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"5/28/2009\", \"registrationEndDate\": \"9/7/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"49023\", \"firmId\": 40397, \"firmName\": \"PACIFIC CORNERSTONE CAPITAL INCORPORATED\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"10/5/2007\", \"registrationEndDate\": \"1/6/2009\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"53064\", \"firmId\": 107622, \"firmName\": \"METLIFE INVESTORS DISTRIBUTION COMPANY\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"12/11/2004\", \"registrationEndDate\": \"9/24/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"17973\", \"firmId\": 6695, \"firmName\": \"METLIFE INVESTORS DISTRIBUTION COMPANY\", \"city\": \"NEWPORT BEACH\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/16/2001\", \"registrationEndDate\": \"12/11/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"42123\", \"firmId\": 25900, \"firmName\": \"EQUITABLE DISTRIBUTORS, INC.\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/23/1999\", \"registrationEndDate\": \"11/2/2000\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"20986\", \"firmId\": 7315, \"firmName\": \"PUBLIC EMPLOYEES EQUITIES SERVICES COMPANY\", \"city\": \"PALM BEACH GARDENS\", \"state\": \"FL\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/16/1996\", \"registrationEndDate\": \"10/19/1999\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"54952\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"50018\", \"firmId\": 42803, \"firmName\": \"VALIC INVESTMENT SERVICES COMPANY\", \"city\": \"HOUSTON\", \"state\": \"TX\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/1/1999\", \"registrationEndDate\": \"10/11/1999\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14901\", \"firmId\": 4095, \"firmName\": \"METROPOLITAN LIFE INSURANCE COMPANY\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/3/1990\", \"registrationEndDate\": \"10/28/1997\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"22306\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30447\", \"firmId\": 14251, \"firmName\": \"METLIFE SECURITIES INC.\", \"city\": \"SPRINGFIELD\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"4/25/1990\", \"registrationEndDate\": \"10/28/1997\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"27422\", \"firmId\": 10509, \"firmName\": \"UR FINANCIAL, INC.\", \"registrationBeginDate\": \"7/13/1989\", \"registrationEndDate\": \"4/25/1990\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56298\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13995\", \"firmId\": 468, \"firmName\": \"JOHN HANCOCK DISTRIBUTORS, INC.\", \"registrationBeginDate\": \"2/22/1988\", \"registrationEndDate\": \"7/14/1988\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"29070\", \"firmId\": 13316, \"firmName\": \"VALUE EQUITIES CORPORATION\", \"registrationBeginDate\": \"7/1/1986\", \"registrationEndDate\": \"7/25/1987\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"28810\", \"firmId\": 13200, \"firmName\": \"MAI SECURITIES CORPORATION\", \"registrationBeginDate\": \"3/11/1986\", \"registrationEndDate\": \"7/1/1986\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"13891\", \"firmId\": 305, \"firmName\": \"FIRST INVESTORS CORPORATION\", \"registrationBeginDate\": \"7/19/1985\", \"registrationEndDate\": \"9/24/1985\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"112027\", \"iaSECNumberType\": \"801\", \"firmId\": 288590, \"firmName\": \"FIDELITY PERSONAL AND WORKPLACE ADVISORS\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/13/2018\", \"registrationEndDate\": \"9/28/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS LLC\", \"city\": \"IRVINE\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/11/2018\", \"registrationEndDate\": \"7/13/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 5}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/7/1995\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/18/1985\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"3/21/2024\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/21/2024\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6TO\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/21/2024\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/18/1989\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/18/1985\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/7/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "James Fitzpatrick",
+    "fetched_name": "JAMES RICHARD FITZPATRICK",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'James Fitzpatrick' did not match fetched name 'JAMES RICHARD FITZPATRICK' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

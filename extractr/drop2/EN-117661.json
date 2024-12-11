@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "1895764",
+    "first_name": "Daniel",
+    "middle_name": "",
+    "last_name": "Cronin",
+    "name": "Daniel Cronin",
+    "organization_name": "Anchor Capital Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-117661"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_1895764_basic_info.json",
+      "detailed_info": "./cache/brokercheck_1895764_detailed_info.json"
+    },
+    "crd_number": "1895764",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1895764",
+      "ind_firstname": "DANIEL",
+      "ind_middlename": "PATRICK",
+      "ind_lastname": "CRONIN",
+      "ind_other_names": [
+        "DAN  CRONIN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "10689",
+      "ind_current_employments": [
+        {
+          "firm_id": "105540",
+          "firm_name": "ANCHOR CAPITAL ADVISORS LLC",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02110-4104",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18930",
+          "firm_ia_full_sec_number": "801-18930"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 1895764, \"firstName\": \"DANIEL\", \"middleName\": \"PATRICK\", \"lastName\": \"CRONIN\", \"otherNames\": [\"DAN  CRONIN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 10689}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OMAHA\", \"state\": \"NE\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/27/2021\", \"registrationEndDate\": \"10/13/2021\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"Boston\", \"state\": \"MA\", \"registrationBeginDate\": \"9/25/2018\", \"registrationEndDate\": \"10/13/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"69443\", \"firmId\": 171061, \"firmName\": \"ICAPITAL SECURITIES, LLC\", \"city\": \"Burlington\", \"state\": \"MA\", \"registrationBeginDate\": \"2/26/2015\", \"registrationEndDate\": \"4/5/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"68462\", \"firmId\": 152529, \"firmName\": \"BENDIGO SECURITIES, LLC\", \"city\": \"New York\", \"state\": \"NY\", \"registrationBeginDate\": \"6/11/2014\", \"registrationEndDate\": \"9/1/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"54739\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13801\", \"firmId\": 231, \"firmName\": \"MBSC SECURITIES CORPORATION\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"6/13/2012\", \"registrationEndDate\": \"2/5/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"13059\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"45411\", \"firmId\": 31194, \"firmName\": \"RBC CAPITAL MARKETS, LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"8/18/2008\", \"registrationEndDate\": \"5/24/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"12/23/1998\", \"registrationEndDate\": \"8/12/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35097\", \"firmId\": 17507, \"firmName\": \"FIDELITY INVESTMENTS INSTITUTIONAL SERVICES COMPANY, INC.\", \"city\": \"SMITHFIELD\", \"state\": \"RI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/31/1996\", \"registrationEndDate\": \"12/23/1998\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"WESTLAKE\", \"state\": \"TX\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"10/17/1994\", \"registrationEndDate\": \"2/12/1996\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES, INC.\", \"city\": \"SMITHFIELD\", \"state\": \"RI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/13/1990\", \"registrationEndDate\": \"10/6/1994\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 2, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"3/9/2013\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/24/1992\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/23/1990\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"4/30/2024\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"4/30/2024\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/30/2024\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/25/1992\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"8/10/1990\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/9/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Daniel Cronin",
+    "fetched_name": "DANIEL PATRICK CRONIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Daniel Cronin' did not match fetched name 'DANIEL PATRICK CRONIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

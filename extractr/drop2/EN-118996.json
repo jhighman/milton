@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Christopher",
+    "middle_name": "",
+    "last_name": "Muniz",
+    "name": "Christopher Muniz",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118996"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:09:29",
+    "cache_files": {
+      "basic_info": "./cache/sec_Christopher Muniz_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2939918_detailed_info.json"
+    },
+    "individual_name": "Christopher Muniz",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2939918",
+      "ind_firstname": "CHRISTOPHER",
+      "ind_middlename": "GEORGE",
+      "ind_lastname": "MUNIZ",
+      "ind_other_names": [
+        "CHRIS  MUNIZ"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2000-06-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "SAN DIEGO",
+          "branch_state": "CA",
+          "branch_zip": "92130",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2939918, \"firstName\": \"CHRISTOPHER\", \"middleName\": \"GEORGE\", \"lastName\": \"MUNIZ\", \"otherNames\": [\"CHRIS  MUNIZ\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/19/2000\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/26/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12760 HIGH BLUFF DRIVE\", \"city\": \"SAN DIEGO\", \"cityAlias\": [\"SAN DIEGO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92130\", \"latitude\": \"32.947024\", \"longitude\": \"-117.202204\", \"geoLocation\": \"32.947024,-117.202204\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/18/2017\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"70084\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30706\", \"firmId\": 14455, \"firmName\": \"UNIONBANC INVESTMENT SERVICES, LLC\", \"city\": \"LAJOLLA\", \"state\": \"CA\", \"registrationBeginDate\": \"5/11/2012\", \"registrationEndDate\": \"6/26/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"7/15/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"registrationBeginDate\": \"5/2/2001\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35225\", \"firmId\": 17438, \"firmName\": \"WELLS FARGO SECURITIES INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/26/1999\", \"registrationEndDate\": \"5/2/2001\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"70084\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30706\", \"firmId\": 14455, \"firmName\": \"UNIONBANC INVESTMENT SERVICES, LLC\", \"city\": \"LAJOLLA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/11/2012\", \"registrationEndDate\": \"6/26/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"7/15/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/31/2001\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/25/1999\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/25/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/26/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/25/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/26/2017\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/28/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Christopher Muniz",
+    "fetched_name": "CHRISTOPHER GEORGE MUNIZ",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Christopher Muniz' did not match fetched name 'CHRISTOPHER GEORGE MUNIZ' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Leslie",
+    "middle_name": "",
+    "last_name": "Blanchard",
+    "name": "Leslie Blanchard",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118842"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:41",
+    "cache_files": {
+      "basic_info": "./cache/sec_Leslie Blanchard_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5885757_detailed_info.json"
+    },
+    "individual_name": "Leslie Blanchard",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5885757",
+      "ind_firstname": "Leslie",
+      "ind_middlename": "Adams",
+      "ind_lastname": "Blanchard",
+      "ind_other_names": [
+        "LESLIE A DEVOS",
+        "Leslie Adams DeVos"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2016-01-05",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Atlanta",
+          "branch_state": "GA",
+          "branch_zip": "30326",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5885757, \"firstName\": \"Leslie\", \"middleName\": \"Adams\", \"lastName\": \"Blanchard\", \"otherNames\": [\"LESLIE A DEVOS\", \"Leslie Adams DeVos\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/5/2016\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/29/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3630 Peachtree Road, NE\", \"street2\": \"Suite 300\", \"city\": \"Atlanta\", \"cityAlias\": [\"ATL\", \"ATLANTA\", \"BROOKHAVEN\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30326\", \"latitude\": \"33.849882\", \"longitude\": \"-84.361095\", \"geoLocation\": \"33.849882,-84.361095\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"57165\", \"iaSECNumberType\": \"801\", \"firmId\": 111055, \"firmName\": \"TRUEWEALTH MANAGEMENT\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/16/2015\", \"registrationEndDate\": \"10/8/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/29/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/29/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Leslie Blanchard",
+    "fetched_name": "Leslie Adams Blanchard",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Leslie Blanchard' did not match fetched name 'Leslie Adams Blanchard' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Madeline",
+    "middle_name": "",
+    "last_name": "Neumeier",
+    "name": "Madeline Neumeier",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118990"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:57:09",
+    "cache_files": {
+      "basic_info": "./cache/sec_Madeline Neumeier_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7012494_detailed_info.json"
+    },
+    "individual_name": "Madeline Neumeier",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7012494",
+      "ind_firstname": "MADELINE",
+      "ind_middlename": "MICHELLE",
+      "ind_lastname": "NEUMEIER",
+      "ind_other_names": [
+        "MADDY MICHELLE NEUMEIER"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2018-12-16",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Green Bay",
+          "branch_state": "WI",
+          "branch_zip": "54313",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7012494, \"firstName\": \"MADELINE\", \"middleName\": \"MICHELLE\", \"lastName\": \"NEUMEIER\", \"otherNames\": [\"MADDY MICHELLE NEUMEIER\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/16/2018\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/4/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"469 Security Blvd\", \"city\": \"Green Bay\", \"cityAlias\": [\"ASHWAUBENON\", \"GREEN BAY\", \"HOBART\", \"HOWARD\", \"SUAMICO\"], \"state\": \"WI\", \"country\": \"United States\", \"zipCode\": \"54313\", \"latitude\": \"44.573606\", \"longitude\": \"-88.11151\", \"geoLocation\": \"44.573606,-88.11151\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56865\", \"iaSECNumberType\": \"801\", \"firmId\": 109983, \"firmName\": \"WIPFLI FINANCIAL ADVISORS, LLC\", \"city\": \"GREEN BAY\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"12/17/2018\", \"registrationEndDate\": \"10/12/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/17/2018\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/29/2023\"}, {\"state\": \"Wisconsin\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/4/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Madeline Neumeier",
+    "fetched_name": "MADELINE MICHELLE NEUMEIER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Madeline Neumeier' did not match fetched name 'MADELINE MICHELLE NEUMEIER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

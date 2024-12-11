@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "Berry",
+    "name": "John Berry",
+    "organization_name": "CW Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-051999"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:25:53",
+    "cache_files": {
+      "basic_info": "./cache/sec_John Berry_310873_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6138977_detailed_info.json"
+    },
+    "individual_name": "John Berry",
+    "firm_crd": "310873",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6138977",
+      "ind_firstname": "JOHN",
+      "ind_middlename": "CHRISOM",
+      "ind_lastname": "BERRY",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2013-05-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "310873",
+          "firm_name": "CW ADVISORS, LLC",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02210",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "119667",
+          "firm_ia_full_sec_number": "801-119667"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6138977, \"firstName\": \"JOHN\", \"middleName\": \"CHRISOM\", \"lastName\": \"BERRY\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/11/2013\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 310873, \"firmName\": \"CW ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/21/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"119667\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"746126\", \"street1\": \"155 SEAPORT BLVD\", \"street2\": \"3RD FLOOR\", \"city\": \"BOSTON\", \"cityAlias\": [\"BOSTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02210\", \"latitude\": \"42.346571\", \"longitude\": \"-71.039563\", \"geoLocation\": \"42.346571,-71.039563\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/10/2020\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"HINGHAM\", \"state\": \"MA\", \"registrationBeginDate\": \"5/13/2013\", \"registrationEndDate\": \"4/4/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"61275\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"36654\", \"firmId\": 18565, \"firmName\": \"BRILL SECURITIES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"12/3/2012\", \"registrationEndDate\": \"2/4/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69988\", \"iaSECNumberType\": \"801\", \"firmId\": 149446, \"firmName\": \"CONGRESS WEALTH MANAGEMENT LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/7/2016\", \"registrationEndDate\": \"12/2/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"HINGHAM\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/6/2016\", \"registrationEndDate\": \"4/4/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"HINGHAM\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/1/2015\", \"registrationEndDate\": \"12/31/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"5/21/2015\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/27/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/4/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/30/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/21/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "John Berry",
+    "fetched_name": "JOHN CHRISOM BERRY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'John Berry' did not match fetched name 'JOHN CHRISOM BERRY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Brian",
+    "middle_name": "",
+    "last_name": "Frey",
+    "name": "Brian Frey",
+    "organization_name": "SignatureFD LLC",
+    "license_type": "",
+    "employee_number": "EN-048952"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:14:13",
+    "cache_files": {
+      "basic_info": "./cache/sec_Brian Frey_112758_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5436311_detailed_info.json"
+    },
+    "individual_name": "Brian Frey",
+    "firm_crd": "112758",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5436311",
+      "ind_firstname": "BRIAN",
+      "ind_middlename": "WILLIAM",
+      "ind_lastname": "FREY",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-04-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "112758",
+          "firm_name": "SIGNATUREFD, LLC",
+          "branch_city": "ATLANTA",
+          "branch_state": "GA",
+          "branch_zip": "30309",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "60393",
+          "firm_ia_full_sec_number": "801-60393"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5436311, \"firstName\": \"BRIAN\", \"middleName\": \"WILLIAM\", \"lastName\": \"FREY\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/29/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 112758, \"firmName\": \"SIGNATUREFD, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/6/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"60393\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"56777\", \"street1\": \"1230 PEACHTREE STREET, NE\", \"street2\": \"SUITE 1800\", \"city\": \"ATLANTA\", \"cityAlias\": [\"ATL\", \"ATLANTA\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30309\", \"latitude\": \"33.798463\", \"longitude\": \"-84.388284\", \"geoLocation\": \"33.798463,-84.388284\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/04/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"45152\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"31955\", \"firmId\": 15296, \"firmName\": \"SECURIAN FINANCIAL SERVICES, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"4/28/2010\", \"registrationEndDate\": \"8/31/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"39720\", \"iaSECNumberType\": \"801\", \"firmId\": 106725, \"firmName\": \"JOYN ADVISORS, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/24/2010\", \"registrationEndDate\": \"9/4/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"45152\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"31955\", \"firmId\": 15296, \"firmName\": \"SECURIAN FINANCIAL SERVICES, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/6/2014\", \"registrationEndDate\": \"8/31/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60254\", \"iaSECNumberType\": \"801\", \"firmId\": 112118, \"firmName\": \"GV FINANCIAL ADVISORS, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/24/2010\", \"registrationEndDate\": \"12/6/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"45152\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"31955\", \"firmId\": 15296, \"firmName\": \"SECURIAN FINANCIAL SERVICES, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/21/2010\", \"registrationEndDate\": \"6/25/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"5/3/2010\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"8/31/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/27/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/6/2018\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Brian Frey",
+    "fetched_name": "BRIAN WILLIAM FREY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Brian Frey' did not match fetched name 'BRIAN WILLIAM FREY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

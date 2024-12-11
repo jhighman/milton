@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Stephens",
+    "name": "Michael Stephens",
+    "organization_name": "Parallel Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-044984"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:13:00",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Stephens_140800_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2726593_detailed_info.json"
+    },
+    "individual_name": "Michael Stephens",
+    "firm_crd": "140800",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2726593",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "WHITNEY",
+      "ind_lastname": "STEPHENS",
+      "ind_other_names": [
+        "MIKE  STEPHENS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2015-08-31",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "140800",
+          "firm_name": "PARALLEL ADVISORS, LLC",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94105",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2726593, \"firstName\": \"MICHAEL\", \"middleName\": \"WHITNEY\", \"lastName\": \"STEPHENS\", \"otherNames\": [\"MIKE  STEPHENS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/31/2015\"}, \"currentIAEmployments\": [{\"firmId\": 140800, \"firmName\": \"PARALLEL ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/18/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"258465\", \"street1\": \"150 SPEAR STREET\", \"street2\": \"SUITE 1600\", \"city\": \"SAN FRANCISCO\", \"cityAlias\": [\"SAN FRANCISCO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94105\", \"latitude\": \"37.788543\", \"longitude\": \"-122.393872\", \"geoLocation\": \"37.788543,-122.393872\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/17/2015\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"21730\", \"iaSECNumberType\": \"801\", \"firmId\": 105774, \"firmName\": \"ROSENBLUM SILVERMAN SUTTON SF INC\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/1/2015\", \"registrationEndDate\": \"10/16/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/1/2015\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/4/1997\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"3/27/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"1/11/2000\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/19/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/18/2015\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Stephens",
+    "fetched_name": "MICHAEL WHITNEY STEPHENS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Stephens' did not match fetched name 'MICHAEL WHITNEY STEPHENS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

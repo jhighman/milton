@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Dean",
+    "middle_name": "",
+    "last_name": "Stange",
+    "name": "Dean Stange",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119127"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:59:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Dean Stange_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6092484_detailed_info.json"
+    },
+    "individual_name": "Dean Stange",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6092484",
+      "ind_firstname": "DEAN",
+      "ind_middlename": "THOMAS",
+      "ind_lastname": "STANGE",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-07-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Madison",
+          "branch_state": "WI",
+          "branch_zip": "53713",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6092484, \"firstName\": \"DEAN\", \"middleName\": \"THOMAS\", \"lastName\": \"STANGE\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/3/2012\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/4/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2501 W Beltline Highway\", \"street2\": \"Suite 401\", \"city\": \"Madison\", \"cityAlias\": [\"FITCHBURG\", \"MADISON\", \"MONONA\"], \"state\": \"WI\", \"country\": \"United States\", \"zipCode\": \"53713\", \"latitude\": \"43.03725\", \"longitude\": \"-89.386868\", \"geoLocation\": \"43.03725,-89.386868\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56865\", \"iaSECNumberType\": \"801\", \"firmId\": 109983, \"firmName\": \"WIPFLI FINANCIAL ADVISORS, LLC\", \"city\": \"MADISON\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"7/3/2013\", \"registrationEndDate\": \"10/12/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57782\", \"iaSECNumberType\": \"801\", \"firmId\": 109972, \"firmName\": \"WIPFLI HEWINS INVESTMENT ADVISORS LLC\", \"city\": \"SAN MATEO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/4/2012\", \"registrationEndDate\": \"8/13/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Wisconsin\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/4/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Dean Stange",
+    "fetched_name": "DEAN THOMAS STANGE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Dean Stange' did not match fetched name 'DEAN THOMAS STANGE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

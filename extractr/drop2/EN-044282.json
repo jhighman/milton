@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ronald",
+    "middle_name": "",
+    "last_name": "Lehman",
+    "name": "Ronald Lehman",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044282"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:33:06",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ronald Lehman_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5926626_detailed_info.json"
+    },
+    "individual_name": "Ronald Lehman",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5926626",
+      "ind_firstname": "RONALD",
+      "ind_middlename": "SCOTT",
+      "ind_lastname": "LEHMAN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2011-07-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Media",
+          "branch_state": "PA",
+          "branch_zip": "19063",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5926626, \"firstName\": \"RONALD\", \"middleName\": \"SCOTT\", \"lastName\": \"LEHMAN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/17/2011\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/18/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1215 W. Baltimore Pike STE\", \"city\": \"Media\", \"cityAlias\": [\"ELWYN\", \"GARDEN CITY\", \"GLEN RIDDLE\", \"MEDIA\", \"ROSE TREE\", \"ROSE VALLEY\", \"UPPER PROVIDENCE\", \"WAWA\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19063\", \"latitude\": \"39.919429\", \"longitude\": \"-75.42243\", \"geoLocation\": \"39.919429,-75.42243\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/31/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"113642\", \"iaSECNumberType\": \"801\", \"firmId\": 292523, \"firmName\": \"LEHMAN FINANCIAL RESOURCES\", \"city\": \"MEDIA\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/20/2018\", \"registrationEndDate\": \"4/10/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"66283\", \"iaSECNumberType\": \"801\", \"firmId\": 139500, \"firmName\": \"LEHMAN FINANCIAL RESOURCES, INC.\", \"city\": \"MEDIA\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/11/2011\", \"registrationEndDate\": \"6/27/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/1/2011\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2023\"}, {\"state\": \"New Jersey\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/8/2024\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"7/8/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ronald Lehman",
+    "fetched_name": "RONALD SCOTT LEHMAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ronald Lehman' did not match fetched name 'RONALD SCOTT LEHMAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

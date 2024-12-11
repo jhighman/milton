@@ -1,0 +1,112 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Chad",
+    "middle_name": "",
+    "last_name": "Burton",
+    "name": "Chad Burton",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044369"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:28:54",
+    "cache_files": {
+      "basic_info": "./cache/sec_Chad Burton_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2778208_detailed_info.json"
+    },
+    "individual_name": "Chad Burton",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2778208",
+      "ind_firstname": "CHAD",
+      "ind_middlename": "MITCHELL",
+      "ind_lastname": "BURTON",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2000-11-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Vancouver",
+          "branch_state": "WA",
+          "branch_zip": "98660",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2778208, \"firstName\": \"CHAD\", \"middleName\": \"MITCHELL\", \"lastName\": \"BURTON\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/3/2000\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/9/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"410 W 12th St\", \"city\": \"Vancouver\", \"cityAlias\": [\"VANCOUVER\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98660\", \"latitude\": \"45.6988\", \"longitude\": \"-122.719775\", \"geoLocation\": \"45.6988,-122.719775\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/15/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63625\", \"iaSECNumberType\": \"801\", \"firmId\": 132578, \"firmName\": \"NEWFOCUS FINANCIAL GROUP, LLC\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/15/2010\", \"registrationEndDate\": \"3/31/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 153739, \"firmName\": \"FEE PLANNING, LLC\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/20/2010\", \"registrationEndDate\": \"12/31/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63625\", \"iaSECNumberType\": \"801\", \"firmId\": 132578, \"firmName\": \"NEWFOCUS FINANCIAL GROUP, LLC\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/2/2005\", \"registrationEndDate\": \"1/4/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"46585\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13987\", \"firmId\": 2882, \"firmName\": \"ING FINANCIAL PARTNERS, INC\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/1/2004\", \"registrationEndDate\": \"3/7/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 117779, \"firmName\": \"DAN MARTIN DBA WESTSTAR FINANCIAL GROUP\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/30/2000\", \"registrationEndDate\": \"12/31/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"14037\", \"firmId\": 1703, \"firmName\": \"LOCUST STREET SECURITIES, INC.\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/20/2002\", \"registrationEndDate\": \"1/1/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"27024\", \"firmId\": 10332, \"firmName\": \"VESTAX SECURITIES CORPORATION\", \"city\": \"PORTLAND\", \"state\": \"OR\", \"country\": \"United States\", \"registrationBeginDate\": \"4/28/2000\", \"registrationEndDate\": \"10/14/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"11/30/2009\", \"disclosureType\": \"Criminal\", \"disclosureResolution\": \"Final Disposition\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"criminalCharges\": [{\"Charges\": \"FLEEING OR ATTEMPT TO ELUDE A POLICE OFFICER IN A VEHICLE.\", \"Disposition\": \"Reduced\", \"Amended Charges\": \"FLEEING OR ATTEMPT TO ELUDE A POLICE OFFICER IN A VEHICLE.\", \"Amended Charge Type\": \"MISDEMEANOR\", \"Amended Charge Disposition\": \"Pled guilty\"}], \"Broker Comment\": \"THE FELONY CHARGE WAS RELATED TO A MOTOR VEHICLE MOVING VIOLATION AND WAS REDUCED TO A MISDEMEANOR.  THE IAR HAS NO PRIOR RECORD OF A FELONY CHARGE RELATED TO A MOVING VIOLATION OR OTHERWISE.  THE CHARGE IS COMPLETELY UNRELATED TO THE IAR'S PROFESSIONAL ABILITY TO ACT AS A FINANCIAL ADVISOR OR MANAGE CLIENT FUNDS.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Criminal\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/16/1999\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/2/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/7/1999\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"8/2/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APP_PEND_IARCE\", \"regDate\": \"2/9/2021\"}, {\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APP_PEND_IARCE\", \"regDate\": \"2/22/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/9/2021\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/13/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Chad Burton",
+    "fetched_name": "CHAD MITCHELL BURTON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Chad Burton' did not match fetched name 'CHAD MITCHELL BURTON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Chad Burton has 1 criminal disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Criminal Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "11/30/2009",
+          "resolution": "Final Disposition",
+          "details": {
+            "criminalCharges": [
+              {
+                "Charges": "FLEEING OR ATTEMPT TO ELUDE A POLICE OFFICER IN A VEHICLE.",
+                "Disposition": "Reduced",
+                "Amended Charges": "FLEEING OR ATTEMPT TO ELUDE A POLICE OFFICER IN A VEHICLE.",
+                "Amended Charge Type": "MISDEMEANOR",
+                "Amended Charge Disposition": "Pled guilty"
+              }
+            ],
+            "Broker Comment": "THE FELONY CHARGE WAS RELATED TO A MOTOR VEHICLE MOVING VIOLATION AND WAS REDUCED TO A MISDEMEANOR.  THE IAR HAS NO PRIOR RECORD OF A FELONY CHARGE RELATED TO A MOVING VIOLATION OR OTHERWISE.  THE CHARGE IS COMPLETELY UNRELATED TO THE IAR'S PROFESSIONAL ABILITY TO ACT AS A FINANCIAL ADVISOR OR MANAGE CLIENT FUNDS."
+          }
+        },
+        "description": "Criminal disclosure on 11/30/2009. Resolution: Final Disposition. Charges: FLEEING OR ATTEMPT TO ELUDE A POLICE OFFICER IN A VEHICLE.. Disposition: Reduced"
+      }
+    ]
+  }
+}

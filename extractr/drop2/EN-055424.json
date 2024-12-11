@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Karen",
+    "middle_name": "",
+    "last_name": "Harris",
+    "name": "Karen Harris",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-055424"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Karen Harris_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5375658_detailed_info.json"
+    },
+    "individual_name": "Karen Harris",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5375658",
+      "ind_firstname": "KAREN",
+      "ind_middlename": "MARIE",
+      "ind_lastname": "HARRIS",
+      "ind_other_names": [
+        "KAREN MARIE CRANE"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2013-11-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "Portland",
+          "branch_state": "OR",
+          "branch_zip": "97209",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5375658, \"firstName\": \"KAREN\", \"middleName\": \"MARIE\", \"lastName\": \"HARRIS\", \"otherNames\": [\"KAREN MARIE CRANE\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/2/2013\"}, \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/15/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1624 NW Lovejoy Street\", \"city\": \"Portland\", \"cityAlias\": [\"PORTLAND\"], \"state\": \"OR\", \"country\": \"United States\", \"zipCode\": \"97209\", \"latitude\": \"45.533458\", \"longitude\": \"-122.681501\", \"geoLocation\": \"45.533458,-122.681501\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/21/2008\", \"registrationEndDate\": \"11/1/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"12/20/2007\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/7/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/15/2017\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/30/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Karen Harris",
+    "fetched_name": "KAREN MARIE HARRIS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Karen Harris' did not match fetched name 'KAREN MARIE HARRIS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "James",
+    "middle_name": "",
+    "last_name": "Hutchinson",
+    "name": "James Hutchinson",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-117900"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_James Hutchinson_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2264964_detailed_info.json"
+    },
+    "individual_name": "James Hutchinson",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2264964",
+      "ind_firstname": "JAMES",
+      "ind_middlename": "ANDREW",
+      "ind_lastname": "HUTCHINSON",
+      "ind_other_names": [
+        "JAMES  HUTCHINSON"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2023-09-25",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "PHILADELPHIA",
+          "branch_state": "PA",
+          "branch_zip": "19103",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2264964, \"firstName\": \"JAMES\", \"middleName\": \"ANDREW\", \"lastName\": \"HUTCHINSON\", \"otherNames\": [\"JAMES  HUTCHINSON\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/25/2023\"}, \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/26/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"645041\", \"street1\": \"1818 MARKET STREET\", \"street2\": \"22ND FLOOR\", \"city\": \"PHILADELPHIA\", \"cityAlias\": [\"MID CITY WEST\", \"MIDDLE CITY WEST\", \"PHILA\", \"PHILADELPHIA\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19103\", \"latitude\": \"39.953767\", \"longitude\": \"-75.176335\", \"geoLocation\": \"39.953767,-75.176335\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/17/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/31/1992\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/21/1992\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 2\", \"examName\": \"Non-Member General Securities Examination\", \"examTakenDate\": \"8/14/1992\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/26/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "James Hutchinson",
+    "fetched_name": "JAMES ANDREW HUTCHINSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'James Hutchinson' did not match fetched name 'JAMES ANDREW HUTCHINSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

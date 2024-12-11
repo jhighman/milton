@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Scott",
+    "middle_name": "",
+    "last_name": "Upham",
+    "name": "Scott Upham",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044473"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:36:20",
+    "cache_files": {
+      "basic_info": "./cache/sec_Scott Upham_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2377756_detailed_info.json"
+    },
+    "individual_name": "Scott Upham",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2377756",
+      "ind_firstname": "SCOTT",
+      "ind_middlename": "EDWARD",
+      "ind_lastname": "UPHAM",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1994-01-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Brunswick",
+          "branch_state": "ME",
+          "branch_zip": "04011",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2377756, \"firstName\": \"SCOTT\", \"middleName\": \"EDWARD\", \"lastName\": \"UPHAM\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/20/1994\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/6/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"155 Park Row\", \"city\": \"Brunswick\", \"cityAlias\": [\"BIRCH ISLAND\", \"BRUNSWICK\", \"CUNDYS HARBOR\", \"MERE POINT\", \"NAS BRUNSWICK\"], \"state\": \"ME\", \"country\": \"United States\", \"zipCode\": \"04011\", \"latitude\": \"43.893092\", \"longitude\": \"-69.97231\", \"geoLocation\": \"43.893092,-69.97231\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/31/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"46844\", \"firmId\": 35747, \"firmName\": \"PURSHE KAPLAN STERLING INVESTMENTS\", \"city\": \"Augusta\", \"state\": \"ME\", \"registrationBeginDate\": \"5/1/2015\", \"registrationEndDate\": \"12/31/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"AUGUSTA\", \"state\": \"ME\", \"registrationBeginDate\": \"2/14/2012\", \"registrationEndDate\": \"5/7/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"39227\", \"firmId\": 21771, \"firmName\": \"RUSSELL FINANCIAL SERVICES, INC., PART OF RUSSELL INVESTMENTS\", \"city\": \"MARLBOROUGH\", \"state\": \"MA\", \"registrationBeginDate\": \"12/14/2005\", \"registrationEndDate\": \"1/31/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/10/2002\", \"registrationEndDate\": \"12/14/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14124\", \"firmId\": 6321, \"firmName\": \"IDS LIFE INSURANCE COMPANY\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/10/2002\", \"registrationEndDate\": \"12/14/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"1369\", \"firmId\": 7325, \"firmName\": \"PUTNAM RETAIL MANAGEMENT LIMITED PARTNERSHIP\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/13/1998\", \"registrationEndDate\": \"4/22/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44986\", \"firmId\": 30533, \"firmName\": \"FIS SECURITIES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/2/1996\", \"registrationEndDate\": \"6/23/1998\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"45467\", \"firmId\": 31334, \"firmName\": \"440 FINANCIAL DISTRIBUTORS, INC.\", \"city\": \"PORTLAND\", \"state\": \"ME\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/28/1994\", \"registrationEndDate\": \"12/31/1995\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44986\", \"firmId\": 30533, \"firmName\": \"FIS SECURITIES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/28/1993\", \"registrationEndDate\": \"9/23/1994\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"93172\", \"iaSECNumberType\": \"801\", \"firmId\": 174974, \"firmName\": \"CRIBSTONE CAPITAL MANAGEMENT, LLC\", \"city\": \"BRUNSWICK\", \"state\": \"ME\", \"country\": \"United States\", \"registrationBeginDate\": \"5/1/2015\", \"registrationEndDate\": \"2/14/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"AUGUSTA\", \"state\": \"ME\", \"country\": \"United States\", \"registrationBeginDate\": \"3/7/2012\", \"registrationEndDate\": \"5/7/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"17141\", \"iaSECNumberType\": \"801\", \"firmId\": 105734, \"firmName\": \"RUSSELL INVESTMENTS\", \"city\": \"WEST BATH\", \"state\": \"ME\", \"country\": \"United States\", \"registrationBeginDate\": \"1/18/2006\", \"registrationEndDate\": \"1/31/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/22/2001\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/27/1993\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 99TO\", \"examName\": \"Operations Professional Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/29/1997\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/27/1993\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 6}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/7/2023\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/6/2023\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/9/2024\"}, {\"state\": \"Maine\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/6/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/9/2024\"}, {\"state\": \"New Hampshire\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/8/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Scott Upham",
+    "fetched_name": "SCOTT EDWARD UPHAM",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Scott Upham' did not match fetched name 'SCOTT EDWARD UPHAM' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

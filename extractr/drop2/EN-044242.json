@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Patrick",
+    "middle_name": "",
+    "last_name": "Donovan",
+    "name": "Patrick Donovan",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044242"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:30:20",
+    "cache_files": {
+      "basic_info": "./cache/sec_Patrick Donovan_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5199726_detailed_info.json"
+    },
+    "individual_name": "Patrick Donovan",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5199726",
+      "ind_firstname": "PATRICK",
+      "ind_middlename": "EUGENE",
+      "ind_lastname": "DONOVAN",
+      "ind_other_names": [
+        "PATRICK  DONAVAN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-10-25",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Westwood",
+          "branch_state": "MA",
+          "branch_zip": "02090",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5199726, \"firstName\": \"PATRICK\", \"middleName\": \"EUGENE\", \"lastName\": \"DONOVAN\", \"otherNames\": [\"PATRICK  DONAVAN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/25/2006\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/28/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"690 Canton Street, Suite 245\", \"city\": \"Westwood\", \"cityAlias\": [\"ISLINGTON\", \"WESTWOOD\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02090\", \"latitude\": \"42.221173\", \"longitude\": \"-71.199439\", \"geoLocation\": \"42.221173,-71.199439\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/26/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"8/29/2013\", \"registrationEndDate\": \"4/17/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"422\", \"firmId\": 816, \"firmName\": \"CREDIT SUISSE SECURITIES (USA) LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"3/6/2009\", \"registrationEndDate\": \"9/5/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"9/21/2006\", \"registrationEndDate\": \"3/9/2009\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"114748\", \"iaSECNumberType\": \"801\", \"firmId\": 299943, \"firmName\": \"MINOT WEALTH MANAGEMENT LLC\", \"city\": \"WESTWOOD\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/22/2019\", \"registrationEndDate\": \"9/27/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"422\", \"firmId\": 816, \"firmName\": \"CREDIT SUISSE SECURITIES (USA) LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/11/2009\", \"registrationEndDate\": \"9/5/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/6/2006\", \"registrationEndDate\": \"3/9/2009\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/3/2006\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/20/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/28/2022\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/9/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Patrick Donovan",
+    "fetched_name": "PATRICK EUGENE DONOVAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Patrick Donovan' did not match fetched name 'PATRICK EUGENE DONOVAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

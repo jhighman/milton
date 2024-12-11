@@ -1,0 +1,112 @@
+{
+  "claim": {
+    "crd_number": "2115832",
+    "first_name": "Feisal",
+    "middle_name": "",
+    "last_name": "Malik",
+    "name": "Feisal Malik",
+    "organization_name": "Spire Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-121290"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:23:26",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_2115832_basic_info.json",
+      "detailed_info": "./cache/brokercheck_2115832_detailed_info.json"
+    },
+    "crd_number": "2115832",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2115832",
+      "ind_firstname": "FEISAL",
+      "ind_middlename": "AHMED KHAN",
+      "ind_lastname": "MALIK",
+      "ind_other_names": [
+        "FEISAL AHMED MALIK"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 2,
+      "ind_industry_cal_date": "1993-08-03",
+      "ind_current_employments": [
+        {
+          "firm_id": "144131",
+          "firm_name": "SPIRE SECURITIES, LLC",
+          "branch_city": "McLean",
+          "branch_state": "VA",
+          "branch_zip": "22102",
+          "ia_only": "N",
+          "firm_bd_sec_number": "67635",
+          "firm_bd_full_sec_number": "8-67635"
+        },
+        {
+          "firm_id": "144131",
+          "firm_name": "SPIRE SECURITIES, LLC",
+          "branch_city": "MCLEAN",
+          "branch_state": "VA",
+          "branch_zip": "22102",
+          "ia_only": "N",
+          "firm_bd_sec_number": "67635",
+          "firm_bd_full_sec_number": "8-67635"
+        },
+        {
+          "firm_id": "113908",
+          "firm_name": "SPIRE WEALTH MANAGEMENT, LLC",
+          "branch_city": "Reston",
+          "branch_state": "VA",
+          "branch_zip": "20190",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "60468",
+          "firm_ia_full_sec_number": "801-60468"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 2115832, \"firstName\": \"FEISAL\", \"middleName\": \"AHMED KHAN\", \"lastName\": \"MALIK\", \"otherNames\": [\"FEISAL AHMED MALIK\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDate\": \"8/3/1993\"}, \"currentEmployments\": [{\"firmId\": 144131, \"firmName\": \"SPIRE SECURITIES, LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"11/10/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"67635\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"373466\", \"street1\": \"7901 Jones Branch Dr.\", \"street2\": \"Suite 810\", \"city\": \"McLean\", \"cityAlias\": [\"MACLEAN\", \"MC LEAN\", \"MCLEAN\", \"TYSONS\", \"TYSONS CORNER\", \"WEST MCLEAN\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"22102\", \"latitude\": \"38.959942\", \"longitude\": \"-77.224902\", \"geoLocation\": \"38.959942,-77.224902\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/20/2022\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"330499\", \"street1\": \"7901 JONES BRANCH DR.\", \"street2\": \"SUITE 810\", \"city\": \"MCLEAN\", \"cityAlias\": [\"MACLEAN\", \"MC LEAN\", \"MCLEAN\", \"TYSONS\", \"TYSONS CORNER\", \"WEST MCLEAN\"], \"state\": \"VA\", \"country\": \"USA\", \"zipCode\": \"22102\", \"latitude\": \"38.959942\", \"longitude\": \"-77.224902\", \"geoLocation\": \"38.959942,-77.224902\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"11/10/2020\"}]}], \"currentIAEmployments\": [{\"firmId\": 113908, \"firmName\": \"SPIRE WEALTH MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/20/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"60468\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1840 Michael Faraday Dr.\", \"street2\": \"Suite 105\", \"city\": \"Reston\", \"cityAlias\": [\"HERNDON\", \"RESTON\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"20190\", \"latitude\": \"38.960974\", \"longitude\": \"-77.342467\", \"geoLocation\": \"38.960974,-77.342467\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/10/2020\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"49007\", \"firmId\": 40302, \"firmName\": \"BESTVEST INVESTMENTS, LTD.\", \"city\": \"ALLENTOWN\", \"state\": \"PA\", \"registrationBeginDate\": \"6/20/2017\", \"registrationEndDate\": \"11/19/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56298\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13995\", \"firmId\": 468, \"firmName\": \"SIGNATOR INVESTORS, INC.\", \"city\": \"ALLENTOWN\", \"state\": \"PA\", \"registrationBeginDate\": \"12/12/2007\", \"registrationEndDate\": \"2/3/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15517\", \"firmId\": 5167, \"firmName\": \"NYLIFE SECURITIES LLC\", \"city\": \"HORSHAM\", \"state\": \"PA\", \"registrationBeginDate\": \"2/28/2006\", \"registrationEndDate\": \"11/30/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"44264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27250\", \"firmId\": 10409, \"firmName\": \"MML INVESTORS SERVICES, INC.\", \"city\": \"SPRINGFIELD\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/14/1994\", \"registrationEndDate\": \"12/31/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"52208\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16402\", \"firmId\": 5685, \"firmName\": \"PRUCO SECURITIES CORPORATION\", \"city\": \"NEWARK\", \"state\": \"NJ\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/26/1991\", \"registrationEndDate\": \"3/31/1993\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"12484\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13881\", \"firmId\": 680, \"firmName\": \"THE PRUDENTIAL INSURANCE COMPANY OF AMERICA\", \"city\": \"NEWARK\", \"state\": \"NJ\", \"country\": \"United States\", \"registrationBeginDate\": \"2/26/1991\", \"registrationEndDate\": \"3/31/1993\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"bdSECNumber\": \"49007\", \"firmId\": 40302, \"firmName\": \"BESTVEST INVESTMENTS, LTD.\", \"city\": \"ALLENTOWN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/5/2017\", \"registrationEndDate\": \"11/19/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56298\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13995\", \"firmId\": 468, \"firmName\": \"SIGNATOR INVESTORS, INC.\", \"city\": \"ALLENTOWN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/18/2010\", \"registrationEndDate\": \"2/3/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"10/3/2019\", \"disclosureType\": \"Financial\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Type\": \"Compromise\", \"Disposition\": \"Satisfied/Released\", \"Broker Comment\": \"Reg. Rep began working with third party to help settle outstanding debts.\"}}, {\"eventDate\": \"9/30/2016\", \"disclosureType\": \"Regulatory\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"DocketNumberFDA\": \"2016048783301\", \"DocketNumberAAO\": \"2016048783301\", \"Initiated By\": \"FINRA\", \"Allegations\": \"Without admitting or denying the findings, Malik consented to the sanctions and to the entry of findings that his member firm's procedures prohibited the sale of equity-indexed annuities (EIAs) not approved by the firm and despite this prohibition, Malik sold unapproved ElAs, valued at approximately $1.3 million, through an entity that was unaffiliated with the firm. The findings stated that Malik was compensated for the sales of these ElAs, but did not disclose the EIA sales or his compensation to his firm.\", \"Resolution\": \"Acceptance, Waiver & Consent(AWC)\", \"SanctionDetails\": [{\"Sanctions\": \"Civil and Administrative Penalty(ies)/Fine(s)\", \"SanctionDetails\": [{\"Amount\": \"$5,000.00\"}]}, {\"Sanctions\": \"Suspension\", \"SanctionDetails\": [{\"Registration Capacities Affected\": \"all capacities\", \"Duration\": \"three months\", \"Start Date\": \"10/3/2016\", \"End Date\": \"1/2/2017\"}]}]}}, {\"eventDate\": \"1/20/2016\", \"disclosureType\": \"Employment Separation After Allegations\", \"disclosureResolution\": \"\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Firm Name\": \"SIGNATOR INVESTORS INC\", \"Termination Type\": \"Discharged\", \"Allegations\": \"REPRESENTATIVE ADMITTED TO SELLING UNAPPROVED EQUITY INDEX ANNUITIES.\"}}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 5}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/5/2010\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/25/1991\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 51\", \"examName\": \"Municipal Fund Securities Principal Examination\", \"examTakenDate\": \"1/20/2010\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"4/7/1999\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"9/18/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 99TO\", \"examName\": \"Operations Professional Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/8/1997\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"2/25/1991\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 44, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Alabama\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2022\"}, {\"state\": \"Arizona\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/29/2022\"}, {\"state\": \"Arkansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/13/2022\"}, {\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Colorado\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/28/2022\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/11/2022\"}, {\"state\": \"Delaware\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2022\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Georgia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/5/2022\"}, {\"state\": \"Hawaii\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/14/2022\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/31/2022\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/1/2022\"}, {\"state\": \"Indiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/8/2022\"}, {\"state\": \"Iowa\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/8/2022\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/11/2022\"}, {\"state\": \"Louisiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2022\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/13/2022\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2022\"}, {\"state\": \"Minnesota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/13/2022\"}, {\"state\": \"Mississippi\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/6/2022\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/13/2022\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2022\"}, {\"state\": \"Nevada\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2022\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/9/2022\"}, {\"state\": \"New Mexico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"New York\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/25/2022\"}, {\"state\": \"North Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/11/2022\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/5/2022\"}, {\"state\": \"Oregon\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/13/2022\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/6/2022\"}, {\"state\": \"South Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/13/2022\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/26/2022\"}, {\"state\": \"Tennessee\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2022\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/4/2022\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/19/2022\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"11/20/2020\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/20/2020\"}, {\"state\": \"Washington\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"6/6/2022\"}, {\"state\": \"West Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2022\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/14/2022\"}, {\"state\": \"Wyoming\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/2/2022\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Feisal Malik",
+    "fetched_name": "FEISAL AHMED KHAN MALIK",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Feisal Malik' did not match fetched name 'FEISAL AHMED KHAN MALIK' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

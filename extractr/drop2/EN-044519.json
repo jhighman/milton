@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "5539479",
+    "first_name": "Clifford",
+    "middle_name": "",
+    "last_name": "Hodge",
+    "name": "Clifford Hodge",
+    "organization_name": "Cornerstone Wealth Group",
+    "license_type": "",
+    "employee_number": "EN-044519"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5539479_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5539479_detailed_info.json"
+    },
+    "crd_number": "5539479",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5539479",
+      "ind_firstname": "CLIFFORD",
+      "ind_middlename": "PADGETT",
+      "ind_lastname": "HODGE",
+      "ind_namesuffix": "III",
+      "ind_other_names": [
+        "CLIFFORD P HODGE"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "3144",
+      "ind_current_employments": [
+        {
+          "firm_id": "289971",
+          "firm_name": "CORNERSTONE WEALTH",
+          "branch_city": "HUNTERSVILLE",
+          "branch_state": "NC",
+          "branch_zip": "28078",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "112164",
+          "firm_ia_full_sec_number": "801-112164"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5539479, \"firstName\": \"CLIFFORD\", \"middleName\": \"PADGETT\", \"lastName\": \"HODGE\", \"nameSuffix\": \"III\", \"otherNames\": [\"CLIFFORD P HODGE\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 3144}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"49514\", \"firmId\": 41608, \"firmName\": \"FINTRUST BROKERAGE SERVICES, LLC\", \"city\": \"GREENVILLE\", \"state\": \"SC\", \"registrationBeginDate\": \"7/9/2015\", \"registrationEndDate\": \"4/4/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"21570\", \"firmId\": 7452, \"firmName\": \"VANGUARD MARKETING CORPORATION\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"registrationBeginDate\": \"6/23/2008\", \"registrationEndDate\": \"5/5/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/1/2008\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/4/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 87\", \"examName\": \"Research Analyst Exam - Part II Regulations Module\", \"examTakenDate\": \"9/24/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/9/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"6/20/2008\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/24/2018\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Clifford Hodge",
+    "fetched_name": "CLIFFORD PADGETT HODGE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Clifford Hodge' did not match fetched name 'CLIFFORD PADGETT HODGE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

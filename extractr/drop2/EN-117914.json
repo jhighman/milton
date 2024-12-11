@@ -1,0 +1,107 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Sarah",
+    "middle_name": "",
+    "last_name": "Coates",
+    "name": "Sarah Coates",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-117914"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Sarah Coates_143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7780768_detailed_info.json"
+    },
+    "individual_name": "Sarah Coates",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7780768",
+      "ind_firstname": "Sarah",
+      "ind_middlename": "J.",
+      "ind_lastname": "Coates",
+      "ind_other_names": [
+        "Sarah Coates Cowenhoven"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2024-07-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "Chicago",
+          "branch_state": "IL",
+          "branch_zip": "60607",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7780768, \"firstName\": \"Sarah\", \"middleName\": \"J.\", \"lastName\": \"Coates\", \"otherNames\": [\"Sarah Coates Cowenhoven\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/7/2024\"}, \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/8/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"215 N. Peoria St.\", \"street2\": \"Suite 1100/1200\", \"city\": \"Chicago\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60607\", \"latitude\": \"41.874472\", \"longitude\": \"-87.650064\", \"geoLocation\": \"41.874472,-87.650064\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/13/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"9/24/2019\", \"disclosureType\": \"Financial\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Type\": \"Bankruptcy\", \"Disposition\": \"Discharged\", \"Broker Comment\": \"Discharge was result of business ownership and subsequent commercial real estate and business asset's failure to cover outstanding business debts at wind up.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Financial\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/7/2024\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/8/2024\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/8/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Sarah Coates",
+    "fetched_name": "Sarah J. Coates",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Sarah Coates' did not match fetched name 'Sarah J. Coates' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Sarah Coates has 1 financial disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Financial Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "9/24/2019",
+          "resolution": "Final",
+          "details": {
+            "Type": "Bankruptcy",
+            "Disposition": "Discharged",
+            "Broker Comment": "Discharge was result of business ownership and subsequent commercial real estate and business asset's failure to cover outstanding business debts at wind up."
+          }
+        },
+        "description": "Unknown disclosure type Financial on 9/24/2019."
+      }
+    ]
+  }
+}

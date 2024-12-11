@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "2719984",
+    "first_name": "George",
+    "middle_name": "",
+    "last_name": "Brown",
+    "name": "George Brown",
+    "organization_name": "Capital Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-046466"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_2719984_basic_info.json",
+      "detailed_info": "./cache/brokercheck_2719984_detailed_info.json"
+    },
+    "crd_number": "2719984",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2719984",
+      "ind_firstname": "GEORGE",
+      "ind_middlename": "ANDERSON",
+      "ind_lastname": "BROWN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "7819",
+      "ind_current_employments": [
+        {
+          "firm_id": "104643",
+          "firm_name": "CAPITAL ADVISORS, INC.",
+          "branch_city": "TULSA",
+          "branch_state": "OK",
+          "branch_zip": "74114",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "14050",
+          "firm_ia_full_sec_number": "801-14050"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 2719984, \"firstName\": \"GEORGE\", \"middleName\": \"ANDERSON\", \"lastName\": \"BROWN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 7819}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"38016\", \"firmId\": 20050, \"firmName\": \"MINSHALL & COMPANY INC.\", \"city\": \"TULSA\", \"state\": \"OK\", \"registrationBeginDate\": \"7/2/2001\", \"registrationEndDate\": \"10/2/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"108049\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"15204\", \"firmId\": 665, \"firmName\": \"U.S. BANCORP PIPER JAFFRAY INC.\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/21/1999\", \"registrationEndDate\": \"7/10/2001\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"13059\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"45411\", \"firmId\": 31194, \"firmName\": \"DAIN RAUSCHER INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/2/1998\", \"registrationEndDate\": \"6/23/1999\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"3259\", \"firmId\": 7600, \"firmName\": \"DAIN RAUSCHER INCORPORATED\", \"registrationBeginDate\": \"1/2/1998\", \"registrationEndDate\": \"3/2/1998\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"27271\", \"firmId\": 6663, \"firmName\": \"RAUSCHER PIERCE REFSNES, INC.\", \"city\": \"DALLAS\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"5/7/1996\", \"registrationEndDate\": \"1/2/1998\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"4/26/2000\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"ON JANUARY 11, 1999, CLIENT ALLEGES THAT MR. BROWN BOUGHT INSTEAD OF SOLD 25 CONTRACTS OF DATA BROADCASTING CALLS. FURTHER, CLIENT ALLEGES HE WAS NOT INFORMED ABOUT THE OPENING ROTATION PROCEDURE AND CLIENT BELIEVES RESULTING SALES PRICES OF HIS 75 CONTRACTS WERE LOWER THAN WHAT HE SHOULD HAVE RECEIVED.\", \"Damage Amount Requested\": \"$75,000.00\", \"Settlement Amount\": \"$9,999.00\", \"DisplayAAOLinkIfExists\": \"Y\", \"arbitrationClaimFiledDetail\": \"2000-008427\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"CLAIMANT VOLUNTARILY DISMISSED BROKER FROM ARBITRATION AND SETTLED WITH DAIN RAUSCHER INCORPORATED.\"}}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/31/1996\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/17/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/2/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/6/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/21/2020\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/20/2019\"}, {\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/18/2019\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/9/2019\"}, {\"state\": \"Indiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/19/2019\"}, {\"state\": \"Kentucky\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"Minnesota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Mississippi\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Missouri\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/4/2010\"}, {\"state\": \"Nebraska\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"New Hampshire\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/14/2019\"}, {\"state\": \"New Mexico\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/22/2001\"}, {\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}, {\"state\": \"South Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"11/21/2014\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/12/2019\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/13/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "George Brown",
+    "fetched_name": "GEORGE ANDERSON BROWN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'George Brown' did not match fetched name 'GEORGE ANDERSON BROWN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

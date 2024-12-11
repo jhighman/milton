@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Eric",
+    "middle_name": "",
+    "last_name": "Udvari",
+    "name": "Eric Udvari",
+    "organization_name": "Howe & Rusling Inc",
+    "license_type": "",
+    "employee_number": "EN-049164"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:48:04",
+    "cache_files": {
+      "basic_info": "./cache/sec_Eric Udvari_104627_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6456141_detailed_info.json"
+    },
+    "individual_name": "Eric Udvari",
+    "firm_crd": "104627",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6456141",
+      "ind_firstname": "Eric",
+      "ind_middlename": "Emerson",
+      "ind_lastname": "Udvari",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2015-08-27",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "104627",
+          "firm_name": "HOWE AND RUSLING, INC.",
+          "branch_city": "BOISE",
+          "branch_state": "ID",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "294",
+          "firm_ia_full_sec_number": "801-294"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6456141, \"firstName\": \"Eric\", \"middleName\": \"Emerson\", \"lastName\": \"Udvari\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/27/2015\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 104627, \"firmName\": \"HOWE AND RUSLING, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/27/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"294\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"BOISE\", \"state\": \"ID\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/16/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"TIAA-CREF INDIVIDUAL & INSTITUTIONAL SERVICES, LLC\", \"city\": \"DENVER\", \"state\": \"CO\", \"registrationBeginDate\": \"12/12/2018\", \"registrationEndDate\": \"7/16/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"BOISE\", \"state\": \"ID\", \"registrationBeginDate\": \"6/4/2015\", \"registrationEndDate\": \"11/28/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"ADVICE AND PLANNING SERVICES\", \"city\": \"Boise\", \"state\": \"ID\", \"country\": \"United States\", \"registrationBeginDate\": \"12/12/2018\", \"registrationEndDate\": \"7/16/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"BOISE\", \"state\": \"ID\", \"country\": \"United States\", \"registrationBeginDate\": \"6/18/2015\", \"registrationEndDate\": \"11/28/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"6/18/2015\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/4/2015\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Idaho\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/27/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Eric Udvari",
+    "fetched_name": "Eric Emerson Udvari",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Eric Udvari' did not match fetched name 'Eric Emerson Udvari' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

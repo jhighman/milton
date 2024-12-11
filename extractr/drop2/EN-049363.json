@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Glen",
+    "middle_name": "",
+    "last_name": "Martin",
+    "name": "Glen Martin",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049363"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:39:34",
+    "cache_files": {
+      "basic_info": "./cache/sec_Glen Martin_106223_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2850934_detailed_info.json"
+    },
+    "individual_name": "Glen Martin",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2850934",
+      "ind_firstname": "GLEN",
+      "ind_middlename": "PATRICK",
+      "ind_lastname": "MARTIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-08-15",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "PROVIDENCE",
+          "branch_state": "RI",
+          "branch_zip": "02903",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "21951",
+          "firm_ia_full_sec_number": "801-21951"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2850934, \"firstName\": \"GLEN\", \"middleName\": \"PATRICK\", \"lastName\": \"MARTIN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/15/1999\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 106223, \"firmName\": \"F L PUTNAM INVESTMENT MANAGEMENT CO.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/22/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"21951\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"10 WEYBOSSET STREET\", \"street2\": \"3RD FLOOR\", \"city\": \"PROVIDENCE\", \"cityAlias\": [\"PROVIDENCE\"], \"state\": \"RI\", \"country\": \"United States\", \"zipCode\": \"02903\", \"latitude\": \"41.818167\", \"longitude\": \"-71.409728\", \"geoLocation\": \"41.818167,-71.409728\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/01/2019\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"22306\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30447\", \"firmId\": 14251, \"firmName\": \"METLIFE SECURITIES, INC\", \"city\": \"EAST PROVIDENCE\", \"state\": \"RI\", \"registrationBeginDate\": \"7/20/2015\", \"registrationEndDate\": \"7/1/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"PROVIDENCE\", \"state\": \"RI\", \"registrationBeginDate\": \"3/6/2015\", \"registrationEndDate\": \"6/5/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"6/14/2010\", \"registrationEndDate\": \"3/1/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44998\", \"firmId\": 30683, \"firmName\": \"BOFA DISTRIBUTORS, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"10/26/2004\", \"registrationEndDate\": \"7/1/2010\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"40537\", \"firmId\": 23562, \"firmName\": \"COLUMBIA FINANCIAL CENTER INCORPORATED\", \"city\": \"PORTLAND\", \"state\": \"OR\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/8/2004\", \"registrationEndDate\": \"10/6/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44998\", \"firmId\": 30683, \"firmName\": \"COLUMBIA FUNDS DISTRIBUTOR, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/28/2002\", \"registrationEndDate\": \"9/13/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44986\", \"firmId\": 30533, \"firmName\": \"FIS SECURITIES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/1/1997\", \"registrationEndDate\": \"10/10/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"71691\", \"iaSECNumberType\": \"801\", \"firmId\": 151664, \"firmName\": \"BAYSTATE WEALTH MANAGEMENT\", \"city\": \"East Providence\", \"state\": \"RI\", \"country\": \"United States\", \"registrationBeginDate\": \"12/7/2015\", \"registrationEndDate\": \"7/5/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"22306\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30447\", \"firmId\": 14251, \"firmName\": \"METLIFE SECURITIES INC.\", \"city\": \"EAST PROVIDENCE\", \"state\": \"RI\", \"country\": \"United States\", \"registrationBeginDate\": \"7/20/2015\", \"registrationEndDate\": \"7/1/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"PROVIDENCE\", \"state\": \"RI\", \"country\": \"United States\", \"registrationBeginDate\": \"2/27/2015\", \"registrationEndDate\": \"6/5/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/22/2010\", \"registrationEndDate\": \"3/1/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/21/2010\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/30/2002\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"7/8/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 26\", \"examName\": \"Investment Company Products/Variable Contracts Principal Examination\", \"examTakenDate\": \"1/29/2004\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"7/1/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/30/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/22/2016\"}, {\"state\": \"Rhode Island\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/30/2018\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Glen Martin",
+    "fetched_name": "GLEN PATRICK MARTIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Glen Martin' did not match fetched name 'GLEN PATRICK MARTIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "claim": {
+    "crd_number": "5416129",
+    "first_name": "Tanya",
+    "middle_name": "",
+    "last_name": "Welch",
+    "name": "Tanya Welch",
+    "organization_name": "Baker Avenue Asset Management",
+    "license_type": "",
+    "employee_number": "EN-055816"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5416129_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5416129_detailed_info.json"
+    },
+    "crd_number": "5416129",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5416129",
+      "ind_firstname": "TANYA",
+      "ind_middlename": "FAYE",
+      "ind_lastname": "WELCH",
+      "ind_other_names": [
+        "TANYA  WELCH"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "132657",
+          "firm_name": "BAKERAVENUE",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94111",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5416129, \"firstName\": \"TANYA\", \"middleName\": \"FAYE\", \"lastName\": \"WELCH\", \"otherNames\": [\"TANYA  WELCH\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"registrationBeginDate\": \"10/5/2007\", \"registrationEndDate\": \"10/6/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/23/2007\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/4/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/14/2018\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/24/2015\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/31/2018\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/9/2018\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/26/2018\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Tanya Welch",
+    "fetched_name": "TANYA FAYE WELCH",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Tanya Welch' did not match fetched name 'TANYA FAYE WELCH' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

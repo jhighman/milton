@@ -1,0 +1,109 @@
+{
+  "claim": {
+    "crd_number": "3275176",
+    "first_name": "Rachel",
+    "middle_name": "",
+    "last_name": "Posner",
+    "name": "Rachel Posner",
+    "organization_name": "Cornerstone Wealth Group",
+    "license_type": "",
+    "employee_number": "EN-044522"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_3275176_basic_info.json",
+      "detailed_info": "./cache/brokercheck_3275176_detailed_info.json"
+    },
+    "crd_number": "3275176",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3275176",
+      "ind_firstname": "RACHEL",
+      "ind_middlename": "LEE",
+      "ind_lastname": "POSNER",
+      "ind_other_names": [],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date": "2005-03-30",
+      "ind_current_employments": [
+        {
+          "firm_id": "13092",
+          "firm_name": "MUTUAL SECURITIES, INC.",
+          "branch_city": "Charlotte",
+          "branch_state": "NC",
+          "branch_zip": "28277",
+          "ia_only": "N",
+          "firm_bd_sec_number": "28580",
+          "firm_bd_full_sec_number": "8-28580"
+        },
+        {
+          "firm_id": "13092",
+          "firm_name": "MUTUAL SECURITIES, INC.",
+          "branch_city": "Charlotte",
+          "branch_state": "NC",
+          "ia_only": "N",
+          "firm_bd_sec_number": "28580",
+          "firm_bd_full_sec_number": "8-28580"
+        },
+        {
+          "firm_id": "289971",
+          "firm_name": "CORNERSTONE WEALTH",
+          "branch_city": "HUNTERSVILLE",
+          "branch_state": "NC",
+          "branch_zip": "28078",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "112164",
+          "firm_ia_full_sec_number": "801-112164"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 3275176, \"firstName\": \"RACHEL\", \"middleName\": \"LEE\", \"lastName\": \"POSNER\", \"otherNames\": [], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDate\": \"3/30/2005\"}, \"currentEmployments\": [{\"firmId\": 13092, \"firmName\": \"MUTUAL SECURITIES, INC.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/16/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"28580\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"673573\", \"street1\": \"3436 Torington Way\", \"street2\": \"Ste. 210\", \"city\": \"Charlotte\", \"cityAlias\": [\"CHARLOTTE\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"28277\", \"latitude\": \"35.050811\", \"longitude\": \"-80.822143\", \"geoLocation\": \"35.050811,-80.822143\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"12/02/2021\"}]}], \"currentIAEmployments\": [{\"firmId\": 289971, \"firmName\": \"CORNERSTONE WEALTH\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/27/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"112164\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"669395\", \"street1\": \"16810 KENTON DRIVE\", \"street2\": \"SUITE 200\", \"city\": \"HUNTERSVILLE\", \"cityAlias\": [\"CALDWELL\", \"HICKS CROSSROADS\", \"HUNTERSVILLE\", \"LONG CREEK\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"28078\", \"latitude\": \"35.400197\", \"longitude\": \"-80.866352\", \"geoLocation\": \"35.400197,-80.866352\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/02/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"56298\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13995\", \"firmId\": 468, \"firmName\": \"SIGNATOR INVESTORS, INC.\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"registrationBeginDate\": \"10/19/2007\", \"registrationEndDate\": \"12/15/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"27006\", \"firmId\": 10292, \"firmName\": \"DFA SECURITIES INC.\", \"city\": \"SANTA MONICA\", \"state\": \"CA\", \"registrationBeginDate\": \"5/18/2007\", \"registrationEndDate\": \"8/3/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"FINANCIAL NETWORK INVESTMENT CORPORATION\", \"city\": \"EL SEGUNDO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/7/2006\", \"registrationEndDate\": \"5/18/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"25130\", \"firmId\": 8348, \"firmName\": \"T. ROWE PRICE INVESTMENT SERVICES, INC.\", \"city\": \"BALTIMORE\", \"state\": \"MD\", \"registrationBeginDate\": \"1/30/2006\", \"registrationEndDate\": \"6/5/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"12/8/2000\", \"registrationEndDate\": \"3/13/2001\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/19/2000\", \"registrationEndDate\": \"11/16/2000\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"16752\", \"firmId\": 5979, \"firmName\": \"OLDE DISCOUNT CORPORATION\", \"city\": \"DETROIT\", \"state\": \"MI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/13/1999\", \"registrationEndDate\": \"1/24/2000\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"106603\", \"iaSECNumberType\": \"801\", \"firmId\": 281391, \"firmName\": \"SIGNATURE INTELLIGENT PORTFOLIOS, LLC\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/28/2015\", \"registrationEndDate\": \"2/23/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"76593\", \"iaSECNumberType\": \"801\", \"firmId\": 160715, \"firmName\": \"SIGNATURE INVESTMENT ADVISORS, LLC\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/11/2012\", \"registrationEndDate\": \"2/23/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56288\", \"iaSECNumberType\": \"801\", \"firmId\": 108163, \"firmName\": \"SEIA\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/14/2010\", \"registrationEndDate\": \"2/23/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/29/2007\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/3/2006\", \"examScope\": \"IA\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 51\", \"examName\": \"Municipal Fund Securities Principal Examination\", \"examTakenDate\": \"2/16/2010\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"12/15/2006\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/21/1999\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 52\", \"examName\": \"Municipal Securities Representative Examination\", \"examTakenDate\": \"8/13/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 4, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2022\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/17/2018\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/27/2018\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2022\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2022\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Rachel Posner",
+    "fetched_name": "RACHEL LEE POSNER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Rachel Posner' did not match fetched name 'RACHEL LEE POSNER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

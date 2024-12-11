@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Diane",
+    "middle_name": "",
+    "last_name": "Prenger",
+    "name": "Diane Prenger",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118954"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:07:34",
+    "cache_files": {
+      "basic_info": "./cache/sec_Diane Prenger_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5769648_detailed_info.json"
+    },
+    "individual_name": "Diane Prenger",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5769648",
+      "ind_firstname": "DIANE",
+      "ind_middlename": "LOUISE",
+      "ind_lastname": "PRENGER",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-04-27",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Troy",
+          "branch_state": "MI",
+          "branch_zip": "48084",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5769648, \"firstName\": \"DIANE\", \"middleName\": \"LOUISE\", \"lastName\": \"PRENGER\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/27/2010\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/8/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3221 W. Big Beaver Rd.\", \"street2\": \"Suite 101\", \"city\": \"Troy\", \"cityAlias\": [\"TROY\"], \"state\": \"MI\", \"country\": \"United States\", \"zipCode\": \"48084\", \"latitude\": \"42.556376\", \"longitude\": \"-83.177078\", \"geoLocation\": \"42.556376,-83.177078\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/01/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"40373\", \"iaSECNumberType\": \"801\", \"firmId\": 107178, \"firmName\": \"STARFIRE INVESTMENT ADVISERS INC\", \"city\": \"SOUTHFIELD\", \"state\": \"MI\", \"country\": \"United States\", \"registrationBeginDate\": \"8/9/2017\", \"registrationEndDate\": \"7/1/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"44058\", \"iaSECNumberType\": \"801\", \"firmId\": 112158, \"firmName\": \"PLANTE MORAN FINANCIAL ADVISORS\", \"city\": \"SOUTHFIELD\", \"state\": \"MI\", \"country\": \"United States\", \"registrationBeginDate\": \"4/21/2010\", \"registrationEndDate\": \"8/9/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/30/2010\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Michigan\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/8/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/8/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Diane Prenger",
+    "fetched_name": "DIANE LOUISE PRENGER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Diane Prenger' did not match fetched name 'DIANE LOUISE PRENGER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

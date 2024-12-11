@@ -1,0 +1,96 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Matthew",
+    "middle_name": "",
+    "last_name": "Anderson",
+    "name": "Matthew Anderson",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053532"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Matthew Anderson_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5612397_detailed_info.json"
+    },
+    "individual_name": "Matthew Anderson",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5612397",
+      "ind_firstname": "MATTHEW",
+      "ind_middlename": "JOHN",
+      "ind_lastname": "ANDERSON",
+      "ind_namesuffix": "Mr.",
+      "ind_other_names": [
+        "MATT  ANDERSON",
+        "MATTHEW JOHN ANDERSON",
+        "Matt J. Anderson"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2009-07-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Bloomingdale",
+          "branch_state": "IL",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5612397, \"firstName\": \"MATTHEW\", \"middleName\": \"JOHN\", \"lastName\": \"ANDERSON\", \"nameSuffix\": \"Mr.\", \"otherNames\": [\"MATT  ANDERSON\", \"MATTHEW JOHN ANDERSON\", \"Matt J. Anderson\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/7/2009\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/7/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Bloomingdale\", \"state\": \"IL\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/22/2017\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"SCHAUMBURG\", \"state\": \"IL\", \"registrationBeginDate\": \"7/3/2009\", \"registrationEndDate\": \"6/1/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"TD AMERITRADE INVESTMENT MANAGEMENT, LLC\", \"city\": \"SCHAUMBURG\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"8/8/2013\", \"registrationEndDate\": \"6/1/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"SCHAUMBURG\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"8/8/2013\", \"registrationEndDate\": \"6/1/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/7/2013\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/15/2009\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/1/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/2/2009\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2017\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Matthew Anderson",
+    "fetched_name": "MATTHEW JOHN ANDERSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Matthew Anderson' did not match fetched name 'MATTHEW JOHN ANDERSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

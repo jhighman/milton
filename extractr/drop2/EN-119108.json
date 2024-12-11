@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Holly",
+    "middle_name": "",
+    "last_name": "Villasi",
+    "name": "Holly Villasi",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119108"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:10:41",
+    "cache_files": {
+      "basic_info": "./cache/sec_Holly Villasi_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5293692_detailed_info.json"
+    },
+    "individual_name": "Holly Villasi",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5293692",
+      "ind_firstname": "HOLLY",
+      "ind_middlename": "ELIZABETH",
+      "ind_lastname": "VILLASI",
+      "ind_other_names": [
+        "HOLLY ELIZABETH GOODEN MS",
+        "HOLLY ELIZABETH GOODEN",
+        "HOLLY  GOODEN",
+        "HOLLY  VILLASI"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-06-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "OVERLAND PARK",
+          "branch_state": "KS",
+          "branch_zip": "66211",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5293692, \"firstName\": \"HOLLY\", \"middleName\": \"ELIZABETH\", \"lastName\": \"VILLASI\", \"otherNames\": [\"HOLLY ELIZABETH GOODEN MS\", \"HOLLY ELIZABETH GOODEN\", \"HOLLY  GOODEN\", \"HOLLY  VILLASI\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/3/2007\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/19/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"76422\", \"street1\": \"5454 W. 110TH STREET\", \"city\": \"OVERLAND PARK\", \"cityAlias\": [\"LEAWOOD\", \"OVERLAND\", \"OVERLAND PARK\", \"SHAWNEE MISSION\", \"SHAWNEE MSN\", \"SM\"], \"state\": \"KS\", \"country\": \"United States\", \"zipCode\": \"66211\", \"latitude\": \"38.925578\", \"longitude\": \"-94.638286\", \"geoLocation\": \"38.925578,-94.638286\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"05/18/2015\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"22990\", \"firmId\": 6769, \"firmName\": \"KEEL POINT CAPITAL, LLC\", \"city\": \"LEAWOOD\", \"state\": \"KS\", \"registrationBeginDate\": \"5/9/2011\", \"registrationEndDate\": \"5/27/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"33020\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"26892\", \"firmId\": 10299, \"firmName\": \"MULTI-FINANCIAL SECURITIES CORPORATION\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"registrationBeginDate\": \"12/9/2008\", \"registrationEndDate\": \"5/9/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"62967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"34999\", \"firmId\": 17073, \"firmName\": \"UMB FINANCIAL SERVICES, INC.\", \"city\": \"RAYTOWN\", \"state\": \"MO\", \"registrationBeginDate\": \"3/31/2008\", \"registrationEndDate\": \"11/3/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"66509\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35096\", \"firmId\": 17140, \"firmName\": \"COMMERCE BROKERAGE SERVICES, INC.\", \"city\": \"KANSAS CITY\", \"state\": \"MO\", \"registrationBeginDate\": \"4/11/2007\", \"registrationEndDate\": \"3/12/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"62249\", \"iaSECNumberType\": \"801\", \"firmId\": 127902, \"firmName\": \"KEEL POINT, LLC\", \"city\": \"LEAWOOD\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"5/9/2011\", \"registrationEndDate\": \"5/27/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"33020\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"26892\", \"firmId\": 10299, \"firmName\": \"MULTI-FINANCIAL SECURITIES CORPORATION\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"2/6/2009\", \"registrationEndDate\": \"5/9/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 3, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/5/2009\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/26/2007\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 4\", \"examName\": \"Registered Options Principal Examination\", \"examTakenDate\": \"10/25/2013\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 51\", \"examName\": \"Municipal Fund Securities Principal Examination\", \"examTakenDate\": \"5/3/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"4/24/2009\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"5/27/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/10/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Kansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/19/2015\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/7/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Holly Villasi",
+    "fetched_name": "HOLLY ELIZABETH VILLASI",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Holly Villasi' did not match fetched name 'HOLLY ELIZABETH VILLASI' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

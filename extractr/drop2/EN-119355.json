@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Alexandra",
+    "middle_name": "",
+    "last_name": "Blake",
+    "name": "Alexandra Blake",
+    "organization_name": "Crestwood Advisors Group LLC",
+    "license_type": "",
+    "employee_number": "EN-119355"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:21:13",
+    "cache_files": {
+      "basic_info": "./cache/sec_Alexandra Blake_286243_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5664489_detailed_info.json"
+    },
+    "individual_name": "Alexandra Blake",
+    "firm_crd": "286243",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5664489",
+      "ind_firstname": "ALEXANDRA",
+      "ind_middlename": "MICHELLE",
+      "ind_lastname": "BLAKE",
+      "ind_other_names": [
+        "ALEXANDRA MICHELLE ANGELO"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2013-09-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "286243",
+          "firm_name": "CRESTWOOD ADVISORS",
+          "branch_city": "Westport",
+          "branch_state": "CT",
+          "branch_zip": "06880",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5664489, \"firstName\": \"ALEXANDRA\", \"middleName\": \"MICHELLE\", \"lastName\": \"BLAKE\", \"otherNames\": [\"ALEXANDRA MICHELLE ANGELO\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/29/2013\"}, \"currentIAEmployments\": [{\"firmId\": 286243, \"firmName\": \"CRESTWOOD ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/20/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"943 Post Rd E 2nd Floor\", \"city\": \"Westport\", \"cityAlias\": [\"SAUGATUCK\", \"WESTPORT\"], \"state\": \"CT\", \"country\": \"United States\", \"zipCode\": \"06880\", \"latitude\": \"41.137996\", \"longitude\": \"-73.34415\", \"geoLocation\": \"41.137996,-73.34415\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/11/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56281\", \"iaSECNumberType\": \"801\", \"firmId\": 110793, \"firmName\": \"NEXT CAPITAL MANAGEMENT LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"7/7/2021\", \"registrationEndDate\": \"7/14/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67841\", \"iaSECNumberType\": \"801\", \"firmId\": 142878, \"firmName\": \"CIRCLE WEALTH MANAGEMENT, LLC\", \"city\": \"SUMMIT\", \"state\": \"NJ\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/23/2009\", \"registrationEndDate\": \"4/4/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/22/2009\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/20/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Alexandra Blake",
+    "fetched_name": "ALEXANDRA MICHELLE BLAKE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Alexandra Blake' did not match fetched name 'ALEXANDRA MICHELLE BLAKE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Scott",
+    "middle_name": "",
+    "last_name": "Perkins",
+    "name": "Scott Perkins",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053604"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Scott Perkins_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5877587_detailed_info.json"
+    },
+    "individual_name": "Scott Perkins",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5877587",
+      "ind_firstname": "SCOTT",
+      "ind_middlename": "MATTHEW",
+      "ind_lastname": "PERKINS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2011-07-30",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "NORTH TUSTIN",
+          "branch_state": "CA",
+          "branch_zip": "92705",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5877587, \"firstName\": \"SCOTT\", \"middleName\": \"MATTHEW\", \"lastName\": \"PERKINS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/30/2011\"}, \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/28/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12241 NEWPORT AVE.\", \"street2\": \"SUITE 101\", \"city\": \"NORTH TUSTIN\", \"cityAlias\": [\"COWAN HEIGHTS\", \"NORTH TUSTIN\", \"SANTA ANA\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92705\", \"latitude\": \"33.744022\", \"longitude\": \"-117.814814\", \"geoLocation\": \"33.744022,-117.814814\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/24/2014\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"CETERA ADVISOR NETWORKS LLC\", \"city\": \"SEAL BEACH\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/14/2013\", \"registrationEndDate\": \"2/18/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"18423\", \"iaSECNumberType\": \"801\", \"firmId\": 104605, \"firmName\": \"RONALD BLUE & CO. LLC\", \"city\": \"SANTA ANA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/26/2011\", \"registrationEndDate\": \"8/19/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/14/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/21/2011\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/9/2013\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/28/2014\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Scott Perkins",
+    "fetched_name": "SCOTT MATTHEW PERKINS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Scott Perkins' did not match fetched name 'SCOTT MATTHEW PERKINS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

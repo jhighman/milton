@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "G. Bradley",
+    "middle_name": "",
+    "last_name": "Owen",
+    "name": "G. Bradley Owen",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044107"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:34:25",
+    "cache_files": {
+      "basic_info": "./cache/sec_G. Bradley Owen_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4065007_detailed_info.json"
+    },
+    "individual_name": "G. Bradley Owen",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4065007",
+      "ind_firstname": "G. BRADLEY",
+      "ind_middlename": "DOUGLAS",
+      "ind_lastname": "OWEN",
+      "ind_other_names": [
+        "BRAD  OWEN",
+        "G. BRADLEY D. OWEN",
+        "GIVIN  OWEN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-12-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "San Diego",
+          "branch_state": "CA",
+          "branch_zip": "92122",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4065007, \"firstName\": \"G. BRADLEY\", \"middleName\": \"DOUGLAS\", \"lastName\": \"OWEN\", \"otherNames\": [\"BRAD  OWEN\", \"G. BRADLEY D. OWEN\", \"GIVIN  OWEN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/11/2006\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/6/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3655 Nobel Drive, Suite 200\", \"city\": \"San Diego\", \"cityAlias\": [\"SAN DIEGO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92122\", \"latitude\": \"32.856744\", \"longitude\": \"-117.20717\", \"geoLocation\": \"32.856744,-117.20717\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/31/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60531\", \"iaSECNumberType\": \"801\", \"firmId\": 113067, \"firmName\": \"DONNELLY WEALTH ADVISORS, INC.\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/12/2006\", \"registrationEndDate\": \"7/26/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/18/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/15/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2018\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/6/2018\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "G. Bradley Owen",
+    "fetched_name": "G. BRADLEY DOUGLAS OWEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'G. Bradley Owen' did not match fetched name 'G. BRADLEY DOUGLAS OWEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

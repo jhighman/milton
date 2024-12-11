@@ -1,0 +1,123 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Mark",
+    "middle_name": "",
+    "last_name": "Stein",
+    "name": "Mark Stein",
+    "organization_name": "Galvin Gaustad & Stein LLC",
+    "license_type": "",
+    "employee_number": "EN-056535"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:44:07",
+    "cache_files": {
+      "basic_info": "./cache/sec_Mark Stein_153410_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1153586_detailed_info.json"
+    },
+    "individual_name": "Mark Stein",
+    "firm_crd": "153410",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1153586",
+      "ind_firstname": "MARK",
+      "ind_middlename": "PAUL",
+      "ind_lastname": "STEIN",
+      "ind_other_names": [
+        "MARK P STEIN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1983-06-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "SCOTTSDALE",
+          "branch_state": "AZ",
+          "branch_zip": "85258",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        },
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "Bellevue",
+          "branch_state": "WA",
+          "branch_zip": "98006",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        },
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "Beverly Hills",
+          "branch_state": "CA",
+          "branch_zip": "90212",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        },
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "Scottsdale",
+          "branch_state": "AZ",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1153586, \"firstName\": \"MARK\", \"middleName\": \"PAUL\", \"lastName\": \"STEIN\", \"otherNames\": [\"MARK P STEIN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/18/1983\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 153410, \"firmName\": \"GALVIN, GAUSTAD & STEIN, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/22/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"71464\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"438177\", \"street1\": \"7377 E. DOUBLETREE RANCH ROAD\", \"street2\": \"SUITE 250\", \"city\": \"SCOTTSDALE\", \"cityAlias\": [\"SCOTTSDALE\"], \"state\": \"AZ\", \"country\": \"United States\", \"zipCode\": \"85258\", \"latitude\": \"33.560513\", \"longitude\": \"-111.885972\", \"geoLocation\": \"33.560513,-111.885972\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/28/2010\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"14205 SE 36th Street\", \"street2\": \"Suite 100 - PMB 391\", \"city\": \"Bellevue\", \"cityAlias\": [\"BELLEVUE\", \"EASTGATE\", \"NEWPORT HILLS\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98006\", \"latitude\": \"47.552758\", \"longitude\": \"-122.150589\", \"geoLocation\": \"47.552758,-122.150589\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2017\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"9595 Wilshire Blvd. #900\", \"city\": \"Beverly Hills\", \"cityAlias\": [\"BEVERLY HILLS\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90212\", \"latitude\": \"34.061062\", \"longitude\": \"-118.402054\", \"geoLocation\": \"34.061062,-118.402054\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2019\"}, {\"displayOrder\": 4, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Scottsdale\", \"state\": \"AZ\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/02/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"57293\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"11117\", \"firmId\": 1027, \"firmName\": \"FOOTHILL SECURITIES, INC.\", \"city\": \"SCOTTSDALE\", \"state\": \"AZ\", \"registrationBeginDate\": \"12/5/2011\", \"registrationEndDate\": \"12/9/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"42017\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"21770\", \"firmId\": 7461, \"firmName\": \"FSC SECURITIES CORPORATION\", \"city\": \"SCOTTSDALE\", \"state\": \"AZ\", \"registrationBeginDate\": \"5/1/2001\", \"registrationEndDate\": \"12/7/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"32772\", \"firmId\": 15840, \"firmName\": \"WALNUT STREET SECURITIES, INC.\", \"city\": \"EL SEGUNDO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/11/1991\", \"registrationEndDate\": \"5/1/2001\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"33257\", \"firmId\": 16089, \"firmName\": \"CENPAC SECURITIES CORP.\", \"registrationBeginDate\": \"11/14/1989\", \"registrationEndDate\": \"9/12/1991\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"expelledDate\": \"10/14/1992\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15409\", \"firmId\": 13256, \"firmName\": \"AETNA LIFE INSURANCE AND ANNUITY COMPANY\", \"city\": \"HARTFORD\", \"state\": \"CT\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/19/1983\", \"registrationEndDate\": \"2/7/1990\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60807\", \"iaSECNumberType\": \"801\", \"firmId\": 115478, \"firmName\": \"AEGIS FINANCIAL GROUP, INC.\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"country\": \"United States\", \"registrationBeginDate\": \"3/11/2004\", \"registrationEndDate\": \"9/28/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"10/30/1991\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"12/9/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/27/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/22/2010\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/16/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"2/3/2014\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/16/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Mark Stein",
+    "fetched_name": "MARK PAUL STEIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Mark Stein' did not match fetched name 'MARK PAUL STEIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

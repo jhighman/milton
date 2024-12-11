@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Paregian",
+    "name": "Michael Paregian",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-117903"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Paregian_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2785405_detailed_info.json"
+    },
+    "individual_name": "Michael Paregian",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2785405",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "GEORGE",
+      "ind_lastname": "PAREGIAN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2001-10-12",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Wilmington",
+          "branch_state": "DE",
+          "branch_zip": "19809-0708",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "108434",
+          "firm_ia_full_sec_number": "801-108434"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2785405, \"firstName\": \"MICHAEL\", \"middleName\": \"GEORGE\", \"lastName\": \"PAREGIAN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/12/2001\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/6/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"108434\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"300 Bellevue Parkway\", \"street2\": \"Suite 300\", \"city\": \"Wilmington\", \"cityAlias\": [\"BELLEFONTE\", \"EDGEMOOR\", \"WILMINGTON\"], \"state\": \"DE\", \"country\": \"United States\", \"zipCode\": \"19809-0708\", \"latitude\": \"39.766172\", \"longitude\": \"-75.487952\", \"geoLocation\": \"39.766172,-75.487952\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/24/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"21570\", \"firmId\": 7452, \"firmName\": \"VANGUARD MARKETING CORPORATION\", \"city\": \"MALVERN\", \"state\": \"PA\", \"registrationBeginDate\": \"10/3/2007\", \"registrationEndDate\": \"7/13/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"49672\", \"firmId\": 42046, \"firmName\": \"NFP SECURITIES, INC.\", \"city\": \"BERWYN\", \"state\": \"PA\", \"registrationBeginDate\": \"6/17/2003\", \"registrationEndDate\": \"7/12/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"29542\", \"firmId\": 13626, \"firmName\": \"AMERICAN GENERAL SECURITIES INCORPORATED\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/4/2002\", \"registrationEndDate\": \"7/15/2003\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"WATERHOUSE SECURITIES, INC.\", \"city\": \"OMAHA\", \"state\": \"NE\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/13/1997\", \"registrationEndDate\": \"12/30/1998\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"24354\", \"iaSECNumberType\": \"801\", \"firmId\": 105608, \"firmName\": \"LAU ASSOCIATES LLC\", \"city\": \"GREENVILLE\", \"state\": \"DE\", \"country\": \"United States\", \"registrationBeginDate\": \"8/4/2017\", \"registrationEndDate\": \"1/8/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"49601\", \"iaSECNumberType\": \"801\", \"firmId\": 106715, \"firmName\": \"VANGUARD ADVISERS INC\", \"city\": \"MALVERN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/29/2013\", \"registrationEndDate\": \"7/13/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 120879, \"firmName\": \"TYCOR ASSET MANAGEMENT, INC.\", \"city\": \"BERWYN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/19/2003\", \"registrationEndDate\": \"8/7/2007\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"20503\", \"iaSECNumberType\": \"801\", \"firmId\": 105840, \"firmName\": \"AFFINITY WEALTH MANAGEMENT, INC.\", \"city\": \"WILMINGTON\", \"state\": \"DE\", \"country\": \"United States\", \"registrationBeginDate\": \"1/18/2000\", \"registrationEndDate\": \"6/2/2003\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/2/2002\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/5/1999\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"7/13/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/11/2006\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"2/1/2002\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/6/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Paregian",
+    "fetched_name": "MICHAEL GEORGE PAREGIAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Paregian' did not match fetched name 'MICHAEL GEORGE PAREGIAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

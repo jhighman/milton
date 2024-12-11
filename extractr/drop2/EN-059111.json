@@ -1,0 +1,111 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Gregory",
+    "middle_name": "",
+    "last_name": "Campbell",
+    "name": "Gregory Campbell",
+    "organization_name": "CIBC Private Wealth Management, Inc.",
+    "license_type": "",
+    "employee_number": "EN-059111"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Gregory Campbell_109644_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2777077_detailed_info.json"
+    },
+    "individual_name": "Gregory Campbell",
+    "firm_crd": "109644",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2777077",
+      "ind_firstname": "GREGORY",
+      "ind_middlename": "BRENT",
+      "ind_lastname": "CAMPBELL",
+      "ind_other_names": [],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "1997-04-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109644",
+          "firm_name": "CIBC PRIVATE WEALTH ADVISORS, INC.",
+          "branch_city": "CHICAGO",
+          "branch_state": "IL",
+          "branch_zip": "60602",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57986",
+          "firm_ia_full_sec_number": "801-57986"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "Chicago",
+          "branch_state": "IL",
+          "branch_zip": "60602",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "PARK RIDGE",
+          "branch_state": "IL",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2777077, \"firstName\": \"GREGORY\", \"middleName\": \"BRENT\", \"lastName\": \"CAMPBELL\", \"otherNames\": [], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/3/1997\"}, \"currentEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/8/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"672902\", \"street1\": \"181 West Madison Street\", \"street2\": \"35th Floor\", \"city\": \"Chicago\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60602\", \"latitude\": \"41.883225\", \"longitude\": \"-87.627261\", \"geoLocation\": \"41.883225,-87.627261\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/24/2019\"}]}], \"currentIAEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/8/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"PARK RIDGE\", \"state\": \"IL\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2024\"}]}, {\"firmId\": 109644, \"firmName\": \"CIBC PRIVATE WEALTH ADVISORS, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/8/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57986\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"51348\", \"street1\": \"181 WEST MADISON STREET\", \"street2\": \"36TH FLOOR\", \"city\": \"CHICAGO\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60602\", \"latitude\": \"41.883225\", \"longitude\": \"-87.627261\", \"geoLocation\": \"41.883225,-87.627261\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/24/2019\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"21323\", \"firmId\": 7369, \"firmName\": \"INVESCO DISTRIBUTORS, INC.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"registrationBeginDate\": \"12/7/2007\", \"registrationEndDate\": \"1/2/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"51912\", \"firmId\": 47837, \"firmName\": \"AT INVESTOR SERVICES, INC.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"registrationBeginDate\": \"11/5/2004\", \"registrationEndDate\": \"12/7/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"688\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"2698\", \"firmId\": 1252, \"firmName\": \"WILLIAM BLAIR & COMPANY L.L.C.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"11/14/1996\", \"registrationEndDate\": \"6/16/2004\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 4, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/27/1996\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/26/1996\", \"examScope\": \"IA\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 8\", \"examName\": \"General  Securities Sales Supervisor Examination (Options Module & General Module)\", \"examTakenDate\": \"2/24/1998\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"11/19/1996\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/13/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 11, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 1, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/8/2004\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}], \"registeredSROs\": [{\"sro\": \"Cboe BYX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BZX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"FINRA\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE American LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE Arca, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq GEMX, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq ISE, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq PHLX LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq Stock Market\", \"status\": \"APPROVED\"}, {\"sro\": \"New York Stock Exchange\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Gregory Campbell",
+    "fetched_name": "GREGORY BRENT CAMPBELL",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Gregory Campbell' did not match fetched name 'GREGORY BRENT CAMPBELL' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

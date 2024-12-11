@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Brett",
+    "middle_name": "",
+    "last_name": "Carolan",
+    "name": "Brett Carolan",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-055493"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Brett Carolan_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2751210_detailed_info.json"
+    },
+    "individual_name": "Brett Carolan",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2751210",
+      "ind_firstname": "BRETT",
+      "ind_middlename": "HOWARD",
+      "ind_lastname": "CAROLAN",
+      "ind_other_names": [
+        "BRETT H CAROLAN",
+        "BRETT  CAROLAN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2000-05-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "SEATTLE",
+          "branch_state": "WA",
+          "branch_zip": "98121",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2751210, \"firstName\": \"BRETT\", \"middleName\": \"HOWARD\", \"lastName\": \"CAROLAN\", \"otherNames\": [\"BRETT H CAROLAN\", \"BRETT  CAROLAN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/4/2000\"}, \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/1/2003\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"76243\", \"street1\": \"2030 1ST AVENUE\", \"street2\": \"3RD FLOOR\", \"city\": \"SEATTLE\", \"cityAlias\": [\"SEATTLE\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98121\", \"latitude\": \"47.613476\", \"longitude\": \"-122.347381\", \"geoLocation\": \"47.613476,-122.347381\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"04/28/2003\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/1/2003\", \"registrationEndDate\": \"12/31/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"FINANCIAL NETWORK INVESTMENT CORPORATION\", \"city\": \"BELLEVUE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/10/2000\", \"registrationEndDate\": \"5/5/2003\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/27/1999\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/14/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/29/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/18/2017\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/1/2003\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Brett Carolan",
+    "fetched_name": "BRETT HOWARD CAROLAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Brett Carolan' did not match fetched name 'BRETT HOWARD CAROLAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

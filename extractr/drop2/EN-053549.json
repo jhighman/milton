@@ -1,0 +1,96 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jeffrey",
+    "middle_name": "",
+    "last_name": "Darien",
+    "name": "Jeffrey Darien",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053549"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jeffrey Darien_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1946967_detailed_info.json"
+    },
+    "individual_name": "Jeffrey Darien",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1946967",
+      "ind_firstname": "JEFFREY",
+      "ind_middlename": "G",
+      "ind_lastname": "DARIEN",
+      "ind_other_names": [
+        "JEFF  DARIEN",
+        "JEFFREY GHASHGHAI DARIEN",
+        "Jeffrey  Darien"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-02-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Westport",
+          "branch_state": "CT",
+          "branch_zip": "06880",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1946967, \"firstName\": \"JEFFREY\", \"middleName\": \"G\", \"lastName\": \"DARIEN\", \"otherNames\": [\"JEFF  DARIEN\", \"JEFFREY GHASHGHAI DARIEN\", \"Jeffrey  Darien\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/20/2006\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/1/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8 Wright Street\", \"street2\": \"Suite 107\", \"city\": \"Westport\", \"cityAlias\": [\"SAUGATUCK\", \"WESTPORT\"], \"state\": \"CT\", \"country\": \"United States\", \"zipCode\": \"06880\", \"latitude\": \"41.137996\", \"longitude\": \"-73.34415\", \"geoLocation\": \"41.137996,-73.34415\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/01/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"887\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"4077\", \"firmId\": 249, \"firmName\": \"OPPENHEIMER & CO. INC.\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"registrationBeginDate\": \"5/3/2019\", \"registrationEndDate\": \"1/29/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"registrationBeginDate\": \"9/29/2017\", \"registrationEndDate\": \"5/6/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"NEW YORK CITY\", \"state\": \"NY\", \"registrationBeginDate\": \"1/23/2013\", \"registrationEndDate\": \"10/2/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"70103\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"68191\", \"firmId\": 149777, \"firmName\": \"MORGAN STANLEY SMITH BARNEY\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"12/9/2009\", \"registrationEndDate\": \"2/16/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"47188\", \"firmId\": 36312, \"firmName\": \"CHEMICAL INVESTMENT SERVICES CORP.\", \"registrationBeginDate\": \"4/18/1995\", \"registrationEndDate\": \"12/4/1995\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"40802\", \"firmId\": 23988, \"firmName\": \"CITICORP INVESTMENT SERVICES\", \"city\": \"LONG ISLAND CITY\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/13/1994\", \"registrationEndDate\": \"4/17/1995\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15007\", \"firmId\": 958, \"firmName\": \"INVESTORS ASSOCIATES, INC.\", \"city\": \"HACKENSACK\", \"state\": \"NJ\", \"country\": \"United States\", \"registrationBeginDate\": \"1/18/1994\", \"registrationEndDate\": \"2/17/1995\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"expelledDate\": \"5/14/1998\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"SMITH BARNEY SHEARSON INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/31/1993\", \"registrationEndDate\": \"11/18/1993\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"12324\", \"firmId\": 7506, \"firmName\": \"LEHMAN BROTHERS INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/30/1992\", \"registrationEndDate\": \"7/31/1993\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"12324\", \"firmId\": 7506, \"firmName\": \"LEHMAN BROTHERS INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"12/5/1989\", \"registrationEndDate\": \"9/24/1990\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"887\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"4077\", \"firmId\": 249, \"firmName\": \"OPPENHEIMER & CO. INC.\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"5/6/2019\", \"registrationEndDate\": \"1/29/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"9/29/2017\", \"registrationEndDate\": \"5/6/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"NEW YORK CITY\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"1/18/2013\", \"registrationEndDate\": \"10/2/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"78041\", \"iaSECNumberType\": \"801\", \"firmId\": 155775, \"firmName\": \"DEVERE USA INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"10/15/2012\", \"registrationEndDate\": \"1/8/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"70103\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"68191\", \"firmId\": 149777, \"firmName\": \"MORGAN STANLEY SMITH BARNEY LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"1/7/2010\", \"registrationEndDate\": \"2/16/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 2, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"1/5/2010\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/19/1992\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/25/1989\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"3/5/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"11/10/2014\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"5/4/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/8/2009\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2021\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2021\"}, {\"state\": \"New Jersey\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/1/2021\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/29/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jeffrey Darien",
+    "fetched_name": "JEFFREY G DARIEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jeffrey Darien' did not match fetched name 'JEFFREY G DARIEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

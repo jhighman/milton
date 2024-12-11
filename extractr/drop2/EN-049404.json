@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Todd",
+    "middle_name": "",
+    "last_name": "Mills",
+    "name": "Todd Mills",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049404"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:41:43",
+    "cache_files": {
+      "basic_info": "./cache/sec_Todd Mills_106223_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2688102_detailed_info.json"
+    },
+    "individual_name": "Todd Mills",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2688102",
+      "ind_firstname": "TODD",
+      "ind_middlename": "CHRISTOPHER",
+      "ind_lastname": "MILLS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1998-10-22",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "WELLESLEY",
+          "branch_state": "MA",
+          "branch_zip": "02481",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2688102, \"firstName\": \"TODD\", \"middleName\": \"CHRISTOPHER\", \"lastName\": \"MILLS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/22/1998\"}, \"currentIAEmployments\": [{\"firmId\": 106223, \"firmName\": \"F L PUTNAM INVESTMENT MANAGEMENT CO.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/11/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"20 WILLIAM STREET\", \"street2\": \"SUITE G40\", \"city\": \"WELLESLEY\", \"cityAlias\": [\"WELLESLEY\", \"WELLESLEY FMS\", \"WELLESLEY HILLS\", \"WELLESLEY HLS\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02481\", \"latitude\": \"42.309348\", \"longitude\": \"-71.272442\", \"geoLocation\": \"42.309348,-71.272442\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/18/2019\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"80480\", \"iaSECNumberType\": \"801\", \"firmId\": 172832, \"firmName\": \"BOSTON PRIVATE WEALTH\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/14/2014\", \"registrationEndDate\": \"11/22/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67092\", \"iaSECNumberType\": \"801\", \"firmId\": 141398, \"firmName\": \"BANYAN PARTNERS, LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/13/2013\", \"registrationEndDate\": \"11/26/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"31346\", \"iaSECNumberType\": \"801\", \"firmId\": 105194, \"firmName\": \"SILVER BRIDGE\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/10/2006\", \"registrationEndDate\": \"8/7/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57524\", \"iaSECNumberType\": \"801\", \"firmId\": 109516, \"firmName\": \"FIDELITY PERSONAL TRUST COMPANY, FSB\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/23/2004\", \"registrationEndDate\": \"5/11/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/2/1998\", \"registrationEndDate\": \"5/11/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/26/1998\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/1/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/15/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/11/2019\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Todd Mills",
+    "fetched_name": "TODD CHRISTOPHER MILLS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Todd Mills' did not match fetched name 'TODD CHRISTOPHER MILLS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

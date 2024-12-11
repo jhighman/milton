@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Christopher",
+    "middle_name": "",
+    "last_name": "Williams",
+    "name": "Christopher Williams",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-117906"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Christopher Williams_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7180783_detailed_info.json"
+    },
+    "individual_name": "Christopher Williams",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7180783",
+      "ind_firstname": "CHRISTOPHER",
+      "ind_middlename": "STEPHEN",
+      "ind_lastname": "WILLIAMS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-10-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Wilmington",
+          "branch_state": "DE",
+          "branch_zip": "19809-0708",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7180783, \"firstName\": \"CHRISTOPHER\", \"middleName\": \"STEPHEN\", \"lastName\": \"WILLIAMS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/19/2019\"}, \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/5/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"300 Bellevue Parkway\", \"street2\": \"Suite 300\", \"city\": \"Wilmington\", \"cityAlias\": [\"BELLEFONTE\", \"EDGEMOOR\", \"WILMINGTON\"], \"state\": \"DE\", \"country\": \"United States\", \"zipCode\": \"19809-0708\", \"latitude\": \"39.766172\", \"longitude\": \"-75.487952\", \"geoLocation\": \"39.766172,-75.487952\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/24/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"112231\", \"iaSECNumberType\": \"801\", \"firmId\": 290735, \"firmName\": \"AFFINITY WEALTH MANAGEMENT LLC\", \"city\": \"WILMINGTON\", \"state\": \"DE\", \"country\": \"United States\", \"registrationBeginDate\": \"10/1/2019\", \"registrationEndDate\": \"4/15/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/11/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/5/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Christopher Williams",
+    "fetched_name": "CHRISTOPHER STEPHEN WILLIAMS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Christopher Williams' did not match fetched name 'CHRISTOPHER STEPHEN WILLIAMS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

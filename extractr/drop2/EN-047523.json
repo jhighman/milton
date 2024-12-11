@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "McGlashen",
+    "name": "Michael McGlashen",
+    "organization_name": "Exencial Wealth Advisors",
+    "license_type": "",
+    "employee_number": "EN-047523"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:38:36",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael McGlashen_130475_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1325666_detailed_info.json"
+    },
+    "individual_name": "Michael McGlashen",
+    "firm_crd": "130475",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1325666",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "ROBERT",
+      "ind_lastname": "MCGLASHEN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-02-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "130475",
+          "firm_name": "EXENCIAL WEALTH ADVISORS",
+          "branch_city": "Westlake Village",
+          "branch_state": "CA",
+          "branch_zip": "91362",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1325666, \"firstName\": \"MICHAEL\", \"middleName\": \"ROBERT\", \"lastName\": \"MCGLASHEN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/2/2003\"}, \"currentIAEmployments\": [{\"firmId\": 130475, \"firmName\": \"EXENCIAL WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/24/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"100 N. Westlake Blvd.\", \"street2\": \"Suite 203\", \"city\": \"Westlake Village\", \"cityAlias\": [\"THOUSAND OAKS\", \"WESTLAKE VILLAGE\", \"WESTLAKE VLG\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"91362\", \"latitude\": \"34.196318\", \"longitude\": \"-118.819288\", \"geoLocation\": \"34.196318,-118.819288\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/02/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"firmId\": 151205, \"firmName\": \"BUCKS COUNTY FINANCIAL PLANNING GROUP, INC.\", \"city\": \"NEWTOWN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/28/2009\", \"registrationEndDate\": \"2/3/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"31703\", \"iaSECNumberType\": \"801\", \"firmId\": 105865, \"firmName\": \"CAPITAL PLANNING ADVISORY GROUP INC\", \"city\": \"YARDLEY\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/3/2003\", \"registrationEndDate\": \"11/30/2009\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/9/2001\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/22/1985\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"1/18/1985\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 8}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/24/2020\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/24/2020\"}, {\"state\": \"Missouri\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/24/2020\"}, {\"state\": \"New Jersey\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/5/2021\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/25/2020\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/30/2020\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/24/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"11/24/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael McGlashen",
+    "fetched_name": "MICHAEL ROBERT MCGLASHEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael McGlashen' did not match fetched name 'MICHAEL ROBERT MCGLASHEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Stephen",
+    "middle_name": "",
+    "last_name": "O'Dell",
+    "name": "Stephen O'Dell",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-055433"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Stephen O'Dell_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7025757_detailed_info.json"
+    },
+    "individual_name": "Stephen O'Dell",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7025757",
+      "ind_firstname": "Stephen",
+      "ind_lastname": "O'Dell",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-04-01",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "Houston",
+          "branch_state": "TX",
+          "branch_zip": "77042",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7025757, \"firstName\": \"Stephen\", \"lastName\": \"O'Dell\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/1/2019\"}, \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/4/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2101 CityWest Blvd\", \"street2\": \"1st Floor\", \"city\": \"Houston\", \"cityAlias\": [\"HOUSTON\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"77042\", \"latitude\": \"29.741868\", \"longitude\": \"-95.558216\", \"geoLocation\": \"29.741868,-95.558216\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"firmId\": 298732, \"firmName\": \"CARNADH SAIBHRIS\", \"city\": \"RICHMOND\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"4/2/2019\", \"registrationEndDate\": \"11/9/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/22/2019\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/4/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Stephen O'Dell",
+    "fetched_name": "Stephen  O'Dell",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Stephen O'Dell' did not match fetched name 'Stephen  O'Dell' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

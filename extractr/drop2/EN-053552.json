@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Nicholas",
+    "middle_name": "",
+    "last_name": "Dewsnap",
+    "name": "Nicholas Dewsnap",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053552"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Nicholas Dewsnap_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4961501_detailed_info.json"
+    },
+    "individual_name": "Nicholas Dewsnap",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4961501",
+      "ind_firstname": "NICHOLAS",
+      "ind_middlename": "JON",
+      "ind_lastname": "DEWSNAP",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2005-08-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Waukesha",
+          "branch_state": "WI",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4961501, \"firstName\": \"NICHOLAS\", \"middleName\": \"JON\", \"lastName\": \"DEWSNAP\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/11/2005\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/29/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Waukesha\", \"state\": \"WI\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/18/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"WAUKESHA\", \"state\": \"WI\", \"registrationBeginDate\": \"10/1/2012\", \"registrationEndDate\": \"4/28/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"WAUKESHA\", \"state\": \"WI\", \"registrationBeginDate\": \"1/22/2010\", \"registrationEndDate\": \"10/1/2012\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"BROOKFIELD\", \"state\": \"WI\", \"registrationBeginDate\": \"8/12/2005\", \"registrationEndDate\": \"1/22/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14124\", \"firmId\": 6321, \"firmName\": \"IDS LIFE INSURANCE COMPANY\", \"city\": \"MINNEAPOLIS\", \"state\": \"MN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/12/2005\", \"registrationEndDate\": \"7/3/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"WAUKESHA\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"10/1/2012\", \"registrationEndDate\": \"4/28/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"WAUKESHA\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"1/22/2010\", \"registrationEndDate\": \"10/1/2012\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"BROOKFIELD\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"8/29/2005\", \"registrationEndDate\": \"1/22/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/25/2005\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/28/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/11/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Wisconsin\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/29/2016\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Nicholas Dewsnap",
+    "fetched_name": "NICHOLAS JON DEWSNAP",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Nicholas Dewsnap' did not match fetched name 'NICHOLAS JON DEWSNAP' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

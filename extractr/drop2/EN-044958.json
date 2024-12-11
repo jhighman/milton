@@ -1,0 +1,113 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Kyle",
+    "middle_name": "",
+    "last_name": "Edmonds",
+    "name": "Kyle Edmonds",
+    "organization_name": "CIBC Private Wealth Management, Inc.",
+    "license_type": "",
+    "employee_number": "EN-044958"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Kyle Edmonds_109644_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3239378_detailed_info.json"
+    },
+    "individual_name": "Kyle Edmonds",
+    "firm_crd": "109644",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3239378",
+      "ind_firstname": "KYLE",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "EDMONDS",
+      "ind_other_names": [
+        "KYLE  EDMONDS"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "2008-04-21",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109644",
+          "firm_name": "CIBC PRIVATE WEALTH ADVISORS, INC.",
+          "branch_city": "New York",
+          "branch_state": "NY",
+          "branch_zip": "10036",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57986",
+          "firm_ia_full_sec_number": "801-57986"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "VALLEY COTTAGE",
+          "branch_state": "NY",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3239378, \"firstName\": \"KYLE\", \"middleName\": \"DAVID\", \"lastName\": \"EDMONDS\", \"otherNames\": [\"KYLE  EDMONDS\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/21/2008\"}, \"currentEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/8/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"190076\", \"street1\": \"300 MADISON AVENUE\", \"street2\": \"SIXTH FLOOR\", \"city\": \"NEW YORK\", \"cityAlias\": [\"GRAND CENTRAL\", \"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10017\", \"latitude\": \"40.752516\", \"longitude\": \"-73.973072\", \"geoLocation\": \"40.752516,-73.973072\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/09/2023\"}]}], \"currentIAEmployments\": [{\"firmId\": 109644, \"firmName\": \"CIBC PRIVATE WEALTH ADVISORS, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/28/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57986\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1177 Avenue of the Americas\", \"city\": \"New York\", \"cityAlias\": [\"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10036\", \"latitude\": \"40.759477\", \"longitude\": \"-73.989871\", \"geoLocation\": \"40.759477,-73.989871\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/02/2014\"}]}, {\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/8/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"VALLEY COTTAGE\", \"state\": \"NY\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"21323\", \"firmId\": 7369, \"firmName\": \"INVESCO DISTRIBUTORS, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"3/4/2011\", \"registrationEndDate\": \"1/2/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"9638\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17822\", \"firmId\": 2525, \"firmName\": \"DEUTSCHE BANK SECURITIES INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/13/2001\", \"registrationEndDate\": \"5/28/2002\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35766\", \"firmId\": 17790, \"firmName\": \"DB ALEX. BROWN LLC\", \"city\": \"BALTIMORE\", \"state\": \"MD\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/13/1999\", \"registrationEndDate\": \"1/13/2001\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/1/2011\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/14/1999\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/17/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/3/2011\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 11, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 51, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Alabama\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Alaska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Arizona\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Arkansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Colorado\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Delaware\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Georgia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Hawaii\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Indiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Iowa\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Louisiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Maine\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Minnesota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Mississippi\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Missouri\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Nevada\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"New Hampshire\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"New Mexico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"New York\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/28/2021\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"North Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Oklahoma\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Oregon\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Rhode Island\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"South Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Tennessee\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Vermont\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Washington\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"West Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}, {\"state\": \"Wyoming\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/8/2014\"}], \"registeredSROs\": [{\"sro\": \"Cboe BYX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BZX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"FINRA\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE American LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE Arca, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq GEMX, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq ISE, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq PHLX LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq Stock Market\", \"status\": \"APPROVED\"}, {\"sro\": \"New York Stock Exchange\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Kyle Edmonds",
+    "fetched_name": "KYLE DAVID EDMONDS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Kyle Edmonds' did not match fetched name 'KYLE DAVID EDMONDS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

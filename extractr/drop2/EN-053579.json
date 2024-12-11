@@ -1,0 +1,106 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Randall",
+    "middle_name": "",
+    "last_name": "Ickler",
+    "name": "Randall Ickler",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053579"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Randall Ickler_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5074772_detailed_info.json"
+    },
+    "individual_name": "Randall Ickler",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5074772",
+      "ind_firstname": "RANDY",
+      "ind_middlename": "GENE",
+      "ind_lastname": "ICKLER",
+      "ind_other_names": [
+        "RANDY  ICKLER"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-04-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Wahoo",
+          "branch_state": "NE",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5074772, \"firstName\": \"RANDY\", \"middleName\": \"GENE\", \"lastName\": \"ICKLER\", \"otherNames\": [\"RANDY  ICKLER\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/2/2007\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/26/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Wahoo\", \"state\": \"NE\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/13/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OMAHA\", \"state\": \"NE\", \"registrationBeginDate\": \"5/14/2008\", \"registrationEndDate\": \"6/22/2018\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"GRETNA\", \"state\": \"NE\", \"registrationBeginDate\": \"1/30/2006\", \"registrationEndDate\": \"3/15/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"TD AMERITRADE INVESTMENT MANAGEMENT, LLC\", \"city\": \"OMAHA\", \"state\": \"NE\", \"country\": \"United States\", \"registrationBeginDate\": \"6/27/2008\", \"registrationEndDate\": \"6/22/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OMAHA\", \"state\": \"NE\", \"country\": \"United States\", \"registrationBeginDate\": \"6/27/2008\", \"registrationEndDate\": \"6/22/2018\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"6/24/2008\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/2/2006\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/22/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/27/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Nebraska\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/26/2018\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Randall Ickler",
+    "fetched_name": "RANDY GENE ICKLER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Randall Ickler' did not match fetched name 'RANDY GENE ICKLER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Randall Ickler",
+          "fetched_name": "RANDY GENE ICKLER",
+          "other_names": [
+            "RANDY  ICKLER"
+          ]
+        },
+        "description": "Expected name 'Randall Ickler' did not match fetched name 'RANDY GENE ICKLER'."
+      }
+    ]
+  }
+}

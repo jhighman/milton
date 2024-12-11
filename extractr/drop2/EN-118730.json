@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jordan",
+    "middle_name": "",
+    "last_name": "Arave",
+    "name": "Jordan Arave",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118730"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jordan Arave_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5164729_detailed_info.json"
+    },
+    "individual_name": "Jordan Arave",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5164729",
+      "ind_firstname": "JORDAN",
+      "ind_middlename": "BLAINE",
+      "ind_lastname": "ARAVE",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2008-03-22",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Canton",
+          "branch_state": "GA",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5164729, \"firstName\": \"JORDAN\", \"middleName\": \"BLAINE\", \"lastName\": \"ARAVE\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/22/2008\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/24/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Canton\", \"state\": \"GA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/26/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"66197\", \"firmId\": 129035, \"firmName\": \"USAA FINANCIAL ADVISORS, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"7/3/2013\", \"registrationEndDate\": \"9/23/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"6/26/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"registrationBeginDate\": \"11/9/2009\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"58108\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"51324\", \"firmId\": 46173, \"firmName\": \"PARK AVENUE SECURITIES LLC\", \"city\": \"MURRY\", \"state\": \"UT\", \"registrationBeginDate\": \"5/9/2007\", \"registrationEndDate\": \"1/29/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"53347\", \"iaSECNumberType\": \"801\", \"firmId\": 106352, \"firmName\": \"USAA FINANCIAL PLANNING SERVICES\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/9/2013\", \"registrationEndDate\": \"9/23/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"6/26/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"11/30/2009\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/20/2009\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/12/2007\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"9/23/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/5/2009\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"5/8/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/24/2016\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/31/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jordan Arave",
+    "fetched_name": "JORDAN BLAINE ARAVE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jordan Arave' did not match fetched name 'JORDAN BLAINE ARAVE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

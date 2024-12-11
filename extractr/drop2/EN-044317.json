@@ -1,0 +1,107 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Serrecchia",
+    "name": "Ryan Serrecchia",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044317"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:35:44",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ryan Serrecchia_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3201650_detailed_info.json"
+    },
+    "individual_name": "Ryan Serrecchia",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3201650",
+      "ind_firstname": "RYAN",
+      "ind_middlename": "STEVEN",
+      "ind_lastname": "SERRECCHIA",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-07-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "TORRANCE",
+          "branch_state": "CA",
+          "branch_zip": "90503",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3201650, \"firstName\": \"RYAN\", \"middleName\": \"STEVEN\", \"lastName\": \"SERRECCHIA\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/18/2004\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/29/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"21515 HAWTHORNE BLVD.\", \"street2\": \"SUITE 1200\", \"city\": \"TORRANCE\", \"cityAlias\": [\"TORRANCE\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90503\", \"latitude\": \"33.840222\", \"longitude\": \"-118.353171\", \"geoLocation\": \"33.840222,-118.353171\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/26/2008\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"48749\", \"iaSECNumberType\": \"801\", \"firmId\": 106415, \"firmName\": \"HORAN CAPITAL MANAGEMENT,LLC\", \"city\": \"HUNT VALLEY\", \"state\": \"MD\", \"country\": \"United States\", \"registrationBeginDate\": \"3/24/2008\", \"registrationEndDate\": \"10/10/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"LONG BEACH\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/25/2006\", \"registrationEndDate\": \"2/14/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"LONG BEACH\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/23/2005\", \"registrationEndDate\": \"2/14/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14065\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17883\", \"firmId\": 6627, \"firmName\": \"AXA ADVISORS, LLC\", \"city\": \"BOCA RATON\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"9/15/2003\", \"registrationEndDate\": \"6/25/2004\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"9/26/2012\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CLIENT ALLEGES MISREPRESENTATION/MISMANAGEMENT OF ACCOUNT FROM NOVEMBER 2007 THROUGH OCTOBER 2010\", \"Damage Amount Requested\": \"$7,788.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/22/2003\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/12/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 4\", \"examName\": \"Registered Options Principal Examination\", \"examTakenDate\": \"5/3/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"11/12/1999\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/9/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/29/2008\"}, {\"state\": \"Hawaii\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/31/2011\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"10/10/2012\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Serrecchia",
+    "fetched_name": "RYAN STEVEN SERRECCHIA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Serrecchia' did not match fetched name 'RYAN STEVEN SERRECCHIA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Ryan Serrecchia has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "9/26/2012",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CLIENT ALLEGES MISREPRESENTATION/MISMANAGEMENT OF ACCOUNT FROM NOVEMBER 2007 THROUGH OCTOBER 2010",
+            "Damage Amount Requested": "$7,788.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 9/26/2012. Resolution: Denied. Allegations: CLIENT ALLEGES MISREPRESENTATION/MISMANAGEMENT OF ACCOUNT FROM NOVEMBER 2007 THROUGH OCTOBER 2010. Damage requested: $7,788.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

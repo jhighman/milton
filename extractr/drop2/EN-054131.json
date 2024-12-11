@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Janelle",
+    "middle_name": "",
+    "last_name": "McCreary",
+    "name": "Janelle McCreary",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-054131"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:24:27",
+    "cache_files": {
+      "basic_info": "./cache/sec_Janelle McCreary_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4657309_detailed_info.json"
+    },
+    "individual_name": "Janelle McCreary",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4657309",
+      "ind_firstname": "Janelle",
+      "ind_middlename": "Marie",
+      "ind_lastname": "McCreary",
+      "ind_other_names": [
+        "JANELLE MARIE KOPOTIC",
+        "JANELLE MARIE MASS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2017-06-12",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "Denver",
+          "branch_state": "CO",
+          "branch_zip": "80206",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4657309, \"firstName\": \"Janelle\", \"middleName\": \"Marie\", \"lastName\": \"McCreary\", \"otherNames\": [\"JANELLE MARIE KOPOTIC\", \"JANELLE MARIE MASS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/12/2017\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/27/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"250 Fillmore Street\", \"street2\": \"Suite 600\", \"city\": \"Denver\", \"cityAlias\": [\"DENVER\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80206\", \"latitude\": \"39.730725\", \"longitude\": \"-104.95321\", \"geoLocation\": \"39.730725,-104.95321\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/23/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"66632\", \"iaSECNumberType\": \"801\", \"firmId\": 140195, \"firmName\": \"MARINER WEALTH ADVISORS\", \"city\": \"HIGHLANDS RANCH\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"5/27/2021\", \"registrationEndDate\": \"6/8/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"110157\", \"iaSECNumberType\": \"801\", \"firmId\": 155348, \"firmName\": \"DAVIS & SEILEY WEALTH MANAGEMENT, INC.\", \"city\": \"LA MESA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/13/2017\", \"registrationEndDate\": \"5/27/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"34723\", \"iaSECNumberType\": \"801\", \"firmId\": 104727, \"firmName\": \"MONETA GROUP INVESTMENT ADVISORS, LLC\", \"city\": \"Denver\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"8/4/2020\", \"registrationEndDate\": \"9/17/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/27/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Janelle McCreary",
+    "fetched_name": "Janelle Marie McCreary",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Janelle McCreary' did not match fetched name 'Janelle Marie McCreary' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

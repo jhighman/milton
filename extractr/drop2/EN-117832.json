@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Maxwell",
+    "middle_name": "",
+    "last_name": "Gallagher",
+    "name": "Maxwell Gallagher",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-117832"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Maxwell Gallagher_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6857898_detailed_info.json"
+    },
+    "individual_name": "Maxwell Gallagher",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6857898",
+      "ind_firstname": "MAXWELL",
+      "ind_middlename": "NEWTON",
+      "ind_lastname": "GALLAGHER",
+      "ind_other_names": [
+        "Max  Gallagher"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2017-12-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "Newport Beach",
+          "branch_state": "CA",
+          "branch_zip": "92660",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57087",
+          "firm_ia_full_sec_number": "801-57087"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6857898, \"firstName\": \"MAXWELL\", \"middleName\": \"NEWTON\", \"lastName\": \"GALLAGHER\", \"otherNames\": [\"Max  Gallagher\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/11/2017\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/6/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"5000 Birch Street, West Tower, Suite 3000\", \"city\": \"Newport Beach\", \"cityAlias\": [\"NEWPORT BEACH\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92660\", \"latitude\": \"33.637966\", \"longitude\": \"-117.873246\", \"geoLocation\": \"33.637966,-117.873246\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/26/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"27006\", \"firmId\": 10292, \"firmName\": \"DFA SECURITIES LLC\", \"city\": \"SANTA MONICA\", \"state\": \"CA\", \"registrationBeginDate\": \"11/20/2017\", \"registrationEndDate\": \"4/13/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/20/2018\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/20/2017\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/6/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/3/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Maxwell Gallagher",
+    "fetched_name": "MAXWELL NEWTON GALLAGHER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Maxwell Gallagher' did not match fetched name 'MAXWELL NEWTON GALLAGHER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

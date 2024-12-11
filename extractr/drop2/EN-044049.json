@@ -1,0 +1,108 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Mark",
+    "middle_name": "",
+    "last_name": "Janci",
+    "name": "Mark Janci",
+    "organization_name": "Halbert Hargrove",
+    "license_type": "",
+    "employee_number": "EN-044049"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:45:12",
+    "cache_files": {
+      "basic_info": "./cache/sec_Mark Janci_105515_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2078142_detailed_info.json"
+    },
+    "individual_name": "Mark Janci",
+    "firm_crd": "105515",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2078142",
+      "ind_firstname": "MARK",
+      "ind_middlename": "PETER",
+      "ind_lastname": "JANCI",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-03-10",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105515",
+          "firm_name": "HALBERT HARGROVE",
+          "branch_city": "BELLEVUE",
+          "branch_state": "WA",
+          "branch_zip": "98004",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2078142, \"firstName\": \"MARK\", \"middleName\": \"PETER\", \"lastName\": \"JANCI\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/10/2002\"}, \"currentIAEmployments\": [{\"firmId\": 105515, \"firmName\": \"HALBERT HARGROVE\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/18/2005\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"10900 NE 8th STREET\", \"street2\": \"SUITE 1640\", \"city\": \"BELLEVUE\", \"cityAlias\": [\"BEAUX ARTS\", \"BEAUX ARTS VILLAGE\", \"BELLEVUE\", \"CLYDE HILL\", \"HUNTS POINT\", \"YARROW POINT\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98004\", \"latitude\": \"47.617746\", \"longitude\": \"-122.210797\", \"geoLocation\": \"47.617746,-122.210797\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/01/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60052\", \"iaSECNumberType\": \"801\", \"firmId\": 109729, \"firmName\": \"NORTHWESTERN MUTUAL WEALTH MANAGEMENT COMPANY\", \"city\": \"MILWAUKEE\", \"state\": \"WI\", \"country\": \"United States\", \"registrationBeginDate\": \"3/11/2002\", \"registrationEndDate\": \"12/31/2005\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57367\", \"iaSECNumberType\": \"801\", \"firmId\": 109000, \"firmName\": \"NETWORK PLANNING ADVISORS, L.L.C.\", \"city\": \"BELLEVUE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/10/2002\", \"registrationEndDate\": \"9/21/2005\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"8095\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14088\", \"firmId\": 2881, \"firmName\": \"NORTHWESTERN MUTUAL INVESTMENT SERVICES,LLC\", \"city\": \"BELLEVUE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/19/2003\", \"registrationEndDate\": \"9/16/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"4/22/2003\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT SHE WAS NOT INFORMED OF THE TAX CONSEQUENCES OF A WITHDRAWAL FROM HER FIXED ANNUITY.\", \"Damage Amount Requested\": \"$8,902.00\", \"Settlement Amount\": \"$8,902.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/23/1999\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/2/1990\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/22/1999\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"8/2/1990\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/14/2012\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/18/2005\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Mark Janci",
+    "fetched_name": "MARK PETER JANCI",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Mark Janci' did not match fetched name 'MARK PETER JANCI' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Mark Janci has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "4/22/2003",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT SHE WAS NOT INFORMED OF THE TAX CONSEQUENCES OF A WITHDRAWAL FROM HER FIXED ANNUITY.",
+            "Damage Amount Requested": "$8,902.00",
+            "Settlement Amount": "$8,902.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 4/22/2003. Resolution: Settled. Allegations: CUSTOMER ALLEGES THAT SHE WAS NOT INFORMED OF THE TAX CONSEQUENCES OF A WITHDRAWAL FROM HER FIXED ANNUITY.. Damage requested: $8,902.00. Settlement: $8,902.00"
+      }
+    ]
+  }
+}

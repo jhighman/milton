@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Susan",
+    "middle_name": "",
+    "last_name": "Christoph",
+    "name": "Susan Christoph",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-054063"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:23:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Susan Christoph_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1140027_detailed_info.json"
+    },
+    "individual_name": "Susan Christoph",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1140027",
+      "ind_firstname": "SUSAN",
+      "ind_middlename": "CATHERINE",
+      "ind_lastname": "CHRISTOPH",
+      "ind_other_names": [
+        "SUSAN CATHERINE SHOOP"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-09-27",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "CHICAGO",
+          "branch_state": "IL",
+          "branch_zip": "60606",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1140027, \"firstName\": \"SUSAN\", \"middleName\": \"CATHERINE\", \"lastName\": \"CHRISTOPH\", \"otherNames\": [\"SUSAN CATHERINE SHOOP\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/27/2003\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/13/2007\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"58030\", \"street1\": \"ONE NORTH WACKER DRIVE\", \"street2\": \"SUITE 3500\", \"city\": \"CHICAGO\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60606\", \"latitude\": \"41.882934\", \"longitude\": \"-87.636843\", \"geoLocation\": \"41.882934,-87.636843\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"05/14/2007\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"39593\", \"iaSECNumberType\": \"801\", \"firmId\": 110965, \"firmName\": \"FA ASSET MANAGEMENT INC.\", \"city\": \"OAKBROOK TERRACE\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"5/2/2003\", \"registrationEndDate\": \"4/16/2007\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"2018\", \"firmId\": 298, \"firmName\": \"FIRST ALBANY CAPITAL INC.\", \"city\": \"OAKBROOK TERRACE\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"11/1/2004\", \"registrationEndDate\": \"6/30/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 3, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/16/1991\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 27\", \"examName\": \"Financial and Operations Principal Examination\", \"examTakenDate\": \"7/24/1997\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"11/3/1993\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 4\", \"examName\": \"Registered Options Principal Examination\", \"examTakenDate\": \"6/1/1987\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"9/3/1991\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/20/1983\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/13/2007\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Susan Christoph",
+    "fetched_name": "SUSAN CATHERINE CHRISTOPH",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Susan Christoph' did not match fetched name 'SUSAN CATHERINE CHRISTOPH' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

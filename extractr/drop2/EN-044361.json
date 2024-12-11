@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Carrie",
+    "middle_name": "",
+    "last_name": "Sax",
+    "name": "Carrie Sax",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044361"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:35:29",
+    "cache_files": {
+      "basic_info": "./cache/sec_Carrie Sax_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5644761_detailed_info.json"
+    },
+    "individual_name": "Carrie Sax",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5644761",
+      "ind_firstname": "Carrie",
+      "ind_middlename": "A",
+      "ind_lastname": "Sax",
+      "ind_other_names": [
+        "CARRIE ANNE TALLMAN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2013-10-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "BERKELEY",
+          "branch_state": "CA",
+          "branch_zip": "94704",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5644761, \"firstName\": \"Carrie\", \"middleName\": \"A\", \"lastName\": \"Sax\", \"otherNames\": [\"CARRIE ANNE TALLMAN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/11/2013\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/14/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2150 Shattuck Avenue, Suite 700\", \"city\": \"BERKELEY\", \"cityAlias\": [\"BERKELEY\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94704\", \"latitude\": \"37.866641\", \"longitude\": \"-122.258044\", \"geoLocation\": \"37.866641,-122.258044\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/22/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"WALNUT CREEK\", \"state\": \"CA\", \"registrationBeginDate\": \"9/27/2018\", \"registrationEndDate\": \"8/30/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15517\", \"firmId\": 5167, \"firmName\": \"NYLIFE SECURITIES LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"3/31/2009\", \"registrationEndDate\": \"1/15/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"79017\", \"iaSECNumberType\": \"801\", \"firmId\": 170130, \"firmName\": \"MINDFUL MONEY\", \"city\": \"BERKELEY\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/1/2021\", \"registrationEndDate\": \"12/22/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"WALNUT CREEK\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/8/2018\", \"registrationEndDate\": \"8/30/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"16359\", \"iaSECNumberType\": \"801\", \"firmId\": 104919, \"firmName\": \"PARSEC FINANCIAL MANAGEMENT, INC\", \"city\": \"ASHEVILLE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"10/25/2013\", \"registrationEndDate\": \"3/16/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/7/2018\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/9/2009\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/27/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/30/2009\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/14/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Carrie Sax",
+    "fetched_name": "Carrie A Sax",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Carrie Sax' did not match fetched name 'Carrie A Sax' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

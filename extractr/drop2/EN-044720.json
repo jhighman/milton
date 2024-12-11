@@ -1,0 +1,103 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Tyler",
+    "middle_name": "",
+    "last_name": "Peterson",
+    "name": "Tyler Peterson",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044720"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:34:54",
+    "cache_files": {
+      "basic_info": "./cache/sec_Tyler Peterson_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5792348_detailed_info.json"
+    },
+    "individual_name": "Tyler Peterson",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5792348",
+      "ind_firstname": "TYLER",
+      "ind_middlename": "MARK",
+      "ind_lastname": "PETERSEN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-12-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Salt Lake",
+          "branch_state": "UT",
+          "branch_zip": "84121",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5792348, \"firstName\": \"TYLER\", \"middleName\": \"MARK\", \"lastName\": \"PETERSEN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/13/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/19/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3115 East Lion Lane, Suite 100\", \"city\": \"Salt Lake\", \"cityAlias\": [\"BRIGHTON\", \"COTTONWD HTS\", \"COTTONWOOD\", \"COTTONWOOD HEIGHTS\", \"COTTONWOOD HEIGHTS CITY\", \"HOLLADAY\", \"HOLLADAY COTTONWOOD\", \"HOLLADAY CTWD\", \"MURRAY\", \"SALT LAKE CITY\", \"SALT LAKE CTY\", \"SLC\", \"SOLITUDE\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84121\", \"latitude\": \"40.616622\", \"longitude\": \"-111.709504\", \"geoLocation\": \"40.616622,-111.709504\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2020\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"56819\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"15009\", \"firmId\": 4173, \"firmName\": \"ONEAMERICA SECURITIES, INC.\", \"city\": \"OREM\", \"state\": \"UT\", \"registrationBeginDate\": \"12/14/2010\", \"registrationEndDate\": \"1/8/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"71396\", \"iaSECNumberType\": \"801\", \"firmId\": 153610, \"firmName\": \"FINANCIAL INSIGHT CENTER\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"1/9/2015\", \"registrationEndDate\": \"10/21/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56819\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"15009\", \"firmId\": 4173, \"firmName\": \"ONEAMERICA SECURITIES, INC.\", \"city\": \"OREM\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"3/22/2012\", \"registrationEndDate\": \"1/8/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/16/2012\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/21/2010\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"1/8/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"12/13/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 5}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/19/2020\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/23/2024\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/23/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/23/2024\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/22/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Tyler Peterson",
+    "fetched_name": "TYLER MARK PETERSEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Tyler Peterson' did not match fetched name 'TYLER MARK PETERSEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Tyler Peterson",
+          "fetched_name": "TYLER MARK PETERSEN",
+          "other_names": []
+        },
+        "description": "Expected name 'Tyler Peterson' did not match fetched name 'TYLER MARK PETERSEN'."
+      }
+    ]
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Wayasamin",
+    "name": "Michael Wayasamin",
+    "organization_name": "Exencial Wealth Advisors",
+    "license_type": "",
+    "employee_number": "EN-119575"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:39:19",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Wayasamin_130475_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4516519_detailed_info.json"
+    },
+    "individual_name": "Michael Wayasamin",
+    "firm_crd": "130475",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4516519",
+      "ind_firstname": "Michael",
+      "ind_middlename": "D",
+      "ind_lastname": "Wayasamin",
+      "ind_other_names": [
+        "MICHAEL  WAYASAMIN",
+        "Michael David Wayasamin"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-07-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "130475",
+          "firm_name": "EXENCIAL WEALTH ADVISORS",
+          "branch_city": "Brooklyn",
+          "branch_state": "NY",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "62789",
+          "firm_ia_full_sec_number": "801-62789"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4516519, \"firstName\": \"Michael\", \"middleName\": \"D\", \"lastName\": \"Wayasamin\", \"otherNames\": [\"MICHAEL  WAYASAMIN\", \"Michael David Wayasamin\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/2/2002\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 130475, \"firmName\": \"EXENCIAL WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/11/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"62789\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Brooklyn\", \"state\": \"NY\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/05/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OMAHA\", \"state\": \"NE\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/6/2018\", \"registrationEndDate\": \"1/6/2021\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"31826\", \"firmId\": 15340, \"firmName\": \"CETERA INVESTMENT SERVICES LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"12/6/2017\", \"registrationEndDate\": \"7/6/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56411\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27691\", \"firmId\": 12984, \"firmName\": \"INVEST FINANCIAL CORPORATION\", \"city\": \"BROOKLYN\", \"state\": \"NY\", \"registrationBeginDate\": \"10/11/2017\", \"registrationEndDate\": \"12/6/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"11/29/2007\", \"registrationEndDate\": \"10/9/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"526\", \"firmId\": 3466, \"firmName\": \"GOLDMAN SACHS EXECUTION & CLEARING, L.P.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"11/18/2003\", \"registrationEndDate\": \"9/17/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"49673\", \"firmId\": 41924, \"firmName\": \"SPEAR, LEEDS & KELLOGG SPECIALISTS LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/27/2002\", \"registrationEndDate\": \"9/17/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"16693\", \"firmId\": 32977, \"firmName\": \"WALTER N. FRANK & CO., LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/19/2002\", \"registrationEndDate\": \"6/26/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"Jersey City\", \"state\": \"NJ\", \"country\": \"United States\", \"registrationBeginDate\": \"8/6/2018\", \"registrationEndDate\": \"1/6/2021\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"TD AMERITRADE INVESTMENT MANAGEMENT, LLC\", \"city\": \"Jersey City\", \"state\": \"NJ\", \"country\": \"United States\", \"registrationBeginDate\": \"8/6/2018\", \"registrationEndDate\": \"12/10/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"20406\", \"iaSECNumberType\": \"801\", \"firmId\": 105644, \"firmName\": \"CETERA INVESTMENT ADVISERS LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"12/7/2017\", \"registrationEndDate\": \"7/6/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56411\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27691\", \"firmId\": 12984, \"firmName\": \"INVEST FINANCIAL CORPORATION\", \"city\": \"BROOKLYN\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"10/11/2017\", \"registrationEndDate\": \"12/6/2017\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"4/1/2014\", \"registrationEndDate\": \"10/10/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 6}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"3/29/2014\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"3/5/2004\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"7/6/2022\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"7/6/2022\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/6/2022\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 55\", \"examName\": \"Limited Representative-Equity Trader Exam\", \"examTakenDate\": \"7/10/2004\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 21\", \"examName\": \"NYSE Front Line Specialist Clerk\", \"examTakenDate\": \"4/25/2002\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/12/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 25\", \"examName\": \"NYSE Trading Assistant Examination\", \"examTakenDate\": \"1/11/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 14}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/14/2023\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/26/2024\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/13/2021\"}, {\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/25/2023\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/4/2023\"}, {\"state\": \"Michigan\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2023\"}, {\"state\": \"New Jersey\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/29/2024\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/30/2023\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/19/2021\"}, {\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/16/2023\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/12/2021\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/22/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"1/11/2021\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/21/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Wayasamin",
+    "fetched_name": "Michael D Wayasamin",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Wayasamin' did not match fetched name 'Michael D Wayasamin' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

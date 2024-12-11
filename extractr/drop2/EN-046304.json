@@ -1,0 +1,109 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "Burns",
+    "name": "John Burns",
+    "organization_name": "Exencial Wealth Advisors",
+    "license_type": "",
+    "employee_number": "EN-046304"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:37:46",
+    "cache_files": {
+      "basic_info": "./cache/sec_John Burns_130475_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1538784_detailed_info.json"
+    },
+    "individual_name": "John Burns",
+    "firm_crd": "130475",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1538784",
+      "ind_firstname": "JOHN",
+      "ind_middlename": "FORREST",
+      "ind_lastname": "BURNS",
+      "ind_namesuffix": "JR",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-01-21",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "130475",
+          "firm_name": "EXENCIAL WEALTH ADVISORS",
+          "branch_city": "OKLAHOMA CITY",
+          "branch_state": "OK",
+          "branch_zip": "73131",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1538784, \"firstName\": \"JOHN\", \"middleName\": \"FORREST\", \"lastName\": \"BURNS\", \"nameSuffix\": \"JR\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/21/2002\"}, \"currentIAEmployments\": [{\"firmId\": 130475, \"firmName\": \"EXENCIAL WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/9/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"55596\", \"street1\": \"9108 N. KELLEY AVENUE\", \"city\": \"OKLAHOMA CITY\", \"cityAlias\": [\"OKC\", \"OKLAHOMA CITY\"], \"state\": \"OK\", \"country\": \"United States\", \"zipCode\": \"73131\", \"latitude\": \"35.580129\", \"longitude\": \"-97.460268\", \"geoLocation\": \"35.580129,-97.460268\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/01/2012\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"bdSECNumber\": \"48740\", \"firmId\": 39543, \"firmName\": \"CAMBRIDGE INVESTMENT RESERARCH, INC.\", \"city\": \"OKLAHOMA CITY\", \"state\": \"OK\", \"country\": \"United States\", \"registrationBeginDate\": \"1/22/2002\", \"registrationEndDate\": \"10/7/2004\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"6/17/2005\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMERS ALLEGE MISREPRESENTATION OF MINIMUM GUARANTEED DEATH BENEFIT, SURRENDER CHARGES AND PREMIUMS ON VARIABLE UNIVERSAL LIFE POLICY THEY PURCHASED IN 2001.\", \"Damage Amount Requested\": \"$10,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"THE CLIENTS ALLEGATIONS WERE FOUND TO BE WITHOUT MERIT AND SUBSEQUENTLY THE ENTIRE CLAIM WHICH REQUESTED A WAIVER OF SURRENDER CHARGES WAS DENIED IN FULL. THE CLIENTS ALLEGATIONS OF MISREPRESENTATION WERE UNFOUNDED, THEREFORE THIS CASE IS CLOSED AND NO FURTHER ACTION WILL BE TAKEN.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/3/1997\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/22/1986\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"12/23/2003\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/29/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"8/15/1986\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 5}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/3/2024\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/15/2024\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/19/2023\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/9/2004\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"2/9/2004\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "John Burns",
+    "fetched_name": "JOHN FORREST BURNS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'John Burns' did not match fetched name 'JOHN FORREST BURNS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "John Burns has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "6/17/2005",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMERS ALLEGE MISREPRESENTATION OF MINIMUM GUARANTEED DEATH BENEFIT, SURRENDER CHARGES AND PREMIUMS ON VARIABLE UNIVERSAL LIFE POLICY THEY PURCHASED IN 2001.",
+            "Damage Amount Requested": "$10,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "THE CLIENTS ALLEGATIONS WERE FOUND TO BE WITHOUT MERIT AND SUBSEQUENTLY THE ENTIRE CLAIM WHICH REQUESTED A WAIVER OF SURRENDER CHARGES WAS DENIED IN FULL. THE CLIENTS ALLEGATIONS OF MISREPRESENTATION WERE UNFOUNDED, THEREFORE THIS CASE IS CLOSED AND NO FURTHER ACTION WILL BE TAKEN."
+          }
+        },
+        "description": "Customer dispute on 6/17/2005. Resolution: Denied. Allegations: CUSTOMERS ALLEGE MISREPRESENTATION OF MINIMUM GUARANTEED DEATH BENEFIT, SURRENDER CHARGES AND PREMIUMS ON VARIABLE UNIVERSAL LIFE POLICY THEY PURCHASED IN 2001.. Damage requested: $10,000.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

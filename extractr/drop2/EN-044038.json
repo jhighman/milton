@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Nicholas",
+    "middle_name": "",
+    "last_name": "Srmag",
+    "name": "Nicholas Srmag",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-044038"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:11:05",
+    "cache_files": {
+      "basic_info": "./cache/sec_Nicholas Srmag_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4353204_detailed_info.json"
+    },
+    "individual_name": "Nicholas Srmag",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4353204",
+      "ind_firstname": "NICHOLAS",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "SRMAG",
+      "ind_other_names": [
+        "NICHOLAS MICHAEL  SRMAG"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2016-08-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "CLEVELAND",
+          "branch_state": "OH",
+          "branch_zip": "44131",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4353204, \"firstName\": \"NICHOLAS\", \"middleName\": \"MICHAEL\", \"lastName\": \"SRMAG\", \"otherNames\": [\"NICHOLAS MICHAEL  SRMAG\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/4/2016\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/4/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"73687\", \"street1\": \"6050 OAK TREE BLVD\", \"street2\": \"SUITE 500\", \"city\": \"CLEVELAND\", \"cityAlias\": [\"BROOKLYN HEIGHTS\", \"BROOKLYN HTS\", \"CLEVELAND\", \"INDEPENDENCE\", \"PARMA\", \"SEVEN HILLS\", \"VALLEY VIEW\"], \"state\": \"OH\", \"country\": \"United States\", \"zipCode\": \"44131\", \"latitude\": \"41.391674\", \"longitude\": \"-81.641418\", \"geoLocation\": \"41.391674,-81.641418\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/01/2016\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/17/2001\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"9/7/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/23/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/4/2016\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Nicholas Srmag",
+    "fetched_name": "NICHOLAS MICHAEL SRMAG",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Nicholas Srmag' did not match fetched name 'NICHOLAS MICHAEL SRMAG' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

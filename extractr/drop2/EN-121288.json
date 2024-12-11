@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Krista",
+    "middle_name": "",
+    "last_name": "Young",
+    "name": "Krista Young",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-121288"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:23:11",
+    "cache_files": {
+      "basic_info": "./cache/sec_Krista Young_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6937127_detailed_info.json"
+    },
+    "individual_name": "Krista Young",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6937127",
+      "ind_firstname": "KRISTA",
+      "ind_middlename": "Dawn",
+      "ind_lastname": "YOUNG",
+      "ind_other_names": [
+        "KRISTA D YOUNG"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2021-03-14",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6937127, \"firstName\": \"KRISTA\", \"middleName\": \"Dawn\", \"lastName\": \"YOUNG\", \"otherNames\": [\"KRISTA D YOUNG\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/14/2021\"}, \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/4/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/28/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"113480\", \"iaSECNumberType\": \"801\", \"firmId\": 174767, \"firmName\": \"LEGACY WEALTH MANAGEMENT, LLC\", \"city\": \"Woods Cross\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"2/19/2021\", \"registrationEndDate\": \"3/10/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/2/2021\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/4/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Krista Young",
+    "fetched_name": "KRISTA Dawn YOUNG",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Krista Young' did not match fetched name 'KRISTA Dawn YOUNG' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Devonee",
+    "middle_name": "",
+    "last_name": "Quinn",
+    "name": "Devonee Quinn",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118948"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:54:59",
+    "cache_files": {
+      "basic_info": "./cache/sec_Devonee Quinn_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5740378_detailed_info.json"
+    },
+    "individual_name": "Devonee Quinn",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5740378",
+      "ind_firstname": "DEVONEE",
+      "ind_middlename": "LYNN",
+      "ind_lastname": "QUINN",
+      "ind_other_names": [
+        "DEVONEE LYNN KERSHNER"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-01-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Lakewood",
+          "branch_state": "CO",
+          "branch_zip": "80401",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5740378, \"firstName\": \"DEVONEE\", \"middleName\": \"LYNN\", \"lastName\": \"QUINN\", \"otherNames\": [\"DEVONEE LYNN KERSHNER\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/19/2010\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/4/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"14143 Denver W Pkwy\", \"street2\": \"Suite 450\", \"city\": \"Lakewood\", \"cityAlias\": [\"EVERGREEN\", \"GOLDEN\", \"LAKEWOOD\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80401\", \"latitude\": \"39.714017\", \"longitude\": \"-105.244101\", \"geoLocation\": \"39.714017,-105.244101\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56865\", \"iaSECNumberType\": \"801\", \"firmId\": 109983, \"firmName\": \"WIPFLI FINANCIAL ADVISORS, LLC\", \"city\": \"LAKEWOOD\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/20/2021\", \"registrationEndDate\": \"10/12/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"111051\", \"iaSECNumberType\": \"801\", \"firmId\": 143379, \"firmName\": \"LOTUSGROUP ADVISORS\", \"city\": \"DENVER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/9/2019\", \"registrationEndDate\": \"12/11/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"10722\", \"iaSECNumberType\": \"801\", \"firmId\": 105910, \"firmName\": \"LEE FINANCIAL COMPANY, LLC\", \"city\": \"DALLAS\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"12/5/2009\", \"registrationEndDate\": \"1/2/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/9/2009\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/4/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/28/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Devonee Quinn",
+    "fetched_name": "DEVONEE LYNN QUINN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Devonee Quinn' did not match fetched name 'DEVONEE LYNN QUINN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

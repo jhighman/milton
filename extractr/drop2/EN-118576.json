@@ -1,0 +1,124 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Robert",
+    "middle_name": "",
+    "last_name": "Johnson",
+    "name": "Robert Johnson",
+    "organization_name": "CIBC Private Wealth Management, Inc.",
+    "license_type": "",
+    "employee_number": "EN-118576"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Robert Johnson_109644_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4318220_detailed_info.json"
+    },
+    "individual_name": "Robert Johnson",
+    "firm_crd": "109644",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4318220",
+      "ind_firstname": "Robert",
+      "ind_middlename": "Kenneth",
+      "ind_lastname": "Johnson",
+      "ind_other_names": [
+        "Rob Kenneth Johnson",
+        "Robert  Johnson"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "2004-09-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109644",
+          "firm_name": "CIBC PRIVATE WEALTH ADVISORS, INC.",
+          "branch_city": "Austin",
+          "branch_state": "TX",
+          "branch_zip": "78701",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57986",
+          "firm_ia_full_sec_number": "801-57986"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "AUSTIN",
+          "branch_state": "TX",
+          "branch_zip": "78701",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "Austin",
+          "branch_state": "TX",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4318220, \"firstName\": \"Robert\", \"middleName\": \"Kenneth\", \"lastName\": \"Johnson\", \"otherNames\": [\"Rob Kenneth Johnson\", \"Robert  Johnson\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/17/2004\"}, \"currentEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"4/27/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": []}], \"currentIAEmployments\": [{\"firmId\": 109644, \"firmName\": \"CIBC PRIVATE WEALTH ADVISORS, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/12/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57986\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"111 Congress Ave\", \"street2\": \"Suite 1830\", \"city\": \"Austin\", \"cityAlias\": [\"AUSTIN\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"78701\", \"latitude\": \"30.2672\", \"longitude\": \"-97.742306\", \"geoLocation\": \"30.2672,-97.742306\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/17/2023\"}]}, {\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"4/27/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"111 Congress Avenue\", \"street2\": \"Suite 1830\", \"city\": \"AUSTIN\", \"cityAlias\": [\"AUSTIN\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"78701\", \"latitude\": \"30.2672\", \"longitude\": \"-97.742306\", \"geoLocation\": \"30.2672,-97.742306\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/17/2023\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Austin\", \"state\": \"TX\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"70703\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"39659\", \"firmId\": 22333, \"firmName\": \"REALIZED FINANCIAL, INC.\", \"city\": \"Austin\", \"state\": \"TX\", \"registrationBeginDate\": \"11/5/2019\", \"registrationEndDate\": \"1/3/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"68464\", \"firmId\": 152550, \"firmName\": \"WEALTHFORGE SECURITIES, LLC\", \"city\": \"Austin\", \"state\": \"TX\", \"registrationBeginDate\": \"7/22/2019\", \"registrationEndDate\": \"10/31/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"67242\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"46661\", \"firmId\": 35371, \"firmName\": \"INFINEX INVESTMENTS, INC.\", \"city\": \"MERIDEN\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"11/2/2016\", \"registrationEndDate\": \"5/18/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"46585\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13987\", \"firmId\": 2882, \"firmName\": \"VOYA FINANCIAL ADVISORS, INC.\", \"city\": \"WINDSOR\", \"state\": \"CT\", \"registrationBeginDate\": \"8/22/2014\", \"registrationEndDate\": \"10/31/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"42530\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14685\", \"firmId\": 3978, \"firmName\": \"LINCOLN FINANCIAL ADVISORS CORPORATION\", \"city\": \"HARTFORD\", \"state\": \"CT\", \"registrationBeginDate\": \"7/11/2008\", \"registrationEndDate\": \"4/3/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"23151\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14609\", \"firmId\": 3870, \"firmName\": \"LINCOLN FINANCIAL SECURITIES CORPORATION\", \"city\": \"FORT WAYNE\", \"state\": \"IN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/11/2008\", \"registrationEndDate\": \"4/3/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"79816\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"66444\", \"firmId\": 120387, \"firmName\": \"CONNING RESEARCH & CONSULTING, INC.\", \"city\": \"HARTFORD\", \"state\": \"CT\", \"registrationBeginDate\": \"6/22/2005\", \"registrationEndDate\": \"5/30/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"17719\", \"firmId\": 6604, \"firmName\": \"HARTFORD EQUITY SALES COMPANY INC.\", \"city\": \"HARTFORD\", \"state\": \"CT\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/12/2001\", \"registrationEndDate\": \"12/10/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/12/2023\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/30/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 6TO\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"4/27/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"5/18/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/9/2006\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/9/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 14, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 1, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/27/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/12/2023\"}], \"registeredSROs\": [{\"sro\": \"BOX Exchange LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BYX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BZX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"FINRA\", \"status\": \"APPROVED\"}, {\"sro\": \"Investors' Exchange LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE American LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE Arca, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq BX, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq GEMX, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq ISE, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq PHLX LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq Stock Market\", \"status\": \"APPROVED\"}, {\"sro\": \"New York Stock Exchange\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Robert Johnson",
+    "fetched_name": "Robert Kenneth Johnson",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Robert Johnson' did not match fetched name 'Robert Kenneth Johnson' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

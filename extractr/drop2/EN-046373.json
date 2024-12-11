@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "1503159",
+    "first_name": "Joseph",
+    "middle_name": "",
+    "last_name": "Hawes",
+    "name": "Joseph Hawes",
+    "organization_name": "Capital Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-046373"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_1503159_basic_info.json",
+      "detailed_info": "./cache/brokercheck_1503159_detailed_info.json"
+    },
+    "crd_number": "1503159",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1503159",
+      "ind_firstname": "JOSEPH A",
+      "ind_middlename": "ALTON",
+      "ind_lastname": "HAWES",
+      "ind_namesuffix": "JR",
+      "ind_other_names": [
+        "JOE  HAWES",
+        "JOSEPH ALTON HAWES JR",
+        "JOSEPH  HAWES",
+        "JOW  HAWES",
+        "Joseph Alton Hawes"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "11304",
+      "ind_current_employments": [
+        {
+          "firm_id": "104643",
+          "firm_name": "CAPITAL ADVISORS, INC.",
+          "branch_city": "TULSA",
+          "branch_state": "OK",
+          "branch_zip": "74114",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "14050",
+          "firm_ia_full_sec_number": "801-14050"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 1503159, \"firstName\": \"JOSEPH A\", \"middleName\": \"ALTON\", \"lastName\": \"HAWES\", \"nameSuffix\": \"JR\", \"otherNames\": [\"JOE  HAWES\", \"JOSEPH ALTON HAWES JR\", \"JOSEPH  HAWES\", \"JOW  HAWES\", \"Joseph Alton Hawes\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 11304}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"52323\", \"firmId\": 103848, \"firmName\": \"QUASAR DISTRIBUTORS, LLC\", \"city\": \"PORTLAND\", \"state\": \"ME\", \"country\": \"USA\", \"registrationBeginDate\": \"1/2/2018\", \"registrationEndDate\": \"12/31/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"TULSA\", \"state\": \"OK\", \"registrationBeginDate\": \"1/1/1991\", \"registrationEndDate\": \"5/3/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"18226\", \"firmId\": 727, \"firmName\": \"ROTAN MOSLE INC.\", \"registrationBeginDate\": \"5/22/1986\", \"registrationEndDate\": \"1/1/1991\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/3/1997\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/5/1986\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"1/13/2004\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/17/1986\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/4/2016\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"11/7/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joseph Hawes",
+    "fetched_name": "JOSEPH A ALTON HAWES",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joseph Hawes' did not match fetched name 'JOSEPH A ALTON HAWES' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

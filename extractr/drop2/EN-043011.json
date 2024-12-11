@@ -1,0 +1,104 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Beth",
+    "middle_name": "",
+    "last_name": "Sharpe",
+    "name": "Beth Sharpe",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-043011"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:04:34",
+    "cache_files": {
+      "basic_info": "./cache/sec_Beth Sharpe_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3168400_detailed_info.json"
+    },
+    "individual_name": "Beth Sharpe",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3168400",
+      "ind_firstname": "AMY",
+      "ind_middlename": "BETH",
+      "ind_lastname": "(KWASNY) SHARPE",
+      "ind_other_names": [
+        "AMY BETH KWASNY"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2016-06-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Chesterfield",
+          "branch_state": "MO",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3168400, \"firstName\": \"AMY\", \"middleName\": \"BETH\", \"lastName\": \"(KWASNY) SHARPE\", \"otherNames\": [\"AMY BETH KWASNY\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/29/2016\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/30/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Chesterfield\", \"state\": \"MO\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/16/2016\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/30/2016\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/22/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/14/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Missouri\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/30/2016\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"2/6/2019\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Beth Sharpe",
+    "fetched_name": "AMY BETH (KWASNY) SHARPE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Beth Sharpe' did not match fetched name 'AMY BETH (KWASNY) SHARPE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Beth Sharpe",
+          "fetched_name": "AMY BETH (KWASNY) SHARPE",
+          "other_names": [
+            "AMY BETH KWASNY"
+          ]
+        },
+        "description": "Expected name 'Beth Sharpe' did not match fetched name 'AMY BETH (KWASNY) SHARPE'."
+      }
+    ]
+  }
+}

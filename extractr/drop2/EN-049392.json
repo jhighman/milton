@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Steven",
+    "middle_name": "",
+    "last_name": "Violin",
+    "name": "Steven Violin",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049392"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:40:24",
+    "cache_files": {
+      "basic_info": "./cache/sec_Steven Violin_106223_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4399145_detailed_info.json"
+    },
+    "individual_name": "Steven Violin",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4399145",
+      "ind_firstname": "STEVEN",
+      "ind_middlename": "NATHANIEL",
+      "ind_lastname": "VIOLIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-05-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "WELLESLEY",
+          "branch_state": "MA",
+          "branch_zip": "02481",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4399145, \"firstName\": \"STEVEN\", \"middleName\": \"NATHANIEL\", \"lastName\": \"VIOLIN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/29/2002\"}, \"currentIAEmployments\": [{\"firmId\": 106223, \"firmName\": \"F L PUTNAM INVESTMENT MANAGEMENT CO.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/29/2003\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"20 WILLIAM ST., STE. G40\", \"city\": \"WELLESLEY\", \"cityAlias\": [\"WELLESLEY\", \"WELLESLEY FMS\", \"WELLESLEY HILLS\", \"WELLESLEY HLS\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02481\", \"latitude\": \"42.309348\", \"longitude\": \"-71.272442\", \"geoLocation\": \"42.309348,-71.272442\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2000\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"21951\", \"iaSECNumberType\": \"801\", \"firmId\": 106223, \"firmName\": \"PUTNAM F L INVESTMENT MANAGEMENT CO\", \"city\": \"NEWTON CENTRE\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/1/2002\", \"registrationEndDate\": \"12/31/2002\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/29/2001\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/3/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Maine\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/1/2003\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/29/2003\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/21/2007\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Steven Violin",
+    "fetched_name": "STEVEN NATHANIEL VIOLIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Steven Violin' did not match fetched name 'STEVEN NATHANIEL VIOLIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

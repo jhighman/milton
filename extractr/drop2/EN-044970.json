@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Grant",
+    "middle_name": "",
+    "last_name": "Fuller",
+    "name": "Grant Fuller",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-044970"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:12:50",
+    "cache_files": {
+      "basic_info": "./cache/sec_Grant Fuller_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6022015_detailed_info.json"
+    },
+    "individual_name": "Grant Fuller",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6022015",
+      "ind_firstname": "GRANT",
+      "ind_middlename": "PRESCOTT",
+      "ind_lastname": "FULLER",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-08-31",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Louisville",
+          "branch_state": "KY",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6022015, \"firstName\": \"GRANT\", \"middleName\": \"PRESCOTT\", \"lastName\": \"FULLER\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/31/2012\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/6/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Louisville\", \"state\": \"KY\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/06/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"BRENTWOOD\", \"state\": \"TN\", \"registrationBeginDate\": \"8/20/2014\", \"registrationEndDate\": \"11/21/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"51845\", \"firmId\": 47582, \"firmName\": \"JEFFERSON NATIONAL SECURITIES CORPORATION\", \"city\": \"COLUMBUS\", \"state\": \"OH\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/27/2012\", \"registrationEndDate\": \"6/4/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"125029\", \"iaSECNumberType\": \"801\", \"firmId\": 282856, \"firmName\": \"SWITCHPOINT FINANCIAL PLANNING LLC\", \"city\": \"Louisville\", \"state\": \"KY\", \"country\": \"United States\", \"registrationBeginDate\": \"7/25/2023\", \"registrationEndDate\": \"5/9/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"66632\", \"iaSECNumberType\": \"801\", \"firmId\": 140195, \"firmName\": \"MARINER WEALTH ADVISORS\", \"city\": \"NEW ALBANY\", \"state\": \"IN\", \"country\": \"United States\", \"registrationBeginDate\": \"7/2/2021\", \"registrationEndDate\": \"7/14/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"city\": \"LOUISVILLE\", \"state\": \"KY\", \"country\": \"United States\", \"registrationBeginDate\": \"12/8/2014\", \"registrationEndDate\": \"4/7/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"BRENTWOOD\", \"state\": \"TN\", \"country\": \"United States\", \"registrationBeginDate\": \"8/21/2014\", \"registrationEndDate\": \"11/21/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"BRENTWOOD\", \"state\": \"TN\", \"country\": \"United States\", \"registrationBeginDate\": \"8/21/2014\", \"registrationEndDate\": \"11/21/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/14/2014\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/13/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"11/21/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/24/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"2/24/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Kentucky\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/6/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Grant Fuller",
+    "fetched_name": "GRANT PRESCOTT FULLER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Grant Fuller' did not match fetched name 'GRANT PRESCOTT FULLER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

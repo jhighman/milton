@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Derrick",
+    "middle_name": "",
+    "last_name": "Longo",
+    "name": "Derrick Longo",
+    "organization_name": "Exencial Wealth Advisors",
+    "license_type": "",
+    "employee_number": "EN-119558"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:38:29",
+    "cache_files": {
+      "basic_info": "./cache/sec_Derrick Longo_130475_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6269598_detailed_info.json"
+    },
+    "individual_name": "Derrick Longo",
+    "firm_crd": "130475",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6269598",
+      "ind_firstname": "DERRICK",
+      "ind_middlename": "ANTHONY",
+      "ind_lastname": "LONGO",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-02-06",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "130475",
+          "firm_name": "EXENCIAL WEALTH ADVISORS",
+          "branch_city": "Huntersville",
+          "branch_state": "NC",
+          "branch_zip": "28078",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "62789",
+          "firm_ia_full_sec_number": "801-62789"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6269598, \"firstName\": \"DERRICK\", \"middleName\": \"ANTHONY\", \"lastName\": \"LONGO\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/6/2014\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 130475, \"firmName\": \"EXENCIAL WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/25/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"62789\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"13801 Reese Boulevard\", \"street2\": \"Suite 155\", \"city\": \"Huntersville\", \"cityAlias\": [\"CALDWELL\", \"HICKS CROSSROADS\", \"HUNTERSVILLE\", \"LONG CREEK\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"28078\", \"latitude\": \"35.400197\", \"longitude\": \"-80.866352\", \"geoLocation\": \"35.400197,-80.866352\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/09/2020\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"121339\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37519\", \"firmId\": 19475, \"firmName\": \"INTERCAROLINA FINANCIAL SERVICES, INC.\", \"city\": \"GREENSBORO\", \"state\": \"NC\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"11/1/2016\", \"registrationEndDate\": \"11/6/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"registrationBeginDate\": \"4/10/2014\", \"registrationEndDate\": \"10/27/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"164\", \"firmId\": 7569, \"firmName\": \"NATIONAL SECURITIES CORPORATION\", \"city\": \"MELVILLE\", \"state\": \"NY\", \"registrationBeginDate\": \"12/20/2013\", \"registrationEndDate\": \"3/13/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"121339\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37519\", \"firmId\": 19475, \"firmName\": \"INTERCAROLINA FINANCIAL SERVICES, INC.\", \"city\": \"HUNTERSVILLE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"11/1/2016\", \"registrationEndDate\": \"11/6/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"7/31/2014\", \"registrationEndDate\": \"10/27/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/29/2014\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/30/2014\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/20/2013\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 16}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/30/2020\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2023\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/27/2020\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/27/2023\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/3/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/13/2021\"}, {\"state\": \"Michigan\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/3/2023\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/8/2020\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/1/2023\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/25/2020\"}, {\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/8/2024\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/30/2020\"}, {\"state\": \"South Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/25/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"11/30/2020\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/31/2023\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Derrick Longo",
+    "fetched_name": "DERRICK ANTHONY LONGO",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Derrick Longo' did not match fetched name 'DERRICK ANTHONY LONGO' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

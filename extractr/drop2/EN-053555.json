@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Theodore",
+    "middle_name": "",
+    "last_name": "Fern",
+    "name": "Theodore Fern",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053555"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Theodore Fern_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2940154_detailed_info.json"
+    },
+    "individual_name": "Theodore Fern",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2940154",
+      "ind_firstname": "THEODORE",
+      "ind_middlename": "LOUIS",
+      "ind_lastname": "FERN",
+      "ind_other_names": [
+        "THEODORE  FERN",
+        "THEODORE  LOUIS FERN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1985-01-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "LOS ANGELES",
+          "branch_state": "CA",
+          "branch_zip": "90036",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2940154, \"firstName\": \"THEODORE\", \"middleName\": \"LOUIS\", \"lastName\": \"FERN\", \"otherNames\": [\"THEODORE  FERN\", \"THEODORE  LOUIS FERN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/24/1985\"}, \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/25/1985\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"5900 WILSHIRE BLVD.\", \"street2\": \"SUITE 400\", \"city\": \"LOS ANGELES\", \"cityAlias\": [\"FARMER MARKET\", \"LOS ANGELES\", \"MIRACLE MILE\", \"WILSHIRE LA BREA\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90036\", \"latitude\": \"34.070436\", \"longitude\": \"-118.350486\", \"geoLocation\": \"34.070436,-118.350486\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/02/1996\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/12/1998\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/19/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/3/2004\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Theodore Fern",
+    "fetched_name": "THEODORE LOUIS FERN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Theodore Fern' did not match fetched name 'THEODORE LOUIS FERN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

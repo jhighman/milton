@@ -1,0 +1,116 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "JASON",
+    "middle_name": "",
+    "last_name": "YOUNG",
+    "name": "JASON YOUNG",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119089"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:09:43",
+    "cache_files": {
+      "basic_info": "./cache/sec_JASON YOUNG_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4604338_detailed_info.json"
+    },
+    "individual_name": "JASON YOUNG",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4604338",
+      "ind_firstname": "JASON",
+      "ind_middlename": "ERIC",
+      "ind_lastname": "YOUNG",
+      "ind_other_names": [
+        "JASON E YOUNG"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-03-26",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "WAXHAW",
+          "branch_state": "NC",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Charlotte",
+          "branch_state": "NC",
+          "branch_zip": "28277",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4604338, \"firstName\": \"JASON\", \"middleName\": \"ERIC\", \"lastName\": \"YOUNG\", \"otherNames\": [\"JASON E YOUNG\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/26/2004\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/15/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"WAXHAW\", \"state\": \"NC\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/15/2015\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"11325 N. Community House Road #125\", \"city\": \"Charlotte\", \"cityAlias\": [\"CHARLOTTE\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"28277\", \"latitude\": \"35.050811\", \"longitude\": \"-80.822143\", \"geoLocation\": \"35.050811,-80.822143\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/29/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69271\", \"iaSECNumberType\": \"801\", \"firmId\": 147363, \"firmName\": \"MERCER GLOBAL ADVISORS INC.\", \"city\": \"ALPHARETTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/17/2014\", \"registrationEndDate\": \"6/9/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71836\", \"iaSECNumberType\": \"801\", \"firmId\": 155138, \"firmName\": \"WINDHAVEN INVESTMENT MANAGEMENT, INC.\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"12/6/2011\", \"registrationEndDate\": \"12/5/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"WINSTON-SALEM\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"7/18/2007\", \"registrationEndDate\": \"12/8/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WACHOVIA SECURITIES, LLC\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"3/10/2006\", \"registrationEndDate\": \"6/19/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"2/12/2003\", \"registrationEndDate\": \"3/23/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"3/6/2024\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Pending\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"Alleged breach of fiduciary duty, negligence/gross negligence, negligent misrepresentation, intentional misrepresentations/omissions, breach of contract, violation of the North Carolina Securities Act, and violation of the Kansas Securities Act regarding options trading from February 2017 to September 2023.\", \"Damage Amount Requested\": \"$1,000,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/8/2003\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/19/2002\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/15/2015\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/3/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "JASON YOUNG",
+    "fetched_name": "JASON ERIC YOUNG",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'JASON YOUNG' did not match fetched name 'JASON ERIC YOUNG' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "JASON YOUNG has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "3/6/2024",
+          "resolution": "Pending",
+          "details": {
+            "Allegations": "Alleged breach of fiduciary duty, negligence/gross negligence, negligent misrepresentation, intentional misrepresentations/omissions, breach of contract, violation of the North Carolina Securities Act, and violation of the Kansas Securities Act regarding options trading from February 2017 to September 2023.",
+            "Damage Amount Requested": "$1,000,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 3/6/2024. Resolution: Pending. Allegations: Alleged breach of fiduciary duty, negligence/gross negligence, negligent misrepresentation, intentional misrepresentations/omissions, breach of contract, violation of the North Carolina Securities Act, and violation of the Kansas Securities Act regarding options trading from February 2017 to September 2023.. Damage requested: $1,000,000.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

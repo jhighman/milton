@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Patrick",
+    "middle_name": "",
+    "last_name": "Stimson",
+    "name": "Patrick Stimson",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-054108"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:25:17",
+    "cache_files": {
+      "basic_info": "./cache/sec_Patrick Stimson_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5909274_detailed_info.json"
+    },
+    "individual_name": "Patrick Stimson",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5909274",
+      "ind_firstname": "PATRICK",
+      "ind_middlename": "J",
+      "ind_lastname": "STIMSON",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-12-16",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "Denver",
+          "branch_state": "CO",
+          "branch_zip": "80206",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5909274, \"firstName\": \"PATRICK\", \"middleName\": \"J\", \"lastName\": \"STIMSON\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/16/2012\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/24/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"44 Cook Street\", \"street2\": \"Suite 300\", \"city\": \"Denver\", \"cityAlias\": [\"DENVER\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80206\", \"latitude\": \"39.730725\", \"longitude\": \"-104.95321\", \"geoLocation\": \"39.730725,-104.95321\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/27/2014\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"72566\", \"iaSECNumberType\": \"801\", \"firmId\": 158138, \"firmName\": \"RMB WEST, LLC\", \"city\": \"DENVER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"4/23/2014\", \"registrationEndDate\": \"12/31/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"KALAMAZOO\", \"state\": \"MI\", \"country\": \"United States\", \"registrationBeginDate\": \"9/26/2012\", \"registrationEndDate\": \"1/30/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/24/2012\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/20/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/24/2014\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/24/2014\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Patrick Stimson",
+    "fetched_name": "PATRICK J STIMSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Patrick Stimson' did not match fetched name 'PATRICK J STIMSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Kristine",
+    "middle_name": "",
+    "last_name": "McHugh",
+    "name": "Kristine McHugh",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-055476"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Kristine McHugh_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4767763_detailed_info.json"
+    },
+    "individual_name": "Kristine McHugh",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4767763",
+      "ind_firstname": "KRISTINE",
+      "ind_middlename": "KITT",
+      "ind_lastname": "MCHUGH",
+      "ind_other_names": [
+        "KRISTINE KITT HENSON MISS",
+        "KRISTINE KITT MCHUGH MRS.",
+        "KRISTINE KITT TAFT MRS",
+        "KRISTINE KITT TAFT"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-05-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "SEATTLE",
+          "branch_state": "WA",
+          "branch_zip": "98121",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57087",
+          "firm_ia_full_sec_number": "801-57087"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4767763, \"firstName\": \"KRISTINE\", \"middleName\": \"KITT\", \"lastName\": \"MCHUGH\", \"otherNames\": [\"KRISTINE KITT HENSON MISS\", \"KRISTINE KITT MCHUGH MRS.\", \"KRISTINE KITT TAFT MRS\", \"KRISTINE KITT TAFT\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/3/2006\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/31/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"76243\", \"street1\": \"2030 1ST AVENUE\", \"street2\": \"3RD FLOOR\", \"city\": \"SEATTLE\", \"cityAlias\": [\"SEATTLE\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98121\", \"latitude\": \"47.613476\", \"longitude\": \"-122.347381\", \"geoLocation\": \"47.613476,-122.347381\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"08/01/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"CETERA ADVISOR NETWORKS LLC\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"registrationBeginDate\": \"3/20/2006\", \"registrationEndDate\": \"4/1/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"20857\", \"iaSECNumberType\": \"801\", \"firmId\": 110666, \"firmName\": \"PRIVATE OCEAN\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/2/2018\", \"registrationEndDate\": \"7/16/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"107435\", \"iaSECNumberType\": \"801\", \"firmId\": 139594, \"firmName\": \"LAKEVIEW FINANCIAL GROUP LLC\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/7/2015\", \"registrationEndDate\": \"4/18/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"CETERA ADVISOR NETWORKS LLC\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/9/2015\", \"registrationEndDate\": \"4/1/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/16/2014\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/8/2006\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/1/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/18/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/31/2018\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Kristine McHugh",
+    "fetched_name": "KRISTINE KITT MCHUGH",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Kristine McHugh' did not match fetched name 'KRISTINE KITT MCHUGH' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

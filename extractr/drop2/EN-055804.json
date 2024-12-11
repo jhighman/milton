@@ -1,0 +1,87 @@
+{
+  "claim": {
+    "crd_number": "6711186",
+    "first_name": "Sheila",
+    "middle_name": "",
+    "last_name": "Rabaut",
+    "name": "Sheila Rabaut",
+    "organization_name": "Baker Avenue Asset Management",
+    "license_type": "",
+    "employee_number": "EN-055804"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_6711186_basic_info.json",
+      "detailed_info": "./cache/brokercheck_6711186_detailed_info.json"
+    },
+    "crd_number": "6711186",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6711186",
+      "ind_firstname": "Sheila",
+      "ind_middlename": "Mary",
+      "ind_lastname": "Rabaut",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "132657",
+          "firm_name": "BAKERAVENUE",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94111",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 6711186, \"firstName\": \"Sheila\", \"middleName\": \"Mary\", \"lastName\": \"Rabaut\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/19/2017\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/26/2018\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Sheila Rabaut",
+    "fetched_name": "Sheila Mary Rabaut",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Sheila Rabaut' did not match fetched name 'Sheila Mary Rabaut' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

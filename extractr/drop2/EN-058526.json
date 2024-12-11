@@ -1,0 +1,96 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Cara",
+    "middle_name": "",
+    "last_name": "Barr",
+    "name": "Cara Barr",
+    "organization_name": "Parallel Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-058526"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:11:48",
+    "cache_files": {
+      "basic_info": "./cache/sec_Cara Barr_140800_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6278540_detailed_info.json"
+    },
+    "individual_name": "Cara Barr",
+    "firm_crd": "140800",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6278540",
+      "ind_firstname": "CARA",
+      "ind_middlename": "ELIZABETH",
+      "ind_lastname": "BARR",
+      "ind_other_names": [
+        "CARA  BARR",
+        "CARA  HENSHAW",
+        "Cara Elizabeth Henshaw"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2020-04-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "140800",
+          "firm_name": "PARALLEL ADVISORS, LLC",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94105",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "68107",
+          "firm_ia_full_sec_number": "801-68107"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6278540, \"firstName\": \"CARA\", \"middleName\": \"ELIZABETH\", \"lastName\": \"BARR\", \"otherNames\": [\"CARA  BARR\", \"CARA  HENSHAW\", \"Cara Elizabeth Henshaw\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/19/2020\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 140800, \"firmName\": \"PARALLEL ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/17/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"68107\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"258465\", \"street1\": \"150 SPEAR STREET\", \"street2\": \"SUITE 1600\", \"city\": \"SAN FRANCISCO\", \"cityAlias\": [\"SAN FRANCISCO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94105\", \"latitude\": \"37.788543\", \"longitude\": \"-122.393872\", \"geoLocation\": \"37.788543,-122.393872\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/17/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"48436\", \"firmId\": 38642, \"firmName\": \"BLACKROCK INVESTMENTS, LLC\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"registrationBeginDate\": \"8/1/2014\", \"registrationEndDate\": \"4/14/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60943\", \"iaSECNumberType\": \"801\", \"firmId\": 119290, \"firmName\": \"BEACON POINTE ADVISORS, LLC\", \"city\": \"Campbell\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/21/2021\", \"registrationEndDate\": \"4/3/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/21/2021\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"3/12/2015\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/14/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/1/2014\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/17/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Cara Barr",
+    "fetched_name": "CARA ELIZABETH BARR",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Cara Barr' did not match fetched name 'CARA ELIZABETH BARR' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

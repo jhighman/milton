@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Maximus",
+    "middle_name": "",
+    "last_name": "Nguyen",
+    "name": "Maximus Nguyen",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053600"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Maximus Nguyen_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5400385_detailed_info.json"
+    },
+    "individual_name": "Maximus Nguyen",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5400385",
+      "ind_firstname": "MAXIMUS",
+      "ind_middlename": "XUAN",
+      "ind_lastname": "NGUYEN",
+      "ind_other_names": [
+        "MAXIMUS  NGUYEN",
+        "THIEN XUAN NGUYEN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-04-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Las Vegas",
+          "branch_state": "NV",
+          "branch_zip": "89135",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5400385, \"firstName\": \"MAXIMUS\", \"middleName\": \"XUAN\", \"lastName\": \"NGUYEN\", \"otherNames\": [\"MAXIMUS  NGUYEN\", \"THIEN XUAN NGUYEN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/18/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/31/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1980 Festival Plaza Dr.\", \"street2\": \"Suite #300\", \"city\": \"Las Vegas\", \"cityAlias\": [\"LAS VEGAS\"], \"state\": \"NV\", \"country\": \"United States\", \"zipCode\": \"89135\", \"latitude\": \"36.12114\", \"longitude\": \"-115.350771\", \"geoLocation\": \"36.12114,-115.350771\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/21/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"71300\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44261\", \"firmId\": 29357, \"firmName\": \"BANCWEST INVESTMENT SERVICES, INC.\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"registrationBeginDate\": \"7/13/2015\", \"registrationEndDate\": \"3/25/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"registrationBeginDate\": \"3/22/2011\", \"registrationEndDate\": \"7/17/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"registrationBeginDate\": \"9/29/2007\", \"registrationEndDate\": \"4/6/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"71300\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44261\", \"firmId\": 29357, \"firmName\": \"BANCWEST INVESTMENT SERVICES, INC. (BWIS) AND BWIS D/B/A FHIS\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"7/13/2015\", \"registrationEndDate\": \"3/25/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"5/3/2011\", \"registrationEndDate\": \"7/17/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"5/3/2011\", \"registrationEndDate\": \"7/17/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"10/26/2007\", \"registrationEndDate\": \"4/6/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/11/2007\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"3/25/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/27/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/31/2016\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Maximus Nguyen",
+    "fetched_name": "MAXIMUS XUAN NGUYEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Maximus Nguyen' did not match fetched name 'MAXIMUS XUAN NGUYEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

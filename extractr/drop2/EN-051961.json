@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Christine",
+    "middle_name": "",
+    "last_name": "Lawless",
+    "name": "Christine Lawless",
+    "organization_name": "CW Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-051961"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:26:37",
+    "cache_files": {
+      "basic_info": "./cache/sec_Christine Lawless_310873_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5534478_detailed_info.json"
+    },
+    "individual_name": "Christine Lawless",
+    "firm_crd": "310873",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5534478",
+      "ind_firstname": "CHRISTINE",
+      "ind_middlename": "WINTERS",
+      "ind_lastname": "LAWLESS",
+      "ind_other_names": [
+        "CHRISTINE ELIZABETH WINTERS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2015-06-12",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "310873",
+          "firm_name": "CW ADVISORS, LLC",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02210",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5534478, \"firstName\": \"CHRISTINE\", \"middleName\": \"WINTERS\", \"lastName\": \"LAWLESS\", \"otherNames\": [\"CHRISTINE ELIZABETH WINTERS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/12/2015\"}, \"currentIAEmployments\": [{\"firmId\": 310873, \"firmName\": \"CW ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/28/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"746126\", \"street1\": \"155 SEAPORT BLVD\", \"street2\": \"3RD FLOOR\", \"city\": \"BOSTON\", \"cityAlias\": [\"BOSTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02210\", \"latitude\": \"42.346571\", \"longitude\": \"-71.039563\", \"geoLocation\": \"42.346571,-71.039563\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"10/21/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69988\", \"iaSECNumberType\": \"801\", \"firmId\": 149446, \"firmName\": \"CONGRESS WEALTH MANAGEMENT LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/12/2015\", \"registrationEndDate\": \"12/2/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/28/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Christine Lawless",
+    "fetched_name": "CHRISTINE WINTERS LAWLESS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Christine Lawless' did not match fetched name 'CHRISTINE WINTERS LAWLESS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

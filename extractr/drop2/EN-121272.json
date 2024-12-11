@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Tyler",
+    "middle_name": "",
+    "last_name": "Reams",
+    "name": "Tyler Reams",
+    "organization_name": "SignatureFD LLC",
+    "license_type": "",
+    "employee_number": "EN-121272"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:14:56",
+    "cache_files": {
+      "basic_info": "./cache/sec_Tyler Reams_112758_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5463007_detailed_info.json"
+    },
+    "individual_name": "Tyler Reams",
+    "firm_crd": "112758",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5463007",
+      "ind_firstname": "TYLER",
+      "ind_middlename": "DORSEY",
+      "ind_lastname": "REAMS",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2008-01-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "112758",
+          "firm_name": "SIGNATUREFD, LLC",
+          "branch_city": "ATLANTA",
+          "branch_state": "GA",
+          "branch_zip": "30309",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "60393",
+          "firm_ia_full_sec_number": "801-60393"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5463007, \"firstName\": \"TYLER\", \"middleName\": \"DORSEY\", \"lastName\": \"REAMS\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/20/2008\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 112758, \"firmName\": \"SIGNATUREFD, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/5/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"60393\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"56777\", \"street1\": \"1230 PEACHTREE STREET, NE\", \"street2\": \"SUITE 1800\", \"city\": \"ATLANTA\", \"cityAlias\": [\"ATL\", \"ATLANTA\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30309\", \"latitude\": \"33.798463\", \"longitude\": \"-84.388284\", \"geoLocation\": \"33.798463,-84.388284\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/16/2015\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"58108\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"51324\", \"firmId\": 46173, \"firmName\": \"PARK AVENUE SECURITIES LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"1/1/2008\", \"registrationEndDate\": \"7/16/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"58108\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"51324\", \"firmId\": 46173, \"firmName\": \"PARK AVENUE SECURITIES LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/12/2008\", \"registrationEndDate\": \"7/16/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60274\", \"iaSECNumberType\": \"801\", \"firmId\": 112787, \"firmName\": \"PEACHTREE PLANNING ADVISORS, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"USA\", \"registrationBeginDate\": \"10/6/2009\", \"registrationEndDate\": \"12/31/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"1/21/2008\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"7/16/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/28/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/5/2015\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Tyler Reams",
+    "fetched_name": "TYLER DORSEY REAMS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Tyler Reams' did not match fetched name 'TYLER DORSEY REAMS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

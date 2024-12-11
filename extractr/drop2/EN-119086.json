@@ -1,0 +1,106 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Matthew",
+    "middle_name": "",
+    "last_name": "Zolton",
+    "name": "Matthew Zolton",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119086"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:57:59",
+    "cache_files": {
+      "basic_info": "./cache/sec_Matthew Zolton_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5049639_detailed_info.json"
+    },
+    "individual_name": "Matthew Zolton",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5049639",
+      "ind_firstname": "MATTHEW",
+      "ind_lastname": "ZOLTON",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-02-22",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "OVERLAND PARK",
+          "branch_state": "KS",
+          "branch_zip": "66211",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5049639, \"firstName\": \"MATTHEW\", \"lastName\": \"ZOLTON\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/22/2007\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/11/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"76422\", \"street1\": \"5454 W. 110TH STREET\", \"city\": \"OVERLAND PARK\", \"cityAlias\": [\"LEAWOOD\", \"OVERLAND\", \"OVERLAND PARK\", \"SHAWNEE MISSION\", \"SHAWNEE MSN\", \"SM\"], \"state\": \"KS\", \"country\": \"United States\", \"zipCode\": \"66211\", \"latitude\": \"38.925578\", \"longitude\": \"-94.638286\", \"geoLocation\": \"38.925578,-94.638286\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/01/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"Leawood\", \"state\": \"KS\", \"registrationBeginDate\": \"12/17/2013\", \"registrationEndDate\": \"12/10/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"registrationBeginDate\": \"1/12/2007\", \"registrationEndDate\": \"12/4/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"44264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27250\", \"firmId\": 10409, \"firmName\": \"MML INVESTORS SERVICES, INC.\", \"city\": \"LEAWOOD\", \"state\": \"KS\", \"registrationBeginDate\": \"1/10/2006\", \"registrationEndDate\": \"4/12/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"Leawood\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"12/17/2013\", \"registrationEndDate\": \"12/10/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"1/12/2007\", \"registrationEndDate\": \"12/4/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"1/12/2007\", \"registrationEndDate\": \"12/4/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"44264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27250\", \"firmId\": 10409, \"firmName\": \"MML INVESTORS SERVICES, INC.\", \"city\": \"LEAWOOD\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"9/7/2006\", \"registrationEndDate\": \"4/12/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"11/11/2019\", \"disclosureType\": \"Employment Separation After Allegations\", \"disclosureResolution\": \"\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Firm Name\": \"CHARLES SCHWAB & CO., INC.\", \"Termination Type\": \"Voluntary Resignation\", \"Allegations\": \"Allegations relate to Mr. Zolton placing trades in client's accounts without documented authorization.  Further allegations relate to Mr. Zolton's use of personal electronic resources contrary to Schwab's Electronics Resource Policy.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Termination\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"1/16/2006\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/9/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Kansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/11/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Matthew Zolton",
+    "fetched_name": "MATTHEW  ZOLTON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Matthew Zolton' did not match fetched name 'MATTHEW  ZOLTON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Matthew Zolton has 1 employment separation after allegations disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Employment Separation After Allegations Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "11/11/2019",
+          "resolution": "",
+          "details": {
+            "Firm Name": "CHARLES SCHWAB & CO., INC.",
+            "Termination Type": "Voluntary Resignation",
+            "Allegations": "Allegations relate to Mr. Zolton placing trades in client's accounts without documented authorization.  Further allegations relate to Mr. Zolton's use of personal electronic resources contrary to Schwab's Electronics Resource Policy."
+          }
+        },
+        "description": "Unknown disclosure type Employment Separation After Allegations on 11/11/2019."
+      }
+    ]
+  }
+}

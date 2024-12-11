@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "5675465",
+    "first_name": "Timothy",
+    "middle_name": "",
+    "last_name": "Mazanec",
+    "name": "Timothy Mazanec",
+    "organization_name": "RWA Wealth Partners LLC",
+    "license_type": "",
+    "employee_number": "EN-120919"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:13:29",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5675465_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5675465_detailed_info.json"
+    },
+    "crd_number": "5675465",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5675465",
+      "ind_firstname": "Timothy",
+      "ind_lastname": "Mazanec",
+      "ind_other_names": [
+        "TIMOTHY J MAZANEC",
+        "Timothy John Mazanec"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "3338",
+      "ind_current_employments": [
+        {
+          "firm_id": "156984",
+          "firm_name": "RWA WEALTH PARTNERS",
+          "branch_city": "NEWTON",
+          "branch_state": "MA",
+          "branch_zip": "02459",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "73098",
+          "firm_ia_full_sec_number": "801-73098"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5675465, \"firstName\": \"Timothy\", \"lastName\": \"Mazanec\", \"otherNames\": [\"TIMOTHY J MAZANEC\", \"Timothy John Mazanec\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 3338}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"69038\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"52250\", \"firmId\": 103747, \"firmName\": \"AW SECURITIES\", \"city\": \"Waltham\", \"state\": \"MA\", \"registrationBeginDate\": \"7/5/2023\", \"registrationEndDate\": \"1/16/2024\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"46844\", \"firmId\": 35747, \"firmName\": \"PURSHE KAPLAN STERLING INVESTMENTS\", \"city\": \"Waltham\", \"state\": \"MA\", \"registrationBeginDate\": \"7/22/2019\", \"registrationEndDate\": \"6/30/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"8/19/2016\", \"registrationEndDate\": \"5/7/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"8/13/2014\", \"registrationEndDate\": \"5/10/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"52614\", \"firmId\": 104162, \"firmName\": \"ASSENT LLC\", \"city\": \"BOLINGBROOK\", \"state\": \"IL\", \"country\": \"USA\", \"registrationBeginDate\": \"6/24/2009\", \"registrationEndDate\": \"9/4/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/18/2014\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/20/2009\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 30\", \"examName\": \"NFA Branch Manager Examination\", \"examTakenDate\": \"8/19/2010\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/13/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 34\", \"examName\": \"Retail Off-Exchange FOREX Examination\", \"examTakenDate\": \"12/9/2010\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"8/4/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2024\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/7/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Timothy Mazanec",
+    "fetched_name": "Timothy  Mazanec",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Timothy Mazanec' did not match fetched name 'Timothy  Mazanec' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

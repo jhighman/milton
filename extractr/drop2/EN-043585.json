@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Christie",
+    "middle_name": "",
+    "last_name": "Behunin",
+    "name": "Christie Behunin",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-043585"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:16:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Christie Behunin_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5396096_detailed_info.json"
+    },
+    "individual_name": "Christie Behunin",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5396096",
+      "ind_firstname": "CHRISTIE",
+      "ind_middlename": "NICHOLE",
+      "ind_lastname": "BEHUNIN",
+      "ind_other_names": [
+        "CHRISTIE N KROMPEL",
+        "CHRISTIE Nichole KROMPEL",
+        "Christie Nichole Krompel-Behunin"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2017-09-14",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5396096, \"firstName\": \"CHRISTIE\", \"middleName\": \"NICHOLE\", \"lastName\": \"BEHUNIN\", \"otherNames\": [\"CHRISTIE N KROMPEL\", \"CHRISTIE Nichole KROMPEL\", \"Christie Nichole Krompel-Behunin\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/14/2017\"}, \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/14/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"08/01/2017\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/14/2017\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"10/19/2007\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/12/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/14/2017\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/27/2017\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/15/2017\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Christie Behunin",
+    "fetched_name": "CHRISTIE NICHOLE BEHUNIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Christie Behunin' did not match fetched name 'CHRISTIE NICHOLE BEHUNIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

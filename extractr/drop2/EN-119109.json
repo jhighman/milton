@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Andrew",
+    "middle_name": "",
+    "last_name": "Vernazza",
+    "name": "Andrew Vernazza",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119109"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:59:03",
+    "cache_files": {
+      "basic_info": "./cache/sec_Andrew Vernazza_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4384273_detailed_info.json"
+    },
+    "individual_name": "Andrew Vernazza",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4384273",
+      "ind_firstname": "ANDREW",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "VERNAZZA",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2011-03-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Southborough",
+          "branch_state": "MA",
+          "branch_zip": "01772",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Hingham",
+          "branch_state": "MA",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4384273, \"firstName\": \"ANDREW\", \"middleName\": \"DAVID\", \"lastName\": \"VERNAZZA\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/11/2011\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/2/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"118 Turnpike Road\", \"street2\": \"Suite 300\", \"city\": \"Southborough\", \"cityAlias\": [\"SOUTHBORO\", \"SOUTHBOROUGH\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"01772\", \"latitude\": \"42.296533\", \"longitude\": \"-71.535209\", \"geoLocation\": \"42.296533,-71.535209\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/31/2022\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Hingham\", \"state\": \"MA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/24/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"76607\", \"iaSECNumberType\": \"801\", \"firmId\": 160116, \"firmName\": \"FERRIS CAPITAL, LLC\", \"city\": \"SOUTHBOROUGH\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/19/2014\", \"registrationEndDate\": \"6/21/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"WESTBOROUGH\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/10/2009\", \"registrationEndDate\": \"10/16/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"5/30/2001\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/3/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/1/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"6/2/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Andrew Vernazza",
+    "fetched_name": "ANDREW DAVID VERNAZZA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Andrew Vernazza' did not match fetched name 'ANDREW DAVID VERNAZZA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Dani",
+    "middle_name": "",
+    "last_name": "Comart",
+    "name": "Dani Comart",
+    "organization_name": "Lido Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-056677"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 12:51:14",
+    "cache_files": {
+      "basic_info": "./cache/sec_Dani Comart_269866_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5950360_detailed_info.json"
+    },
+    "individual_name": "Dani Comart",
+    "firm_crd": "269866",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5950360",
+      "ind_firstname": "Dani",
+      "ind_middlename": "M.",
+      "ind_lastname": "Comart",
+      "ind_other_names": [
+        "DANI MARTIN COMART",
+        "DANI  COMART"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2011-08-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "269866",
+          "firm_name": "LIDO",
+          "branch_city": "BOCA RATON",
+          "branch_state": "FL",
+          "branch_zip": "33431",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "100433",
+          "firm_ia_full_sec_number": "801-100433"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5950360, \"firstName\": \"Dani\", \"middleName\": \"M.\", \"lastName\": \"Comart\", \"otherNames\": [\"DANI MARTIN COMART\", \"DANI  COMART\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/29/2011\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 269866, \"firmName\": \"LIDO\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/14/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"100433\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1875 NW CORPORATE BOULEVARD\", \"street2\": \"SUITE 110\", \"city\": \"BOCA RATON\", \"cityAlias\": [\"BOCA RATON\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"33431\", \"latitude\": \"26.378146\", \"longitude\": \"-80.102036\", \"geoLocation\": \"26.378146,-80.102036\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"Boca Raton\", \"state\": \"FL\", \"registrationBeginDate\": \"8/30/2011\", \"registrationEndDate\": \"10/20/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/2/2020\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/31/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/29/2011\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/14/2020\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/20/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/13/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Dani Comart",
+    "fetched_name": "Dani M. Comart",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Dani Comart' did not match fetched name 'Dani M. Comart' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

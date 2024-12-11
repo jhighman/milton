@@ -1,0 +1,31 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ellen",
+    "middle_name": "",
+    "last_name": "Flaherty",
+    "name": "Ellen Flaherty",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049359"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:40:10",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ellen Flaherty_106223_correlated_firm_info.json"
+    },
+    "individual_name": "Ellen Flaherty",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "No matching individual found",
+    "search_compliance": false
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

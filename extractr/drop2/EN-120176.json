@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "William",
+    "middle_name": "",
+    "last_name": "Collins",
+    "name": "William Collins",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-120176"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:09:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_William Collins_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2138910_detailed_info.json"
+    },
+    "individual_name": "William Collins",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2138910",
+      "ind_firstname": "WILLIAM",
+      "ind_middlename": "JAMES",
+      "ind_lastname": "COLLINS",
+      "ind_namesuffix": "JR",
+      "ind_other_names": [
+        "BILL  COLLINS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-07-05",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Burlington",
+          "branch_state": "MA",
+          "branch_zip": "01803",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2138910, \"firstName\": \"WILLIAM\", \"middleName\": \"JAMES\", \"lastName\": \"COLLINS\", \"nameSuffix\": \"JR\", \"otherNames\": [\"BILL  COLLINS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/5/1999\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/2/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"78 Blanchard Road\", \"city\": \"Burlington\", \"cityAlias\": [\"BURLINGTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"01803\", \"latitude\": \"42.505988\", \"longitude\": \"-71.204536\", \"geoLocation\": \"42.505988,-71.204536\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/01/2017\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"58232\", \"iaSECNumberType\": \"801\", \"firmId\": 111982, \"firmName\": \"WEST COAST ASSET MANAGEMENT,INC.\", \"city\": \"MONTECITO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/2/2009\", \"registrationEndDate\": \"5/15/2009\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"BURLINGTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/9/1997\", \"registrationEndDate\": \"11/19/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/26/1991\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/30/1991\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/1/2024\"}, {\"state\": \"New Hampshire\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/15/2018\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "William Collins",
+    "fetched_name": "WILLIAM JAMES COLLINS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'William Collins' did not match fetched name 'WILLIAM JAMES COLLINS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

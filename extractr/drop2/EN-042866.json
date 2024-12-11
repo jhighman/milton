@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Chip",
+    "middle_name": "",
+    "last_name": "Jurgensen",
+    "name": "Chip Jurgensen",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-042866"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:05:31",
+    "cache_files": {
+      "basic_info": "./cache/sec_Chip Jurgensen_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4202230_detailed_info.json"
+    },
+    "individual_name": "Chip Jurgensen",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4202230",
+      "ind_firstname": "CHIP",
+      "ind_middlename": "JASON",
+      "ind_lastname": "JURGENSEN",
+      "ind_other_names": [
+        "GERARD JASON KEMPINSKI"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-01-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Raleigh",
+          "branch_state": "NC",
+          "branch_zip": "27615",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4202230, \"firstName\": \"CHIP\", \"middleName\": \"JASON\", \"lastName\": \"JURGENSEN\", \"otherNames\": [\"GERARD JASON KEMPINSKI\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/24/2003\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/21/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"9121 Anson Way\", \"street2\": \"Suite 200\", \"city\": \"Raleigh\", \"cityAlias\": [\"RALEIGH\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"27615\", \"latitude\": \"35.902182\", \"longitude\": \"-78.627742\", \"geoLocation\": \"35.902182,-78.627742\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/31/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"17983\", \"firmId\": 6694, \"firmName\": \"RAYMOND JAMES FINANCIAL SERVICES, INC.\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"registrationBeginDate\": \"12/14/2017\", \"registrationEndDate\": \"6/19/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"registrationBeginDate\": \"4/24/2015\", \"registrationEndDate\": \"11/13/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"registrationBeginDate\": \"12/4/2007\", \"registrationEndDate\": \"12/31/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"106629\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"46134\", \"firmId\": 33856, \"firmName\": \"BB&T INVESTMENT SERVICES, INC.\", \"city\": \"WAKE FOREST\", \"state\": \"NC\", \"registrationBeginDate\": \"3/22/2006\", \"registrationEndDate\": \"11/23/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"16752\", \"firmId\": 5979, \"firmName\": \"H&R BLOCK FINANCIAL ADVISORS, INC.\", \"city\": \"DETROIT\", \"state\": \"MI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/31/2003\", \"registrationEndDate\": \"6/1/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15939\", \"firmId\": 6555, \"firmName\": \"LEGG MASON WOOD WALKER, INCORPORATED\", \"city\": \"BALTIMORE\", \"state\": \"MD\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/9/2001\", \"registrationEndDate\": \"12/18/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"38301\", \"iaSECNumberType\": \"801\", \"firmId\": 109732, \"firmName\": \"SBSB FINANCIAL ADVISORS\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"6/26/2019\", \"registrationEndDate\": \"4/13/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"69815\", \"iaSECNumberType\": \"801\", \"firmId\": 149018, \"firmName\": \"RAYMOND JAMES FINANCIAL SERVICES ADVISORS, INC\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"3/14/2018\", \"registrationEndDate\": \"6/19/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"74442\", \"iaSECNumberType\": \"801\", \"firmId\": 149575, \"firmName\": \"RJ20, INC.\", \"city\": \"MORRISVILLE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"12/10/2012\", \"registrationEndDate\": \"3/14/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"4/7/2015\", \"registrationEndDate\": \"11/13/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 167574, \"firmName\": \"C2 ASSET MANAGEMENT, LLC\", \"city\": \"MORRISVILLE\", \"state\": \"NC\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/20/2013\", \"registrationEndDate\": \"3/19/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"74442\", \"iaSECNumberType\": \"801\", \"firmId\": 149575, \"firmName\": \"RJ20, INC.\", \"city\": \"MORRISVILLE\", \"state\": \"NC\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/3/2011\", \"registrationEndDate\": \"4/11/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"74442\", \"iaSECNumberType\": \"801\", \"firmId\": 149575, \"firmName\": \"RJ20, INC.\", \"city\": \"CHAPEL HILL\", \"state\": \"NC\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/1/2010\", \"registrationEndDate\": \"12/31/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"12/4/2007\", \"registrationEndDate\": \"12/31/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"106629\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"46134\", \"firmId\": 33856, \"firmName\": \"BB&T INVESTMENT SERVICES, INC.\", \"city\": \"WAKE FOREST\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"3/21/2006\", \"registrationEndDate\": \"11/23/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57847\", \"iaSECNumberType\": \"801\", \"firmId\": 108443, \"firmName\": \"BB&T ASSET MANAGEMENT, INC.\", \"city\": \"SMITHFIELD\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"6/14/2005\", \"registrationEndDate\": \"3/21/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"16752\", \"firmId\": 5979, \"firmName\": \"H&R BLOCK FINANCIAL ADVISORS, INC.\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"2/20/2004\", \"registrationEndDate\": \"6/1/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/27/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/21/2003\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/24/2015\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/21/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Chip Jurgensen",
+    "fetched_name": "CHIP JASON JURGENSEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Chip Jurgensen' did not match fetched name 'CHIP JASON JURGENSEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

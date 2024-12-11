@@ -1,0 +1,31 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Daniel",
+    "middle_name": "",
+    "last_name": "Dufresne",
+    "name": "Daniel Dufresne",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-054664"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Daniel Dufresne_143490_correlated_firm_info.json"
+    },
+    "individual_name": "Daniel Dufresne",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "No matching individual found",
+    "search_compliance": false
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

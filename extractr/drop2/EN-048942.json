@@ -1,0 +1,107 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Kenny",
+    "name": "Ryan Kenny",
+    "organization_name": "Crestwood Advisors Group LLC",
+    "license_type": "",
+    "employee_number": "EN-048942"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:21:49",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ryan Kenny_286243_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5552849_detailed_info.json"
+    },
+    "individual_name": "Ryan Kenny",
+    "firm_crd": "286243",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5552849",
+      "ind_firstname": "RYAN",
+      "ind_middlename": "GERARD",
+      "ind_lastname": "KENNY",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-07-05",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "286243",
+          "firm_name": "CRESTWOOD ADVISORS",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02109",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "108983",
+          "firm_ia_full_sec_number": "801-108983"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5552849, \"firstName\": \"RYAN\", \"middleName\": \"GERARD\", \"lastName\": \"KENNY\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/5/2012\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 286243, \"firmName\": \"CRESTWOOD ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/25/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"108983\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"650747\", \"street1\": \"ONE LIBERTY SQUARE\", \"street2\": \"SUITE 500\", \"city\": \"BOSTON\", \"cityAlias\": [\"BOSTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02109\", \"latitude\": \"42.363244\", \"longitude\": \"-71.053774\", \"geoLocation\": \"42.363244,-71.053774\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/01/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"69700\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41342\", \"firmId\": 19714, \"firmName\": \"BARCLAYS CAPITAL INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"5/10/2012\", \"registrationEndDate\": \"12/12/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"5/12/2010\", \"registrationEndDate\": \"5/25/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44744\", \"firmId\": 30107, \"firmName\": \"STATE STREET GLOBAL MARKETS, LLC\", \"city\": \"QUINCY\", \"state\": \"MA\", \"registrationBeginDate\": \"7/28/2008\", \"registrationEndDate\": \"11/13/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69700\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41342\", \"firmId\": 19714, \"firmName\": \"BARCLAYS CAPITAL INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/12/2012\", \"registrationEndDate\": \"12/12/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"11/14/2014\", \"disclosureType\": \"Employment Separation After Allegations\", \"disclosureResolution\": \"\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Firm Name\": \"BARCLAYS CAPITAL INC.\", \"Termination Type\": \"Discharged\", \"Allegations\": \"ALLEGATIONS CONCERNING INSTANCES IN WHICH THE REPRESENTATIVE USED SIGNATURE PAGES FROM PRIOR WIRE TRANSFER REQUESTS TO PROCESS SUBSEQUENT WIRE TRANSFER REQUESTS.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Termination\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/9/2012\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/6/2008\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"12/12/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"5/2/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/24/2008\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2017\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Kenny",
+    "fetched_name": "RYAN GERARD KENNY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Kenny' did not match fetched name 'RYAN GERARD KENNY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Ryan Kenny has 1 employment separation after allegations disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Employment Separation After Allegations Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "11/14/2014",
+          "resolution": "",
+          "details": {
+            "Firm Name": "BARCLAYS CAPITAL INC.",
+            "Termination Type": "Discharged",
+            "Allegations": "ALLEGATIONS CONCERNING INSTANCES IN WHICH THE REPRESENTATIVE USED SIGNATURE PAGES FROM PRIOR WIRE TRANSFER REQUESTS TO PROCESS SUBSEQUENT WIRE TRANSFER REQUESTS."
+          }
+        },
+        "description": "Unknown disclosure type Employment Separation After Allegations on 11/14/2014."
+      }
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Joseph",
+    "middle_name": "",
+    "last_name": "McClean",
+    "name": "Joseph McClean",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-120183"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:10:15",
+    "cache_files": {
+      "basic_info": "./cache/sec_Joseph McClean_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4277524_detailed_info.json"
+    },
+    "individual_name": "Joseph McClean",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4277524",
+      "ind_firstname": "JOSEPH",
+      "ind_middlename": "R.",
+      "ind_lastname": "MCLEAN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2005-10-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "San Ramon",
+          "branch_state": "CA",
+          "branch_zip": "94583",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4277524, \"firstName\": \"JOSEPH\", \"middleName\": \"R.\", \"lastName\": \"MCLEAN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/20/2005\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/16/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12657 Alcosta Blvd\", \"street2\": \"Suite 400\", \"city\": \"San Ramon\", \"cityAlias\": [\"SAN RAMON\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94583\", \"latitude\": \"37.769922\", \"longitude\": \"-122.001446\", \"geoLocation\": \"37.769922,-122.001446\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/15/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"61821\", \"iaSECNumberType\": \"801\", \"firmId\": 122418, \"firmName\": \"INTERSECT CAPITAL LLC\", \"city\": \"SAN RAMON\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/3/2014\", \"registrationEndDate\": \"8/5/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67503\", \"iaSECNumberType\": \"801\", \"firmId\": 142962, \"firmName\": \"TRUE CAPITAL MANAGEMENT\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"5/3/2011\", \"registrationEndDate\": \"6/2/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56720\", \"iaSECNumberType\": \"801\", \"firmId\": 108477, \"firmName\": \"ALLIANCEBERNSTEIN L.P.\", \"city\": \"DANVILLE\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/31/2006\", \"registrationEndDate\": \"4/25/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"6997\", \"iaSECNumberType\": \"801\", \"firmId\": 110391, \"firmName\": \"LORD, ABBETT & CO. LLC\", \"city\": \"JERSEY CITY\", \"state\": \"NJ\", \"country\": \"United States\", \"registrationBeginDate\": \"8/9/2005\", \"registrationEndDate\": \"10/5/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/8/2005\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/4/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"9/23/2009\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/9/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"10/17/2000\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/16/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joseph McClean",
+    "fetched_name": "JOSEPH R. MCLEAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joseph McClean' did not match fetched name 'JOSEPH R. MCLEAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Joseph McClean",
+          "fetched_name": "JOSEPH R. MCLEAN",
+          "other_names": []
+        },
+        "description": "Expected name 'Joseph McClean' did not match fetched name 'JOSEPH R. MCLEAN'."
+      }
+    ]
+  }
+}

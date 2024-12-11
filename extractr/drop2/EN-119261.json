@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Joe",
+    "middle_name": "",
+    "last_name": "Goltermann",
+    "name": "Joe Goltermann",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119261"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:03:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Joe Goltermann_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5628642_detailed_info.json"
+    },
+    "individual_name": "Joe Goltermann",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5628642",
+      "ind_firstname": "GREGORY",
+      "ind_middlename": "JOSEPH",
+      "ind_lastname": "GOLTERMANN",
+      "ind_other_names": [
+        "JOE  GOLTERMANN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2009-01-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Des Peres",
+          "branch_state": "MO",
+          "branch_zip": "63131",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5628642, \"firstName\": \"GREGORY\", \"middleName\": \"JOSEPH\", \"lastName\": \"GOLTERMANN\", \"otherNames\": [\"JOE  GOLTERMANN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/18/2009\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"3/9/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12818 Daylight Circle\", \"city\": \"Des Peres\", \"cityAlias\": [\"COUNTRY LIFE ACRES\", \"CRYSTAL LAKE PARK\", \"DES PERES\", \"FRONTENAC\", \"HUNTLEIGH\", \"SAINT LOUIS\", \"WESTWOOD\"], \"state\": \"MO\", \"country\": \"United States\", \"zipCode\": \"63131\", \"latitude\": \"38.615896\", \"longitude\": \"-90.445589\", \"geoLocation\": \"38.615896,-90.445589\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/28/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"62021\", \"iaSECNumberType\": \"801\", \"firmId\": 116909, \"firmName\": \"RUBINBROWN ADVISORS LLC\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2018\", \"registrationEndDate\": \"2/25/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55207\", \"iaSECNumberType\": \"801\", \"firmId\": 108620, \"firmName\": \"DROMS STRAUSS WEALTH MANAGEMENT\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/4/2017\", \"registrationEndDate\": \"1/5/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 148422, \"firmName\": \"GJG CAPITAL, LLC\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"United States\", \"registrationBeginDate\": \"12/19/2008\", \"registrationEndDate\": \"12/14/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/14/2008\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Missouri\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/9/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joe Goltermann",
+    "fetched_name": "GREGORY JOSEPH GOLTERMANN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joe Goltermann' did not match fetched name 'GREGORY JOSEPH GOLTERMANN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

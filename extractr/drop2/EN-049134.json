@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "James",
+    "middle_name": "",
+    "last_name": "Balfour",
+    "name": "James Balfour",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049134"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:42:12",
+    "cache_files": {
+      "basic_info": "./cache/sec_James Balfour_106223_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6883255_detailed_info.json"
+    },
+    "individual_name": "James Balfour",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6883255",
+      "ind_firstname": "James",
+      "ind_lastname": "Balfour",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-12-22",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "Lynnfield",
+          "branch_state": "MA",
+          "branch_zip": "01940",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "Wolfeboro",
+          "branch_state": "NH",
+          "branch_zip": "03894",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6883255, \"firstName\": \"James\", \"lastName\": \"Balfour\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/22/2019\"}, \"currentIAEmployments\": [{\"firmId\": 106223, \"firmName\": \"F L PUTNAM INVESTMENT MANAGEMENT CO.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/10/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"6 Kimball Lane\", \"city\": \"Lynnfield\", \"cityAlias\": [\"LYNNFIELD\", \"SOUTH LYNNFIELD\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"01940\", \"latitude\": \"42.538193\", \"longitude\": \"-71.030538\", \"geoLocation\": \"42.538193,-71.030538\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/04/2021\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"40 Mill Street\", \"city\": \"Wolfeboro\", \"cityAlias\": [\"TUFTONBORO\", \"WOLFEBORO\"], \"state\": \"NH\", \"country\": \"United States\", \"zipCode\": \"03894\", \"latitude\": \"43.59269\", \"longitude\": \"-71.160274\", \"geoLocation\": \"43.59269,-71.160274\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/28/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"9892\", \"iaSECNumberType\": \"801\", \"firmId\": 105127, \"firmName\": \"LOWELL BLAKE & ASSOCIATES INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/5/2017\", \"registrationEndDate\": \"10/23/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/10/2021\"}, {\"state\": \"New Hampshire\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/28/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "James Balfour",
+    "fetched_name": "James  Balfour",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'James Balfour' did not match fetched name 'James  Balfour' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

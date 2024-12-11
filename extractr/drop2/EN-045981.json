@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Karen",
+    "middle_name": "",
+    "last_name": "Mcintyre",
+    "name": "Karen Mcintyre",
+    "organization_name": "Wescott Financial Advisory Group LLC",
+    "license_type": "",
+    "employee_number": "EN-045981"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:23:48",
+    "cache_files": {
+      "basic_info": "./cache/sec_Karen Mcintyre_105989_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4882895_detailed_info.json"
+    },
+    "individual_name": "Karen Mcintyre",
+    "firm_crd": "105989",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4882895",
+      "ind_firstname": "KAREN",
+      "ind_middlename": "BETH",
+      "ind_lastname": "MCINTYRE",
+      "ind_other_names": [
+        "KAREN BETH BRODY"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-12-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105989",
+          "firm_name": "WESCOTT FINANCIAL ADVISORY GROUP LLC",
+          "branch_city": "PHILADELPHIA",
+          "branch_state": "PA",
+          "branch_zip": "19103-4196",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4882895, \"firstName\": \"KAREN\", \"middleName\": \"BETH\", \"lastName\": \"MCINTYRE\", \"otherNames\": [\"KAREN BETH BRODY\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/20/2004\"}, \"currentIAEmployments\": [{\"firmId\": 105989, \"firmName\": \"WESCOTT FINANCIAL ADVISORY GROUP LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"3/19/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"55567\", \"street1\": \"30 SOUTH 17TH STREET\", \"city\": \"PHILADELPHIA\", \"cityAlias\": [\"MID CITY WEST\", \"MIDDLE CITY WEST\", \"PHILA\", \"PHILADELPHIA\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19103-4196\", \"latitude\": \"39.953767\", \"longitude\": \"-75.176335\", \"geoLocation\": \"39.953767,-75.176335\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/04/2013\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"64376\", \"iaSECNumberType\": \"801\", \"firmId\": 134600, \"firmName\": \"UNITED CAPITAL FINANCIAL ADVISERS\", \"city\": \"LOWER GWYNEDD\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/4/2011\", \"registrationEndDate\": \"2/11/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"21231\", \"iaSECNumberType\": \"801\", \"firmId\": 109866, \"firmName\": \"VANTAGE POINT ADVISORS INC.\", \"city\": \"LOWER GWYNEDD\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/15/2004\", \"registrationEndDate\": \"12/31/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/3/2023\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/19/2013\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/13/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Karen Mcintyre",
+    "fetched_name": "KAREN BETH MCINTYRE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Karen Mcintyre' did not match fetched name 'KAREN BETH MCINTYRE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

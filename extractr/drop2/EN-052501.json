@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Colin",
+    "middle_name": "",
+    "last_name": "Grover",
+    "name": "Colin Grover",
+    "organization_name": "Lido Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-052501"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:06:11",
+    "cache_files": {
+      "basic_info": "./cache/sec_Colin Grover_269866_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5101923_detailed_info.json"
+    },
+    "individual_name": "Colin Grover",
+    "firm_crd": "269866",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5101923",
+      "ind_firstname": "COLIN",
+      "ind_middlename": "Charles",
+      "ind_lastname": "GROVER",
+      "ind_other_names": [
+        "COLIN CHARLES GROVER",
+        "COLIN  GROVER"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-03-22",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "269866",
+          "firm_name": "LIDO",
+          "branch_city": "Houston",
+          "branch_state": "TX",
+          "branch_zip": "77056",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "100433",
+          "firm_ia_full_sec_number": "801-100433"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5101923, \"firstName\": \"COLIN\", \"middleName\": \"Charles\", \"lastName\": \"GROVER\", \"otherNames\": [\"COLIN CHARLES GROVER\", \"COLIN  GROVER\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/22/2007\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 269866, \"firmName\": \"LIDO\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/12/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"100433\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1980 Post Oak Blvd\", \"street2\": \"Suite 100\", \"city\": \"Houston\", \"cityAlias\": [\"HOUSTON\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"77056\", \"latitude\": \"29.749183\", \"longitude\": \"-95.46743\", \"geoLocation\": \"29.749183,-95.46743\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/01/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"CETERA ADVISOR NETWORKS LLC\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"registrationBeginDate\": \"4/26/2012\", \"registrationEndDate\": \"2/17/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"WESTPORT\", \"state\": \"CT\", \"registrationBeginDate\": \"5/11/2011\", \"registrationEndDate\": \"4/17/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"63122\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29667\", \"firmId\": 13704, \"firmName\": \"PEOPLE'S SECURITIES, INC.\", \"city\": \"FAIRFIELD\", \"state\": \"CT\", \"registrationBeginDate\": \"2/2/2007\", \"registrationEndDate\": \"3/30/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56681\", \"iaSECNumberType\": \"801\", \"firmId\": 107774, \"firmName\": \"PORTFOLIO SOLUTIONS LLC\", \"city\": \"Troy\", \"state\": \"MI\", \"country\": \"United States\", \"registrationBeginDate\": \"4/5/2016\", \"registrationEndDate\": \"12/4/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"76718\", \"iaSECNumberType\": \"801\", \"firmId\": 161997, \"firmName\": \"LIBERTY WEALTH ADVISORS, LLC\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/25/2013\", \"registrationEndDate\": \"11/4/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"47342\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29577\", \"firmId\": 13572, \"firmName\": \"CETERA ADVISOR NETWORKS LLC\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"4/26/2012\", \"registrationEndDate\": \"7/11/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"WESTPORT\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"5/11/2011\", \"registrationEndDate\": \"4/17/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63122\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29667\", \"firmId\": 13704, \"firmName\": \"PEOPLE'S SECURITIES, INC.\", \"city\": \"FAIRFIELD\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"7/2/2007\", \"registrationEndDate\": \"3/30/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/29/2007\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"3/5/2007\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"7/1/2010\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"2/17/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/1/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/27/2022\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/21/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/12/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Colin Grover",
+    "fetched_name": "COLIN Charles GROVER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Colin Grover' did not match fetched name 'COLIN Charles GROVER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "1001810",
+    "first_name": "Alan",
+    "middle_name": "",
+    "last_name": "Kirchner",
+    "name": "Alan Kirchner",
+    "organization_name": "Crawford Investment Counsel Inc",
+    "license_type": "",
+    "employee_number": "EN-059421"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_1001810_basic_info.json",
+      "detailed_info": "./cache/brokercheck_1001810_detailed_info.json"
+    },
+    "crd_number": "1001810",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1001810",
+      "ind_firstname": "ALAN",
+      "ind_middlename": "WILLARD",
+      "ind_lastname": "KIRCHNER",
+      "ind_other_names": [
+        "AL  KIRCHNER JR",
+        "AL  KIRCHNER",
+        "ALAN WILLARD KIRCHNER JR"
+      ],
+      "ind_bc_scope": "Expanded",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "7119",
+      "ind_current_employments": [
+        {
+          "firm_id": "110271",
+          "firm_name": "CRAWFORD INVESTMENT COUNSEL INC",
+          "branch_city": "PONTE VEDRA BEACH",
+          "branch_state": "FL",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "15563",
+          "firm_ia_full_sec_number": "801-15563"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 1001810, \"firstName\": \"ALAN\", \"middleName\": \"WILLARD\", \"lastName\": \"KIRCHNER\", \"otherNames\": [\"AL  KIRCHNER JR\", \"AL  KIRCHNER\", \"ALAN WILLARD KIRCHNER JR\"], \"bcScope\": \"Expanded\", \"iaScope\": \"Active\", \"daysInIndustry\": 7119}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"PONTE VEDRA\", \"state\": \"FL\", \"registrationBeginDate\": \"9/2/2005\", \"registrationEndDate\": \"3/2/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"77927\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"34532\", \"firmId\": 16783, \"firmName\": \"QUEST CAPITAL STRATEGIES, INC.\", \"city\": \"LAGUNA HILLS\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"12/19/2003\", \"registrationEndDate\": \"9/23/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15001\", \"firmId\": 4161, \"firmName\": \"MORGAN KEEGAN & COMPANY, INC.\", \"city\": \"MEMPHIS\", \"state\": \"TN\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"4/29/1985\", \"registrationEndDate\": \"3/4/1998\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"registrationBeginDate\": \"4/2/1982\", \"registrationEndDate\": \"4/17/1985\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD D. JONES & CO., L.P.\", \"registrationBeginDate\": \"9/22/1981\", \"registrationEndDate\": \"2/12/1982\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"7/13/2015\", \"disclosureType\": \"Regulatory\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 20, \"iaCtgryType\": 10, \"disclosureDetail\": {\"DocketNumberFDA\": \"\", \"DocketNumberAAO\": \"\", \"Initiated By\": \"FLORIDA OFFICE OF FINANCIAL REGULATION\", \"Allegations\": \"CONDUCTED INVESTMENT ADVISORY BUSINESS FROM OFFICES WITHIN THIS STATE WITHOUT THE BENEFIT OF LAWFUL REGISTRATION.\", \"Resolution\": \"Order\", \"SanctionDetails\": [{\"Sanctions\": \"Civil and Administrative Penalty(ies)/Fine(s)\", \"SanctionDetails\": [{\"Amount\": \"$20,000.00\"}]}], \"Broker Comment\": \"ON 07/13/2015, THE OFFICE OF FINANCIAL REGULATION ENTERED A FINAL ORDER ADOPTING THE 7/7/2015 STIPULATION AND CONSENT AGREEMENT IN THE MATTER OF ALAN WILLARD KIRCHNER. THROUGH COUNSEL, KIRCHNER COOPERATED WITH THE OFFICE AND INDICATED THE LACK OF REGISTRATION WAS THE RESULT OF AN OVERSIGHT. THE OFFICE FOUND AND MR. KIRCHNER STIPULATED THAT HE ENGAGED IN INVESTMENT ADVISORY BUSINESS WITHIN FLORIDA WITHOUT THE BENEFIT OF LAWFUL REGISTRATION PURSUANT TO SECTION 517.12(4), F.S. MR. KIRCHNER AGREED TO CEASE AND DESIST FROM ANY VIOLATION AND TO HENCEFORTH STRICTLY COMPLY WITH, ALL PROVISIONS OF CHAPTER 517, F.S. AND THE ADMINISTRATIVE RULES PROMULGATED THEREUNDER; AND TO PAY AN ADMINISTRATIVE FINE IN THE AMOUNT OF $20,000. THE OFFICE AGREED TO APPROVE MR. KIRCHNER'S APPLICATION AS AN ASSOCIATED PERSON (RA) WITH CRAWFORD INVESTMENT COUNSEL EFFECTIVE 7/13/2015.\"}}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/20/2015\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/4/2004\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 8\", \"examName\": \"General  Securities Sales Supervisor Examination (Options Module & General Module)\", \"examTakenDate\": \"8/6/1985\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/18/2003\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"6/14/1990\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 5\", \"examName\": \"Interest Rate Options Examination\", \"examTakenDate\": \"4/27/1982\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/13/2015\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Alan Kirchner",
+    "fetched_name": "ALAN WILLARD KIRCHNER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Alan Kirchner' did not match fetched name 'ALAN WILLARD KIRCHNER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

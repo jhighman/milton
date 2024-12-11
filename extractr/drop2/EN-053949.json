@@ -1,0 +1,107 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Taylor",
+    "middle_name": "",
+    "last_name": "Mcgowan",
+    "name": "Taylor Mcgowan",
+    "organization_name": "Hightower Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-053949"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:47:28",
+    "cache_files": {
+      "basic_info": "./cache/sec_Taylor Mcgowan_145323_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3118503_detailed_info.json"
+    },
+    "individual_name": "Taylor Mcgowan",
+    "firm_crd": "145323",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3118503",
+      "ind_firstname": "Taylor",
+      "ind_lastname": "McGowan",
+      "ind_other_names": [
+        "TAYLOR DUNN MCGOWAN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-10-31",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "145323",
+          "firm_name": "HIGHTOWER ADVISORS, LLC",
+          "branch_city": "Washington",
+          "branch_state": "DC",
+          "branch_zip": "20036",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "145323",
+          "firm_name": "HIGHTOWER ADVISORS, LLC",
+          "branch_city": "Naples",
+          "branch_state": "FL",
+          "branch_zip": "34102",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "145323",
+          "firm_name": "HIGHTOWER ADVISORS, LLC",
+          "branch_city": "Devon",
+          "branch_state": "PA",
+          "branch_zip": "19333",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3118503, \"firstName\": \"Taylor\", \"lastName\": \"McGowan\", \"otherNames\": [\"TAYLOR DUNN MCGOWAN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/31/2002\"}, \"currentIAEmployments\": [{\"firmId\": 145323, \"firmName\": \"HIGHTOWER ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/1/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1020 19th Street NW, Suite 200\", \"city\": \"Washington\", \"cityAlias\": [\"WASHINGTON\"], \"state\": \"DC\", \"country\": \"United States\", \"zipCode\": \"20036\", \"latitude\": \"38.906861\", \"longitude\": \"-77.041385\", \"geoLocation\": \"38.906861,-77.041385\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/17/2021\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"599 Tamiami Trail North, Suite 201\", \"city\": \"Naples\", \"cityAlias\": [\"NAPLES\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"34102\", \"latitude\": \"26.132305\", \"longitude\": \"-81.798729\", \"geoLocation\": \"26.132305,-81.798729\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/01/2021\"}, {\"displayOrder\": 4, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"237 West Lancaster Avenue, Suite 110\", \"city\": \"Devon\", \"cityAlias\": [\"DEVON\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19333\", \"latitude\": \"40.043326\", \"longitude\": \"-75.423587\", \"geoLocation\": \"40.043326,-75.423587\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/01/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"52081\", \"iaSECNumberType\": \"801\", \"firmId\": 107553, \"firmName\": \"FARR MILLER & WASHINGTON LLC\", \"city\": \"WASHINGTON\", \"state\": \"DC\", \"country\": \"United States\", \"registrationBeginDate\": \"11/1/2002\", \"registrationEndDate\": \"6/30/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/2/1998\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/27/1998\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 6}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/1/2021\"}, {\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/29/2022\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/25/2022\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/30/2022\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/1/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/1/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Taylor Mcgowan",
+    "fetched_name": "Taylor  McGowan",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Taylor Mcgowan' did not match fetched name 'Taylor  McGowan' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

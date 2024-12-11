@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "5045343",
+    "first_name": "Aaron",
+    "middle_name": "",
+    "last_name": "Day",
+    "name": "Aaron Day",
+    "organization_name": "Capital Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-046472"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5045343_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5045343_detailed_info.json"
+    },
+    "crd_number": "5045343",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5045343",
+      "ind_firstname": "AARON",
+      "ind_middlename": "ROBERT",
+      "ind_lastname": "DAY",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "5402",
+      "ind_current_employments": [
+        {
+          "firm_id": "104643",
+          "firm_name": "CAPITAL ADVISORS, INC.",
+          "branch_city": "FRISCO",
+          "branch_state": "TX",
+          "branch_zip": "75034",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "14050",
+          "firm_ia_full_sec_number": "801-14050"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5045343, \"firstName\": \"AARON\", \"middleName\": \"ROBERT\", \"lastName\": \"DAY\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 5402}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"TIAA-CREF INDIVIDUAL & INSTITUTIONAL SERVICES, LLC\", \"city\": \"LEWISVILLE\", \"state\": \"TX\", \"registrationBeginDate\": \"3/9/2016\", \"registrationEndDate\": \"11/13/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"PLANO\", \"state\": \"TX\", \"registrationBeginDate\": \"4/22/2006\", \"registrationEndDate\": \"1/20/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"16335\", \"firmId\": 5633, \"firmName\": \"AMERITRADE, INC.\", \"city\": \"FORT WORTH\", \"state\": \"TX\", \"registrationBeginDate\": \"12/13/2005\", \"registrationEndDate\": \"4/22/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"3/9/2006\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/28/2024\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/19/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/5/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/23/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Aaron Day",
+    "fetched_name": "AARON ROBERT DAY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Aaron Day' did not match fetched name 'AARON ROBERT DAY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

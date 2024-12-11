@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "James",
+    "middle_name": "",
+    "last_name": "Sturgis",
+    "name": "James Sturgis",
+    "organization_name": "SignatureFD LLC",
+    "license_type": "",
+    "employee_number": "EN-048940"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:15:11",
+    "cache_files": {
+      "basic_info": "./cache/sec_James Sturgis_112758_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5333171_detailed_info.json"
+    },
+    "individual_name": "James Sturgis",
+    "firm_crd": "112758",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5333171",
+      "ind_firstname": "JAMES",
+      "ind_middlename": "COLIN",
+      "ind_lastname": "STURGIS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-02-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "112758",
+          "firm_name": "SIGNATUREFD, LLC",
+          "branch_city": "ATLANTA",
+          "branch_state": "GA",
+          "branch_zip": "30309",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5333171, \"firstName\": \"JAMES\", \"middleName\": \"COLIN\", \"lastName\": \"STURGIS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/4/2010\"}, \"currentIAEmployments\": [{\"firmId\": 112758, \"firmName\": \"SIGNATUREFD, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/7/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"56777\", \"street1\": \"1230 PEACHTREE STREET, NE\", \"street2\": \"SUITE 1800\", \"city\": \"ATLANTA\", \"cityAlias\": [\"ATL\", \"ATLANTA\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30309\", \"latitude\": \"33.798463\", \"longitude\": \"-84.388284\", \"geoLocation\": \"33.798463,-84.388284\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"06/04/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"35646\", \"iaSECNumberType\": \"801\", \"firmId\": 108189, \"firmName\": \"HOMRICH BERG\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/21/2015\", \"registrationEndDate\": \"5/30/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 151553, \"firmName\": \"SOLIDUS WEALTH MANGEMENT\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/21/2009\", \"registrationEndDate\": \"3/15/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"8095\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14088\", \"firmId\": 2881, \"firmName\": \"NORTHWESTERN MUTUAL INVESTMENT SERVICES,LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/13/2007\", \"registrationEndDate\": \"9/16/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56443\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35355\", \"firmId\": 17499, \"firmName\": \"SUNTRUST INVESTMENT SERVICES, INC.\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/30/2007\", \"registrationEndDate\": \"10/22/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/28/2007\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/2/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2018\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "James Sturgis",
+    "fetched_name": "JAMES COLIN STURGIS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'James Sturgis' did not match fetched name 'JAMES COLIN STURGIS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

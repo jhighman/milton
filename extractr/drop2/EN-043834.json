@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Ashley",
+    "name": "Ryan Ashley",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-043834"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:09:10",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ryan Ashley_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5779900_detailed_info.json"
+    },
+    "individual_name": "Ryan Ashley",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5779900",
+      "ind_firstname": "RYAN",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "ASHLEY",
+      "ind_other_names": [
+        "RYAN  ASHLEY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-07-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "PONTE VEDRA BEACH",
+          "branch_state": "FL",
+          "branch_zip": "32082",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "58104",
+          "firm_ia_full_sec_number": "801-58104"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5779900, \"firstName\": \"RYAN\", \"middleName\": \"DAVID\", \"lastName\": \"ASHLEY\", \"otherNames\": [\"RYAN  ASHLEY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/17/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/10/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"58104\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"820 Highway A1A N\", \"street2\": \"Suite E4\", \"city\": \"PONTE VEDRA BEACH\", \"cityAlias\": [\"PNTE VDRA BCH\", \"PONTE VEDRA\", \"PONTE VEDRA BEACH\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"32082\", \"latitude\": \"30.103629\", \"longitude\": \"-81.370165\", \"geoLocation\": \"30.103629,-81.370165\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/05/2017\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"TIAA-CREF INDIVIDUAL & INSTITUTIONAL SERVICES, LLC\", \"city\": \"PONTE VEDRA BEACH\", \"state\": \"FL\", \"registrationBeginDate\": \"7/6/2016\", \"registrationEndDate\": \"6/1/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"5/9/2012\", \"registrationEndDate\": \"6/22/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"FRUIT COVE\", \"state\": \"FL\", \"registrationBeginDate\": \"5/21/2010\", \"registrationEndDate\": \"4/25/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"ADVICE AND PLANNING SERVICES\", \"city\": \"PONTE VEDRA BEACH\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"7/8/2016\", \"registrationEndDate\": \"6/1/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"5/10/2012\", \"registrationEndDate\": \"6/29/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"FRUIT COVE\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"6/8/2010\", \"registrationEndDate\": \"4/25/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"6/4/2010\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/1/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/20/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/10/2017\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Ashley",
+    "fetched_name": "RYAN DAVID ASHLEY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Ashley' did not match fetched name 'RYAN DAVID ASHLEY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

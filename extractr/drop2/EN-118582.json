@@ -1,0 +1,121 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "McKenna",
+    "name": "John McKenna",
+    "organization_name": "CIBC Private Wealth Management, Inc.",
+    "license_type": "",
+    "employee_number": "EN-118582"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_John McKenna_109644_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5526611_detailed_info.json"
+    },
+    "individual_name": "John McKenna",
+    "firm_crd": "109644",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5526611",
+      "ind_firstname": "JOHN",
+      "ind_middlename": "FRANCIS",
+      "ind_lastname": "MCKENNA",
+      "ind_other_names": [],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "2008-07-01",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109644",
+          "firm_name": "CIBC PRIVATE WEALTH ADVISORS, INC.",
+          "branch_city": "San Francisco",
+          "branch_state": "CA",
+          "branch_zip": "94105",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57986",
+          "firm_ia_full_sec_number": "801-57986"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "San Francisco",
+          "branch_state": "CA",
+          "branch_zip": "94105",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        },
+        {
+          "firm_id": "630",
+          "firm_name": "CIBC WORLD MARKETS CORP.",
+          "branch_city": "Oakland",
+          "branch_state": "CA",
+          "ia_only": "N",
+          "firm_bd_sec_number": "18333",
+          "firm_bd_full_sec_number": "8-18333"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5526611, \"firstName\": \"JOHN\", \"middleName\": \"FRANCIS\", \"lastName\": \"MCKENNA\", \"otherNames\": [], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/1/2008\"}, \"currentEmployments\": [{\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"6/21/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": []}], \"currentIAEmployments\": [{\"firmId\": 109644, \"firmName\": \"CIBC PRIVATE WEALTH ADVISORS, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/18/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57986\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"101 Second Street\", \"street2\": \"Suite 2500\", \"city\": \"San Francisco\", \"cityAlias\": [\"SAN FRANCISCO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94105\", \"latitude\": \"37.788543\", \"longitude\": \"-122.393872\", \"geoLocation\": \"37.788543,-122.393872\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/01/2023\"}]}, {\"firmId\": 630, \"firmName\": \"CIBC WORLD MARKETS CORP.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"6/21/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"18333\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"101 2nd Street\", \"city\": \"San Francisco\", \"cityAlias\": [\"SAN FRANCISCO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94105\", \"latitude\": \"37.788543\", \"longitude\": \"-122.393872\", \"geoLocation\": \"37.788543,-122.393872\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/10/2023\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Oakland\", \"state\": \"CA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"14161\", \"firmId\": 2936, \"firmName\": \"THE O.N. EQUITY SALES COMPANY\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"registrationBeginDate\": \"8/2/2013\", \"registrationEndDate\": \"5/24/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"70103\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"68191\", \"firmId\": 149777, \"firmName\": \"MORGAN STANLEY\", \"city\": \"PALO ALTO\", \"state\": \"CA\", \"registrationBeginDate\": \"6/1/2009\", \"registrationEndDate\": \"8/27/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"registrationBeginDate\": \"7/2/2008\", \"registrationEndDate\": \"6/1/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"118400\", \"iaSECNumberType\": \"801\", \"firmId\": 140929, \"firmName\": \"EMBARCADERO FINANCIAL GROUP\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/27/2013\", \"registrationEndDate\": \"8/7/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"7941\", \"iaSECNumberType\": \"801\", \"firmId\": 105662, \"firmName\": \"ON INVESTMENT MANAGEMENT CO\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/6/2013\", \"registrationEndDate\": \"5/24/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"70103\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"68191\", \"firmId\": 149777, \"firmName\": \"MORGAN STANLEY\", \"city\": \"PALO ALTO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/1/2009\", \"registrationEndDate\": \"8/27/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/21/2008\", \"registrationEndDate\": \"6/1/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/18/2008\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"12/27/2010\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/1/2008\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 14, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 1, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"6/21/2023\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/18/2023\"}], \"registeredSROs\": [{\"sro\": \"BOX Exchange LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BYX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe BZX Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Cboe Exchange, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"FINRA\", \"status\": \"APPROVED\"}, {\"sro\": \"Investors' Exchange LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE American LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"NYSE Arca, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq BX, Inc.\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq GEMX, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq ISE, LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq PHLX LLC\", \"status\": \"APPROVED\"}, {\"sro\": \"Nasdaq Stock Market\", \"status\": \"APPROVED\"}, {\"sro\": \"New York Stock Exchange\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "John McKenna",
+    "fetched_name": "JOHN FRANCIS MCKENNA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'John McKenna' did not match fetched name 'JOHN FRANCIS MCKENNA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

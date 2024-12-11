@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Patrick",
+    "middle_name": "",
+    "last_name": "Kujawa",
+    "name": "Patrick Kujawa",
+    "organization_name": "Halbert Hargrove",
+    "license_type": "",
+    "employee_number": "EN-044068"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:45:26",
+    "cache_files": {
+      "basic_info": "./cache/sec_Patrick Kujawa_105515_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2459571_detailed_info.json"
+    },
+    "individual_name": "Patrick Kujawa",
+    "firm_crd": "105515",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2459571",
+      "ind_firstname": "PATRICK",
+      "ind_middlename": "ANTHONY",
+      "ind_lastname": "KUJAWA",
+      "ind_other_names": [
+        "PAT  KUJAWA"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2009-11-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105515",
+          "firm_name": "HALBERT HARGROVE",
+          "branch_city": "Scottsdale",
+          "branch_state": "AZ",
+          "branch_zip": "85254",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2459571, \"firstName\": \"PATRICK\", \"middleName\": \"ANTHONY\", \"lastName\": \"KUJAWA\", \"otherNames\": [\"PAT  KUJAWA\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/17/2009\"}, \"currentIAEmployments\": [{\"firmId\": 105515, \"firmName\": \"HALBERT HARGROVE\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/20/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"14850 North Scottsdale Road\", \"street2\": \"Suite 250\", \"city\": \"Scottsdale\", \"cityAlias\": [\"SCOTTSDALE\"], \"state\": \"AZ\", \"country\": \"United States\", \"zipCode\": \"85254\", \"latitude\": \"33.619195\", \"longitude\": \"-111.951657\", \"geoLocation\": \"33.619195,-111.951657\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/12/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"62600\", \"iaSECNumberType\": \"801\", \"firmId\": 114981, \"firmName\": \"DENK INVESTMENT ADVISORY\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"country\": \"United States\", \"registrationBeginDate\": \"3/31/2010\", \"registrationEndDate\": \"10/7/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"68177\", \"iaSECNumberType\": \"801\", \"firmId\": 144594, \"firmName\": \"O'SHAUGHNESSY ASSET MANAGEMENT, LLC\", \"city\": \"STAMFORD\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"10/17/2008\", \"registrationEndDate\": \"12/9/2009\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/16/2008\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/23/1994\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/4/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"6/17/1994\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/20/2012\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/5/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"5/8/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Patrick Kujawa",
+    "fetched_name": "PATRICK ANTHONY KUJAWA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Patrick Kujawa' did not match fetched name 'PATRICK ANTHONY KUJAWA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

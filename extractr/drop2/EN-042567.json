@@ -1,0 +1,108 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Edward",
+    "middle_name": "",
+    "last_name": "DeWees",
+    "name": "Edward DeWees",
+    "organization_name": "Douglas Lane & Associates LLC",
+    "license_type": "",
+    "employee_number": "EN-042567"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:27:05",
+    "cache_files": {
+      "basic_info": "./cache/sec_Edward DeWees_282563_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2505417_detailed_info.json"
+    },
+    "individual_name": "Edward DeWees",
+    "firm_crd": "282563",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2505417",
+      "ind_firstname": "EDWARD",
+      "ind_middlename": "DAKIN",
+      "ind_lastname": "DEWEES",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2006-07-28",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "282563",
+          "firm_name": "DOUGLAS C. LANE & ASSOCIATES",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2505417, \"firstName\": \"EDWARD\", \"middleName\": \"DAKIN\", \"lastName\": \"DEWEES\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/28/2006\"}, \"currentIAEmployments\": [{\"firmId\": 282563, \"firmName\": \"DOUGLAS C. LANE & ASSOCIATES\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/17/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"626424\", \"street1\": \"ONE DAG HAMMARSKJOLD PLAZA\", \"street2\": \"885 SECOND AVENUE, 42 FLOOR\", \"city\": \"NEW YORK\", \"cityAlias\": [\"GRAND CENTRAL\", \"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10017\", \"latitude\": \"40.752516\", \"longitude\": \"-73.973072\", \"geoLocation\": \"40.752516,-73.973072\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/01/2016\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"47055\", \"iaSECNumberType\": \"801\", \"firmId\": 104882, \"firmName\": \"DOUGLAS C. LANE & ASSOCIATES, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/25/2006\", \"registrationEndDate\": \"2/12/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"10/13/2020\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"Client alleges advisor improperly acted on instructions from client's spouse in connection with transactions in client's account on March 23, 2020.\", \"Damage Amount Requested\": \"$475,000.00\", \"Settlement Amount\": \"$475,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/31/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/17/2016\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Edward DeWees",
+    "fetched_name": "EDWARD DAKIN DEWEES",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Edward DeWees' did not match fetched name 'EDWARD DAKIN DEWEES' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Edward DeWees has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "10/13/2020",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "Client alleges advisor improperly acted on instructions from client's spouse in connection with transactions in client's account on March 23, 2020.",
+            "Damage Amount Requested": "$475,000.00",
+            "Settlement Amount": "$475,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 10/13/2020. Resolution: Settled. Allegations: Client alleges advisor improperly acted on instructions from client's spouse in connection with transactions in client's account on March 23, 2020.. Damage requested: $475,000.00. Settlement: $475,000.00"
+      }
+    ]
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Patrick",
+    "middle_name": "",
+    "last_name": "Melvin",
+    "name": "Patrick Melvin",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-117860"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Patrick Melvin_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5679982_detailed_info.json"
+    },
+    "individual_name": "Patrick Melvin",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5679982",
+      "ind_firstname": "PATRICK",
+      "ind_middlename": "DOMINIC",
+      "ind_lastname": "MELVIN",
+      "ind_other_names": [
+        "PAT  MELVIN",
+        "PATRICK D MELVIN",
+        "PATRICK  MELVIN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2009-12-11",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "Wayne",
+          "branch_state": "PA",
+          "branch_zip": "19087",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "57087",
+          "firm_ia_full_sec_number": "801-57087"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5679982, \"firstName\": \"PATRICK\", \"middleName\": \"DOMINIC\", \"lastName\": \"MELVIN\", \"otherNames\": [\"PAT  MELVIN\", \"PATRICK D MELVIN\", \"PATRICK  MELVIN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/11/2009\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/17/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"620 Lee Road\", \"street2\": \"Suite 120B\", \"city\": \"Wayne\", \"cityAlias\": [\"CHESTERBROOK\", \"RADNOR\", \"SAINT DAVIDS\", \"ST DAVIDS\", \"STRAFFORD\", \"WAYNE\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19087\", \"latitude\": \"40.057236\", \"longitude\": \"-75.403484\", \"geoLocation\": \"40.057236,-75.403484\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"02/17/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"21570\", \"firmId\": 7452, \"firmName\": \"VANGUARD MARKETING CORPORATION\", \"city\": \"MALVERN\", \"state\": \"PA\", \"registrationBeginDate\": \"4/6/2022\", \"registrationEndDate\": \"12/31/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"41722\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14286\", \"firmId\": 265, \"firmName\": \"EQUITY SERVICES, INC.\", \"city\": \"WAYNE\", \"state\": \"PA\", \"registrationBeginDate\": \"9/18/2009\", \"registrationEndDate\": \"10/2/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"22306\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"30447\", \"firmId\": 14251, \"firmName\": \"METLIFE SECURITIES INC.\", \"city\": \"PLYMOUTH MEETING\", \"state\": \"PA\", \"registrationBeginDate\": \"7/27/2009\", \"registrationEndDate\": \"8/26/2009\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"49601\", \"iaSECNumberType\": \"801\", \"firmId\": 106715, \"firmName\": \"VANGUARD ADVISERS, INC.\", \"city\": \"MALVERN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/15/2022\", \"registrationEndDate\": \"12/31/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71973\", \"iaSECNumberType\": \"801\", \"firmId\": 155649, \"firmName\": \"MODERA WEALTH MANAGEMENT, LLC\", \"city\": \"WAYNE\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/4/2021\", \"registrationEndDate\": \"2/10/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71449\", \"iaSECNumberType\": \"801\", \"firmId\": 153687, \"firmName\": \"INDEPENDENCE ADVISORS, LLC\", \"city\": \"WAYNE\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/9/2015\", \"registrationEndDate\": \"1/4/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"41722\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14286\", \"firmId\": 265, \"firmName\": \"ESI FINANCIAL ADVISORS\", \"city\": \"WAYNE\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/21/2010\", \"registrationEndDate\": \"10/2/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/18/2022\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/20/2010\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/6/2022\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"2/25/2022\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/13/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/25/2009\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/17/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Patrick Melvin",
+    "fetched_name": "PATRICK DOMINIC MELVIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Patrick Melvin' did not match fetched name 'PATRICK DOMINIC MELVIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

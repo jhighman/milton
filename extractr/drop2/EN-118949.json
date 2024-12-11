@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jennifer",
+    "middle_name": "",
+    "last_name": "Quigley",
+    "name": "Jennifer Quigley",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118949"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:07:12",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jennifer Quigley_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3213744_detailed_info.json"
+    },
+    "individual_name": "Jennifer Quigley",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3213744",
+      "ind_firstname": "JENNIFER",
+      "ind_middlename": "BEVIN",
+      "ind_lastname": "QUIGLEY",
+      "ind_other_names": [
+        "JENNIFER  QUIGLEY"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-11-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "MCLEAN",
+          "branch_state": "VA",
+          "branch_zip": "22102",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3213744, \"firstName\": \"JENNIFER\", \"middleName\": \"BEVIN\", \"lastName\": \"QUIGLEY\", \"otherNames\": [\"JENNIFER  QUIGLEY\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/24/2002\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/20/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8444 WESTPARK DRIVE, SUITE 610\", \"city\": \"MCLEAN\", \"cityAlias\": [\"MACLEAN\", \"MC LEAN\", \"MCLEAN\", \"TYSONS\", \"TYSONS CORNER\", \"WEST MCLEAN\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"22102\", \"latitude\": \"38.959942\", \"longitude\": \"-77.224902\", \"geoLocation\": \"38.959942,-77.224902\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/09/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"38301\", \"iaSECNumberType\": \"801\", \"firmId\": 109732, \"firmName\": \"SBSB FINANCIAL ADVISORS\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/19/2002\", \"registrationEndDate\": \"4/13/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"58085\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"49730\", \"firmId\": 42159, \"firmName\": \"HARRISDIRECT LLC\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/14/2003\", \"registrationEndDate\": \"10/1/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/4/2002\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/18/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/13/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"6/12/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2021\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jennifer Quigley",
+    "fetched_name": "JENNIFER BEVIN QUIGLEY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jennifer Quigley' did not match fetched name 'JENNIFER BEVIN QUIGLEY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Dvorkin",
+    "name": "Michael Dvorkin",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-120177"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:09:46",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Dvorkin_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2642217_detailed_info.json"
+    },
+    "individual_name": "Michael Dvorkin",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2642217",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "MARK",
+      "ind_lastname": "DVORKIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-12-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Ponte Vedra Beach",
+          "branch_state": "FL",
+          "branch_zip": "32082",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2642217, \"firstName\": \"MICHAEL\", \"middleName\": \"MARK\", \"lastName\": \"DVORKIN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/4/2003\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/8/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"820 Highway A1A N\", \"street2\": \"SuiteE4\", \"city\": \"Ponte Vedra Beach\", \"cityAlias\": [\"PNTE VDRA BCH\", \"PONTE VEDRA\", \"PONTE VEDRA BEACH\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"32082\", \"latitude\": \"30.103629\", \"longitude\": \"-81.370165\", \"geoLocation\": \"30.103629,-81.370165\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/01/2021\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"71571\", \"iaSECNumberType\": \"801\", \"firmId\": 128060, \"firmName\": \"FORTIUS FINANCIAL ADVISORS, LLC\", \"city\": \"CORAL GABLES\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"8/27/2010\", \"registrationEndDate\": \"3/31/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"FT. LAUDERDALE\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"5/30/2003\", \"registrationEndDate\": \"4/27/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"12/17/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE MADE A RECOMMENDATION TO PURCHASE A MUTUAL FUND THAT WAS UNSUITABLE FOR HIS INVESTMENT OBJECTIVES.\", \"Damage Amount Requested\": \"$391,252.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}, {\"eventDate\": \"7/8/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.\", \"Damage Amount Requested\": \"$600,000.00\", \"Settlement Amount\": \"$600,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"THIS MATTER INVOLVES THE SALE OF AUCTION RATE SECURITIES (ARS). THE TRANSACTION(S) AT ISSUE TOOK PLACE BEFORE MID-FEBRUARY 2008, WHEN THE ARS MARKET SUFFERED WIDESPREAD AUCTION FAILURES AND ILLIQUIDITY. THE REGISTERED REPRESENTATIVE DID NOT CAUSE, CONTRIBUTE OR HAVE ANY CONTROL WHATSOEVER OVER THESE MARKET EVENTS. THE FIRM VOLUNTARILY REPURCHASED ARS FOR THEIR FULL PAR VALUE FROM CERTAIN CLIENTS, INCLUDING THE INSTANT CLIENT, WHETHER THEY COMPLAINED OR NOT. THE REGISTERED REPRESENTATIVE WAS NOT A PARTY TO THAT AGREEMENT, DID NOT MAKE ANY PAYMENTS TO THE CLIENT, AND WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE REPURCHASE AMOUNT. THE SETTLEMENT AMOUNT IN ITEM 11 ABOVE REFLECTS THE PAR VALUE OF THE REPURCHASED ARS, AS REQUIRED BY FINRA REGULATORY NOTICE 09-12.\"}}, {\"eventDate\": \"3/17/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.\", \"Damage Amount Requested\": \"$750,000.00\", \"Settlement Amount\": \"$750,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"THIS MATTER INVOLVES THE SALE OF AUCTION RATE SECURITIES (ARS). THE TRANSACTION(S) AT ISSUE TOOK PLACE BEFORE MID-FEBRUARY 2008, WHEN THE ARS MARKET SUFFERED WIDESPREAD AUCTION FAILURES AND ILLIQUIDITY. THE REGISTERED REPRESENTATIVE DID NOT CAUSE, CONTRIBUTE OR HAVE ANY CONTROL WHATSOEVER OVER THESE MARKET EVENTS. THE FIRM VOLUNTARILY REPURCHASED ARS FOR THEIR FULL PAR VALUE FROM CERTAIN CLIENTS, INCLUDING THE INSTANT CLIENT, WHETHER THEY COMPLAINED OR NOT. THE REGISTERED REPRESENTATIVE WAS NOT A PARTY TO THAT AGREEMENT, DID NOT MAKE ANY PAYMENTS TO THE CLIENT, AND WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE REPURCHASE AMOUNT. THE SETTLEMENT AMOUNT IN ITEM 11 ABOVE REFLECTS THE PAR VALUE OF THE REPURCHASED ARS, AS REQUIRED BY FINRA REGULATORY NOTICE 09-12.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 3}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/19/2002\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/24/1995\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 8\", \"examName\": \"General  Securities Sales Supervisor Examination (Options Module & General Module)\", \"examTakenDate\": \"12/23/1998\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/25/1995\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/8/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Dvorkin",
+    "fetched_name": "MICHAEL MARK DVORKIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Dvorkin' did not match fetched name 'MICHAEL MARK DVORKIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Michael Dvorkin has 3 customer dispute disclosures."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "12/17/2008",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE MADE A RECOMMENDATION TO PURCHASE A MUTUAL FUND THAT WAS UNSUITABLE FOR HIS INVESTMENT OBJECTIVES.",
+            "Damage Amount Requested": "$391,252.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 12/17/2008. Resolution: Denied. Allegations: CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE MADE A RECOMMENDATION TO PURCHASE A MUTUAL FUND THAT WAS UNSUITABLE FOR HIS INVESTMENT OBJECTIVES.. Damage requested: $391,252.00. Settlement: Not specified"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "7/8/2008",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.",
+            "Damage Amount Requested": "$600,000.00",
+            "Settlement Amount": "$600,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "THIS MATTER INVOLVES THE SALE OF AUCTION RATE SECURITIES (ARS). THE TRANSACTION(S) AT ISSUE TOOK PLACE BEFORE MID-FEBRUARY 2008, WHEN THE ARS MARKET SUFFERED WIDESPREAD AUCTION FAILURES AND ILLIQUIDITY. THE REGISTERED REPRESENTATIVE DID NOT CAUSE, CONTRIBUTE OR HAVE ANY CONTROL WHATSOEVER OVER THESE MARKET EVENTS. THE FIRM VOLUNTARILY REPURCHASED ARS FOR THEIR FULL PAR VALUE FROM CERTAIN CLIENTS, INCLUDING THE INSTANT CLIENT, WHETHER THEY COMPLAINED OR NOT. THE REGISTERED REPRESENTATIVE WAS NOT A PARTY TO THAT AGREEMENT, DID NOT MAKE ANY PAYMENTS TO THE CLIENT, AND WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE REPURCHASE AMOUNT. THE SETTLEMENT AMOUNT IN ITEM 11 ABOVE REFLECTS THE PAR VALUE OF THE REPURCHASED ARS, AS REQUIRED BY FINRA REGULATORY NOTICE 09-12."
+          }
+        },
+        "description": "Customer dispute on 7/8/2008. Resolution: Settled. Allegations: CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.. Damage requested: $600,000.00. Settlement: $600,000.00"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "3/17/2008",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.",
+            "Damage Amount Requested": "$750,000.00",
+            "Settlement Amount": "$750,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "THIS MATTER INVOLVES THE SALE OF AUCTION RATE SECURITIES (ARS). THE TRANSACTION(S) AT ISSUE TOOK PLACE BEFORE MID-FEBRUARY 2008, WHEN THE ARS MARKET SUFFERED WIDESPREAD AUCTION FAILURES AND ILLIQUIDITY. THE REGISTERED REPRESENTATIVE DID NOT CAUSE, CONTRIBUTE OR HAVE ANY CONTROL WHATSOEVER OVER THESE MARKET EVENTS. THE FIRM VOLUNTARILY REPURCHASED ARS FOR THEIR FULL PAR VALUE FROM CERTAIN CLIENTS, INCLUDING THE INSTANT CLIENT, WHETHER THEY COMPLAINED OR NOT. THE REGISTERED REPRESENTATIVE WAS NOT A PARTY TO THAT AGREEMENT, DID NOT MAKE ANY PAYMENTS TO THE CLIENT, AND WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE REPURCHASE AMOUNT. THE SETTLEMENT AMOUNT IN ITEM 11 ABOVE REFLECTS THE PAR VALUE OF THE REPURCHASED ARS, AS REQUIRED BY FINRA REGULATORY NOTICE 09-12."
+          }
+        },
+        "description": "Customer dispute on 3/17/2008. Resolution: Settled. Allegations: CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE DID NOT EXPLAIN THE LIQUIDITY RISKS FOR AUCTION RATE SECURITIES.. Damage requested: $750,000.00. Settlement: $750,000.00"
+      }
+    ]
+  }
+}

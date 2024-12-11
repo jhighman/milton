@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Donald",
+    "middle_name": "",
+    "last_name": "Stringfield",
+    "name": "Donald Stringfield",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119123"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:16:25",
+    "cache_files": {
+      "basic_info": "./cache/sec_Donald Stringfield_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4292615_detailed_info.json"
+    },
+    "individual_name": "Donald Stringfield",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4292615",
+      "ind_firstname": "DONALD",
+      "ind_middlename": "ALAN",
+      "ind_lastname": "STRINGFIELD",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-12-20",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Macon",
+          "branch_state": "GA",
+          "branch_zip": "31204",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4292615, \"firstName\": \"DONALD\", \"middleName\": \"ALAN\", \"lastName\": \"STRINGFIELD\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/20/2004\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/1/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"119 Calloway Drive\", \"city\": \"Macon\", \"cityAlias\": [\"MACON\", \"PAYNE\", \"PAYNE CITY\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"31204\", \"latitude\": \"32.854696\", \"longitude\": \"-83.67808\", \"geoLocation\": \"32.854696,-83.67808\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/31/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"67714\", \"iaSECNumberType\": \"801\", \"firmId\": 123585, \"firmName\": \"ROSEN CAPITAL MANAGEMENT HOLDINGS, LLC\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/8/2013\", \"registrationEndDate\": \"8/26/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"130591\", \"iaSECNumberType\": \"801\", \"firmId\": 135579, \"firmName\": \"CFS WEALTH MANAGEMENT\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/31/2008\", \"registrationEndDate\": \"1/2/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 145984, \"firmName\": \"CHAPMAN FINANCIAL SERVICES, LLC\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/3/2008\", \"registrationEndDate\": \"6/16/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"130591\", \"iaSECNumberType\": \"801\", \"firmId\": 135579, \"firmName\": \"CFS WEALTH MANAGEMENT, LLC\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"USA\", \"registrationBeginDate\": \"12/7/2005\", \"registrationEndDate\": \"3/14/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"41541\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"24040\", \"firmId\": 8032, \"firmName\": \"COMMONWEALTH FINANCIAL NETWORK\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/17/2005\", \"registrationEndDate\": \"1/3/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"39736\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"29671\", \"firmId\": 12963, \"firmName\": \"MONEY CONCEPTS CAPITAL CORP\", \"city\": \"MACON\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/28/2003\", \"registrationEndDate\": \"6/27/2003\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/5/2001\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/16/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/30/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/1/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Donald Stringfield",
+    "fetched_name": "DONALD ALAN STRINGFIELD",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Donald Stringfield' did not match fetched name 'DONALD ALAN STRINGFIELD' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

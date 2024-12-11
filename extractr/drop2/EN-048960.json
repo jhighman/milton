@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Leah",
+    "middle_name": "",
+    "last_name": "Maybry",
+    "name": "Leah Maybry",
+    "organization_name": "SignatureFD LLC",
+    "license_type": "",
+    "employee_number": "EN-048960"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:14:42",
+    "cache_files": {
+      "basic_info": "./cache/sec_Leah Maybry_112758_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6588364_detailed_info.json"
+    },
+    "individual_name": "Leah Maybry",
+    "firm_crd": "112758",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6588364",
+      "ind_firstname": "LEAH",
+      "ind_middlename": "ROBERTSON",
+      "ind_lastname": "MAYBRY",
+      "ind_other_names": [
+        "Leah R. Maybry"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2017-12-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "112758",
+          "firm_name": "SIGNATUREFD, LLC",
+          "branch_city": "Charlotte",
+          "branch_state": "NC",
+          "branch_zip": "28203",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6588364, \"firstName\": \"LEAH\", \"middleName\": \"ROBERTSON\", \"lastName\": \"MAYBRY\", \"otherNames\": [\"Leah R. Maybry\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/7/2017\"}, \"currentIAEmployments\": [{\"firmId\": 112758, \"firmName\": \"SIGNATUREFD, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/4/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2151 Hawkins Street\", \"street2\": \"Suite 1050\", \"city\": \"Charlotte\", \"cityAlias\": [\"CHARLOTTE\"], \"state\": \"NC\", \"country\": \"United States\", \"zipCode\": \"28203\", \"latitude\": \"35.208484\", \"longitude\": \"-80.858125\", \"geoLocation\": \"35.208484,-80.858125\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/30/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"44259\", \"iaSECNumberType\": \"801\", \"firmId\": 107236, \"firmName\": \"MCSHANE PARTNERS\", \"city\": \"CHARLOTTE\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"11/9/2017\", \"registrationEndDate\": \"9/4/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/27/2016\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/4/2019\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Leah Maybry",
+    "fetched_name": "LEAH ROBERTSON MAYBRY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Leah Maybry' did not match fetched name 'LEAH ROBERTSON MAYBRY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Richard",
+    "middle_name": "",
+    "last_name": "DeRafelo",
+    "name": "Richard DeRafelo",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044336"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:30:05",
+    "cache_files": {
+      "basic_info": "./cache/sec_Richard DeRafelo_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4553959_detailed_info.json"
+    },
+    "individual_name": "Richard DeRafelo",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4553959",
+      "ind_firstname": "RICHARD",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "DERAFELO",
+      "ind_namesuffix": "JR",
+      "ind_other_names": [
+        "RICHARD DAVID DERAFELO",
+        "RICHARD  DAVID  DERAFELO"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-08-23",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Media",
+          "branch_state": "PA",
+          "branch_zip": "19063",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4553959, \"firstName\": \"RICHARD\", \"middleName\": \"DAVID\", \"lastName\": \"DERAFELO\", \"nameSuffix\": \"JR\", \"otherNames\": [\"RICHARD DAVID DERAFELO\", \"RICHARD  DAVID  DERAFELO\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/23/2003\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/18/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1215 W. Baltimore Pike STE 8\", \"city\": \"Media\", \"cityAlias\": [\"ELWYN\", \"GARDEN CITY\", \"GLEN RIDDLE\", \"MEDIA\", \"ROSE TREE\", \"ROSE VALLEY\", \"UPPER PROVIDENCE\", \"WAWA\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19063\", \"latitude\": \"39.919429\", \"longitude\": \"-75.42243\", \"geoLocation\": \"39.919429,-75.42243\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/31/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"113642\", \"iaSECNumberType\": \"801\", \"firmId\": 292523, \"firmName\": \"LEHMAN FINANCIAL RESOURCES\", \"city\": \"MEDIA\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/20/2018\", \"registrationEndDate\": \"5/15/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"66283\", \"iaSECNumberType\": \"801\", \"firmId\": 139500, \"firmName\": \"LEHMAN FINANCIAL RESOURCES, INC.\", \"city\": \"MEDIA\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/24/2006\", \"registrationEndDate\": \"6/27/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 115012, \"firmName\": \"KOHLER, PAUL TERENCE\", \"city\": \"MEDIA\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/13/2004\", \"registrationEndDate\": \"1/4/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57393\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"34448\", \"firmId\": 16668, \"firmName\": \"FINANCIAL WEST INVESTMENT GROUP, INC.\", \"city\": \"DOWNINGTOWN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/15/2003\", \"registrationEndDate\": \"11/18/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"16720\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"27030\", \"firmId\": 866, \"firmName\": \"WADDELL & REED, INC.\", \"city\": \"HARRISBURG \", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/11/2003\", \"registrationEndDate\": \"8/15/2003\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"5/29/2003\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/26/2002\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/15/2003\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"8/22/2002\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2023\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2023\"}, {\"state\": \"South Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/4/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/4/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Richard DeRafelo",
+    "fetched_name": "RICHARD DAVID DERAFELO",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Richard DeRafelo' did not match fetched name 'RICHARD DAVID DERAFELO' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

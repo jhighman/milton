@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Benjamin",
+    "middle_name": "",
+    "last_name": "O'Connor",
+    "name": "Benjamin O'Connor",
+    "organization_name": "F.L. Putnam Investment Management Company",
+    "license_type": "",
+    "employee_number": "EN-049119"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:43:10",
+    "cache_files": {
+      "basic_info": "./cache/sec_Benjamin O'Connor_106223_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6051973_detailed_info.json"
+    },
+    "individual_name": "Benjamin O'Connor",
+    "firm_crd": "106223",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6051973",
+      "ind_firstname": "BENJAMIN",
+      "ind_middlename": "DOLAN",
+      "ind_lastname": "O'CONNOR",
+      "ind_other_names": [
+        "Ben Dolan O'Connor",
+        "Ben  O'Connor",
+        "BENJAMIN D OCONNOR",
+        "BENJAMIN DOLAN OCONNOR"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-11-23",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "106223",
+          "firm_name": "F L PUTNAM INVESTMENT MANAGEMENT CO.",
+          "branch_city": "PORTLAND",
+          "branch_state": "ME",
+          "branch_zip": "04074",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "21951",
+          "firm_ia_full_sec_number": "801-21951"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6051973, \"firstName\": \"BENJAMIN\", \"middleName\": \"DOLAN\", \"lastName\": \"O'CONNOR\", \"otherNames\": [\"Ben Dolan O'Connor\", \"Ben  O'Connor\", \"BENJAMIN D OCONNOR\", \"BENJAMIN DOLAN OCONNOR\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/23/2012\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 106223, \"firmName\": \"F L PUTNAM INVESTMENT MANAGEMENT CO.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/26/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"21951\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"5 WIDGERY WHARF\", \"city\": \"PORTLAND\", \"cityAlias\": [\"PINE POINT\", \"SCARBOROUGH\"], \"state\": \"ME\", \"country\": \"United States\", \"zipCode\": \"04074\", \"latitude\": \"43.591658\", \"longitude\": \"-70.373274\", \"geoLocation\": \"43.591658,-70.373274\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/04/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"22651\", \"firmId\": 7654, \"firmName\": \"UBS SECURITIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"10/9/2020\", \"registrationEndDate\": \"4/4/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"11/8/2017\", \"registrationEndDate\": \"4/4/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15074\", \"firmId\": 2347, \"firmName\": \"JEFFERIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"7/8/2016\", \"registrationEndDate\": \"11/9/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"6/4/2014\", \"registrationEndDate\": \"8/1/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"69700\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41342\", \"firmId\": 19714, \"firmName\": \"BARCLAYS CAPITAL INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/24/2013\", \"registrationEndDate\": \"6/5/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"50652\", \"firmId\": 44351, \"firmName\": \"HFP CAPITAL MARKETS LLC\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"9/17/2012\", \"registrationEndDate\": \"5/7/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"expelledDate\": \"6/25/2014\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"61698\", \"iaSECNumberType\": \"801\", \"firmId\": 121767, \"firmName\": \"JEFFERIES INVESTMENT ADVISERS, LLC\", \"city\": \"Boston\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/22/2016\", \"registrationEndDate\": \"11/9/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/5/2014\", \"registrationEndDate\": \"8/1/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"4/25/2022\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/26/2014\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"10/1/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/14/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Maine\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/26/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Benjamin O'Connor",
+    "fetched_name": "BENJAMIN DOLAN O'CONNOR",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Benjamin O'Connor' did not match fetched name 'BENJAMIN DOLAN O'CONNOR' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

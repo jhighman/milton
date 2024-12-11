@@ -1,0 +1,121 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Evan",
+    "middle_name": "",
+    "last_name": "Kanarek",
+    "name": "Evan Kanarek",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-057781"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Evan Kanarek_143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4683424_detailed_info.json"
+    },
+    "individual_name": "Evan Kanarek",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4683424",
+      "ind_firstname": "Evan",
+      "ind_lastname": "Kanarek",
+      "ind_other_names": [
+        "EVAN H KANAREK",
+        "EVAN HOWARD KANAREK"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 2,
+      "ind_industry_cal_date_iapd": "2009-11-08",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "New York",
+          "branch_state": "NY",
+          "branch_zip": "10020",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "67787",
+          "firm_ia_full_sec_number": "801-67787"
+        },
+        {
+          "firm_id": "19850",
+          "firm_name": "CALAMOS FINANCIAL SERVICES LLC",
+          "branch_city": "New York",
+          "branch_state": "NY",
+          "branch_zip": "10020",
+          "ia_only": "N",
+          "firm_bd_sec_number": "37854",
+          "firm_bd_full_sec_number": "8-37854"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4683424, \"firstName\": \"Evan\", \"lastName\": \"Kanarek\", \"otherNames\": [\"EVAN H KANAREK\", \"EVAN HOWARD KANAREK\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/8/2009\"}, \"currentEmployments\": [{\"firmId\": 19850, \"firmName\": \"CALAMOS FINANCIAL SERVICES LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"7/4/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"37854\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"561371\", \"street1\": \"50 Rockefeller Plaza\", \"street2\": \"Suite 1600\", \"city\": \"New York\", \"cityAlias\": [\"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10020\", \"latitude\": \"40.759794\", \"longitude\": \"-73.979208\", \"geoLocation\": \"40.759794,-73.979208\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"06/27/2023\"}]}], \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/30/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"67787\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"50 Rockerfeller Plaza #1600\", \"city\": \"New York\", \"cityAlias\": [\"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10020\", \"latitude\": \"40.759794\", \"longitude\": \"-73.979208\", \"geoLocation\": \"40.759794,-73.979208\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/27/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"52323\", \"firmId\": 103848, \"firmName\": \"QUASAR DISTRIBUTORS, LLC\", \"city\": \"Greenwich\", \"state\": \"CT\", \"registrationBeginDate\": \"10/7/2019\", \"registrationEndDate\": \"9/1/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35185\", \"firmId\": 17358, \"firmName\": \"M&T SECURITIES, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"7/11/2016\", \"registrationEndDate\": \"8/16/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"PHILADELPHIA\", \"state\": \"PA\", \"registrationBeginDate\": \"6/6/2013\", \"registrationEndDate\": \"5/9/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"422\", \"firmId\": 816, \"firmName\": \"CREDIT SUISSE SECURITIES (USA) LLC\", \"city\": \"WEST CONSHOHOCKEN\", \"state\": \"PA\", \"registrationBeginDate\": \"8/23/2011\", \"registrationEndDate\": \"5/21/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15869\", \"firmId\": 8209, \"firmName\": \"MORGAN STANLEY & CO., INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"4/2/2007\", \"registrationEndDate\": \"12/20/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14172\", \"firmId\": 7556, \"firmName\": \"MORGAN STANLEY DW INC.\", \"city\": \"PURCHASE\", \"state\": \"NY\", \"registrationBeginDate\": \"11/30/2005\", \"registrationEndDate\": \"4/2/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"119970\", \"iaSECNumberType\": \"801\", \"firmId\": 310912, \"firmName\": \"CONNECTUS WEALTH\", \"city\": \"Greenwich\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"11/18/2021\", \"registrationEndDate\": \"6/27/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"57294\", \"iaSECNumberType\": \"801\", \"firmId\": 109582, \"firmName\": \"NORTHCOAST ASSET MANAGEMENT LLC\", \"city\": \"GREENWICH\", \"state\": \"CT\", \"country\": \"United States\", \"registrationBeginDate\": \"8/28/2019\", \"registrationEndDate\": \"11/8/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56264\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"422\", \"firmId\": 816, \"firmName\": \"CREDIT SUISSE SECURITIES (USA) LLC\", \"city\": \"WEST CONSHOHOCKEN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/6/2011\", \"registrationEndDate\": \"5/21/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"15869\", \"firmId\": 8209, \"firmName\": \"MORGAN STANLEY & CO., INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"7/27/2007\", \"registrationEndDate\": \"12/20/2007\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"12/19/2016\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"Client claims that the registered representative made misrepresentations in connection with the sale of two private investments. Activity dates 05/21/2014-12/19/2016.\", \"Damage Amount Requested\": \"$14,977.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/2/2011\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/26/2006\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/22/2011\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"8/31/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 1, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/7/2023\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/7/2023\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/30/2023\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Evan Kanarek",
+    "fetched_name": "Evan  Kanarek",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Evan Kanarek' did not match fetched name 'Evan  Kanarek' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Evan Kanarek has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "12/19/2016",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "Client claims that the registered representative made misrepresentations in connection with the sale of two private investments. Activity dates 05/21/2014-12/19/2016.",
+            "Damage Amount Requested": "$14,977.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 12/19/2016. Resolution: Denied. Allegations: Client claims that the registered representative made misrepresentations in connection with the sale of two private investments. Activity dates 05/21/2014-12/19/2016.. Damage requested: $14,977.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

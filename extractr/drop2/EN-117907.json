@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jasmine",
+    "middle_name": "",
+    "last_name": "Yu",
+    "name": "Jasmine Yu",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-117907"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jasmine Yu_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5459343_detailed_info.json"
+    },
+    "individual_name": "Jasmine Yu",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5459343",
+      "ind_firstname": "JASMINE",
+      "ind_lastname": "YU",
+      "ind_other_names": [
+        "JASMINE ZHONG YU"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2018-02-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Berwyn",
+          "branch_state": "PA",
+          "branch_zip": "19312",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "108434",
+          "firm_ia_full_sec_number": "801-108434"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5459343, \"firstName\": \"JASMINE\", \"lastName\": \"YU\", \"otherNames\": [\"JASMINE ZHONG YU\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/23/2018\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/12/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"108434\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1436 Lancaster Avenue\", \"city\": \"Berwyn\", \"cityAlias\": [\"BERWYN\", \"TREDYFFRIN\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19312\", \"latitude\": \"40.031943\", \"longitude\": \"-75.455506\", \"geoLocation\": \"40.031943,-75.455506\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/05/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"54739\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13801\", \"firmId\": 231, \"firmName\": \"BNY MELLON SECURITIES CORPORATION\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"4/30/2018\", \"registrationEndDate\": \"2/14/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"7/6/2013\", \"registrationEndDate\": \"1/4/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"10/23/2013\", \"registrationEndDate\": \"1/4/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/22/2013\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"9/11/2013\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/6/2013\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/12/2024\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/12/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jasmine Yu",
+    "fetched_name": "JASMINE  YU",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jasmine Yu' did not match fetched name 'JASMINE  YU' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

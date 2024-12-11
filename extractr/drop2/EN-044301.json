@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Krantz",
+    "name": "Ryan Krantz",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044301"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:32:29",
+    "cache_files": {
+      "basic_info": "./cache/sec_Ryan Krantz_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6193460_detailed_info.json"
+    },
+    "individual_name": "Ryan Krantz",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6193460",
+      "ind_firstname": "RYAN",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "KRANTZ",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2017-04-23",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Salt Lake City",
+          "branch_state": "UT",
+          "branch_zip": "84121",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6193460, \"firstName\": \"RYAN\", \"middleName\": \"MICHAEL\", \"lastName\": \"KRANTZ\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/23/2017\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/19/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3115 East Lion Lane, Suite 100\", \"city\": \"Salt Lake City\", \"cityAlias\": [\"BRIGHTON\", \"COTTONWD HTS\", \"COTTONWOOD\", \"COTTONWOOD HEIGHTS\", \"COTTONWOOD HEIGHTS CITY\", \"HOLLADAY\", \"HOLLADAY COTTONWOOD\", \"HOLLADAY CTWD\", \"MURRAY\", \"SALT LAKE CITY\", \"SALT LAKE CTY\", \"SLC\", \"SOLITUDE\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84121\", \"latitude\": \"40.616622\", \"longitude\": \"-111.709504\", \"geoLocation\": \"40.616622,-111.709504\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/15/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"70424\", \"iaSECNumberType\": \"801\", \"firmId\": 117936, \"firmName\": \"THE INSIGHT GROUP, INC.\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"2/7/2020\", \"registrationEndDate\": \"10/21/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71396\", \"iaSECNumberType\": \"801\", \"firmId\": 153610, \"firmName\": \"FINANCIAL INSIGHT CENTER\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"1/19/2018\", \"registrationEndDate\": \"10/21/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"70424\", \"iaSECNumberType\": \"801\", \"firmId\": 117936, \"firmName\": \"THE INSIGHT GROUP, INC.\", \"city\": \"SALT LAKE CITY\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"4/24/2017\", \"registrationEndDate\": \"1/19/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/13/2017\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/19/2020\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/22/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Krantz",
+    "fetched_name": "RYAN MICHAEL KRANTZ",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Krantz' did not match fetched name 'RYAN MICHAEL KRANTZ' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

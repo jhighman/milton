@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Dimitri",
+    "middle_name": "",
+    "last_name": "Eliopoulos",
+    "name": "Dimitri Eliopoulos",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-110383"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:23:29",
+    "cache_files": {
+      "basic_info": "./cache/sec_Dimitri Eliopoulos_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4444610_detailed_info.json"
+    },
+    "individual_name": "Dimitri Eliopoulos",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4444610",
+      "ind_firstname": "DIMITRI",
+      "ind_middlename": "PETER",
+      "ind_lastname": "ELIOPOULOS",
+      "ind_other_names": [
+        "DEMETRI  ELIOPOULOS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2001-01-08",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "CHICAGO",
+          "branch_state": "IL",
+          "branch_zip": "60606",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4444610, \"firstName\": \"DIMITRI\", \"middleName\": \"PETER\", \"lastName\": \"ELIOPOULOS\", \"otherNames\": [\"DEMETRI  ELIOPOULOS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/8/2001\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/22/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"58030\", \"street1\": \"ONE NORTH WACKER DRIVE\", \"street2\": \"SUITE 3500\", \"city\": \"CHICAGO\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60606\", \"latitude\": \"41.882934\", \"longitude\": \"-87.636843\", \"geoLocation\": \"41.882934,-87.636843\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/01/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"118864\", \"iaSECNumberType\": \"801\", \"firmId\": 281133, \"firmName\": \"CURI CAPITAL\", \"city\": \"RALEIGH\", \"state\": \"NC\", \"country\": \"United States\", \"registrationBeginDate\": \"2/6/2020\", \"registrationEndDate\": \"1/26/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63939\", \"iaSECNumberType\": \"801\", \"firmId\": 134249, \"firmName\": \"RMB CAPITAL MANAGEMENT\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"4/14/2005\", \"registrationEndDate\": \"1/30/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2001\", \"registrationEndDate\": \"4/15/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/2/2001\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/19/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/13/2024\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/22/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/22/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Dimitri Eliopoulos",
+    "fetched_name": "DIMITRI PETER ELIOPOULOS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Dimitri Eliopoulos' did not match fetched name 'DIMITRI PETER ELIOPOULOS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

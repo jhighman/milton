@@ -1,0 +1,127 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "David",
+    "middle_name": "",
+    "last_name": "Koch",
+    "name": "David Koch",
+    "organization_name": "Halbert Hargrove",
+    "license_type": "",
+    "employee_number": "EN-044058"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:45:19",
+    "cache_files": {
+      "basic_info": "./cache/sec_David Koch_105515_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6001775_detailed_info.json"
+    },
+    "individual_name": "David Koch",
+    "firm_crd": "105515",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6001775",
+      "ind_firstname": "DAVID",
+      "ind_middlename": "ARTHUR",
+      "ind_lastname": "KOCH",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2012-01-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105515",
+          "firm_name": "HALBERT HARGROVE",
+          "branch_city": "LONG BEACH",
+          "branch_state": "CA",
+          "branch_zip": "90802-7908",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6001775, \"firstName\": \"DAVID\", \"middleName\": \"ARTHUR\", \"lastName\": \"KOCH\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/19/2012\"}, \"currentIAEmployments\": [{\"firmId\": 105515, \"firmName\": \"HALBERT HARGROVE\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/20/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"77013\", \"street1\": \"111 WEST OCEAN BOULEVARD\", \"street2\": \"SUITE 2300\", \"city\": \"LONG BEACH\", \"cityAlias\": [\"LONG BEACH\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90802-7908\", \"latitude\": \"33.746545\", \"longitude\": \"-118.213256\", \"geoLocation\": \"33.746545,-118.213256\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"11/07/2011\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"2/5/2020\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT OF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S INVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2014 AND 2019.\", \"Damage Amount Requested\": \"$1,900,000.00\", \"Settlement Amount\": \"$400,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes.\"}}, {\"eventDate\": \"12/3/2019\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\\r\\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\\r\\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.\", \"Damage Amount Requested\": \"$16,326,890.00\", \"Settlement Amount\": \"$2,500,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and  expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 2}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/19/2012\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/20/2012\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "David Koch",
+    "fetched_name": "DAVID ARTHUR KOCH",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'David Koch' did not match fetched name 'DAVID ARTHUR KOCH' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "David Koch has 2 customer dispute disclosures."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "2/5/2020",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT OF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S INVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2014 AND 2019.",
+            "Damage Amount Requested": "$1,900,000.00",
+            "Settlement Amount": "$400,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes."
+          }
+        },
+        "description": "Customer dispute on 2/5/2020. Resolution: Settled. Allegations: THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT OF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S INVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2014 AND 2019.. Damage requested: $1,900,000.00. Settlement: $400,000.00"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "12/3/2019",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\r\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\r\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.",
+            "Damage Amount Requested": "$16,326,890.00",
+            "Settlement Amount": "$2,500,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and  expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes."
+          }
+        },
+        "description": "Customer dispute on 12/3/2019. Resolution: Settled. Allegations: THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\r\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\r\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.. Damage requested: $16,326,890.00. Settlement: $2,500,000.00"
+      }
+    ]
+  }
+}

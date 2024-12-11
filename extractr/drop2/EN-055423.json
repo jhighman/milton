@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Steven",
+    "middle_name": "",
+    "last_name": "Hanks",
+    "name": "Steven Hanks",
+    "organization_name": "Brighton Jones LLC",
+    "license_type": "",
+    "employee_number": "EN-055423"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Steven Hanks_108601_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6384177_detailed_info.json"
+    },
+    "individual_name": "Steven Hanks",
+    "firm_crd": "108601",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6384177",
+      "ind_firstname": "STEVEN",
+      "ind_middlename": "MCCLAIN",
+      "ind_lastname": "HANKS",
+      "ind_other_names": [
+        "STEVEN M HANKS"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-10-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "108601",
+          "firm_name": "BRIGHTON JONES LLC",
+          "branch_city": "Portland",
+          "branch_state": "OR",
+          "branch_zip": "97209",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6384177, \"firstName\": \"STEVEN\", \"middleName\": \"MCCLAIN\", \"lastName\": \"HANKS\", \"otherNames\": [\"STEVEN M HANKS\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/13/2014\"}, \"currentIAEmployments\": [{\"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/14/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1624 NW Lovejoy Street\", \"city\": \"Portland\", \"cityAlias\": [\"PORTLAND\"], \"state\": \"OR\", \"country\": \"United States\", \"zipCode\": \"97209\", \"latitude\": \"45.533458\", \"longitude\": \"-122.681501\", \"geoLocation\": \"45.533458,-122.681501\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/01/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"57087\", \"iaSECNumberType\": \"801\", \"firmId\": 108601, \"firmName\": \"BRIGHTON JONES LLC\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/14/2014\", \"registrationEndDate\": \"12/31/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/14/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/26/2020\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/2/2024\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/14/2014\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Steven Hanks",
+    "fetched_name": "STEVEN MCCLAIN HANKS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Steven Hanks' did not match fetched name 'STEVEN MCCLAIN HANKS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

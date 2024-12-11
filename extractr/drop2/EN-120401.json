@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Olive",
+    "middle_name": "",
+    "last_name": "Mitchell",
+    "name": "Olive Mitchell",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-120401"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:24:48",
+    "cache_files": {
+      "basic_info": "./cache/sec_Olive Mitchell_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7111808_detailed_info.json"
+    },
+    "individual_name": "Olive Mitchell",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7111808",
+      "ind_firstname": "OLIVE",
+      "ind_middlename": "W",
+      "ind_lastname": "MITCHELL",
+      "ind_other_names": [
+        "Olive Hayes Waxter"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-12-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "Washington",
+          "branch_state": "DC",
+          "branch_zip": "20001",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7111808, \"firstName\": \"OLIVE\", \"middleName\": \"W\", \"lastName\": \"MITCHELL\", \"otherNames\": [\"Olive Hayes Waxter\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/13/2019\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/26/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"799 9th Street NW\", \"street2\": \"Suite 325\", \"city\": \"Washington\", \"cityAlias\": [\"WASHINGTON\"], \"state\": \"DC\", \"country\": \"United States\", \"zipCode\": \"20001\", \"latitude\": \"38.910717\", \"longitude\": \"-77.01666\", \"geoLocation\": \"38.910717,-77.01666\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/17/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"70719\", \"iaSECNumberType\": \"801\", \"firmId\": 151559, \"firmName\": \"CERITY PARTNERS LLC\", \"city\": \"TOWSON\", \"state\": \"MD\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2023\", \"registrationEndDate\": \"1/9/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63649\", \"iaSECNumberType\": \"801\", \"firmId\": 133329, \"firmName\": \"MARYLAND CAPITAL MANAGEMENT, LLC\", \"city\": \"TOWSON\", \"state\": \"MD\", \"country\": \"United States\", \"registrationBeginDate\": \"4/29/2019\", \"registrationEndDate\": \"3/3/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/23/2019\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/26/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Olive Mitchell",
+    "fetched_name": "OLIVE W MITCHELL",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Olive Mitchell' did not match fetched name 'OLIVE W MITCHELL' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

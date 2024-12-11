@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jeffrey",
+    "middle_name": "",
+    "last_name": "Kaufmann",
+    "name": "Jeffrey Kaufmann",
+    "organization_name": "Lido Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-052505"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:06:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jeffrey Kaufmann_269866_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2039821_detailed_info.json"
+    },
+    "individual_name": "Jeffrey Kaufmann",
+    "firm_crd": "269866",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2039821",
+      "ind_firstname": "JEFFREY",
+      "ind_middlename": "PAUL",
+      "ind_lastname": "KAUFMANN",
+      "ind_other_names": [
+        "JEFF  KAUFMAN",
+        "JEFFREY P KAUFMANN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-06-21",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "269866",
+          "firm_name": "LIDO",
+          "branch_city": "BOCA RATON",
+          "branch_state": "FL",
+          "branch_zip": "33431",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2039821, \"firstName\": \"JEFFREY\", \"middleName\": \"PAUL\", \"lastName\": \"KAUFMANN\", \"otherNames\": [\"JEFF  KAUFMAN\", \"JEFFREY P KAUFMANN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/21/2007\"}, \"currentIAEmployments\": [{\"firmId\": 269866, \"firmName\": \"LIDO\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/9/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1875 NW CORPORATE BLVD.\", \"street2\": \"SUITE 110\", \"city\": \"BOCA RATON\", \"cityAlias\": [\"BOCA RATON\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"33431\", \"latitude\": \"26.378146\", \"longitude\": \"-80.102036\", \"geoLocation\": \"26.378146,-80.102036\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/01/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"80480\", \"iaSECNumberType\": \"801\", \"firmId\": 172832, \"firmName\": \"BOSTON PRIVATE WEALTH\", \"city\": \"PA\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"12/8/2014\", \"registrationEndDate\": \"2/8/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67092\", \"iaSECNumberType\": \"801\", \"firmId\": 141398, \"firmName\": \"BANYAN PARTNERS, LLC\", \"city\": \"PALM BEACH GARDENS\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"3/1/2011\", \"registrationEndDate\": \"11/26/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"33726\", \"iaSECNumberType\": \"801\", \"firmId\": 106640, \"firmName\": \"WEISS CAPITAL MANAGEMENT, INC.\", \"city\": \"PALM BEACH GARDENS\", \"state\": \"FL\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/17/2008\", \"registrationEndDate\": \"3/1/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"PALM BEACH\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"2/9/2007\", \"registrationEndDate\": \"2/15/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/7/2007\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/8/1990\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/24/2007\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/9/2021\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/12/2021\"}, {\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/20/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jeffrey Kaufmann",
+    "fetched_name": "JEFFREY PAUL KAUFMANN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jeffrey Kaufmann' did not match fetched name 'JEFFREY PAUL KAUFMANN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

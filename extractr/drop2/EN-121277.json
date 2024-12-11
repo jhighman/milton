@@ -1,0 +1,87 @@
+{
+  "claim": {
+    "crd_number": "6876110",
+    "first_name": "Allen",
+    "middle_name": "",
+    "last_name": "Ropp",
+    "name": "Allen Ropp",
+    "organization_name": "Smith Salley & Associates LLC",
+    "license_type": "",
+    "employee_number": "EN-121277"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:15:32",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_6876110_basic_info.json",
+      "detailed_info": "./cache/brokercheck_6876110_detailed_info.json"
+    },
+    "crd_number": "6876110",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6876110",
+      "ind_firstname": "Allen",
+      "ind_middlename": "James",
+      "ind_lastname": "Ropp",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "129614",
+          "firm_name": "SMITH SALLEY WEALTH MANAGEMENT",
+          "branch_city": "GREENSBORO",
+          "branch_state": "NC",
+          "branch_zip": "27408",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 6876110, \"firstName\": \"Allen\", \"middleName\": \"James\", \"lastName\": \"Ropp\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/31/2017\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Allen Ropp",
+    "fetched_name": "Allen James Ropp",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Allen Ropp' did not match fetched name 'Allen James Ropp' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

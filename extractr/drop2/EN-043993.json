@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "Ruby",
+    "name": "John Ruby",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-043993"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:10:51",
+    "cache_files": {
+      "basic_info": "./cache/sec_John Ruby_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4978055_detailed_info.json"
+    },
+    "individual_name": "John Ruby",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4978055",
+      "ind_firstname": "JOHN",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "RUBY",
+      "ind_other_names": [
+        "JOHN M RUBY",
+        "JOHN  RUBY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2005-12-30",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "CLEVELAND",
+          "branch_state": "OH",
+          "branch_zip": "44131",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "58104",
+          "firm_ia_full_sec_number": "801-58104"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4978055, \"firstName\": \"JOHN\", \"middleName\": \"MICHAEL\", \"lastName\": \"RUBY\", \"otherNames\": [\"JOHN M RUBY\", \"JOHN  RUBY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/30/2005\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/3/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"58104\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"73687\", \"street1\": \"6050 OAK TREE BLVD\", \"street2\": \"SUITE 500\", \"city\": \"CLEVELAND\", \"cityAlias\": [\"BROOKLYN HEIGHTS\", \"BROOKLYN HTS\", \"CLEVELAND\", \"INDEPENDENCE\", \"PARMA\", \"SEVEN HILLS\", \"VALLEY VIEW\"], \"state\": \"OH\", \"country\": \"United States\", \"zipCode\": \"44131\", \"latitude\": \"41.391674\", \"longitude\": \"-81.641418\", \"geoLocation\": \"41.391674,-81.641418\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/02/2019\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"63623\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"2428\", \"firmId\": 628, \"firmName\": \"FIFTH THIRD SECURITIES, INC.\", \"city\": \"CONCORD\", \"state\": \"OH\", \"registrationBeginDate\": \"11/19/2014\", \"registrationEndDate\": \"9/14/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"SOLON\", \"state\": \"OH\", \"registrationBeginDate\": \"5/27/2011\", \"registrationEndDate\": \"11/18/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"BEACHWOOD\", \"state\": \"OH\", \"registrationBeginDate\": \"11/19/2008\", \"registrationEndDate\": \"5/23/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35288\", \"firmId\": 17490, \"firmName\": \"NATCITY INVESTMENTS, INC.\", \"city\": \"CUYAHOGA FALLS\", \"state\": \"OH\", \"registrationBeginDate\": \"1/13/2006\", \"registrationEndDate\": \"11/20/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14172\", \"firmId\": 7556, \"firmName\": \"MORGAN STANLEY DW INC.\", \"city\": \"PURCHASE\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/29/2005\", \"registrationEndDate\": \"10/19/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69271\", \"iaSECNumberType\": \"801\", \"firmId\": 147363, \"firmName\": \"MERCER GLOBAL ADVISORS INC.\", \"city\": \"Westerville\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"9/8/2015\", \"registrationEndDate\": \"9/27/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63623\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"2428\", \"firmId\": 628, \"firmName\": \"FIFTH THIRD SECURITIES, INC.\", \"city\": \"CONCORD\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"11/19/2014\", \"registrationEndDate\": \"9/14/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"SOLON\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"5/31/2011\", \"registrationEndDate\": \"11/18/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"BEACHWOOD\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"11/19/2008\", \"registrationEndDate\": \"5/23/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"BEACHWOOD\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"11/19/2008\", \"registrationEndDate\": \"5/23/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"35288\", \"firmId\": 17490, \"firmName\": \"NATCITY INVESTMENTS, INC.\", \"city\": \"CUYAHOGA FALLS\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"9/7/2007\", \"registrationEndDate\": \"11/20/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"14172\", \"firmId\": 7556, \"firmName\": \"MORGAN STANLEY\", \"city\": \"AKRON\", \"state\": \"OH\", \"country\": \"United States\", \"registrationBeginDate\": \"7/14/2005\", \"registrationEndDate\": \"10/19/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/13/2005\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"9/14/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"7/29/2005\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/27/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/3/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "John Ruby",
+    "fetched_name": "JOHN MICHAEL RUBY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'John Ruby' did not match fetched name 'JOHN MICHAEL RUBY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

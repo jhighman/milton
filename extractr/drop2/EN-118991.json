@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Chelsea",
+    "middle_name": "",
+    "last_name": "Nalley",
+    "name": "Chelsea Nalley",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118991"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:09:00",
+    "cache_files": {
+      "basic_info": "./cache/sec_Chelsea Nalley_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6322226_detailed_info.json"
+    },
+    "individual_name": "Chelsea Nalley",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6322226",
+      "ind_firstname": "CHELSEA",
+      "ind_middlename": "Marie",
+      "ind_lastname": "NALLEY",
+      "ind_other_names": [
+        "CHELSEA MARIE NALLEY",
+        "CHELSEA  NALLEY",
+        "CHELSEA MARIE WADDELL"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-10-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Atlanta",
+          "branch_state": "GA",
+          "branch_zip": "30326",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6322226, \"firstName\": \"CHELSEA\", \"middleName\": \"Marie\", \"lastName\": \"NALLEY\", \"otherNames\": [\"CHELSEA MARIE NALLEY\", \"CHELSEA  NALLEY\", \"CHELSEA MARIE WADDELL\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/19/2014\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/29/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3630 Peachtree Road, NE\", \"street2\": \"Suite 300\", \"city\": \"Atlanta\", \"cityAlias\": [\"ATL\", \"ATLANTA\", \"BROOKHAVEN\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30326\", \"latitude\": \"33.849882\", \"longitude\": \"-84.361095\", \"geoLocation\": \"33.849882,-84.361095\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/01/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"57165\", \"iaSECNumberType\": \"801\", \"firmId\": 111055, \"firmName\": \"TRUEWEALTH MANAGEMENT\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/30/2014\", \"registrationEndDate\": \"10/8/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/5/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/29/2020\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Chelsea Nalley",
+    "fetched_name": "CHELSEA Marie NALLEY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Chelsea Nalley' did not match fetched name 'CHELSEA Marie NALLEY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

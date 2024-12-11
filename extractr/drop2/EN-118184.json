@@ -1,0 +1,89 @@
+{
+  "claim": {
+    "crd_number": "7767409",
+    "first_name": "Sally",
+    "middle_name": "",
+    "last_name": "Eisenberg",
+    "name": "Sally Eisenberg",
+    "organization_name": "Weatherly Asset Management",
+    "license_type": "",
+    "employee_number": "EN-118184"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:23:26",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_7767409_basic_info.json",
+      "detailed_info": "./cache/brokercheck_7767409_detailed_info.json"
+    },
+    "crd_number": "7767409",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7767409",
+      "ind_firstname": "Sally",
+      "ind_middlename": "Hisako",
+      "ind_lastname": "Eisenberg",
+      "ind_other_names": [
+        "Sally  Eisenberg"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "106935",
+          "firm_name": "WEATHERLY ASSET MANAGEMENT",
+          "branch_city": "DEL MAR",
+          "branch_state": "CA",
+          "branch_zip": "92014",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 7767409, \"firstName\": \"Sally\", \"middleName\": \"Hisako\", \"lastName\": \"Eisenberg\", \"otherNames\": [\"Sally  Eisenberg\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"7/6/2023\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/7/2023\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Sally Eisenberg",
+    "fetched_name": "Sally Hisako Eisenberg",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Sally Eisenberg' did not match fetched name 'Sally Hisako Eisenberg' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

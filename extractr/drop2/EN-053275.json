@@ -1,0 +1,109 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Hal",
+    "middle_name": "",
+    "last_name": "Anderson",
+    "name": "Hal Anderson",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-053275"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:15:54",
+    "cache_files": {
+      "basic_info": "./cache/sec_Hal Anderson_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2432623_detailed_info.json"
+    },
+    "individual_name": "Hal Anderson",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2432623",
+      "ind_firstname": "HAL",
+      "ind_middlename": "GARY",
+      "ind_lastname": "ANDERSON",
+      "ind_namesuffix": "MR.",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1994-02-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2432623, \"firstName\": \"HAL\", \"middleName\": \"GARY\", \"lastName\": \"ANDERSON\", \"nameSuffix\": \"MR.\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/17/1994\"}, \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/1/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.189729\", \"longitude\": \"-113.591582\", \"geoLocation\": \"37.189729,-113.591582\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/20/2010\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"43962\", \"iaSECNumberType\": \"801\", \"firmId\": 106134, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, INC.\", \"city\": \"ST. GEORGE\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"12/30/1993\", \"registrationEndDate\": \"12/12/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71833\", \"iaSECNumberType\": \"801\", \"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"city\": \"ST. GEORGE\", \"state\": \"UT\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/21/2010\", \"registrationEndDate\": \"9/1/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"4/19/2002\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"NON SUITABILITY OF INVESTMENT STRATEGY.  CONFLICT OF INTEREST CONCERNING OWNERSHIP OF STOCK.  CLIENT ACTIVITY:  JANUARY - DECEMBER 2000\", \"Damage Amount Requested\": \"$325,000.00\", \"Settlement Amount\": \"$9,999.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/30/1993\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 5}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2012\"}, {\"state\": \"Idaho\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2012\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/1/2012\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"2/2/2012\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/2/2012\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Hal Anderson",
+    "fetched_name": "HAL GARY ANDERSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Hal Anderson' did not match fetched name 'HAL GARY ANDERSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Hal Anderson has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "4/19/2002",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "NON SUITABILITY OF INVESTMENT STRATEGY.  CONFLICT OF INTEREST CONCERNING OWNERSHIP OF STOCK.  CLIENT ACTIVITY:  JANUARY - DECEMBER 2000",
+            "Damage Amount Requested": "$325,000.00",
+            "Settlement Amount": "$9,999.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 4/19/2002. Resolution: Settled. Allegations: NON SUITABILITY OF INVESTMENT STRATEGY.  CONFLICT OF INTEREST CONCERNING OWNERSHIP OF STOCK.  CLIENT ACTIVITY:  JANUARY - DECEMBER 2000. Damage requested: $325,000.00. Settlement: $9,999.00"
+      }
+    ]
+  }
+}

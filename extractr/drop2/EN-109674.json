@@ -1,0 +1,98 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Kevin",
+    "middle_name": "",
+    "last_name": "Timmerman",
+    "name": "Kevin Timmerman",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-109674"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:19:25",
+    "cache_files": {
+      "basic_info": "./cache/sec_Kevin Timmerman_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2519009_detailed_info.json"
+    },
+    "individual_name": "Kevin Timmerman",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2519009",
+      "ind_firstname": "KEVIN",
+      "ind_middlename": "JOSEPH",
+      "ind_lastname": "TIMMERMAN",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-01-30",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "DUBUQUE",
+          "branch_state": "IA",
+          "branch_zip": "52001",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Urbandale",
+          "branch_state": "IA",
+          "branch_zip": "50323",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2519009, \"firstName\": \"KEVIN\", \"middleName\": \"JOSEPH\", \"lastName\": \"TIMMERMAN\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/30/1999\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/4/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2728 ASBURY ROAD\", \"street2\": \"SUITE 280\", \"city\": \"DUBUQUE\", \"cityAlias\": [\"CENTER GROVE\", \"DUBUQUE\", \"EAGLE POINT\", \"JULIEN\", \"KEY WEST\", \"MASSEY\", \"ROCKDALE\", \"SAGEVILLE\", \"SHAWONDASSE\"], \"state\": \"IA\", \"country\": \"United States\", \"zipCode\": \"52001\", \"latitude\": \"42.558964\", \"longitude\": \"-90.696098\", \"geoLocation\": \"42.558964,-90.696098\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/02/2017\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12100 Meredith Drive\", \"street2\": \"Suite 200\", \"city\": \"Urbandale\", \"cityAlias\": [\"CLIVE\", \"DES MOINES\", \"URBANDALE\"], \"state\": \"IA\", \"country\": \"United States\", \"zipCode\": \"50323\", \"latitude\": \"41.633022\", \"longitude\": \"-93.807792\", \"geoLocation\": \"41.633022,-93.807792\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/28/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"50636\", \"iaSECNumberType\": \"801\", \"firmId\": 107097, \"firmName\": \"STEELE CAPITAL MANAGEMENT, INC.\", \"city\": \"DUBUQUE\", \"state\": \"IA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/27/1999\", \"registrationEndDate\": \"9/29/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"50636\", \"iaSECNumberType\": \"801\", \"firmId\": 107097, \"firmName\": \"STEELE CAPITAL MANAGEMENT, INC.\", \"city\": \"DUBUQUE\", \"state\": \"IA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/27/1999\", \"registrationEndDate\": \"12/31/2002\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/14/1996\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"10/31/1994\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"3/29/1996\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/6/1995\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"10/31/1994\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Iowa\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/4/2017\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Kevin Timmerman",
+    "fetched_name": "KEVIN JOSEPH TIMMERMAN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Kevin Timmerman' did not match fetched name 'KEVIN JOSEPH TIMMERMAN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

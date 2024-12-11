@@ -1,0 +1,95 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Andrew",
+    "middle_name": "",
+    "last_name": "Reder",
+    "name": "Andrew Reder",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118946"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:06:58",
+    "cache_files": {
+      "basic_info": "./cache/sec_Andrew Reder_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1564305_detailed_info.json"
+    },
+    "individual_name": "Andrew Reder",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1564305",
+      "ind_firstname": "ANDREW",
+      "ind_middlename": "M",
+      "ind_lastname": "REDER",
+      "ind_other_names": [
+        "ANDREW MICHAEL REDER",
+        "ANDY  REDER"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1988-06-06",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Berwyn",
+          "branch_state": "PA",
+          "branch_zip": "19312-1178",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1564305, \"firstName\": \"ANDREW\", \"middleName\": \"M\", \"lastName\": \"REDER\", \"otherNames\": [\"ANDREW MICHAEL REDER\", \"ANDY  REDER\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/6/1988\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/11/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"200 Berwyn Park\", \"street2\": \"920 Cassatt Road, Suite 205\", \"city\": \"Berwyn\", \"cityAlias\": [\"BERWYN\", \"TREDYFFRIN\"], \"state\": \"PA\", \"country\": \"United States\", \"zipCode\": \"19312-1178\", \"latitude\": \"40.031943\", \"longitude\": \"-75.455506\", \"geoLocation\": \"40.031943,-75.455506\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"50433\", \"firmId\": 43814, \"firmName\": \"APW CAPITAL, INC.\", \"city\": \"BERWYN\", \"state\": \"PA\", \"registrationBeginDate\": \"5/16/2012\", \"registrationEndDate\": \"12/31/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"48740\", \"firmId\": 39543, \"firmName\": \"CAMBRIDGE INVESTMENT RESEARCH, INC.\", \"city\": \"BERWYN\", \"state\": \"PA\", \"registrationBeginDate\": \"1/2/2008\", \"registrationEndDate\": \"6/12/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"13791\", \"firmId\": 5478, \"firmName\": \"CAPITAL ANALYSTS, INCORPORATED\", \"city\": \"BERWYN\", \"state\": \"PA\", \"registrationBeginDate\": \"6/7/1988\", \"registrationEndDate\": \"12/31/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"68502\", \"iaSECNumberType\": \"801\", \"firmId\": 145256, \"firmName\": \"KISTLER-TIFFANY ADVISORS\", \"city\": \"BERWYN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/21/2007\", \"registrationEndDate\": \"9/29/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 1, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/15/1988\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"4/25/2003\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"5/20/1989\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"5/12/1988\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/11/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/11/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Andrew Reder",
+    "fetched_name": "ANDREW M REDER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Andrew Reder' did not match fetched name 'ANDREW M REDER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

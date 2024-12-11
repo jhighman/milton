@@ -1,0 +1,122 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Brian",
+    "middle_name": "",
+    "last_name": "Holmes",
+    "name": "Brian Holmes",
+    "organization_name": "Signature Estate & Investment Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-046338"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:13:30",
+    "cache_files": {
+      "basic_info": "./cache/sec_Brian Holmes_160715_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_1263061_detailed_info.json"
+    },
+    "individual_name": "Brian Holmes",
+    "firm_crd": "160715",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "1263061",
+      "ind_firstname": "BRIAN",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "HOLMES",
+      "ind_other_names": [],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 4,
+      "ind_industry_cal_date_iapd": "1984-07-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "281391",
+          "firm_name": "SIGNATURE INTELLIGENT PORTFOLIOS, LLC",
+          "branch_city": "LOS ANGELES",
+          "branch_state": "CA",
+          "branch_zip": "90067",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "106603",
+          "firm_ia_full_sec_number": "801-106603"
+        },
+        {
+          "firm_id": "160715",
+          "firm_name": "SIGNATURE INVESTMENT ADVISORS, LLC",
+          "branch_city": "LOS ANGELES",
+          "branch_state": "CA",
+          "branch_zip": "90067-5040",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "76593",
+          "firm_ia_full_sec_number": "801-76593"
+        },
+        {
+          "firm_id": "108163",
+          "firm_name": "SEIA",
+          "branch_city": "LOS ANGELES",
+          "branch_state": "CA",
+          "branch_zip": "90067",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "56288",
+          "firm_ia_full_sec_number": "801-56288"
+        },
+        {
+          "firm_id": "18923",
+          "firm_name": "SIGNATURE ESTATE SECURITIES, LLC",
+          "branch_city": "Los Angeles",
+          "branch_state": "CA",
+          "branch_zip": "90067",
+          "ia_only": "N",
+          "firm_bd_sec_number": "37065",
+          "firm_bd_full_sec_number": "8-37065"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 1263061, \"firstName\": \"BRIAN\", \"middleName\": \"DAVID\", \"lastName\": \"HOLMES\", \"otherNames\": [], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/17/1984\"}, \"currentEmployments\": [{\"firmId\": 18923, \"firmName\": \"SIGNATURE ESTATE SECURITIES, LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"8/20/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"37065\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"797302\", \"street1\": \"2121 Avenue of Stars\", \"street2\": \"Suite 1600\", \"city\": \"Los Angeles\", \"cityAlias\": [\"CENTURY CITY\", \"LOS ANGELES\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90067\", \"latitude\": \"34.05775\", \"longitude\": \"-118.4138\", \"geoLocation\": \"34.05775,-118.4138\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"08/17/2023\"}]}], \"currentIAEmployments\": [{\"firmId\": 281391, \"firmName\": \"SIGNATURE INTELLIGENT PORTFOLIOS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/28/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"106603\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"617888\", \"street1\": \"2121 AVENUE OF THE STARS\", \"street2\": \"SUITE 1600\", \"city\": \"LOS ANGELES\", \"cityAlias\": [\"CENTURY CITY\", \"LOS ANGELES\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90067\", \"latitude\": \"34.05775\", \"longitude\": \"-118.4138\", \"geoLocation\": \"34.05775,-118.4138\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"08/25/2015\"}]}, {\"firmId\": 160715, \"firmName\": \"SIGNATURE INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/11/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"76593\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"492732\", \"street1\": \"2121 AVENUE OF THE STARS\", \"street2\": \"SUITE 1600\", \"city\": \"LOS ANGELES\", \"cityAlias\": [\"CENTURY CITY\", \"LOS ANGELES\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90067-5040\", \"latitude\": \"34.05775\", \"longitude\": \"-118.4138\", \"geoLocation\": \"34.05775,-118.4138\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"04/18/2012\"}]}, {\"firmId\": 108163, \"firmName\": \"SEIA\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/12/1997\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"56288\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2121 AVENUE OF THE STARS, SUITE 1600\", \"city\": \"LOS ANGELES\", \"cityAlias\": [\"CENTURY CITY\", \"LOS ANGELES\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90067\", \"latitude\": \"34.05775\", \"longitude\": \"-118.4138\", \"geoLocation\": \"34.05775,-118.4138\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/21/1997\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"54859\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"40218\", \"firmId\": 23131, \"firmName\": \"OSAIC WEALTH, INC.\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"registrationBeginDate\": \"11/2/2018\", \"registrationEndDate\": \"8/24/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56298\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"13995\", \"firmId\": 468, \"firmName\": \"SIGNATOR INVESTORS, INC.\", \"city\": \"LOS ANGELES\", \"state\": \"CA\", \"registrationBeginDate\": \"7/18/1984\", \"registrationEndDate\": \"11/2/2018\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"15661\", \"firmId\": 5181, \"firmName\": \"JOHN HANCOCK MUTUAL LIFE INSURANCE COMPANY\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/18/1984\", \"registrationEndDate\": \"5/1/1997\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/19/1998\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/6/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 51\", \"examName\": \"Municipal Fund Securities Principal Examination\", \"examTakenDate\": \"3/31/2003\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"1/11/1999\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/18/1995\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 22\", \"examName\": \"Direct Participation Programs Representative Examination\", \"examTakenDate\": \"8/5/1985\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/17/1984\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 52, \"approvedIAStateRegistrationCount\": 10}, \"registeredStates\": [{\"state\": \"Alabama\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Alaska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Arizona\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Arkansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/12/1997\"}, {\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2021\"}, {\"state\": \"Colorado\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Delaware\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Georgia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Hawaii\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Indiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Iowa\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/15/2019\"}, {\"state\": \"Louisiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Maine\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Maryland\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2021\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Minnesota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Mississippi\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Missouri\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2021\"}, {\"state\": \"Nevada\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"New Hampshire\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"New Mexico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2021\"}, {\"state\": \"New York\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/28/2023\"}, {\"state\": \"North Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/25/2023\"}, {\"state\": \"Oklahoma\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Oregon\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Puerto Rico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Rhode Island\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"South Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2021\"}, {\"state\": \"South Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Tennessee\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/5/2004\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Vermont\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/30/2021\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/7/2021\"}, {\"state\": \"Washington\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}, {\"state\": \"West Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/24/2023\"}, {\"state\": \"Wyoming\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/20/2023\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Brian Holmes",
+    "fetched_name": "BRIAN DAVID HOLMES",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Brian Holmes' did not match fetched name 'BRIAN DAVID HOLMES' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

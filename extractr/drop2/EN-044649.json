@@ -1,0 +1,96 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Sara",
+    "middle_name": "",
+    "last_name": "Gardner",
+    "name": "Sara Gardner",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044649"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:31:10",
+    "cache_files": {
+      "basic_info": "./cache/sec_Sara Gardner_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3027340_detailed_info.json"
+    },
+    "individual_name": "Sara Gardner",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3027340",
+      "ind_firstname": "SARA",
+      "ind_middlename": "REBECCA",
+      "ind_lastname": "GARDNER",
+      "ind_other_names": [
+        "SARA REBECCA ROLLENHAGEN",
+        "SARA REBECCA FRANCIS ROLLENHAGEN",
+        "SARA  ROLLENHAGEN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1998-05-01",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Littleton",
+          "branch_state": "CO",
+          "branch_zip": "80127",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3027340, \"firstName\": \"SARA\", \"middleName\": \"REBECCA\", \"lastName\": \"GARDNER\", \"otherNames\": [\"SARA REBECCA ROLLENHAGEN\", \"SARA REBECCA FRANCIS ROLLENHAGEN\", \"SARA  ROLLENHAGEN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/1/1998\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/2/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8081 Shaffer Parkway, Suite 4\", \"city\": \"Littleton\", \"cityAlias\": [\"DENVER\", \"LITTLETON\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80127\", \"latitude\": \"39.533292\", \"longitude\": \"-105.15699\", \"geoLocation\": \"39.533292,-105.15699\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"11/28/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"TIAA-CREF INDIVIDUAL & INSTITUTIONAL SERVICES, LLC\", \"city\": \"DENVER\", \"state\": \"CO\", \"registrationBeginDate\": \"9/24/2004\", \"registrationEndDate\": \"4/1/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44998\", \"firmId\": 30683, \"firmName\": \"COLUMBIA FUNDS DISTRIBUTOR, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"5/13/1998\", \"registrationEndDate\": \"9/15/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44662\", \"firmId\": 29960, \"firmName\": \"SIMMERS CAPITAL MANAGEMENT CORPORATION\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/27/1998\", \"registrationEndDate\": \"4/29/1998\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"firmId\": 175333, \"firmName\": \"ELEVATED PLANNING\", \"city\": \"CONIFER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"4/17/2015\", \"registrationEndDate\": \"12/5/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"63550\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"44454\", \"firmId\": 20472, \"firmName\": \"TIAA-CREF ADVICE AND PLANNING SERVICES\", \"city\": \"DENVER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"4/4/2007\", \"registrationEndDate\": \"4/1/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55550\", \"iaSECNumberType\": \"801\", \"firmId\": 108579, \"firmName\": \"TIAA-CREF TRUST COMPANY, FSB\", \"city\": \"DENVER\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"9/24/2004\", \"registrationEndDate\": \"11/3/2006\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"5930\", \"iaSECNumberType\": \"801\", \"firmId\": 105842, \"firmName\": \"COLUMBIA MANAGEMENT ADVISORS, INC.\", \"city\": \"AURORA\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"11/26/2003\", \"registrationEndDate\": \"9/15/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/25/2003\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/30/1998\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/1/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/28/2007\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/18/1998\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/2/2016\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/2/2016\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/9/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/10/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Sara Gardner",
+    "fetched_name": "SARA REBECCA GARDNER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Sara Gardner' did not match fetched name 'SARA REBECCA GARDNER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Benjamin",
+    "middle_name": "",
+    "last_name": "Albrecht",
+    "name": "Benjamin Albrecht",
+    "organization_name": "Curi RMB Capital LLC",
+    "license_type": "",
+    "employee_number": "EN-054039"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:22:17",
+    "cache_files": {
+      "basic_info": "./cache/sec_Benjamin Albrecht_134249_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4574728_detailed_info.json"
+    },
+    "individual_name": "Benjamin Albrecht",
+    "firm_crd": "134249",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4574728",
+      "ind_firstname": "BENJAMIN",
+      "ind_middlename": "JOSEPH",
+      "ind_lastname": "ALBRECHT",
+      "ind_other_names": [
+        "BENJAMIN  ALBRECHT"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2005-02-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "134249",
+          "firm_name": "CURI RMB CAPITAL, LLC",
+          "branch_city": "CHICAGO",
+          "branch_state": "IL",
+          "branch_zip": "60606",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4574728, \"firstName\": \"BENJAMIN\", \"middleName\": \"JOSEPH\", \"lastName\": \"ALBRECHT\", \"otherNames\": [\"BENJAMIN  ALBRECHT\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/18/2005\"}, \"currentIAEmployments\": [{\"firmId\": 134249, \"firmName\": \"CURI RMB CAPITAL, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/17/2007\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"58030\", \"street1\": \"ONE NORTH WACKER DRIVE\", \"street2\": \"SUITE 3500\", \"city\": \"CHICAGO\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60606\", \"latitude\": \"41.882934\", \"longitude\": \"-87.636843\", \"geoLocation\": \"41.882934,-87.636843\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/05/2005\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"bdSECNumber\": \"34881\", \"firmId\": 16999, \"firmName\": \"BANC ONE SECURITIES CORPORATION\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"7/7/2003\", \"registrationEndDate\": \"6/27/2005\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14065\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17883\", \"firmId\": 6627, \"firmName\": \"AXA ADVISORS, LLC\", \"city\": \"HOUSTON\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"12/2/2002\", \"registrationEndDate\": \"2/4/2003\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/13/2002\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"10/2/2002\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/17/2007\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/19/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Benjamin Albrecht",
+    "fetched_name": "BENJAMIN JOSEPH ALBRECHT",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Benjamin Albrecht' did not match fetched name 'BENJAMIN JOSEPH ALBRECHT' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

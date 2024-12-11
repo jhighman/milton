@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Kimon",
+    "middle_name": "",
+    "last_name": "Passios",
+    "name": "Kimon Passios",
+    "organization_name": "Pinnacle Associates Ltd",
+    "license_type": "",
+    "employee_number": "EN-053993"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:13:22",
+    "cache_files": {
+      "basic_info": "./cache/sec_Kimon Passios_110631_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2844957_detailed_info.json"
+    },
+    "individual_name": "Kimon Passios",
+    "firm_crd": "110631",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2844957",
+      "ind_firstname": "KIMON",
+      "ind_lastname": "PASSIOS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-02-10",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "110631",
+          "firm_name": "PINNACLE ASSOCIATES, LTD.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10017",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "110631",
+          "firm_name": "PINNACLE ASSOCIATES, LTD.",
+          "branch_city": "Westport",
+          "branch_state": "CT",
+          "branch_zip": "06880",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2844957, \"firstName\": \"KIMON\", \"lastName\": \"PASSIOS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/10/2014\"}, \"currentIAEmployments\": [{\"firmId\": 110631, \"firmName\": \"PINNACLE ASSOCIATES, LTD.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/11/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"59305\", \"street1\": \"286 MADISON AVENUE\", \"street2\": \"20TH FLOOR\", \"city\": \"NEW YORK\", \"cityAlias\": [\"GRAND CENTRAL\", \"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10017\", \"latitude\": \"40.752516\", \"longitude\": \"-73.973072\", \"geoLocation\": \"40.752516,-73.973072\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"04/01/2003\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"55 Post Road West\", \"city\": \"Westport\", \"cityAlias\": [\"SAUGATUCK\", \"WESTPORT\"], \"state\": \"CT\", \"country\": \"United States\", \"zipCode\": \"06880\", \"latitude\": \"41.137996\", \"longitude\": \"-73.34415\", \"geoLocation\": \"41.137996,-73.34415\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/16/2013\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/9/1997\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/11/2014\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/4/2021\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Kimon Passios",
+    "fetched_name": "KIMON  PASSIOS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Kimon Passios' did not match fetched name 'KIMON  PASSIOS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Nemzek",
+    "name": "Michael Nemzek",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-044775"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:14:52",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Nemzek_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5763603_detailed_info.json"
+    },
+    "individual_name": "Michael Nemzek",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5763603",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "ROBERT",
+      "ind_lastname": "NEMZEK",
+      "ind_other_names": [
+        "MICHAEL R. NEMZEK"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-07-28",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Irvine",
+          "branch_state": "CA",
+          "branch_zip": "92614",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5763603, \"firstName\": \"MICHAEL\", \"middleName\": \"ROBERT\", \"lastName\": \"NEMZEK\", \"otherNames\": [\"MICHAEL R. NEMZEK\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/28/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/18/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1 Park Plaza\", \"street2\": \"Suite 700\", \"city\": \"Irvine\", \"cityAlias\": [\"IRVINE\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92614\", \"latitude\": \"33.68411\", \"longitude\": \"-117.827543\", \"geoLocation\": \"33.68411,-117.827543\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"LA JOLLA\", \"state\": \"CA\", \"registrationBeginDate\": \"8/19/2015\", \"registrationEndDate\": \"4/11/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"68338\", \"firmId\": 151152, \"firmName\": \"SC DISTRIBUTORS, LLC\", \"city\": \"GREENWICH\", \"state\": \"CT\", \"country\": \"USA\", \"registrationBeginDate\": \"5/23/2014\", \"registrationEndDate\": \"7/1/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"10/7/2013\", \"registrationEndDate\": \"5/15/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"53064\", \"firmId\": 107622, \"firmName\": \"METLIFE INVESTORS DISTRIBUTION COMPANY\", \"city\": \"IRVINE\", \"state\": \"CA\", \"registrationBeginDate\": \"4/29/2010\", \"registrationEndDate\": \"9/6/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"LA JOLLA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/19/2015\", \"registrationEndDate\": \"4/11/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/13/2010\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/11/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/30/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"4/28/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2018\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/29/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Nemzek",
+    "fetched_name": "MICHAEL ROBERT NEMZEK",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Nemzek' did not match fetched name 'MICHAEL ROBERT NEMZEK' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

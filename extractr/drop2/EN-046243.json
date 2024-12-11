@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "3246921",
+    "first_name": "Tarlac",
+    "middle_name": "",
+    "last_name": "Williams",
+    "name": "Tarlac Williams",
+    "organization_name": "Capital Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-046243"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_3246921_basic_info.json",
+      "detailed_info": "./cache/brokercheck_3246921_detailed_info.json"
+    },
+    "crd_number": "3246921",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3246921",
+      "ind_firstname": "CULLEN",
+      "ind_middlename": "TARLAC",
+      "ind_lastname": "WILLIAMS",
+      "ind_other_names": [
+        "TARLAC CULLEN WILLIAMS",
+        "cullen  williams"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "7783",
+      "ind_current_employments": [
+        {
+          "firm_id": "104643",
+          "firm_name": "CAPITAL ADVISORS, INC.",
+          "branch_city": "AUSTIN",
+          "branch_state": "TX",
+          "branch_zip": "78758",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "14050",
+          "firm_ia_full_sec_number": "801-14050"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 3246921, \"firstName\": \"CULLEN\", \"middleName\": \"TARLAC\", \"lastName\": \"WILLIAMS\", \"otherNames\": [\"TARLAC CULLEN WILLIAMS\", \"cullen  williams\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 7783}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"AUSTIN\", \"state\": \"TX\", \"registrationBeginDate\": \"3/21/2018\", \"registrationEndDate\": \"6/8/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"24760\", \"firmId\": 8206, \"firmName\": \"SCOTTRADE, INC.\", \"city\": \"AUSTIN\", \"state\": \"TX\", \"registrationBeginDate\": \"12/5/2013\", \"registrationEndDate\": \"3/8/2018\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"AUSTIN\", \"state\": \"TX\", \"registrationBeginDate\": \"5/17/2007\", \"registrationEndDate\": \"6/10/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"50739\", \"firmId\": 44523, \"firmName\": \"CYBERTRADER, INC.\", \"city\": \"AUSTIN\", \"state\": \"TX\", \"registrationBeginDate\": \"2/14/2000\", \"registrationEndDate\": \"12/7/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14172\", \"firmId\": 7556, \"firmName\": \"DEAN WITTER REYNOLDS INC.\", \"city\": \"PURCHASE\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"8/12/1999\", \"registrationEndDate\": \"2/22/2000\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 2, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"8/19/1999\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"3/3/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"1/12/2016\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"7/21/2006\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"11/29/1999\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/12/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/13/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/13/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Tarlac Williams",
+    "fetched_name": "CULLEN TARLAC WILLIAMS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Tarlac Williams' did not match fetched name 'CULLEN TARLAC WILLIAMS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

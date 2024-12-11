@@ -1,0 +1,141 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Joseph",
+    "middle_name": "",
+    "last_name": "Boden",
+    "name": "Joseph Boden",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044387"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:28:32",
+    "cache_files": {
+      "basic_info": "./cache/sec_Joseph Boden_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2182170_detailed_info.json"
+    },
+    "individual_name": "Joseph Boden",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2182170",
+      "ind_firstname": "JOE",
+      "ind_middlename": "CHARLES",
+      "ind_lastname": "BODEN",
+      "ind_other_names": [
+        "JOSEPH C BODEN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-07-04",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Seattle",
+          "branch_state": "WA",
+          "branch_zip": "98101",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2182170, \"firstName\": \"JOE\", \"middleName\": \"CHARLES\", \"lastName\": \"BODEN\", \"otherNames\": [\"JOSEPH C BODEN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/4/1999\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/10/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1301 5th Ave, Suite 1350\", \"street2\": \"Suite 1000\", \"city\": \"Seattle\", \"cityAlias\": [\"SEATTLE\", \"TIMES SQUARE\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98101\", \"latitude\": \"47.611012\", \"longitude\": \"-122.333523\", \"geoLocation\": \"47.611012,-122.333523\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/06/2019\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63575\", \"iaSECNumberType\": \"801\", \"firmId\": 132879, \"firmName\": \"CONLON DART WEALTH MANAGEMENT\", \"city\": \"SEATTLE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/24/2013\", \"registrationEndDate\": \"5/31/2019\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"107275\", \"iaSECNumberType\": \"801\", \"firmId\": 137125, \"firmName\": \"INTEGRITY FINANCIAL CORPORATION\", \"city\": \"BELLEVUE\", \"state\": \"WA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/3/2013\", \"registrationEndDate\": \"10/8/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"BELLEVUE\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/23/1998\", \"registrationEndDate\": \"10/5/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"8/11/2010\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT IN 2008 THAT THE REGISTERED REPRESENTATIVE GAVE POOR ADVISOR ON A TRANSFER OF ASSETS.\", \"Damage Amount Requested\": \"$13,360.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}, {\"eventDate\": \"11/21/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \\\"PUT HER\\\" IN A VARIABLE ANNUITY THAT WAS UNSUITABLE FOR HER INVESTMENT OBJECTIVES.\", \"Damage Amount Requested\": \"$34,920.70\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}, {\"eventDate\": \"10/8/2001\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THROUGH HER ATTORNEY, ERIC CARLSON, THAT SHE MET WITH MR. BODEN IN MAY 2000 TO INVEST FUNDS \\\"IN A SECURE INCOME PRODUCING INVESTMENT\\\" AND THAT MR. BODEN INSTEAD RECOMMENDED A BOND FUND THAT WAS INAPPROPRIATE.\", \"Damage Amount Requested\": \"$35,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 3}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/3/1997\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/18/1991\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/6/1991\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/10/2019\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/3/2019\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joseph Boden",
+    "fetched_name": "JOE CHARLES BODEN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joseph Boden' did not match fetched name 'JOE CHARLES BODEN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Joseph Boden has 3 customer dispute disclosures."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "8/11/2010",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT IN 2008 THAT THE REGISTERED REPRESENTATIVE GAVE POOR ADVISOR ON A TRANSFER OF ASSETS.",
+            "Damage Amount Requested": "$13,360.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 8/11/2010. Resolution: Denied. Allegations: CUSTOMER ALLEGES THAT IN 2008 THAT THE REGISTERED REPRESENTATIVE GAVE POOR ADVISOR ON A TRANSFER OF ASSETS.. Damage requested: $13,360.00. Settlement: Not specified"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "11/21/2008",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \"PUT HER\" IN A VARIABLE ANNUITY THAT WAS UNSUITABLE FOR HER INVESTMENT OBJECTIVES.",
+            "Damage Amount Requested": "$34,920.70",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 11/21/2008. Resolution: Denied. Allegations: CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \"PUT HER\" IN A VARIABLE ANNUITY THAT WAS UNSUITABLE FOR HER INVESTMENT OBJECTIVES.. Damage requested: $34,920.70. Settlement: Not specified"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "10/8/2001",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THROUGH HER ATTORNEY, ERIC CARLSON, THAT SHE MET WITH MR. BODEN IN MAY 2000 TO INVEST FUNDS \"IN A SECURE INCOME PRODUCING INVESTMENT\" AND THAT MR. BODEN INSTEAD RECOMMENDED A BOND FUND THAT WAS INAPPROPRIATE.",
+            "Damage Amount Requested": "$35,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 10/8/2001. Resolution: Denied. Allegations: CUSTOMER ALLEGES THROUGH HER ATTORNEY, ERIC CARLSON, THAT SHE MET WITH MR. BODEN IN MAY 2000 TO INVEST FUNDS \"IN A SECURE INCOME PRODUCING INVESTMENT\" AND THAT MR. BODEN INSTEAD RECOMMENDED A BOND FUND THAT WAS INAPPROPRIATE.. Damage requested: $35,000.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "TIMOTHY",
+    "middle_name": "",
+    "last_name": "O'LEARY",
+    "name": "TIMOTHY O'LEARY",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-043344"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:03:22",
+    "cache_files": {
+      "basic_info": "./cache/sec_TIMOTHY O'LEARY_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2713597_detailed_info.json"
+    },
+    "individual_name": "TIMOTHY O'LEARY",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2713597",
+      "ind_firstname": "TIMOTHY",
+      "ind_middlename": "PATRICK",
+      "ind_lastname": "OLEARY",
+      "ind_other_names": [
+        "TIM  O'LEARY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-09-18",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Denver",
+          "branch_state": "CO",
+          "branch_zip": "80237",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2713597, \"firstName\": \"TIMOTHY\", \"middleName\": \"PATRICK\", \"lastName\": \"OLEARY\", \"otherNames\": [\"TIM  O'LEARY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/18/1999\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/16/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8110 E. Union Ave\", \"street2\": \"Suite 180\", \"city\": \"Denver\", \"cityAlias\": [\"DENVER\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80237\", \"latitude\": \"39.638475\", \"longitude\": \"-104.905946\", \"geoLocation\": \"39.638475,-104.905946\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/13/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"16048\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"129\", \"firmId\": 361, \"firmName\": \"GOLDMAN SACHS & CO. LLC\", \"city\": \"DALLAS\", \"state\": \"TX\", \"registrationBeginDate\": \"1/7/2022\", \"registrationEndDate\": \"5/26/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"Denver\", \"state\": \"CO\", \"registrationBeginDate\": \"2/26/2018\", \"registrationEndDate\": \"12/31/2020\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"24760\", \"firmId\": 8206, \"firmName\": \"SCOTTRADE, INC.\", \"city\": \"WESTMINSTER\", \"state\": \"CO\", \"registrationBeginDate\": \"1/27/2014\", \"registrationEndDate\": \"2/26/2018\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"GREENWOOD VILLAGE\", \"state\": \"CO\", \"registrationBeginDate\": \"3/8/1999\", \"registrationEndDate\": \"1/17/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"16752\", \"firmId\": 5979, \"firmName\": \"OLDE DISCOUNT CORPORATION\", \"city\": \"DETROIT\", \"state\": \"MI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/25/1997\", \"registrationEndDate\": \"10/8/1997\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"62967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"34999\", \"firmId\": 17073, \"firmName\": \"SCOUT BROKERAGE SERVICES, INC.\", \"city\": \"KANSAS CITY\", \"state\": \"MO\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/18/1996\", \"registrationEndDate\": \"6/9/1997\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"firmId\": 324630, \"firmName\": \"O'LEARY FINANCIAL STRATEGIES LLC\", \"city\": \"Greenwood Village\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"3/10/2023\", \"registrationEndDate\": \"9/5/2024\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"106677\", \"iaSECNumberType\": \"801\", \"firmId\": 281213, \"firmName\": \"CREATIVEONE WEALTH, LLC\", \"city\": \"Englewood\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"10/17/2022\", \"registrationEndDate\": \"12/13/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"48238\", \"iaSECNumberType\": \"801\", \"firmId\": 106693, \"firmName\": \"GOLDMAN SACHS AYCO PERSONAL FINANCIAL MANAGEMENT\", \"city\": \"Dallas\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"4/29/2022\", \"registrationEndDate\": \"5/26/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"TD AMERITRADE INVESTMENT MANAGEMENT, LLC\", \"city\": \"Denver\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"2/26/2018\", \"registrationEndDate\": \"1/11/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"Denver\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"2/27/2018\", \"registrationEndDate\": \"12/31/2020\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"79217\", \"iaSECNumberType\": \"801\", \"firmId\": 169988, \"firmName\": \"SCOTTRADE INVESTMENT MANAGEMENT\", \"city\": \"Westminster\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"3/18/2016\", \"registrationEndDate\": \"2/26/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"GREENWOOD VILLAGE\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"5/17/2006\", \"registrationEndDate\": \"1/17/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"GREENWOOD VILLAGE\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"9/10/2003\", \"registrationEndDate\": \"1/17/2014\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 5, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/8/2003\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/13/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 4\", \"examName\": \"Registered Options Principal Examination\", \"examTakenDate\": \"5/3/2001\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 14\", \"examName\": \"Compliance Officer Examination\", \"examTakenDate\": \"12/4/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 8\", \"examName\": \"General  Securities Sales Supervisor Examination (Options Module & General Module)\", \"examTakenDate\": \"7/6/1999\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/17/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/16/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "TIMOTHY O'LEARY",
+    "fetched_name": "TIMOTHY PATRICK OLEARY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'TIMOTHY O'LEARY' did not match fetched name 'TIMOTHY PATRICK OLEARY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "TIMOTHY O'LEARY",
+          "fetched_name": "TIMOTHY PATRICK OLEARY",
+          "other_names": [
+            "TIM  O'LEARY"
+          ]
+        },
+        "description": "Expected name 'TIMOTHY O'LEARY' did not match fetched name 'TIMOTHY PATRICK OLEARY'."
+      }
+    ]
+  }
+}

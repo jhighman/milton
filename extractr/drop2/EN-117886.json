@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jacquelyn",
+    "middle_name": "",
+    "last_name": "Blue",
+    "name": "Jacquelyn Blue",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-117886"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jacquelyn Blue_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4625639_detailed_info.json"
+    },
+    "individual_name": "Jacquelyn Blue",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4625639",
+      "ind_firstname": "JACQUELYN",
+      "ind_middlename": "KERRY",
+      "ind_lastname": "BLUE",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-08-23",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Rehoboth Beach",
+          "branch_state": "DE",
+          "branch_zip": "19971",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4625639, \"firstName\": \"JACQUELYN\", \"middleName\": \"KERRY\", \"lastName\": \"BLUE\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/23/2019\"}, \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/8/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"35568 Airport Road\", \"city\": \"Rehoboth Beach\", \"cityAlias\": [\"DEWEY BCH\", \"DEWEY BEACH\", \"HENLOPEN\", \"HENLOPEN ACRES\", \"REHOBOTH\", \"REHOBOTH BCH\", \"REHOBOTH BEACH\"], \"state\": \"DE\", \"country\": \"United States\", \"zipCode\": \"19971\", \"latitude\": \"38.684176\", \"longitude\": \"-75.107826\", \"geoLocation\": \"38.684176,-75.107826\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/08/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"65934\", \"iaSECNumberType\": \"801\", \"firmId\": 139163, \"firmName\": \"BELL ROCK CAPITAL, LLC\", \"city\": \"REHOBOTH BEACH\", \"state\": \"DE\", \"country\": \"United States\", \"registrationBeginDate\": \"8/23/2019\", \"registrationEndDate\": \"8/9/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/23/2019\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"10/3/2003\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/28/2003\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/8/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jacquelyn Blue",
+    "fetched_name": "JACQUELYN KERRY BLUE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jacquelyn Blue' did not match fetched name 'JACQUELYN KERRY BLUE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

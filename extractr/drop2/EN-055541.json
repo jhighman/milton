@@ -1,0 +1,103 @@
+{
+  "claim": {
+    "crd_number": "5101611",
+    "first_name": "Rory",
+    "middle_name": "",
+    "last_name": "Davan",
+    "name": "Rory Davan",
+    "organization_name": "Invesco Managed Accounts LLC",
+    "license_type": "",
+    "employee_number": "EN-055541"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 10:48:19",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5101611_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5101611_detailed_info.json"
+    },
+    "crd_number": "5101611",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5101611",
+      "ind_firstname": "Rory",
+      "ind_middlename": "James",
+      "ind_lastname": "Davan",
+      "ind_other_names": [
+        "RORY J DAVAN",
+        "RORY  DAVAN"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 2,
+      "ind_industry_cal_date": "2006-04-02",
+      "ind_current_employments": [
+        {
+          "firm_id": "7369",
+          "firm_name": "INVESCO DISTRIBUTORS, INC.",
+          "branch_city": "NEW YORK",
+          "branch_state": "NY",
+          "branch_zip": "10281",
+          "ia_only": "N",
+          "firm_bd_sec_number": "21323",
+          "firm_bd_full_sec_number": "8-21323"
+        },
+        {
+          "firm_id": "154461",
+          "firm_name": "INVESCO MANAGED ACCOUNTS, LLC",
+          "branch_city": "New York",
+          "branch_state": "NY",
+          "branch_zip": "10281",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "61716",
+          "firm_ia_full_sec_number": "801-61716"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5101611, \"firstName\": \"Rory\", \"middleName\": \"James\", \"lastName\": \"Davan\", \"otherNames\": [\"RORY J DAVAN\", \"RORY  DAVAN\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDate\": \"4/2/2006\"}, \"currentEmployments\": [{\"firmId\": 7369, \"firmName\": \"INVESCO DISTRIBUTORS, INC.\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"3/15/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"21323\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"717372\", \"street1\": \"225 LIBERTY ST\", \"street2\": \"11TH FLOOR\", \"city\": \"NEW YORK\", \"cityAlias\": [\"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10281\", \"latitude\": \"40.7058\", \"longitude\": \"-74.0186\", \"geoLocation\": \"40.7058,-74.0186\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/08/2021\"}]}], \"currentIAEmployments\": [{\"firmId\": 154461, \"firmName\": \"INVESCO MANAGED ACCOUNTS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"3/16/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"61716\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"225 Liberty St.\", \"street2\": \"11th Floor\", \"city\": \"New York\", \"cityAlias\": [\"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10281\", \"latitude\": \"40.7058\", \"longitude\": \"-74.0186\", \"geoLocation\": \"40.7058,-74.0186\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/08/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"1/1/2010\", \"registrationEndDate\": \"3/8/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"53059\", \"firmId\": 107726, \"firmName\": \"UBS INTERNATIONAL INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"USA\", \"registrationBeginDate\": \"3/27/2006\", \"registrationEndDate\": \"1/1/2010\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"1/1/2010\", \"registrationEndDate\": \"3/8/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"53059\", \"firmId\": 107726, \"firmName\": \"UBS INTERNATIONAL INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"7/30/2008\", \"registrationEndDate\": \"1/1/2010\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/28/2008\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/25/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 52, \"approvedIAStateRegistrationCount\": 52}, \"registeredStates\": [{\"state\": \"Alabama\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Alabama\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Alaska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Alaska\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2023\"}, {\"state\": \"Arizona\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Arkansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Arkansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/1/2023\"}, {\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Colorado\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/24/2023\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Connecticut\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Delaware\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/2/2023\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/9/2023\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/8/2023\"}, {\"state\": \"Georgia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"Hawaii\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Hawaii\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Idaho\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/31/2023\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/2/2023\"}, {\"state\": \"Indiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Indiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"Iowa\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Iowa\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Kansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Kentucky\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Louisiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"Maine\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Maine\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Maryland\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/24/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2023\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Michigan\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"Minnesota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Minnesota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"Mississippi\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Mississippi\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"Missouri\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Missouri\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Montana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Nebraska\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"Nevada\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"New Hampshire\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"New Hampshire\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"New Jersey\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/16/2021\"}, {\"state\": \"New Mexico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"New Mexico\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"New York\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/24/2023\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/1/2023\"}, {\"state\": \"North Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"North Dakota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Ohio\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Oklahoma\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Oklahoma\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/6/2023\"}, {\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/28/2023\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Puerto Rico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Puerto Rico\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/6/2023\"}, {\"state\": \"Rhode Island\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Rhode Island\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"South Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"South Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"South Dakota\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}, {\"state\": \"Tennessee\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Vermont\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Vermont\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Virgin Islands\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Virgin Islands\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Washington\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"3/16/2021\"}, {\"state\": \"West Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"West Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/26/2023\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Wisconsin\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/25/2023\"}, {\"state\": \"Wyoming\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/15/2021\"}, {\"state\": \"Wyoming\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/30/2023\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Rory Davan",
+    "fetched_name": "Rory James Davan",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Rory Davan' did not match fetched name 'Rory James Davan' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

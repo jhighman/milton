@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Joshua",
+    "middle_name": "",
+    "last_name": "Pinchek",
+    "name": "Joshua Pinchek",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-052653"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:03:08",
+    "cache_files": {
+      "basic_info": "./cache/sec_Joshua Pinchek_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4394693_detailed_info.json"
+    },
+    "individual_name": "Joshua Pinchek",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4394693",
+      "ind_firstname": "JOSHUA",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "PINCHEK",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2003-09-23",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Addison",
+          "branch_state": "TX",
+          "branch_zip": "75001",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4394693, \"firstName\": \"JOSHUA\", \"middleName\": \"MICHAEL\", \"lastName\": \"PINCHEK\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/23/2003\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/26/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"15303 Dallas Parkway\", \"street2\": \"Suite 460\", \"city\": \"Addison\", \"cityAlias\": [\"ADDISON\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"75001\", \"latitude\": \"32.959787\", \"longitude\": \"-96.838472\", \"geoLocation\": \"32.959787,-96.838472\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/24/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"68255\", \"iaSECNumberType\": \"801\", \"firmId\": 111167, \"firmName\": \"ALLWORTH FINANCIAL, L.P.\", \"city\": \"SACRAMENTO\", \"state\": \"CA\", \"registrationBeginDate\": \"1/7/2020\", \"registrationEndDate\": \"4/21/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60003\", \"iaSECNumberType\": \"801\", \"firmId\": 108203, \"firmName\": \"RAA\", \"city\": \"ADDISON\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"9/29/2014\", \"registrationEndDate\": \"1/7/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"WESTLAKE\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"8/19/2004\", \"registrationEndDate\": \"9/17/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"34881\", \"firmId\": 16999, \"firmName\": \"BANC ONE SECURITIES CORPORATION\", \"city\": \"DALLAS\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"10/3/2003\", \"registrationEndDate\": \"7/28/2004\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERICAN EXPRESS FINANCIAL ADVISORS, INC.\", \"city\": \"ALLENTOWN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/14/2003\", \"registrationEndDate\": \"8/27/2003\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"1/28/2002\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"6/25/2001\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/3/2002\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"5/14/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/26/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joshua Pinchek",
+    "fetched_name": "JOSHUA MICHAEL PINCHEK",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joshua Pinchek' did not match fetched name 'JOSHUA MICHAEL PINCHEK' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

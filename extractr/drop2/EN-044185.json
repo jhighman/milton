@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jon",
+    "middle_name": "",
+    "last_name": "Moore",
+    "name": "Jon Moore",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044185"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:33:42",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jon Moore_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2271739_detailed_info.json"
+    },
+    "individual_name": "Jon Moore",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2271739",
+      "ind_firstname": "JON",
+      "ind_middlename": "DAVID",
+      "ind_lastname": "MOORE",
+      "ind_other_names": [
+        "JON  MOORE"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1997-02-26",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "LITTLETON",
+          "branch_state": "CO",
+          "branch_zip": "80127",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2271739, \"firstName\": \"JON\", \"middleName\": \"DAVID\", \"lastName\": \"MOORE\", \"otherNames\": [\"JON  MOORE\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"2/26/1997\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/2/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"8081 SHAFFER PARKWAY\", \"street2\": \"SUITE 4\", \"city\": \"LITTLETON\", \"cityAlias\": [\"DENVER\", \"LITTLETON\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80127\", \"latitude\": \"39.533292\", \"longitude\": \"-105.15699\", \"geoLocation\": \"39.533292,-105.15699\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2015\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69062\", \"iaSECNumberType\": \"801\", \"firmId\": 108973, \"firmName\": \"MOORE FINANCIAL GROUP\", \"city\": \"LITTLETON\", \"state\": \"CO\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"2/26/1997\", \"registrationEndDate\": \"12/31/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"10/18/1994\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 2\", \"examName\": \"Non-Member General Securities Examination\", \"examTakenDate\": \"8/23/1993\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/2/2015\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/2/2015\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/27/2015\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jon Moore",
+    "fetched_name": "JON DAVID MOORE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jon Moore' did not match fetched name 'JON DAVID MOORE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

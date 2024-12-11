@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Stephanie",
+    "middle_name": "",
+    "last_name": "Cooper",
+    "name": "Stephanie Cooper",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-042876"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:20:58",
+    "cache_files": {
+      "basic_info": "./cache/sec_Stephanie Cooper_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6743204_detailed_info.json"
+    },
+    "individual_name": "Stephanie Cooper",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6743204",
+      "ind_firstname": "STEPHANIE",
+      "ind_middlename": "LEE",
+      "ind_lastname": "COOPER",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2018-01-12",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "San Francisco",
+          "branch_state": "CA",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Walnut Creek",
+          "branch_state": "CA",
+          "branch_zip": "94596",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6743204, \"firstName\": \"STEPHANIE\", \"middleName\": \"LEE\", \"lastName\": \"COOPER\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/12/2018\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/18/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"San Francisco\", \"state\": \"CA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/01/2024\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1331 North California Blvd\", \"street2\": \"Suite 110\", \"city\": \"Walnut Creek\", \"cityAlias\": [\"WALNUT CREEK\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94596\", \"latitude\": \"37.891382\", \"longitude\": \"-122.03577\", \"geoLocation\": \"37.891382,-122.03577\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/19/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"106548\", \"iaSECNumberType\": \"801\", \"firmId\": 109315, \"firmName\": \"ADAM FINANCIAL ASSOCIATES INC\", \"city\": \"BOCA RATON\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"2/8/2017\", \"registrationEndDate\": \"7/13/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/2/2024\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/18/2018\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Stephanie Cooper",
+    "fetched_name": "STEPHANIE LEE COOPER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Stephanie Cooper' did not match fetched name 'STEPHANIE LEE COOPER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

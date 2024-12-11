@@ -1,0 +1,103 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Paris",
+    "middle_name": "",
+    "last_name": "Karasso",
+    "name": "Paris Karasso",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-058143"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Paris Karasso_143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2571783_detailed_info.json"
+    },
+    "individual_name": "Paris Karasso",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2571783",
+      "ind_firstname": "Paris",
+      "ind_lastname": "Karasso",
+      "ind_other_names": [
+        "PARIS  KARASSO"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 2,
+      "ind_industry_cal_date_iapd": "2014-09-24",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "NAPERVILLE",
+          "branch_state": "IL",
+          "branch_zip": "60563-2787",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "67787",
+          "firm_ia_full_sec_number": "801-67787"
+        },
+        {
+          "firm_id": "19850",
+          "firm_name": "CALAMOS FINANCIAL SERVICES LLC",
+          "branch_city": "NAPERVILLE",
+          "branch_state": "IL",
+          "branch_zip": "60563",
+          "ia_only": "N",
+          "firm_bd_sec_number": "37854",
+          "firm_bd_full_sec_number": "8-37854"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2571783, \"firstName\": \"Paris\", \"lastName\": \"Karasso\", \"otherNames\": [\"PARIS  KARASSO\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/24/2014\"}, \"currentEmployments\": [{\"firmId\": 19850, \"firmName\": \"CALAMOS FINANCIAL SERVICES LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"1/26/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"37854\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"287824\", \"street1\": \"2020 CALAMOS COURT\", \"city\": \"NAPERVILLE\", \"cityAlias\": [\"NAPERVILLE\", \"WARRENVILLE\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60563\", \"latitude\": \"41.799902\", \"longitude\": \"-88.170949\", \"geoLocation\": \"41.799902,-88.170949\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/27/2014\"}]}], \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/13/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"67787\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"323342\", \"street1\": \"2020 CALAMOS COURT\", \"city\": \"NAPERVILLE\", \"cityAlias\": [\"NAPERVILLE\", \"WARRENVILLE\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60563-2787\", \"latitude\": \"41.799902\", \"longitude\": \"-88.170949\", \"geoLocation\": \"41.799902,-88.170949\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/27/2014\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"BEAR, STEARNS & CO. INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/21/2000\", \"registrationEndDate\": \"11/7/2001\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"9638\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17822\", \"firmId\": 2525, \"firmName\": \"DEUTSCHE BANK SECURITIES INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"4/30/1999\", \"registrationEndDate\": \"7/12/2000\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"35766\", \"firmId\": 17790, \"firmName\": \"BT ALEX. BROWN INCORPORATED\", \"city\": \"BALTIMORE\", \"state\": \"MD\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/17/1996\", \"registrationEndDate\": \"2/22/1999\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"67787\", \"iaSECNumberType\": \"801\", \"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"city\": \"NAPERVILLE\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"8/26/2019\", \"registrationEndDate\": \"8/4/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/26/2019\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"11/17/2000\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/25/2021\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/16/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/13/2020\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Paris Karasso",
+    "fetched_name": "Paris  Karasso",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Paris Karasso' did not match fetched name 'Paris  Karasso' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

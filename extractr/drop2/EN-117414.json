@@ -1,0 +1,102 @@
+{
+  "claim": {
+    "crd_number": "6048928",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Collette",
+    "name": "Ryan Collette",
+    "organization_name": "RWA Wealth Partners LLC",
+    "license_type": "",
+    "employee_number": "EN-117414"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:13:29",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_6048928_basic_info.json",
+      "detailed_info": "./cache/brokercheck_6048928_detailed_info.json"
+    },
+    "crd_number": "6048928",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6048928",
+      "ind_firstname": "RYAN",
+      "ind_middlename": "CHRISTOPHER",
+      "ind_lastname": "COLLETTE",
+      "ind_other_names": [
+        "RYAN  COLLETTE"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "1251",
+      "ind_current_employments": [
+        {
+          "firm_id": "156984",
+          "firm_name": "RWA WEALTH PARTNERS",
+          "branch_city": "San Rafael",
+          "branch_state": "CA",
+          "branch_zip": "94901",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "73098",
+          "firm_ia_full_sec_number": "801-73098"
+        },
+        {
+          "firm_id": "156984",
+          "firm_name": "RWA WEALTH PARTNERS",
+          "branch_city": "Costa Mesa",
+          "branch_state": "CA",
+          "branch_zip": "92626",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "73098",
+          "firm_ia_full_sec_number": "801-73098"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 6048928, \"firstName\": \"RYAN\", \"middleName\": \"CHRISTOPHER\", \"lastName\": \"COLLETTE\", \"otherNames\": [\"RYAN  COLLETTE\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 1251}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"113359\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"66189\", \"firmId\": 125650, \"firmName\": \"WESCOM FINANCIAL SERVICES\", \"city\": \"WEST COVINA\", \"state\": \"CA\", \"registrationBeginDate\": \"7/29/2013\", \"registrationEndDate\": \"11/17/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"LAGUNA HILLS\", \"state\": \"CA\", \"registrationBeginDate\": \"6/6/2012\", \"registrationEndDate\": \"7/19/2013\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"11/21/2018\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"Plaintiff alleges Mr. Collette, and others, breached their fiduciary duty and constructively defrauded Plaintiff by (1) failing to recommend a suitable investment strategy as stated in the Plaintiff's investment objectives; (2) withholding material facts that the investment strategy was losing money, and further materially misrepresenting to Plaintiff that the strategy was making money; (3) falsely represented the level of risk for the investment strategy; and (4) not providing a diversified portfolio.\", \"Damage Amount Requested\": \"$200,000.00\", \"Settlement Amount\": \"$470,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"Mr. Collette vigorously denied and defended against the allegations in the plaintiff's complaint. Specifically, (1) Mr. Collette repeatedly advised the plaintiff to diversify his portfolio; that advice was ignored and plaintiff directed Mr. Collette to keep his portfolio heavily concentrated in two investments primarily due to very low cost basis. (2) Due to the restrictions the plaintiff placed on trading in the accounts at issue, covered call option writing was one of the only investment strategies Mr. Collette could pursue in an attempt to reduce the plaintiff's risk from lack of diversification. Mr. Collette explained the investment strategy and Plaintiff signed multiple attestations representing that he understood the risks involved with pursuing options strategies. (3) Mr. Collette was transparent with Plaintiff regarding the profits he made. Overall, Plaintiff's portfolio was profitable, but Plaintiff made significant withdrawals from the accounts at issue, then claimed it was unprofitable. Mr. Collette was confident that the case was fully defensible and would have prevailed had the case gone to trial. Ultimately, the insurance company made a business decision to settle, as it was less expensive than trying the case. Mr. Collette made no contribution to the settlement.\"}}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"7/12/2012\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"11/17/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"6/5/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/3/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/23/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"11/3/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Collette",
+    "fetched_name": "RYAN CHRISTOPHER COLLETTE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Collette' did not match fetched name 'RYAN CHRISTOPHER COLLETTE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

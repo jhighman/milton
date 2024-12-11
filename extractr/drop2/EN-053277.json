@@ -1,0 +1,109 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Tyler",
+    "middle_name": "",
+    "last_name": "Wilkinson",
+    "name": "Tyler Wilkinson",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-053277"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:22:43",
+    "cache_files": {
+      "basic_info": "./cache/sec_Tyler Wilkinson_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2768116_detailed_info.json"
+    },
+    "individual_name": "Tyler Wilkinson",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2768116",
+      "ind_firstname": "TYLER",
+      "ind_middlename": "KAY",
+      "ind_lastname": "WILKINSON",
+      "ind_namesuffix": "MR.",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1997-04-21",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2768116, \"firstName\": \"TYLER\", \"middleName\": \"KAY\", \"lastName\": \"WILKINSON\", \"nameSuffix\": \"MR.\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/21/1997\"}, \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/21/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"09/20/2010\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"43962\", \"iaSECNumberType\": \"801\", \"firmId\": 106134, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, INC.\", \"city\": \"ST. GEORGE\", \"state\": \"UT\", \"country\": \"United States\", \"registrationBeginDate\": \"4/22/1997\", \"registrationEndDate\": \"12/12/2011\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"10/5/2010\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"MADE CLIENT AWARE OF A DIRECT LIMITED PARTNERSHIP INVESTMENT OPPORTUNITY WITH  PIMCO MUNICIPAL OPPORTUNITY FUND AND PROVIDED CLIENT WITH ALL RELEVANT DOCUMENTATION AND INFORMATION RELATED TO SAME.  CLIENT  INVESTED DIRECTLY INTO THE PIMCO FUND WHICH SUBSEQUENTLY INCURRED SUBSTANTIAL LOSSES. CLIENT PARTICIPATED IN ARBITRATION AGAINST PIMCO AND RECEIVED RECOVERY OF SOME LOSSES. CLIENT THEN FILED AN ARBITRATION AGAINST SOLTIS INVESTMENT ADVISORS AND REFERENCED ME IN CONNECTION WITH THEIR DIRECT INVESTMENT WITH PIMCO MUNICIPAL OPPORTUNITY.  IT IS THE ONLY COMPLAINT WHEREIN I HVAE BEEN REFERENCED SINCE BEGINNING MY CAREER WITH SOLTIS IN 1993.  THE ALLEGATIONS CONTAINED WITHIN THIS ARBITRATION COMPLAINT ARE WITHOUT MERIT AND SOLTIS INVESTMENT ADVISORS SPECIFICALLY REFUTES EACH AND EVERY CLAIM.  NEITHER SOLTIS INVESTMENT ADVISORS NOR I RECEIVED OR HAD THE RIGHT TO RECEIVE ANY REVENUE OR COMPENSATION ASSOCIATED WITH THE PIMCO MUNICIPAL OPPORTUNITY FUND. THIS CLAIM HAS BEEN ADJUDICATED AND CLAIMANTS' CLAIMS WERE DENIED IN THEIR ENTIRETY.  SEE RESPONSE TO NO. 24\", \"Damage Amount Requested\": \"$500,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"MADE CLIENT AWARE OF A DIRECT LIMITED PARTNERSHIP INVESTMENT OPPORTUNITY WITH  PIMCO MUNICIPAL OPPORTUNITY FUND AND PROVIDED CLIENT WITH ALL RELEVANT DOCUMENTATION AND INFORMATION RELATED TO SAME.  CLIENT  INVESTED DIRECTLY INTO THE PIMCO FUND WHICH SUBSEQUENTLY INCURRED SUBSTANTIAL LOSSES. CLIENT PARTICIPATED IN ARBITRATION AGAINST PIMCO AND RECEIVED RECOVERY OF SOME LOSSES. CLIENT THEN FILED AN ARBITRATION AGAINST SOLTIS INVESTMENT ADVISORS AND REFERENCED ME IN CONNECTION WITH THEIR DIRECT INVESTMENT WITH PIMCO MUNICIPAL OPPORTUNITY. IT IS THE ONLY COMPLAINT WHEREIN I HAVE BEEN REFERENCED SINCE BEGINNING MY CAREER WITH SOLTIS IN 1993. THE ALLEGATIONS CONTAINED WITHIN THIS ARBITRATION COMPLAINT ARE WITHOUT MERIT AND SOLTIS INVESTMENT ADVISORS SPECIFICALLY REFUTES EACH AND EVERY CLAIM.  NEITHER SOLTIS INVESTMENT ADVISORS NOR I RECEIVED OR HAD THE RIGHT TO RECEIVE ANY REVENUE OR COMPENSATION ASSOCIATED WITH THE PIMCO MUNICIPAL OPPORTUNITY FUND. \\r\\n\\r\\nARBITRATION PANEL CONCLUDED THAT THIS CLAIM WAS WITHOUT MERIT AND RULED IN FAVOR OF SOLTIS AND MR. WILKINSON ON EVERY POINT OF COMPLAINT. FURTHER, CLAIMANTS WERE ORDERED TO PAY ALL OF SOLTIS' AND MR. WILKINSON'S LEGAL FEES. THE MATTER IS CLOSED RESULTING IN COMPLETE EXONERATION OF SOLTIS AND MR. WILKINSON.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/26/1996\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 4}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/23/2010\"}, {\"state\": \"Idaho\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/21/2010\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/1/2010\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/29/2010\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Tyler Wilkinson",
+    "fetched_name": "TYLER KAY WILKINSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Tyler Wilkinson' did not match fetched name 'TYLER KAY WILKINSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Tyler Wilkinson has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "10/5/2010",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "MADE CLIENT AWARE OF A DIRECT LIMITED PARTNERSHIP INVESTMENT OPPORTUNITY WITH  PIMCO MUNICIPAL OPPORTUNITY FUND AND PROVIDED CLIENT WITH ALL RELEVANT DOCUMENTATION AND INFORMATION RELATED TO SAME.  CLIENT  INVESTED DIRECTLY INTO THE PIMCO FUND WHICH SUBSEQUENTLY INCURRED SUBSTANTIAL LOSSES. CLIENT PARTICIPATED IN ARBITRATION AGAINST PIMCO AND RECEIVED RECOVERY OF SOME LOSSES. CLIENT THEN FILED AN ARBITRATION AGAINST SOLTIS INVESTMENT ADVISORS AND REFERENCED ME IN CONNECTION WITH THEIR DIRECT INVESTMENT WITH PIMCO MUNICIPAL OPPORTUNITY.  IT IS THE ONLY COMPLAINT WHEREIN I HVAE BEEN REFERENCED SINCE BEGINNING MY CAREER WITH SOLTIS IN 1993.  THE ALLEGATIONS CONTAINED WITHIN THIS ARBITRATION COMPLAINT ARE WITHOUT MERIT AND SOLTIS INVESTMENT ADVISORS SPECIFICALLY REFUTES EACH AND EVERY CLAIM.  NEITHER SOLTIS INVESTMENT ADVISORS NOR I RECEIVED OR HAD THE RIGHT TO RECEIVE ANY REVENUE OR COMPENSATION ASSOCIATED WITH THE PIMCO MUNICIPAL OPPORTUNITY FUND. THIS CLAIM HAS BEEN ADJUDICATED AND CLAIMANTS' CLAIMS WERE DENIED IN THEIR ENTIRETY.  SEE RESPONSE TO NO. 24",
+            "Damage Amount Requested": "$500,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "MADE CLIENT AWARE OF A DIRECT LIMITED PARTNERSHIP INVESTMENT OPPORTUNITY WITH  PIMCO MUNICIPAL OPPORTUNITY FUND AND PROVIDED CLIENT WITH ALL RELEVANT DOCUMENTATION AND INFORMATION RELATED TO SAME.  CLIENT  INVESTED DIRECTLY INTO THE PIMCO FUND WHICH SUBSEQUENTLY INCURRED SUBSTANTIAL LOSSES. CLIENT PARTICIPATED IN ARBITRATION AGAINST PIMCO AND RECEIVED RECOVERY OF SOME LOSSES. CLIENT THEN FILED AN ARBITRATION AGAINST SOLTIS INVESTMENT ADVISORS AND REFERENCED ME IN CONNECTION WITH THEIR DIRECT INVESTMENT WITH PIMCO MUNICIPAL OPPORTUNITY. IT IS THE ONLY COMPLAINT WHEREIN I HAVE BEEN REFERENCED SINCE BEGINNING MY CAREER WITH SOLTIS IN 1993. THE ALLEGATIONS CONTAINED WITHIN THIS ARBITRATION COMPLAINT ARE WITHOUT MERIT AND SOLTIS INVESTMENT ADVISORS SPECIFICALLY REFUTES EACH AND EVERY CLAIM.  NEITHER SOLTIS INVESTMENT ADVISORS NOR I RECEIVED OR HAD THE RIGHT TO RECEIVE ANY REVENUE OR COMPENSATION ASSOCIATED WITH THE PIMCO MUNICIPAL OPPORTUNITY FUND. \r\n\r\nARBITRATION PANEL CONCLUDED THAT THIS CLAIM WAS WITHOUT MERIT AND RULED IN FAVOR OF SOLTIS AND MR. WILKINSON ON EVERY POINT OF COMPLAINT. FURTHER, CLAIMANTS WERE ORDERED TO PAY ALL OF SOLTIS' AND MR. WILKINSON'S LEGAL FEES. THE MATTER IS CLOSED RESULTING IN COMPLETE EXONERATION OF SOLTIS AND MR. WILKINSON."
+          }
+        },
+        "description": "Customer dispute on 10/5/2010. Resolution: Denied. Allegations: MADE CLIENT AWARE OF A DIRECT LIMITED PARTNERSHIP INVESTMENT OPPORTUNITY WITH  PIMCO MUNICIPAL OPPORTUNITY FUND AND PROVIDED CLIENT WITH ALL RELEVANT DOCUMENTATION AND INFORMATION RELATED TO SAME.  CLIENT  INVESTED DIRECTLY INTO THE PIMCO FUND WHICH SUBSEQUENTLY INCURRED SUBSTANTIAL LOSSES. CLIENT PARTICIPATED IN ARBITRATION AGAINST PIMCO AND RECEIVED RECOVERY OF SOME LOSSES. CLIENT THEN FILED AN ARBITRATION AGAINST SOLTIS INVESTMENT ADVISORS AND REFERENCED ME IN CONNECTION WITH THEIR DIRECT INVESTMENT WITH PIMCO MUNICIPAL OPPORTUNITY.  IT IS THE ONLY COMPLAINT WHEREIN I HVAE BEEN REFERENCED SINCE BEGINNING MY CAREER WITH SOLTIS IN 1993.  THE ALLEGATIONS CONTAINED WITHIN THIS ARBITRATION COMPLAINT ARE WITHOUT MERIT AND SOLTIS INVESTMENT ADVISORS SPECIFICALLY REFUTES EACH AND EVERY CLAIM.  NEITHER SOLTIS INVESTMENT ADVISORS NOR I RECEIVED OR HAD THE RIGHT TO RECEIVE ANY REVENUE OR COMPENSATION ASSOCIATED WITH THE PIMCO MUNICIPAL OPPORTUNITY FUND. THIS CLAIM HAS BEEN ADJUDICATED AND CLAIMANTS' CLAIMS WERE DENIED IN THEIR ENTIRETY.  SEE RESPONSE TO NO. 24. Damage requested: $500,000.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

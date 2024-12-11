@@ -1,0 +1,108 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Aaron",
+    "middle_name": "",
+    "last_name": "Beltrami",
+    "name": "Aaron Beltrami",
+    "organization_name": "Crestwood Advisors Group LLC",
+    "license_type": "",
+    "employee_number": "EN-048920"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:21:06",
+    "cache_files": {
+      "basic_info": "./cache/sec_Aaron Beltrami_286243_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2905412_detailed_info.json"
+    },
+    "individual_name": "Aaron Beltrami",
+    "firm_crd": "286243",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2905412",
+      "ind_firstname": "AARON",
+      "ind_middlename": "MICAH",
+      "ind_lastname": "BELTRAMI",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2001-01-15",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "286243",
+          "firm_name": "CRESTWOOD ADVISORS",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02109",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2905412, \"firstName\": \"AARON\", \"middleName\": \"MICAH\", \"lastName\": \"BELTRAMI\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"1/15/2001\"}, \"currentIAEmployments\": [{\"firmId\": 286243, \"firmName\": \"CRESTWOOD ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/14/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"650747\", \"street1\": \"ONE LIBERTY SQUARE\", \"street2\": \"SUITE 500\", \"city\": \"BOSTON\", \"cityAlias\": [\"BOSTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02109\", \"latitude\": \"42.363244\", \"longitude\": \"-71.053774\", \"geoLocation\": \"42.363244,-71.053774\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/01/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"62000\", \"iaSECNumberType\": \"801\", \"firmId\": 125361, \"firmName\": \"CRESTWOOD ADVISORS LLC\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/26/2008\", \"registrationEndDate\": \"1/31/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/1/2001\", \"registrationEndDate\": \"9/23/2008\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"1/4/2007\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"[CUSTOMER] MADE A VERBAL COMPLAINT ALLEGING THAT A TRADE OF SRPIX ON 3/30/2007 WAS NOT ENTERED CORRECTLY.\", \"Damage Amount Requested\": \"$67,000.00\", \"Settlement Amount\": \"$82,155.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/3/2000\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/25/1997\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"2/14/2003\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"1/22/2003\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/15/2000\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/24/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/14/2017\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Aaron Beltrami",
+    "fetched_name": "AARON MICAH BELTRAMI",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Aaron Beltrami' did not match fetched name 'AARON MICAH BELTRAMI' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Aaron Beltrami has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "1/4/2007",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "[CUSTOMER] MADE A VERBAL COMPLAINT ALLEGING THAT A TRADE OF SRPIX ON 3/30/2007 WAS NOT ENTERED CORRECTLY.",
+            "Damage Amount Requested": "$67,000.00",
+            "Settlement Amount": "$82,155.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 1/4/2007. Resolution: Settled. Allegations: [CUSTOMER] MADE A VERBAL COMPLAINT ALLEGING THAT A TRADE OF SRPIX ON 3/30/2007 WAS NOT ENTERED CORRECTLY.. Damage requested: $67,000.00. Settlement: $82,155.00"
+      }
+    ]
+  }
+}

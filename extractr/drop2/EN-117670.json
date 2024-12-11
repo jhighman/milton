@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "4305523",
+    "first_name": "Peter",
+    "middle_name": "",
+    "last_name": "Espiritu",
+    "name": "Peter Espiritu",
+    "organization_name": "Baker Avenue Asset Management",
+    "license_type": "",
+    "employee_number": "EN-117670"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_4305523_basic_info.json",
+      "detailed_info": "./cache/brokercheck_4305523_detailed_info.json"
+    },
+    "crd_number": "4305523",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4305523",
+      "ind_firstname": "PETER",
+      "ind_middlename": "NICHOLAS",
+      "ind_lastname": "ESPIRITU",
+      "ind_other_names": [
+        "PETER N ESPIRITH",
+        "PETER N ESPIRITU"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "8391",
+      "ind_current_employments": [
+        {
+          "firm_id": "132657",
+          "firm_name": "BAKERAVENUE",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94111",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "63576",
+          "firm_ia_full_sec_number": "801-63576"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 4305523, \"firstName\": \"PETER\", \"middleName\": \"NICHOLAS\", \"lastName\": \"ESPIRITU\", \"otherNames\": [\"PETER N ESPIRITH\", \"PETER N ESPIRITU\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 8391}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"Corte Madera\", \"state\": \"CA\", \"registrationBeginDate\": \"8/3/2001\", \"registrationEndDate\": \"7/23/2024\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"10/1/2009\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES MISREPRESENTATION IN CONNECTION WITH THE PURCHASE OF THE SCHWAB CALIFORNIA TAX FREE YIELDPLUS FUND ON MAY 18, 2007.\", \"Damage Amount Requested\": \"$24,216.57\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}, {\"eventDate\": \"4/20/2009\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEAGES MISREPRESENTATION WITH REGARDS TO THE SCHWAB YIELD PLUS FUND PURCHASED OF 04/16/2007.\", \"Damage Amount Requested\": \"$61,912.43\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"10/28/2005\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/3/2002\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"7/30/2004\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"6/15/2004\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/1/2001\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/10/2024\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Peter Espiritu",
+    "fetched_name": "PETER NICHOLAS ESPIRITU",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Peter Espiritu' did not match fetched name 'PETER NICHOLAS ESPIRITU' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

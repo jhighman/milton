@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Harty",
+    "name": "Michael Harty",
+    "organization_name": "CW Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-052020"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:26:22",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Harty_310873_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5766655_detailed_info.json"
+    },
+    "individual_name": "Michael Harty",
+    "firm_crd": "310873",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5766655",
+      "ind_firstname": "MICHAEL",
+      "ind_middlename": "KEVIN",
+      "ind_lastname": "HARTY",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2010-05-01",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "310873",
+          "firm_name": "CW ADVISORS, LLC",
+          "branch_city": "SCOTTSDALE",
+          "branch_state": "AZ",
+          "branch_zip": "85254",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "119667",
+          "firm_ia_full_sec_number": "801-119667"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5766655, \"firstName\": \"MICHAEL\", \"middleName\": \"KEVIN\", \"lastName\": \"HARTY\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/1/2010\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 310873, \"firmName\": \"CW ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/19/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"119667\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"15169 N. SCOTTSDALE RD.\", \"street2\": \"SUITE 205\", \"city\": \"SCOTTSDALE\", \"cityAlias\": [\"SCOTTSDALE\"], \"state\": \"AZ\", \"country\": \"United States\", \"zipCode\": \"85254\", \"latitude\": \"33.619195\", \"longitude\": \"-111.951657\", \"geoLocation\": \"33.619195,-111.951657\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/01/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"LA JOLLA\", \"state\": \"CA\", \"registrationBeginDate\": \"8/2/2010\", \"registrationEndDate\": \"1/16/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"52354\", \"firmId\": 103849, \"firmName\": \"OPTIONSXPRESS, INC.\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"registrationBeginDate\": \"5/13/2015\", \"registrationEndDate\": \"5/4/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14065\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17883\", \"firmId\": 6627, \"firmName\": \"AXA ADVISORS, LLC\", \"city\": \"SCOTTSDALE\", \"state\": \"AZ\", \"registrationBeginDate\": \"4/12/2010\", \"registrationEndDate\": \"7/26/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"69988\", \"iaSECNumberType\": \"801\", \"firmId\": 149446, \"firmName\": \"CONGRESS WEALTH MANAGEMENT LLC\", \"city\": \"Scottsdale\", \"state\": \"AZ\", \"country\": \"United States\", \"registrationBeginDate\": \"1/30/2019\", \"registrationEndDate\": \"12/2/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"LA JOLLA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/19/2012\", \"registrationEndDate\": \"1/16/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/18/2012\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/13/2010\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 3\", \"examName\": \"National Commodity Futures Examination\", \"examTakenDate\": \"4/29/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/10/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/19/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Harty",
+    "fetched_name": "MICHAEL KEVIN HARTY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Harty' did not match fetched name 'MICHAEL KEVIN HARTY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

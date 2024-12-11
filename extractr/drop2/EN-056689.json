@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Glenn",
+    "middle_name": "",
+    "last_name": "Robinson",
+    "name": "Glenn Robinson",
+    "organization_name": "West Financial Services Inc",
+    "license_type": "",
+    "employee_number": "EN-056689"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:24:51",
+    "cache_files": {
+      "basic_info": "./cache/sec_Glenn Robinson_137497_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4789011_detailed_info.json"
+    },
+    "individual_name": "Glenn Robinson",
+    "firm_crd": "137497",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4789011",
+      "ind_firstname": "GLENN",
+      "ind_middlename": "AVERY",
+      "ind_lastname": "ROBINSON",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2004-04-30",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "137497",
+          "firm_name": "WEST FINANCIAL SERVICES, INC.",
+          "branch_city": "MCLEAN",
+          "branch_state": "VA",
+          "branch_zip": "22102",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4789011, \"firstName\": \"GLENN\", \"middleName\": \"AVERY\", \"lastName\": \"ROBINSON\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/30/2004\"}, \"currentIAEmployments\": [{\"firmId\": 137497, \"firmName\": \"WEST FINANCIAL SERVICES, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/8/2005\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"77005\", \"street1\": \"2010 CORPORATE RIDGE ROAD\", \"street2\": \"STE 530\", \"city\": \"MCLEAN\", \"cityAlias\": [\"MACLEAN\", \"MC LEAN\", \"MCLEAN\", \"TYSONS\", \"TYSONS CORNER\", \"WEST MCLEAN\"], \"state\": \"VA\", \"country\": \"United States\", \"zipCode\": \"22102\", \"latitude\": \"38.959942\", \"longitude\": \"-77.224902\", \"geoLocation\": \"38.959942,-77.224902\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"11/01/2005\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"17019\", \"iaSECNumberType\": \"801\", \"firmId\": 107004, \"firmName\": \"WEST FINANCIAL SERVICES INC\", \"city\": \"MCLEAN\", \"state\": \"VA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/30/2004\", \"registrationEndDate\": \"11/8/2005\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/8/2005\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Glenn Robinson",
+    "fetched_name": "GLENN AVERY ROBINSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Glenn Robinson' did not match fetched name 'GLENN AVERY ROBINSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Sarah",
+    "middle_name": "",
+    "last_name": "Hoffman",
+    "name": "Sarah Hoffman",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-117915"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Sarah Hoffman_143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6083278_detailed_info.json"
+    },
+    "individual_name": "Sarah Hoffman",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6083278",
+      "ind_firstname": "Sarah Jane",
+      "ind_middlename": "Cotejo",
+      "ind_lastname": "Hoffmann",
+      "ind_other_names": [
+        "SARAH JANE F COTEJO",
+        "SARAH JANE  COTEJO",
+        "SarahJane FESALBONI COTEJO",
+        "Sarah Jane Fesalboni Cotejo"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 2,
+      "ind_industry_cal_date_iapd": "2012-09-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "Chicago",
+          "branch_state": "IL",
+          "branch_zip": "60607",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "67787",
+          "firm_ia_full_sec_number": "801-67787"
+        },
+        {
+          "firm_id": "19850",
+          "firm_name": "CALAMOS FINANCIAL SERVICES LLC",
+          "branch_city": "Chicago",
+          "branch_state": "IL",
+          "branch_zip": "60607",
+          "ia_only": "N",
+          "firm_bd_sec_number": "37854",
+          "firm_bd_full_sec_number": "8-37854"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6083278, \"firstName\": \"Sarah Jane\", \"middleName\": \"Cotejo\", \"lastName\": \"Hoffmann\", \"otherNames\": [\"SARAH JANE F COTEJO\", \"SARAH JANE  COTEJO\", \"SarahJane FESALBONI COTEJO\", \"Sarah Jane Fesalboni Cotejo\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/29/2012\"}, \"currentEmployments\": [{\"firmId\": 19850, \"firmName\": \"CALAMOS FINANCIAL SERVICES LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"12/20/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"37854\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"798040\", \"street1\": \"215 North Peoria Street\", \"street2\": \"#600/1100/1200\", \"city\": \"Chicago\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60607\", \"latitude\": \"41.874472\", \"longitude\": \"-87.650064\", \"geoLocation\": \"41.874472,-87.650064\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"12/12/2023\"}]}], \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/20/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"67787\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"215 N. Peoria Street\", \"street2\": \"#1100/1200\", \"city\": \"Chicago\", \"cityAlias\": [\"CHICAGO\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60607\", \"latitude\": \"41.874472\", \"longitude\": \"-87.650064\", \"geoLocation\": \"41.874472,-87.650064\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/12/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"69789\", \"firmId\": 153777, \"firmName\": \"CITI PRIVATE ALTERNATIVES, LLC\", \"city\": \"Chicago\", \"state\": \"IL\", \"registrationBeginDate\": \"4/25/2018\", \"registrationEndDate\": \"12/11/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"registrationBeginDate\": \"4/25/2018\", \"registrationEndDate\": \"12/11/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"registrationBeginDate\": \"12/16/2014\", \"registrationEndDate\": \"4/18/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"3702\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35008\", \"firmId\": 79, \"firmName\": \"J.P. MORGAN SECURITIES LLC\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"registrationBeginDate\": \"10/1/2012\", \"registrationEndDate\": \"10/8/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"FREMONT\", \"state\": \"CA\", \"registrationBeginDate\": \"7/10/2012\", \"registrationEndDate\": \"10/1/2012\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"CHICAGO\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"6/12/2018\", \"registrationEndDate\": \"12/11/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"6/11/2018\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"7/17/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/16/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"7/9/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 1, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"12/20/2023\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/20/2023\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Sarah Hoffman",
+    "fetched_name": "Sarah Jane Cotejo Hoffmann",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Sarah Hoffman' did not match fetched name 'Sarah Jane Cotejo Hoffmann' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Sarah Hoffman",
+          "fetched_name": "Sarah Jane Cotejo Hoffmann",
+          "other_names": [
+            "SARAH JANE F COTEJO",
+            "SARAH JANE  COTEJO",
+            "SarahJane FESALBONI COTEJO",
+            "Sarah Jane Fesalboni Cotejo"
+          ]
+        },
+        "description": "Expected name 'Sarah Hoffman' did not match fetched name 'Sarah Jane Cotejo Hoffmann'."
+      }
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Albert",
+    "middle_name": "",
+    "last_name": "Macdonald",
+    "name": "Albert Macdonald",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-120179"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:10:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Albert Macdonald_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4049093_detailed_info.json"
+    },
+    "individual_name": "Albert Macdonald",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4049093",
+      "ind_firstname": "ALBERT",
+      "ind_middlename": "EDWARD",
+      "ind_lastname": "MACDONALD",
+      "ind_namesuffix": "III",
+      "ind_other_names": [
+        "ALBERT EDWARD MACDONALD",
+        "ALBIE  MACDONALD"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2000-08-31",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "PONTE VEDRA BEACH",
+          "branch_state": "FL",
+          "branch_zip": "32082",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "58104",
+          "firm_ia_full_sec_number": "801-58104"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4049093, \"firstName\": \"ALBERT\", \"middleName\": \"EDWARD\", \"lastName\": \"MACDONALD\", \"nameSuffix\": \"III\", \"otherNames\": [\"ALBERT EDWARD MACDONALD\", \"ALBIE  MACDONALD\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/31/2000\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/22/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"58104\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"820 Highway A1A N\", \"street2\": \"Suite E4\", \"city\": \"PONTE VEDRA BEACH\", \"cityAlias\": [\"PNTE VDRA BCH\", \"PONTE VEDRA\", \"PONTE VEDRA BEACH\"], \"state\": \"FL\", \"country\": \"United States\", \"zipCode\": \"32082\", \"latitude\": \"30.128152\", \"longitude\": \"-81.366248\", \"geoLocation\": \"30.128152,-81.366248\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/30/2014\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"51293\", \"firmId\": 46106, \"firmName\": \"FORESIDE FUND SERVICES, LLC\", \"city\": \"Ponte Vedra Beach\", \"state\": \"FL\", \"registrationBeginDate\": \"4/27/2016\", \"registrationEndDate\": \"6/2/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"51293\", \"firmId\": 46106, \"firmName\": \"FORESIDE FUND SERVICES, LLC\", \"city\": \"JACKSONVILLE\", \"state\": \"FL\", \"registrationBeginDate\": \"9/24/2010\", \"registrationEndDate\": \"1/28/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"JACKSONVILLE\", \"state\": \"FL\", \"registrationBeginDate\": \"11/23/1999\", \"registrationEndDate\": \"5/14/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"FT. LAUDERDALE\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"3/28/2003\", \"registrationEndDate\": \"5/14/2009\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"10/30/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Denied\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \\\"SOLD\\\" HIM OPTIONS THAT WERE UNSUITABLE FOR HIS INVESTMENT OBJECTIVES. REGISTERED REPRESENTATIVE WAS NAMED AS HE WAS THE EMPLOYEE THAT ACCEPTED THE APPLICATION THAT CUSTOMER DROPPED-OFF AT THE BRANCH.\", \"Damage Amount Requested\": \"$5,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"3/19/2003\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/20/1999\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"12/18/2006\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"9/1/2006\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/2/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/22/1999\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/22/2010\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Albert Macdonald",
+    "fetched_name": "ALBERT EDWARD MACDONALD",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Albert Macdonald' did not match fetched name 'ALBERT EDWARD MACDONALD' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Albert Macdonald has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "10/30/2008",
+          "resolution": "Denied",
+          "details": {
+            "Allegations": "CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \"SOLD\" HIM OPTIONS THAT WERE UNSUITABLE FOR HIS INVESTMENT OBJECTIVES. REGISTERED REPRESENTATIVE WAS NAMED AS HE WAS THE EMPLOYEE THAT ACCEPTED THE APPLICATION THAT CUSTOMER DROPPED-OFF AT THE BRANCH.",
+            "Damage Amount Requested": "$5,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": ""
+          }
+        },
+        "description": "Customer dispute on 10/30/2008. Resolution: Denied. Allegations: CUSTOMER ALLEGES THAT REGISTERED REPRESENTATIVE \"SOLD\" HIM OPTIONS THAT WERE UNSUITABLE FOR HIS INVESTMENT OBJECTIVES. REGISTERED REPRESENTATIVE WAS NAMED AS HE WAS THE EMPLOYEE THAT ACCEPTED THE APPLICATION THAT CUSTOMER DROPPED-OFF AT THE BRANCH.. Damage requested: $5,000.00. Settlement: Not specified"
+      }
+    ]
+  }
+}

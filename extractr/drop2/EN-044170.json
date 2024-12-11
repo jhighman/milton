@@ -1,0 +1,102 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jaron",
+    "middle_name": "",
+    "last_name": "Gardiner",
+    "name": "Jaron Gardiner",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044170"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:31:03",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jaron Gardiner_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6405783_detailed_info.json"
+    },
+    "individual_name": "Jaron Gardiner",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6405783",
+      "ind_firstname": "JARON",
+      "ind_middlename": "E",
+      "ind_lastname": "GARDINER",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-12-15",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "TORRANCE",
+          "branch_state": "CA",
+          "branch_zip": "90503",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        },
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Vancouver",
+          "branch_state": "WA",
+          "branch_zip": "98660",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29358",
+          "firm_ia_full_sec_number": "801-29358"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6405783, \"firstName\": \"JARON\", \"middleName\": \"E\", \"lastName\": \"GARDINER\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/15/2014\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"2/10/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29358\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"70024\", \"street1\": \"21535 HAWTHORNE BLVD\", \"street2\": \"SUITE 400\", \"city\": \"TORRANCE\", \"cityAlias\": [\"TORRANCE\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90503\", \"latitude\": \"33.840222\", \"longitude\": \"-118.353171\", \"geoLocation\": \"33.840222,-118.353171\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/15/2021\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"410 W 12th St\", \"city\": \"Vancouver\", \"cityAlias\": [\"VANCOUVER\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98660\", \"latitude\": \"45.702703\", \"longitude\": \"-122.749465\", \"geoLocation\": \"45.702703,-122.749465\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"01/15/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"registrationBeginDate\": \"11/19/2014\", \"registrationEndDate\": \"4/21/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63625\", \"iaSECNumberType\": \"801\", \"firmId\": 132578, \"firmName\": \"NEWFOCUS FINANCIAL GROUP, LLC\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/19/2016\", \"registrationEndDate\": \"2/23/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"28543\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16791\", \"firmId\": 6363, \"firmName\": \"AMERIPRISE FINANCIAL SERVICES, INC.\", \"city\": \"VANCOUVER\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/10/2014\", \"registrationEndDate\": \"4/21/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"12/10/2014\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/21/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"11/19/2014\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/10/2021\"}, {\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/10/2021\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/10/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jaron Gardiner",
+    "fetched_name": "JARON E GARDINER",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jaron Gardiner' did not match fetched name 'JARON E GARDINER' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

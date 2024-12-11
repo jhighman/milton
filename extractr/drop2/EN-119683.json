@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Carrico",
+    "name": "Michael Carrico",
+    "organization_name": "Howe & Rusling Inc",
+    "license_type": "",
+    "employee_number": "EN-119683"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:47:43",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Carrico_104627_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6616495_detailed_info.json"
+    },
+    "individual_name": "Michael Carrico",
+    "firm_crd": "104627",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6616495",
+      "ind_firstname": "Michael",
+      "ind_middlename": "Joseph",
+      "ind_lastname": "Carrico",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2016-05-26",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "104627",
+          "firm_name": "HOWE AND RUSLING, INC.",
+          "branch_city": "COLORADO SPRINGS",
+          "branch_state": "CO",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "294",
+          "firm_ia_full_sec_number": "801-294"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6616495, \"firstName\": \"Michael\", \"middleName\": \"Joseph\", \"lastName\": \"Carrico\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/26/2016\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 104627, \"firmName\": \"HOWE AND RUSLING, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/2/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"294\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"COLORADO SPRINGS\", \"state\": \"CO\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/08/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"33854\", \"firmId\": 13109, \"firmName\": \"GWFS EQUITIES, INC.\", \"city\": \"GREENWOOD VILLAGE\", \"state\": \"CO\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/31/2022\", \"registrationEndDate\": \"7/26/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"25130\", \"firmId\": 8348, \"firmName\": \"T. ROWE PRICE INVESTMENT SERVICES, INC.\", \"city\": \"COLORADO SPRINGS\", \"state\": \"CO\", \"registrationBeginDate\": \"4/15/2016\", \"registrationEndDate\": \"1/25/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"58105\", \"iaSECNumberType\": \"801\", \"firmId\": 112058, \"firmName\": \"ADVISED ASSETS GROUP, LLC\", \"city\": \"Colorado Springs\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/31/2022\", \"registrationEndDate\": \"7/26/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"58098\", \"iaSECNumberType\": \"801\", \"firmId\": 108958, \"firmName\": \"T. ROWE PRICE ADVISORY SERVICES, INC.\", \"city\": \"COLORADO SPRINGS\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"11/21/2017\", \"registrationEndDate\": \"1/25/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"11/20/2017\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/28/2016\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/25/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"4/15/2016\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/2/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/18/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Carrico",
+    "fetched_name": "Michael Joseph Carrico",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Carrico' did not match fetched name 'Michael Joseph Carrico' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

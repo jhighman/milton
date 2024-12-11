@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Craig",
+    "middle_name": "",
+    "last_name": "Cairns",
+    "name": "Craig Cairns",
+    "organization_name": "Howe & Rusling Inc",
+    "license_type": "",
+    "employee_number": "EN-049154"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:47:35",
+    "cache_files": {
+      "basic_info": "./cache/sec_Craig Cairns_104627_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2637602_detailed_info.json"
+    },
+    "individual_name": "Craig Cairns",
+    "firm_crd": "104627",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2637602",
+      "ind_firstname": "CRAIG",
+      "ind_middlename": "DOUGLAS",
+      "ind_lastname": "CAIRNS",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2021-07-08",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "104627",
+          "firm_name": "HOWE AND RUSLING, INC.",
+          "branch_city": "ROCHESTER",
+          "branch_state": "NY",
+          "branch_zip": "14620",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2637602, \"firstName\": \"CRAIG\", \"middleName\": \"DOUGLAS\", \"lastName\": \"CAIRNS\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/8/2021\"}, \"currentIAEmployments\": [{\"firmId\": 104627, \"firmName\": \"HOWE AND RUSLING, INC.\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/9/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"56105\", \"street1\": \"165 CULVER RD\", \"street2\": \"SUITE 100\", \"city\": \"ROCHESTER\", \"cityAlias\": [\"BRIGHTON\", \"ROCHESTER\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"14620\", \"latitude\": \"43.128941\", \"longitude\": \"-77.604543\", \"geoLocation\": \"43.128941,-77.604543\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"05/01/2000\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/23/1997\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/6/1997\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/9/1997\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"1/13/1997\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/31/2023\"}, {\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/9/2021\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"2/10/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Craig Cairns",
+    "fetched_name": "CRAIG DOUGLAS CAIRNS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Craig Cairns' did not match fetched name 'CRAIG DOUGLAS CAIRNS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

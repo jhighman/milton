@@ -1,0 +1,109 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jacqueline",
+    "middle_name": "",
+    "last_name": "Ohern",
+    "name": "Jacqueline Ohern",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118983"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:56:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jacqueline Ohern_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6333360_detailed_info.json"
+    },
+    "individual_name": "Jacqueline Ohern",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6333360",
+      "ind_firstname": "JACQUELINE",
+      "ind_middlename": "SIMONE",
+      "ind_lastname": "O'HERN",
+      "ind_other_names": [
+        "JACKI  SIMONE",
+        "JACQUELINE  SIMONE"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-11-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Omaha",
+          "branch_state": "NE",
+          "branch_zip": "68154",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6333360, \"firstName\": \"JACQUELINE\", \"middleName\": \"SIMONE\", \"lastName\": \"O'HERN\", \"otherNames\": [\"JACKI  SIMONE\", \"JACQUELINE  SIMONE\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/13/2014\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/14/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"12925 W. Dodge Rd.\", \"city\": \"Omaha\", \"cityAlias\": [\"OMAHA\"], \"state\": \"NE\", \"country\": \"United States\", \"zipCode\": \"68154\", \"latitude\": \"41.263118\", \"longitude\": \"-96.117136\", \"geoLocation\": \"41.263118,-96.117136\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/04/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"67090\", \"firmId\": 137476, \"firmName\": \"LOCKTON FINANCIAL ADVISORS, LLC\", \"city\": \"KANSAS CITY\", \"state\": \"MO\", \"registrationBeginDate\": \"5/25/2016\", \"registrationEndDate\": \"9/1/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"registrationBeginDate\": \"1/8/2015\", \"registrationEndDate\": \"5/25/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"LEAWOOD\", \"state\": \"KS\", \"registrationBeginDate\": \"9/9/2014\", \"registrationEndDate\": \"11/14/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"68005\", \"iaSECNumberType\": \"801\", \"firmId\": 144133, \"firmName\": \"LOCKTON INVESTMENT ADVISORS, LLC\", \"city\": \"KANSAS CITY\", \"state\": \"MO\", \"country\": \"United States\", \"registrationBeginDate\": \"5/25/2016\", \"registrationEndDate\": \"9/1/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"40622\", \"iaSECNumberType\": \"801\", \"firmId\": 106766, \"firmName\": \"RESOURCES INVESTMENT ADVISORS\", \"city\": \"OVERLAND PARK\", \"state\": \"KS\", \"country\": \"United States\", \"registrationBeginDate\": \"2/12/2015\", \"registrationEndDate\": \"5/24/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/12/2015\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/16/2015\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"9/1/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/9/2014\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Nebraska\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/5/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/7/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jacqueline Ohern",
+    "fetched_name": "JACQUELINE SIMONE O'HERN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jacqueline Ohern' did not match fetched name 'JACQUELINE SIMONE O'HERN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Jacqueline Ohern",
+          "fetched_name": "JACQUELINE SIMONE O'HERN",
+          "other_names": [
+            "JACKI  SIMONE",
+            "JACQUELINE  SIMONE"
+          ]
+        },
+        "description": "Expected name 'Jacqueline Ohern' did not match fetched name 'JACQUELINE SIMONE O'HERN'."
+      }
+    ]
+  }
+}

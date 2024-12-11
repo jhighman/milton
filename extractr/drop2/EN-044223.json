@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Nicholas",
+    "middle_name": "",
+    "last_name": "Hatfield",
+    "name": "Nicholas Hatfield",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044223"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:31:31",
+    "cache_files": {
+      "basic_info": "./cache/sec_Nicholas Hatfield_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6318683_detailed_info.json"
+    },
+    "individual_name": "Nicholas Hatfield",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6318683",
+      "ind_firstname": "NICHOLAS",
+      "ind_middlename": "L",
+      "ind_lastname": "HATFIELD",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-10-26",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "Greenwood Village",
+          "branch_state": "CO",
+          "branch_zip": "80111",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6318683, \"firstName\": \"NICHOLAS\", \"middleName\": \"L\", \"lastName\": \"HATFIELD\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/26/2014\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"10/8/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"7400 E. Orchard Road Suite 150 S\", \"city\": \"Greenwood Village\", \"cityAlias\": [\"CENTENNIAL\", \"CHERRY HILLS\", \"CHERRY HILLS VILLAGE\", \"CHERRY HL VLG\", \"DENVER\", \"ENGLEWOOD\", \"GREENWOOD VILLAGE\", \"GREENWOOD VLG\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80111\", \"latitude\": \"39.62401\", \"longitude\": \"-104.871963\", \"geoLocation\": \"39.62401,-104.871963\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/05/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"113340\", \"iaSECNumberType\": \"801\", \"firmId\": 113389, \"firmName\": \"RAMPART WEALTH ADVISORS\", \"city\": \"GREENWOOD VILLAGE\", \"state\": \"CO\", \"country\": \"United States\", \"registrationBeginDate\": \"10/27/2014\", \"registrationEndDate\": \"10/8/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/24/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 6}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/8/2018\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/8/2018\"}, {\"state\": \"Florida\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/30/2024\"}, {\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/16/2024\"}, {\"state\": \"Louisiana\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/27/2024\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/10/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Nicholas Hatfield",
+    "fetched_name": "NICHOLAS L HATFIELD",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Nicholas Hatfield' did not match fetched name 'NICHOLAS L HATFIELD' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

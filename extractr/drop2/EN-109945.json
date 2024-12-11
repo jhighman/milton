@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Donna",
+    "middle_name": "",
+    "last_name": "Cunningham",
+    "name": "Donna Cunningham",
+    "organization_name": "Bryn Mawr Capital Management, LLC",
+    "license_type": "",
+    "employee_number": "EN-109945"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_Donna Cunningham_285359_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2315056_detailed_info.json"
+    },
+    "individual_name": "Donna Cunningham",
+    "firm_crd": "285359",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2315056",
+      "ind_firstname": "DONNA",
+      "ind_middlename": "M",
+      "ind_lastname": "CUNNINGHAM",
+      "ind_other_names": [
+        "DONNA MARIE HENNING",
+        "DONNA S HENNING",
+        "DONNA MARIE SYNNAMON",
+        "DONNA MARIE SYNNAMONHENNING"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2002-05-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "285359",
+          "firm_name": "BRYN MAWR CAPITAL MANAGEMENT, LLC",
+          "branch_city": "Wilmington",
+          "branch_state": "DE",
+          "branch_zip": "19809-0708",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "108434",
+          "firm_ia_full_sec_number": "801-108434"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2315056, \"firstName\": \"DONNA\", \"middleName\": \"M\", \"lastName\": \"CUNNINGHAM\", \"otherNames\": [\"DONNA MARIE HENNING\", \"DONNA S HENNING\", \"DONNA MARIE SYNNAMON\", \"DONNA MARIE SYNNAMONHENNING\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/19/2002\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 285359, \"firmName\": \"BRYN MAWR CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"7/6/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"108434\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"300 Bellevue Parkway\", \"street2\": \"Suite 300\", \"city\": \"Wilmington\", \"cityAlias\": [\"BELLEFONTE\", \"EDGEMOOR\", \"WILMINGTON\"], \"state\": \"DE\", \"country\": \"United States\", \"zipCode\": \"19809-0708\", \"latitude\": \"39.766172\", \"longitude\": \"-75.487952\", \"geoLocation\": \"39.766172,-75.487952\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/24/2024\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"41541\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"24040\", \"firmId\": 8032, \"firmName\": \"COMMONWEALTH FINANCIAL NETWORK\", \"city\": \"Wilmington\", \"state\": \"DE\", \"registrationBeginDate\": \"7/29/2016\", \"registrationEndDate\": \"5/19/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"17574\", \"firmId\": 7560, \"firmName\": \"PERSHING LLC\", \"city\": \"KING OF PRUSSIA\", \"state\": \"PA\", \"registrationBeginDate\": \"5/19/2008\", \"registrationEndDate\": \"8/8/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"56151\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14715\", \"firmId\": 4031, \"firmName\": \"HORNOR, TOWNSEND & KENT, INC.\", \"city\": \"PLYMOUTH MEETING\", \"state\": \"PA\", \"registrationBeginDate\": \"12/8/2003\", \"registrationEndDate\": \"5/8/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14657\", \"firmId\": 4082, \"firmName\": \"1717 CAPITAL MANAGEMENT COMPANY\", \"city\": \"NEWARK\", \"state\": \"DE\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"7/19/2002\", \"registrationEndDate\": \"12/9/2003\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"36892\", \"firmId\": 18553, \"firmName\": \"INVESTEC INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/30/1999\", \"registrationEndDate\": \"7/2/2002\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"52208\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16402\", \"firmId\": 5685, \"firmName\": \"PRUCO SECURITIES CORPORATION\", \"city\": \"NEWARK\", \"state\": \"NJ\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"4/16/1993\", \"registrationEndDate\": \"4/26/1994\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"41541\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"24040\", \"firmId\": 8032, \"firmName\": \"COMMONWEALTH FINANCIAL NETWORK\", \"city\": \"Wilmington\", \"state\": \"DE\", \"country\": \"United States\", \"registrationBeginDate\": \"8/2/2016\", \"registrationEndDate\": \"5/19/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"52378\", \"iaSECNumberType\": \"801\", \"firmId\": 106108, \"firmName\": \"LOCKWOOD ADVISORS INC\", \"city\": \"MALVERN\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/19/2008\", \"registrationEndDate\": \"8/8/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"56151\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14715\", \"firmId\": 4031, \"firmName\": \"HORNOR, TOWNSEND & KENT, INC.\", \"city\": \"PLYMOUTH MEETING\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"8/21/2006\", \"registrationEndDate\": \"5/8/2008\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 3, \"principalExamCount\": 2, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"5/24/2016\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"8/18/2006\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"3/31/2004\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"8/26/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 53\", \"examName\": \"Municipal Securities Principal Examination\", \"examTakenDate\": \"2/28/2004\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/29/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/24/1993\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Delaware\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/6/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Donna Cunningham",
+    "fetched_name": "DONNA M CUNNINGHAM",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Donna Cunningham' did not match fetched name 'DONNA M CUNNINGHAM' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

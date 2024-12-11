@@ -1,0 +1,112 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "James",
+    "middle_name": "",
+    "last_name": "Ahn",
+    "name": "James Ahn",
+    "organization_name": "Halbert Hargrove",
+    "license_type": "",
+    "employee_number": "EN-043963"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:44:21",
+    "cache_files": {
+      "basic_info": "./cache/sec_James Ahn_105515_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5467210_detailed_info.json"
+    },
+    "individual_name": "James Ahn",
+    "firm_crd": "105515",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5467210",
+      "ind_firstname": "JAMES",
+      "ind_middlename": "T.",
+      "ind_lastname": "AHN",
+      "ind_other_names": [
+        "JAMES T AHN",
+        "JAMES  AHN"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2008-06-15",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105515",
+          "firm_name": "HALBERT HARGROVE",
+          "branch_city": "LONG BEACH",
+          "branch_state": "CA",
+          "branch_zip": "90802-7908",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5467210, \"firstName\": \"JAMES\", \"middleName\": \"T.\", \"lastName\": \"AHN\", \"otherNames\": [\"JAMES T AHN\", \"JAMES  AHN\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/15/2008\"}, \"currentIAEmployments\": [{\"firmId\": 105515, \"firmName\": \"HALBERT HARGROVE\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/29/2012\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"77013\", \"street1\": \"111 WEST OCEAN BOULEVARD\", \"street2\": \"SUITE 2300\", \"city\": \"LONG BEACH\", \"cityAlias\": [\"LONG BEACH\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"90802-7908\", \"latitude\": \"33.746545\", \"longitude\": \"-118.213256\", \"geoLocation\": \"33.746545,-118.213256\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"06/25/2012\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"3387\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"8177\", \"firmId\": 7059, \"firmName\": \"CITIGROUP GLOBAL MARKETS INC.\", \"city\": \"SANTA MONICA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/4/2011\", \"registrationEndDate\": \"5/23/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"3297\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"759\", \"firmId\": 250, \"firmName\": \"EDWARD JONES\", \"city\": \"BEVERLY HILLS\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/8/2008\", \"registrationEndDate\": \"3/2/2011\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"12/3/2019\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\\r\\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\\r\\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.\", \"Damage Amount Requested\": \"$16,326,890.00\", \"Settlement Amount\": \"$2,500,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and  expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"4/4/2008\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/13/2008\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/29/2012\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"5/9/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "James Ahn",
+    "fetched_name": "JAMES T. AHN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'James Ahn' did not match fetched name 'JAMES T. AHN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "James Ahn has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "12/3/2019",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\r\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\r\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.",
+            "Damage Amount Requested": "$16,326,890.00",
+            "Settlement Amount": "$2,500,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "Solely to avoid the expense, inconvenience, distractions and inherent uncertainties associated with any legal proceeding, as well as the additional legal fees and  expenses that would be incurred in connection with litigating the disputed claims to a conclusion, the parties agreed to settle all disputes."
+          }
+        },
+        "description": "Customer dispute on 12/3/2019. Resolution: Settled. Allegations: THE CUSTOMER ALLEGES BREACH OF FIDUCIARY DUTIES UNDER THE EMPLOYEE RETIREMENT INCOME SECURITY ACT\r\nOF 1974 AND BREACH OF CONTRACT IN CONNECTION WITH IMPRUDENT MANAGEMENT OF THE CUSTOMER'S\r\nINVESTMENT PORTFOLIO BY THE FIRM AND CERTAIN NAMED INDIVIDUALS BETWEEN 2012 AND 2019.. Damage requested: $16,326,890.00. Settlement: $2,500,000.00"
+      }
+    ]
+  }
+}

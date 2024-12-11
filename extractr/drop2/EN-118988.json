@@ -1,0 +1,97 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Aaron",
+    "middle_name": "",
+    "last_name": "Nichols",
+    "name": "Aaron Nichols",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118988"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:57:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Aaron Nichols_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7188143_detailed_info.json"
+    },
+    "individual_name": "Aaron Nichols",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7188143",
+      "ind_firstname": "Aaron",
+      "ind_middlename": "Nathaniel",
+      "ind_lastname": "Nichols",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2021-04-26",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Bellevue",
+          "branch_state": "WA",
+          "branch_zip": "98004",
+          "ia_only": "Y"
+        },
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "University Place",
+          "branch_state": "WA",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7188143, \"firstName\": \"Aaron\", \"middleName\": \"Nathaniel\", \"lastName\": \"Nichols\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"4/26/2021\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/27/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"500 108 Avenue Northeast\", \"street2\": \"Suite 1100, Office 11\", \"city\": \"Bellevue\", \"cityAlias\": [\"BEAUX ARTS\", \"BEAUX ARTS VILLAGE\", \"BELLEVUE\", \"CLYDE HILL\", \"HUNTS POINT\", \"YARROW POINT\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98004\", \"latitude\": \"47.617746\", \"longitude\": \"-122.210797\", \"geoLocation\": \"47.617746,-122.210797\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/18/2023\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"University Place\", \"state\": \"WA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"10/18/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 0, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Kansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/27/2021\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/26/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Aaron Nichols",
+    "fetched_name": "Aaron Nathaniel Nichols",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Aaron Nichols' did not match fetched name 'Aaron Nathaniel Nichols' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

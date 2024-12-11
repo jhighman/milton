@@ -1,6 +1,8 @@
 # evaluation_library.py
 
+import json
 import re
+import logging
 from typing import Dict, Any, List, Set, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
@@ -61,12 +63,7 @@ def evaluate_name(expected_name: str, fetched_name: str, other_names: List[str])
         return True, None
 
 def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) -> Tuple[bool, Optional[Alert]]:
-    """Evaluate license compliance.
-
-    If csv_license is provided, compare it with bc_scope and ia_scope.
-    If csv_license is not provided, check if the individual has any active license (bc_scope or ia_scope is 'active').
-    If no active license is found, return False and generate an alert.
-    """
+    """Evaluate license compliance."""
     api_broker_active = bc_scope.lower() == 'active'
     api_ia_active = ia_scope.lower() == 'active'
     
@@ -98,9 +95,8 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
         else:
             return True, None
 
-
 def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tuple[bool, Optional[Alert]]:
-    """Compare the passed exams against the requirements for the license type and generate an alert if exams don't meet the requirements."""
+    """Evaluate exam compliance."""
     requirements_met = check_exam_requirements(passed_exams)
     csv_broker, csv_ia = interpret_license_type(license_type)
     exam_compliance = True
@@ -122,15 +118,28 @@ def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tupl
     else:
         return True, None
 
-def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool, List[Alert]]:
-    """Evaluate the registration status of the individual and generate alerts if the status is concerning."""
-    bc_status = individual_info.get('ind_bc_scope', '').lower()
-    ia_status = individual_info.get('ind_ia_scope', '').lower()
+def evaluate_registration_status(individual_info: dict) -> Tuple[bool, List[Alert]]:
+    """
+    Evaluate the registration status of the individual and generate alerts if the status is concerning.
+    """
+    alerts = []
+    status_compliant = True
+
+    bc_status = individual_info.get('ind_bc_scope') or individual_info.get('bcScope', '').lower()
+    ia_status = individual_info.get('ind_ia_scope') or individual_info.get('iaScope', '').lower()
+
+    if not bc_status or not ia_status:
+        content = individual_info.get('content')
+        if content:
+            try:
+                content_data = json.loads(content)
+                basic_info = content_data.get('basicInformation', {})
+                bc_status = bc_status or basic_info.get('bcScope', '').lower()
+                ia_status = ia_status or basic_info.get('iaScope', '').lower()
+            except json.JSONDecodeError as e:
+                logging.error(f"Failed to parse `content`: {e}")
 
     concerning_statuses = ['inactive', 'temp_wd', 'pending', 't_noreg', 'tempreg', 'restricted']
-
-    alerts = []
-    status_compliant = True  # Renamed from status_ok
 
     if bc_status in concerning_statuses:
         alert = Alert(
@@ -154,7 +163,6 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
 
     return status_compliant, alerts
 
-
 def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
     """Evaluate disclosures and return compliance status, explanation, and any alerts."""
     alerts = []
@@ -173,7 +181,6 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         summary = f"No disclosures found for {name}."
         disclosure_compliance = True
     return disclosure_compliance, summary, alerts
-
 
 def compare_names(input_name: str, api_name: str, other_names: List[str]) -> bool:
     """Compare names for equality, checking alternate names as well."""
@@ -256,7 +263,6 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
         return None
 
 def generate_regulatory_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """Generate a description for a regulatory disclosure."""
     initiated_by = details.get('Initiated By', 'Unknown')
     allegations = details.get('Allegations', 'Not specified')
     sanctions_list = details.get('SanctionDetails', [])
@@ -265,7 +271,6 @@ def generate_regulatory_alert_description(event_date: str, resolution: str, deta
     return f"Regulatory action on {event_date} initiated by {initiated_by}. Resolution: {resolution}. Allegations: {allegations}. Sanctions: {sanctions}"
 
 def generate_customer_dispute_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """Generate a description for a customer dispute disclosure."""
     allegations = details.get('Allegations', 'Not specified')
     damage_requested = details.get('Damage Amount Requested', 'Not specified')
     settlement_amount = details.get('Settlement Amount', 'Not specified')
@@ -273,7 +278,6 @@ def generate_customer_dispute_alert_description(event_date: str, resolution: str
     return f"Customer dispute on {event_date}. Resolution: {resolution}. Allegations: {allegations}. Damage requested: {damage_requested}. Settlement: {settlement_amount}"
 
 def generate_criminal_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """Generate a description for a criminal disclosure."""
     charges_list = details.get('criminalCharges', [])
     charges = ', '.join([charge.get('Charges', '') for charge in charges_list])
     disposition = ', '.join([charge.get('Disposition', '') for charge in charges_list])
@@ -281,8 +285,99 @@ def generate_criminal_alert_description(event_date: str, resolution: str, detail
     return f"Criminal disclosure on {event_date}. Resolution: {resolution}. Charges: {charges}. Disposition: {disposition}"
 
 def generate_civil_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """Generate a description for a civil disclosure."""
     allegations = details.get('Allegations', 'Not specified')
     disposition = details.get('Disposition', 'Not specified')
     
     return f"Civil disclosure on {event_date}. Resolution: {resolution}. Allegations: {allegations}. Disposition: {disposition}"
+
+######################
+# New Arbitration Evaluation
+######################
+
+def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Evaluate arbitration records and return compliance status, explanation, and any alerts.
+    According to specification:
+    - If no arbitrations: compliant = True, no alert.
+    - If pending or adverse outcome arbitrations: compliant = False, high severity alert.
+    - Else: arbitrations exist but no concerns, compliant = True, no alert.
+    """
+    if not arbitrations:
+        # No arbitrations found
+        return True, f"No arbitrations found for {name}.", []
+
+    pending_cases = []
+    adverse_cases = []
+    for arb in arbitrations:
+        status = arb.get('status', '').lower()
+        outcome = (arb.get('outcome', '') or '').lower()
+        case_number = arb.get('case_number', 'Unknown')
+
+        if status == 'pending':
+            pending_cases.append(case_number)
+        if outcome in ['award against individual', 'adverse finding']:
+            adverse_cases.append(case_number)
+
+    if pending_cases or adverse_cases:
+        # Non-compliant scenario
+        metadata = {}
+        if pending_cases:
+            metadata["pending_cases"] = pending_cases
+        if adverse_cases:
+            metadata["adverse_outcomes"] = adverse_cases
+
+        alert_description = f"{name} has arbitration issues: "
+        if pending_cases:
+            alert_description += f"Pending cases: {', '.join(pending_cases)}. "
+        if adverse_cases:
+            alert_description += f"Adverse outcomes: {', '.join(adverse_cases)}."
+
+        alert = Alert(
+            alert_type="Arbitration Alert",
+            severity=AlertSeverity.HIGH,
+            metadata=metadata,
+            description=alert_description.strip()
+        )
+
+        return False, f"Arbitration issues found for {name}.", [alert]
+    else:
+        # Arbitrations present but no pending/adverse issues
+        return True, f"{name} has arbitration history but no pending or adverse outcomes.", []
+
+def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Evaluate disciplinary records and return compliance status, explanation, and any alerts.
+    According to specification:
+    - If no disciplinary records: compliant = True, no alert.
+    - If any records with concerning outcomes: compliant = False, high severity alert.
+    - Else: disciplinary records exist but no concerning outcomes, compliant = True, no alert.
+    """
+    if not disciplinary_records:
+        # No disciplinary records found
+        return True, f"No disciplinary records found for {name}.", []
+
+    concerning_cases = []
+    for record in disciplinary_records:
+        document_type = record.get('Document Type', '').lower()
+        case_summary = record.get('Case Summary', '').lower()
+        case_id = record.get('Case ID', 'Unknown')
+
+        if any(keyword in case_summary for keyword in ['suspension', 'revocation', 'barred', 'fine']):
+            concerning_cases.append(case_id)
+
+    if concerning_cases:
+        # Non-compliant scenario
+        metadata = {"concerning_cases": concerning_cases}
+        alert_description = f"{name} has disciplinary issues: Cases {', '.join(concerning_cases)} with concerning outcomes."
+
+        alert = Alert(
+            alert_type="Disciplinary Alert",
+            severity=AlertSeverity.HIGH,
+            metadata=metadata,
+            description=alert_description.strip()
+        )
+
+        return False, f"Disciplinary issues found for {name}.", [alert]
+    else:
+        # Disciplinary records present but no concerning outcomes
+        return True, f"{name} has disciplinary history but no concerning outcomes.", []

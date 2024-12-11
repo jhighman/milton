@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Kathy",
+    "middle_name": "",
+    "last_name": "Nalywajko",
+    "name": "Kathy Nalywajko",
+    "organization_name": "MAI Capital Management LLC",
+    "license_type": "",
+    "employee_number": "EN-120187"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:11:34",
+    "cache_files": {
+      "basic_info": "./cache/sec_Kathy Nalywajko_109807_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_3056179_detailed_info.json"
+    },
+    "individual_name": "Kathy Nalywajko",
+    "firm_crd": "109807",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "3056179",
+      "ind_firstname": "KATERINA",
+      "ind_middlename": "LARISSA",
+      "ind_lastname": "NALYWAJKO",
+      "ind_other_names": [
+        "KATHY  FALLON",
+        "KATHY  NALYWAJKO"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-06-16",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109807",
+          "firm_name": "MAI CAPITAL MANAGEMENT, LLC",
+          "branch_city": "New York",
+          "branch_state": "NY",
+          "branch_zip": "10022",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 3056179, \"firstName\": \"KATERINA\", \"middleName\": \"LARISSA\", \"lastName\": \"NALYWAJKO\", \"otherNames\": [\"KATHY  FALLON\", \"KATHY  NALYWAJKO\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/16/2019\"}, \"currentIAEmployments\": [{\"firmId\": 109807, \"firmName\": \"MAI CAPITAL MANAGEMENT, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/7/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"126 East 56th Street\", \"street2\": \"Suite 2300\", \"city\": \"New York\", \"cityAlias\": [\"FRANKLIN D ROOSEVELT\", \"MANHATTAN\", \"NEW YORK\", \"NEW YORK CITY\", \"NY\", \"NY CITY\", \"NYC\"], \"state\": \"NY\", \"country\": \"United States\", \"zipCode\": \"10022\", \"latitude\": \"40.758346\", \"longitude\": \"-73.967997\", \"geoLocation\": \"40.758346,-73.967997\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"07/27/2020\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"79234\", \"iaSECNumberType\": \"801\", \"firmId\": 170017, \"firmName\": \"CAPITAL BANK AND TRUST COMPANY\", \"city\": \"New York\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"3/1/2018\", \"registrationEndDate\": \"3/11/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"71181\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"52265\", \"firmId\": 103705, \"firmName\": \"CITY NATIONAL SECURITIES, INC.\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"United States\", \"registrationBeginDate\": \"5/23/2005\", \"registrationEndDate\": \"7/1/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/1/2018\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/13/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"2/22/2002\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"New York\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/7/2021\"}, {\"state\": \"West Virginia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/11/2024\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Kathy Nalywajko",
+    "fetched_name": "KATERINA LARISSA NALYWAJKO",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Kathy Nalywajko' did not match fetched name 'KATERINA LARISSA NALYWAJKO' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

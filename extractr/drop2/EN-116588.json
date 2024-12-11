@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jonathan",
+    "middle_name": "",
+    "last_name": "Knapp",
+    "name": "Jonathan Knapp",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-116588"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:03:37",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jonathan Knapp_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6364440_detailed_info.json"
+    },
+    "individual_name": "Jonathan Knapp",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6364440",
+      "ind_firstname": "JONATHAN",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "KNAPP",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2014-09-19",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "OVERLAND PARK",
+          "branch_state": "KS",
+          "branch_zip": "66211",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6364440, \"firstName\": \"JONATHAN\", \"middleName\": \"MICHAEL\", \"lastName\": \"KNAPP\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/19/2014\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"9/20/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"76422\", \"street1\": \"5454 W. 110TH STREET\", \"city\": \"OVERLAND PARK\", \"cityAlias\": [\"LEAWOOD\", \"OVERLAND\", \"OVERLAND PARK\", \"SHAWNEE MISSION\", \"SHAWNEE MSN\", \"SM\"], \"state\": \"KS\", \"country\": \"United States\", \"zipCode\": \"66211\", \"latitude\": \"38.925578\", \"longitude\": \"-94.638286\", \"geoLocation\": \"38.925578,-94.638286\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/07/2014\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/20/2014\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Kansas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"9/20/2014\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jonathan Knapp",
+    "fetched_name": "JONATHAN MICHAEL KNAPP",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jonathan Knapp' did not match fetched name 'JONATHAN MICHAEL KNAPP' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

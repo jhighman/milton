@@ -1,0 +1,112 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Philip",
+    "middle_name": "",
+    "last_name": "Ricasata",
+    "name": "Philip Ricasata",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118943"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:15:28",
+    "cache_files": {
+      "basic_info": "./cache/sec_Philip Ricasata_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2585778_detailed_info.json"
+    },
+    "individual_name": "Philip Ricasata",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2585778",
+      "ind_firstname": "PHILIP",
+      "ind_middlename": "JAMES",
+      "ind_lastname": "RICASATA",
+      "ind_other_names": [
+        "PHIL  RICASATA"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1999-10-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "VENTURA",
+          "branch_state": "CA",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2585778, \"firstName\": \"PHILIP\", \"middleName\": \"JAMES\", \"lastName\": \"RICASATA\", \"otherNames\": [\"PHIL  RICASATA\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/13/1999\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/18/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"VENTURA\", \"state\": \"CA\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/16/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"SANTA BARBARA\", \"state\": \"CA\", \"registrationBeginDate\": \"12/13/2011\", \"registrationEndDate\": \"8/30/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"NEWBURY PARK\", \"state\": \"CA\", \"registrationBeginDate\": \"6/17/2011\", \"registrationEndDate\": \"11/29/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"17983\", \"firmId\": 6694, \"firmName\": \"RAYMOND JAMES FINANCIAL SERVICES, INC.\", \"city\": \"VENTURA\", \"state\": \"CA\", \"registrationBeginDate\": \"1/8/2010\", \"registrationEndDate\": \"12/20/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"OXNARD\", \"state\": \"CA\", \"registrationBeginDate\": \"3/3/2005\", \"registrationEndDate\": \"1/14/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/5/2004\", \"registrationEndDate\": \"4/8/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"8095\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14088\", \"firmId\": 2881, \"firmName\": \"NORTHWESTERN MUTUAL INVESTMENT SERVICES, LLC\", \"city\": \"MILWAUKEE\", \"state\": \"WI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/6/1995\", \"registrationEndDate\": \"1/8/2000\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"7571\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"497\", \"firmId\": 8158, \"firmName\": \"ROBERT W. BAIRD & CO. INCORPORATED\", \"city\": \"MILWAUKEE\", \"state\": \"WI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"3/6/1995\", \"registrationEndDate\": \"1/8/2000\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"79284\", \"iaSECNumberType\": \"801\", \"firmId\": 135834, \"firmName\": \"WALPOLE FINANCIAL ADVISORS, LLC\", \"city\": \"GOLETA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/29/2016\", \"registrationEndDate\": \"4/9/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS, INC.\", \"city\": \"SANTA BARBARA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/13/2012\", \"registrationEndDate\": \"9/1/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"NEWBURY PARK\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"6/20/2011\", \"registrationEndDate\": \"11/29/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"69815\", \"iaSECNumberType\": \"801\", \"firmId\": 149018, \"firmName\": \"RAYMOND JAMES FINANCIAL SERVICES ADVISORS, INC\", \"city\": \"VENTURA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/19/2010\", \"registrationEndDate\": \"12/20/2010\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"OXNARD\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"3/3/2005\", \"registrationEndDate\": \"1/14/2010\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH PIERCE FENNER & SMITH INC.\", \"city\": \"WESTLAKE VILLAGE\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"2/11/2004\", \"registrationEndDate\": \"4/8/2005\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"6/13/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CLIENT ALLEGES THAT THE PURCHASE OF THE AUCTION RATE SECURITIES WERE NOT AUTHORIZED. CLIENT FURTHER ALLEGES THAT NEITHER THE NATURE NOR RISKS OF THIS VEHICLE WERE DISCUSSED.  CLIENT ALSO STATES THAT THE ARS WERE NOT SUITABLE FOR THE TRUST ACCOUNT AND IN CONFLICT WITH THE CLIENT'S FINANCIAL GOALS.  ESTIMATED TO BE IN EXCESS OF $5,000\", \"Damage Amount Requested\": \"$5,000.00\", \"Settlement Amount\": \"$150,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"THE COMPLAINT AROSE IN CONNECTION WITH THE INDUSTRY WIDE BREAKDOWN OF THE LIQUIDITY IN THE MARKET FOR AUCTION RATE SECURITIES (\\\"ARS\\\").  THE FIRM AGREED TO REPURCHASE THE ARS SECURITIES AT ISSUE AT PAR VALUE FROM THE CLIENT PURSUANT TO A GLOBAL REPURCHASE AGREEMENT IT ENTERED INTO WITH SEVERAL REGULATORY BODIES.  THIS WAS NOT A SETTLEMENT OF A DISPUTE BETWEEN THE CLIENT AND THE REPRESENTATIVE AND WAS NOT BASED ON THE MERITS OF THE CLIENT'S SPECIFIC CONCERNS OR ANY FINDING OF FAULT OR WRONGDOING BY THE NAMED REPRESENTATIVE.  THE NAMED REPRESENTATIVE WAS NOT A PARTY TO, AND DID NOT AGREE TO OR PARTICIPATE IN, THE REPURCHASE AGREEMENT BETWEEN THE FIRM AND THE RELEVANT REGULATORY BODIES.  THE NAMED REPRESENTATIVE DID NOT MAKE ANY PAYMENTS TO THE CLIENT AND THE NAMED REPRESENTATIVE WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE SETTLEMENT AMOUNT.  THE LISTED \\\"SETTLEMENT AMOUNT\\\" REPRESENTS ONLY THE GROSS INITIAL PAR VALUE OF THE ARS POSITION AND DOES NOT TAKE INTO ACCOUNT THE ACTUAL VALUE OF THE ARS POSITION AT THE TIME THE FIRM RECEIVED IT BACK FROM THE CLIENT IN CONNECTION WITH THE SETTLEMENT.  THIS MATTER IS BEING REPORTED AS A SETTLEMENT PURSUANT TO THE REQUIREMENTS OF FINRA REGULATORY NOTICE 09-12.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 4}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"1/22/2004\", \"examScope\": \"BOTH\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/9/1995\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"8/30/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"6/4/2004\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/3/2004\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"3/3/1995\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/18/2018\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"8/30/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Philip Ricasata",
+    "fetched_name": "PHILIP JAMES RICASATA",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Philip Ricasata' did not match fetched name 'PHILIP JAMES RICASATA' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Philip Ricasata has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "6/13/2008",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CLIENT ALLEGES THAT THE PURCHASE OF THE AUCTION RATE SECURITIES WERE NOT AUTHORIZED. CLIENT FURTHER ALLEGES THAT NEITHER THE NATURE NOR RISKS OF THIS VEHICLE WERE DISCUSSED.  CLIENT ALSO STATES THAT THE ARS WERE NOT SUITABLE FOR THE TRUST ACCOUNT AND IN CONFLICT WITH THE CLIENT'S FINANCIAL GOALS.  ESTIMATED TO BE IN EXCESS OF $5,000",
+            "Damage Amount Requested": "$5,000.00",
+            "Settlement Amount": "$150,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "THE COMPLAINT AROSE IN CONNECTION WITH THE INDUSTRY WIDE BREAKDOWN OF THE LIQUIDITY IN THE MARKET FOR AUCTION RATE SECURITIES (\"ARS\").  THE FIRM AGREED TO REPURCHASE THE ARS SECURITIES AT ISSUE AT PAR VALUE FROM THE CLIENT PURSUANT TO A GLOBAL REPURCHASE AGREEMENT IT ENTERED INTO WITH SEVERAL REGULATORY BODIES.  THIS WAS NOT A SETTLEMENT OF A DISPUTE BETWEEN THE CLIENT AND THE REPRESENTATIVE AND WAS NOT BASED ON THE MERITS OF THE CLIENT'S SPECIFIC CONCERNS OR ANY FINDING OF FAULT OR WRONGDOING BY THE NAMED REPRESENTATIVE.  THE NAMED REPRESENTATIVE WAS NOT A PARTY TO, AND DID NOT AGREE TO OR PARTICIPATE IN, THE REPURCHASE AGREEMENT BETWEEN THE FIRM AND THE RELEVANT REGULATORY BODIES.  THE NAMED REPRESENTATIVE DID NOT MAKE ANY PAYMENTS TO THE CLIENT AND THE NAMED REPRESENTATIVE WAS NOT ASKED TO AND DID NOT CONTRIBUTE TO THE SETTLEMENT AMOUNT.  THE LISTED \"SETTLEMENT AMOUNT\" REPRESENTS ONLY THE GROSS INITIAL PAR VALUE OF THE ARS POSITION AND DOES NOT TAKE INTO ACCOUNT THE ACTUAL VALUE OF THE ARS POSITION AT THE TIME THE FIRM RECEIVED IT BACK FROM THE CLIENT IN CONNECTION WITH THE SETTLEMENT.  THIS MATTER IS BEING REPORTED AS A SETTLEMENT PURSUANT TO THE REQUIREMENTS OF FINRA REGULATORY NOTICE 09-12."
+          }
+        },
+        "description": "Customer dispute on 6/13/2008. Resolution: Settled. Allegations: CLIENT ALLEGES THAT THE PURCHASE OF THE AUCTION RATE SECURITIES WERE NOT AUTHORIZED. CLIENT FURTHER ALLEGES THAT NEITHER THE NATURE NOR RISKS OF THIS VEHICLE WERE DISCUSSED.  CLIENT ALSO STATES THAT THE ARS WERE NOT SUITABLE FOR THE TRUST ACCOUNT AND IN CONFLICT WITH THE CLIENT'S FINANCIAL GOALS.  ESTIMATED TO BE IN EXCESS OF $5,000. Damage requested: $5,000.00. Settlement: $150,000.00"
+      }
+    ]
+  }
+}

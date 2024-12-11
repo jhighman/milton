@@ -1,0 +1,5 @@
+{
+    "first_name": "John",
+    "last_name": "Berry",
+    "error": "'NoneType' object has no attribute 'get_text'"
+}

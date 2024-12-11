@@ -1,0 +1,112 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jordan",
+    "middle_name": "",
+    "last_name": "Galvin",
+    "name": "Jordan Galvin",
+    "organization_name": "Galvin Gaustad & Stein LLC",
+    "license_type": "",
+    "employee_number": "EN-056549"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:43:45",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jordan Galvin_153410_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5790360_detailed_info.json"
+    },
+    "individual_name": "Jordan Galvin",
+    "firm_crd": "153410",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5790360",
+      "ind_firstname": "JORDAN",
+      "ind_middlename": "M",
+      "ind_lastname": "GALVIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2011-03-16",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "SCOTTSDALE",
+          "branch_state": "AZ",
+          "branch_zip": "85258",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        },
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "BLOOMFIELD",
+          "branch_state": "CO",
+          "branch_zip": "80021",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        },
+        {
+          "firm_id": "153410",
+          "firm_name": "GALVIN, GAUSTAD & STEIN, LLC",
+          "branch_city": "Fort Collins",
+          "branch_state": "CO",
+          "branch_zip": "80528",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71464",
+          "firm_ia_full_sec_number": "801-71464"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5790360, \"firstName\": \"JORDAN\", \"middleName\": \"M\", \"lastName\": \"GALVIN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/16/2011\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 153410, \"firmName\": \"GALVIN, GAUSTAD & STEIN, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/5/2017\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"71464\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"438177\", \"street1\": \"7377 E. DOUBLETREE RANCH ROAD\", \"street2\": \"SUITE 250\", \"city\": \"SCOTTSDALE\", \"cityAlias\": [\"SCOTTSDALE\"], \"state\": \"AZ\", \"country\": \"United States\", \"zipCode\": \"85258\", \"latitude\": \"33.560513\", \"longitude\": \"-111.885972\", \"geoLocation\": \"33.560513,-111.885972\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/02/2015\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"11001 W. 120TH AVE\", \"street2\": \"SUITE 400\", \"city\": \"BLOOMFIELD\", \"cityAlias\": [\"BROOMFIELD\", \"WESTMINSTER\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80021\", \"latitude\": \"39.892612\", \"longitude\": \"-105.1492\", \"geoLocation\": \"39.892612,-105.1492\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"09/01/2017\"}, {\"displayOrder\": 3, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"2850 E Harmony Road\", \"street2\": \"Suite 201\", \"city\": \"Fort Collins\", \"cityAlias\": [\"FORT COLLINS\", \"TIMNATH\", \"WINDSOR\"], \"state\": \"CO\", \"country\": \"United States\", \"zipCode\": \"80528\", \"latitude\": \"40.49041\", \"longitude\": \"-104.996508\", \"geoLocation\": \"40.49041,-104.996508\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/01/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"57293\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"11117\", \"firmId\": 1027, \"firmName\": \"FOOTHILL SECURITIES, INC.\", \"city\": \"SCOTTSDALE\", \"state\": \"AZ\", \"registrationBeginDate\": \"3/9/2015\", \"registrationEndDate\": \"12/13/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"41541\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"24040\", \"firmId\": 8032, \"firmName\": \"COMMONWEALTH FINANCIAL NETWORK\", \"city\": \"ANAHEIM HILLS\", \"state\": \"CA\", \"registrationBeginDate\": \"11/2/2012\", \"registrationEndDate\": \"3/5/2015\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"PHOENIX\", \"state\": \"AZ\", \"registrationBeginDate\": \"4/6/2011\", \"registrationEndDate\": \"9/28/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"42017\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"21770\", \"firmId\": 7461, \"firmName\": \"FSC SECURITIES CORPORATION\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/17/2010\", \"registrationEndDate\": \"3/29/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"71464\", \"iaSECNumberType\": \"801\", \"firmId\": 153410, \"firmName\": \"GALVIN, GAUSTAD & STEIN, LLC\", \"city\": \"SCOTTSDALE\", \"state\": \"AZ\", \"country\": \"United States\", \"registrationBeginDate\": \"10/27/2015\", \"registrationEndDate\": \"12/19/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/13/2014\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/22/2010\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"12/13/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/16/2010\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/16/2017\"}, {\"state\": \"Colorado\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/22/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jordan Galvin",
+    "fetched_name": "JORDAN M GALVIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jordan Galvin' did not match fetched name 'JORDAN M GALVIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

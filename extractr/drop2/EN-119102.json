@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Gabrielle",
+    "middle_name": "",
+    "last_name": "Watters",
+    "name": "Gabrielle Watters",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-119102"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 09:58:42",
+    "cache_files": {
+      "basic_info": "./cache/sec_Gabrielle Watters_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6696490_detailed_info.json"
+    },
+    "individual_name": "Gabrielle Watters",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6696490",
+      "ind_firstname": "Gabrielle",
+      "ind_middlename": "Nicole Reilly",
+      "ind_lastname": "Watters",
+      "ind_other_names": [
+        "Gabrielle Nicole Reilly"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2016-09-28",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "San Diego",
+          "branch_state": "CA",
+          "branch_zip": "92108",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6696490, \"firstName\": \"Gabrielle\", \"middleName\": \"Nicole Reilly\", \"lastName\": \"Watters\", \"otherNames\": [\"Gabrielle Nicole Reilly\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"9/28/2016\"}, \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/4/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3111 Camino Del Rio North\", \"street2\": \"Suite 300\", \"city\": \"San Diego\", \"cityAlias\": [\"SAN DIEGO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92108\", \"latitude\": \"32.774\", \"longitude\": \"-117.147448\", \"geoLocation\": \"32.774,-117.147448\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"08/13/2024\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"56721\", \"iaSECNumberType\": \"801\", \"firmId\": 110315, \"firmName\": \"REILLY FINANCIAL ADVISORS\", \"city\": \"LA MESA\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"9/29/2016\", \"registrationEndDate\": \"1/3/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"9/29/2016\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/4/2022\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/29/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Gabrielle Watters",
+    "fetched_name": "Gabrielle Nicole Reilly Watters",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Gabrielle Watters' did not match fetched name 'Gabrielle Nicole Reilly Watters' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

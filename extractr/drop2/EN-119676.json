@@ -1,0 +1,89 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Robert",
+    "middle_name": "",
+    "last_name": "Farr",
+    "name": "Robert Farr",
+    "organization_name": "Hightower Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-119676"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:47:14",
+    "cache_files": {
+      "basic_info": "./cache/sec_Robert Farr_145323_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_7643305_detailed_info.json"
+    },
+    "individual_name": "Robert Farr",
+    "firm_crd": "145323",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "7643305",
+      "ind_firstname": "Robert",
+      "ind_lastname": "Farr",
+      "ind_other_names": [],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2022-12-13",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "145323",
+          "firm_name": "HIGHTOWER ADVISORS, LLC",
+          "branch_city": "Washington DC",
+          "branch_state": "DC",
+          "branch_zip": "20036",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 7643305, \"firstName\": \"Robert\", \"lastName\": \"Farr\", \"otherNames\": [], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"12/13/2022\"}, \"currentIAEmployments\": [{\"firmId\": 145323, \"firmName\": \"HIGHTOWER ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/14/2022\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"1020 19th Street NW\", \"street2\": \"Suite 200\", \"city\": \"Washington DC\", \"cityAlias\": [\"WASHINGTON\"], \"state\": \"DC\", \"country\": \"United States\", \"zipCode\": \"20036\", \"latitude\": \"38.906861\", \"longitude\": \"-77.041385\", \"geoLocation\": \"38.906861,-77.041385\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/01/2022\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/3/2022\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"District of Columbia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/14/2022\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Robert Farr",
+    "fetched_name": "Robert  Farr",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Robert Farr' did not match fetched name 'Robert  Farr' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Mardie",
+    "middle_name": "",
+    "last_name": "Dotseth",
+    "name": "Mardie Dotseth",
+    "organization_name": "Soltis Investment Advisors",
+    "license_type": "",
+    "employee_number": "EN-057171"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:18:04",
+    "cache_files": {
+      "basic_info": "./cache/sec_Mardie Dotseth_154690_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6996775_detailed_info.json"
+    },
+    "individual_name": "Mardie Dotseth",
+    "firm_crd": "154690",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6996775",
+      "ind_firstname": "Mardie",
+      "ind_middlename": "Lynn",
+      "ind_lastname": "Dotseth",
+      "ind_other_names": [
+        "Mardie  Hull",
+        "Mardie  Yarber"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2019-08-03",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "154690",
+          "firm_name": "SOLTIS INVESTMENT ADVISORS, LLC",
+          "branch_city": "ST. GEORGE",
+          "branch_state": "UT",
+          "branch_zip": "84770",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "71833",
+          "firm_ia_full_sec_number": "801-71833"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6996775, \"firstName\": \"Mardie\", \"middleName\": \"Lynn\", \"lastName\": \"Dotseth\", \"otherNames\": [\"Mardie  Hull\", \"Mardie  Yarber\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"8/3/2019\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 154690, \"firmName\": \"SOLTIS INVESTMENT ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/13/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"71833\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"448776\", \"street1\": \"20 NORTH MAIN\", \"street2\": \"SUITE 400\", \"city\": \"ST. GEORGE\", \"cityAlias\": [\"DIAMOND VALLEY\", \"HARRISBURG JUNCTION\", \"MIDDLETON\", \"SAINT GEORGE\", \"ST GEORGE\", \"WINCHESTER HILLS\"], \"state\": \"UT\", \"country\": \"United States\", \"zipCode\": \"84770\", \"latitude\": \"37.265502\", \"longitude\": \"-113.791338\", \"geoLocation\": \"37.265502,-113.791338\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"01/06/2020\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"60300\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"49711\", \"firmId\": 42132, \"firmName\": \"CUSO FINANCIAL SERVICES, L.P.\", \"city\": \"St George\", \"state\": \"UT\", \"registrationBeginDate\": \"7/29/2019\", \"registrationEndDate\": \"1/6/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"4/13/2018\", \"disclosureType\": \"Financial\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Type\": \"Compromise\", \"Disposition\": \"Satisfied/Released\"}}, {\"eventDate\": \"4/10/2018\", \"disclosureType\": \"Financial\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Type\": \"Compromise\", \"Disposition\": \"Satisfied/Released\"}}, {\"eventDate\": \"3/12/1998\", \"disclosureType\": \"Criminal\", \"disclosureResolution\": \"Final Disposition\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"criminalCharges\": [{\"Charges\": \"9780 Trafficking in methamphetamine\", \"Disposition\": \"Dismissed\"}, {\"Charges\": \"9747C Consp manufacturing methamphetamine\", \"Disposition\": \"Amended\", \"Amended Charges\": \"9552 possession charge not introduced into commerce.\", \"Amended Charge Type\": \"MISDEMEANOR\", \"Amended Charge Disposition\": \"Pled guilty\"}, {\"Charges\": \"9747 Manufacturing methamphetamine\", \"Disposition\": \"Dismissed\"}, {\"Charges\": \"9784 Possession of drug paraphernalia w/ intent to sell\", \"Disposition\": \"Dismissed\"}]}}], \"iaDisclosures\": [{\"disclosureType\": \"Criminal\", \"disclosureCount\": 1}, {\"disclosureType\": \"Financial\", \"disclosureCount\": 2}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"12/31/2019\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"8/17/2019\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/29/2019\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/29/2019\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/13/2020\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/29/2020\"}, {\"state\": \"Utah\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/13/2020\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Mardie Dotseth",
+    "fetched_name": "Mardie Lynn Dotseth",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Mardie Dotseth' did not match fetched name 'Mardie Lynn Dotseth' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Mardie Dotseth has 2 financial disclosures, 1 criminal disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Financial Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "4/13/2018",
+          "resolution": "Final",
+          "details": {
+            "Type": "Compromise",
+            "Disposition": "Satisfied/Released"
+          }
+        },
+        "description": "Unknown disclosure type Financial on 4/13/2018."
+      },
+      {
+        "alert_type": "Financial Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "4/10/2018",
+          "resolution": "Final",
+          "details": {
+            "Type": "Compromise",
+            "Disposition": "Satisfied/Released"
+          }
+        },
+        "description": "Unknown disclosure type Financial on 4/10/2018."
+      },
+      {
+        "alert_type": "Criminal Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "3/12/1998",
+          "resolution": "Final Disposition",
+          "details": {
+            "criminalCharges": [
+              {
+                "Charges": "9780 Trafficking in methamphetamine",
+                "Disposition": "Dismissed"
+              },
+              {
+                "Charges": "9747C Consp manufacturing methamphetamine",
+                "Disposition": "Amended",
+                "Amended Charges": "9552 possession charge not introduced into commerce.",
+                "Amended Charge Type": "MISDEMEANOR",
+                "Amended Charge Disposition": "Pled guilty"
+              },
+              {
+                "Charges": "9747 Manufacturing methamphetamine",
+                "Disposition": "Dismissed"
+              },
+              {
+                "Charges": "9784 Possession of drug paraphernalia w/ intent to sell",
+                "Disposition": "Dismissed"
+              }
+            ]
+          }
+        },
+        "description": "Criminal disclosure on 3/12/1998. Resolution: Final Disposition. Charges: 9780 Trafficking in methamphetamine, 9747C Consp manufacturing methamphetamine, 9747 Manufacturing methamphetamine, 9784 Possession of drug paraphernalia w/ intent to sell. Disposition: Dismissed, Amended, Dismissed, Dismissed"
+      }
+    ]
+  }
+}

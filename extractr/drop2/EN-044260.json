@@ -1,0 +1,127 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Richard",
+    "middle_name": "",
+    "last_name": "Donnelly",
+    "name": "Richard Donnelly",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044260"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:30:12",
+    "cache_files": {
+      "basic_info": "./cache/sec_Richard Donnelly_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_728521_detailed_info.json"
+    },
+    "individual_name": "Richard Donnelly",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "728521",
+      "ind_firstname": "RICHARD",
+      "ind_middlename": "CLAUDE",
+      "ind_lastname": "DONNELLY",
+      "ind_other_names": [
+        "RICH  DONNELLY"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1997-07-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "San Diego",
+          "branch_state": "CA",
+          "branch_zip": "92122",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 728521, \"firstName\": \"RICHARD\", \"middleName\": \"CLAUDE\", \"lastName\": \"DONNELLY\", \"otherNames\": [\"RICH  DONNELLY\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"7/7/1997\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/6/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"5151 Shoreham Place, Suite 270\", \"city\": \"San Diego\", \"cityAlias\": [\"SAN DIEGO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"92122\", \"latitude\": \"32.856744\", \"longitude\": \"-117.20717\", \"geoLocation\": \"32.856744,-117.20717\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/30/2018\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"60531\", \"iaSECNumberType\": \"801\", \"firmId\": 113067, \"firmName\": \"DONNELLY WEALTH ADVISORS, INC.\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/27/2003\", \"registrationEndDate\": \"11/28/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"firmId\": 122717, \"firmName\": \"AFFILIATED WEALTH ADVISORS, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/7/2003\", \"registrationEndDate\": \"12/10/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"21527\", \"iaSECNumberType\": \"801\", \"firmId\": 109771, \"firmName\": \"MID ATLANTIC FINANCIAL MANAGEMENT, INC.\", \"city\": \"PITTSBURGH\", \"state\": \"PA\", \"country\": \"United States\", \"registrationBeginDate\": \"5/4/2004\", \"registrationEndDate\": \"11/19/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"29775\", \"iaSECNumberType\": \"801\", \"firmId\": 104601, \"firmName\": \"LONDON PACIFIC ADVISORS\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/8/1997\", \"registrationEndDate\": \"5/4/2004\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"12/1/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Closed-No Action\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CLIENT CLAIMS ASSET ALLOCATION WAS NOT SUITABLE.\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"ALLEGED LOSS IS MARKET LOSS ONLY - FIRM UNABLE TO DETERMINE DAMAGES ARE BELOW $5,000.  THE CLIENT HAD A STATED GOAL OF GROWTH AND INCOME.  INVESTMENT STRATEGY WAS IN LINE WITH THIS GOAL.  THE CLIENT HELD ON TO RISKY ASSETS AGAINST THE ADVICE OF THE RR.\"}}, {\"eventDate\": \"2/1/1983\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CLIENT PURCHASED DETROIT EDISON COMMON ON\\r\\nSECONDARY OFFERING.  1 YEAR LATER CLIENT CLAIMED SHE THOUGHT\\r\\nSHE PURCHASED A MUNICIPAL BOND.  AFTER DEPOSITIONS WERE TAKEN\\r\\nSUTRO & I WITH ASSISTANCE OF STEVE YOUNG OF KESSAL YOUNG,\\r\\nSETTLED THE CASE FOR $10,000.00 TO AVOID THE COST AND HASSEL OF\\r\\nLITIGATION.I CONTRIBUTED $5,000 TOWARD THE SETTLEMENT.\", \"Damage Amount Requested\": \"$250,000.00\", \"Settlement Amount\": \"$10,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"NO ACTION BY REGULATORY BODIES, NO SUSPENSION OR\\r\\nRESTRICTION.  SETTLEMENT OF $10,000, I CONTRIBUTED $5000.00.\\r\\n\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 2}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 1, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"6/12/1992\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/2/1981\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"12/26/1998\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 5\", \"examName\": \"Interest Rate Options Examination\", \"examTakenDate\": \"12/12/1981\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"4/11/1981\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2018\"}, {\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/7/2018\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED_RES\", \"regDate\": \"6/6/2018\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Richard Donnelly",
+    "fetched_name": "RICHARD CLAUDE DONNELLY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Richard Donnelly' did not match fetched name 'RICHARD CLAUDE DONNELLY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Richard Donnelly has 2 customer dispute disclosures."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "12/1/2008",
+          "resolution": "Closed-No Action",
+          "details": {
+            "Allegations": "CLIENT CLAIMS ASSET ALLOCATION WAS NOT SUITABLE.",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "ALLEGED LOSS IS MARKET LOSS ONLY - FIRM UNABLE TO DETERMINE DAMAGES ARE BELOW $5,000.  THE CLIENT HAD A STATED GOAL OF GROWTH AND INCOME.  INVESTMENT STRATEGY WAS IN LINE WITH THIS GOAL.  THE CLIENT HELD ON TO RISKY ASSETS AGAINST THE ADVICE OF THE RR."
+          }
+        },
+        "description": "Customer dispute on 12/1/2008. Resolution: Closed-No Action. Allegations: CLIENT CLAIMS ASSET ALLOCATION WAS NOT SUITABLE.. Damage requested: Not specified. Settlement: Not specified"
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "2/1/1983",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CLIENT PURCHASED DETROIT EDISON COMMON ON\r\nSECONDARY OFFERING.  1 YEAR LATER CLIENT CLAIMED SHE THOUGHT\r\nSHE PURCHASED A MUNICIPAL BOND.  AFTER DEPOSITIONS WERE TAKEN\r\nSUTRO & I WITH ASSISTANCE OF STEVE YOUNG OF KESSAL YOUNG,\r\nSETTLED THE CASE FOR $10,000.00 TO AVOID THE COST AND HASSEL OF\r\nLITIGATION.I CONTRIBUTED $5,000 TOWARD THE SETTLEMENT.",
+            "Damage Amount Requested": "$250,000.00",
+            "Settlement Amount": "$10,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "NO ACTION BY REGULATORY BODIES, NO SUSPENSION OR\r\nRESTRICTION.  SETTLEMENT OF $10,000, I CONTRIBUTED $5000.00.\r\n"
+          }
+        },
+        "description": "Customer dispute on 2/1/1983. Resolution: Settled. Allegations: CLIENT PURCHASED DETROIT EDISON COMMON ON\r\nSECONDARY OFFERING.  1 YEAR LATER CLIENT CLAIMED SHE THOUGHT\r\nSHE PURCHASED A MUNICIPAL BOND.  AFTER DEPOSITIONS WERE TAKEN\r\nSUTRO & I WITH ASSISTANCE OF STEVE YOUNG OF KESSAL YOUNG,\r\nSETTLED THE CASE FOR $10,000.00 TO AVOID THE COST AND HASSEL OF\r\nLITIGATION.I CONTRIBUTED $5,000 TOWARD THE SETTLEMENT.. Damage requested: $250,000.00. Settlement: $10,000.00"
+      }
+    ]
+  }
+}

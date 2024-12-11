@@ -1,0 +1,90 @@
+{
+  "claim": {
+    "crd_number": "5291030",
+    "first_name": "Edmund",
+    "middle_name": "",
+    "last_name": "Batchelor",
+    "name": "Edmund Batchelor",
+    "organization_name": "Smith Salley & Associates LLC",
+    "license_type": "",
+    "employee_number": "EN-055612"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:15:32",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5291030_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5291030_detailed_info.json"
+    },
+    "crd_number": "5291030",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5291030",
+      "ind_firstname": "EDMUND",
+      "ind_middlename": "SCOTT",
+      "ind_lastname": "BATCHELOR",
+      "ind_namesuffix": "JR.",
+      "ind_other_names": [
+        "EDMUND SCOTT BATCHELOR, JR."
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_current_employments": [
+        {
+          "firm_id": "129614",
+          "firm_name": "SMITH SALLEY WEALTH MANAGEMENT",
+          "branch_city": "GREENSBORO",
+          "branch_state": "NC",
+          "branch_zip": "27408",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5291030, \"firstName\": \"EDMUND\", \"middleName\": \"SCOTT\", \"lastName\": \"BATCHELOR\", \"nameSuffix\": \"JR.\", \"otherNames\": [\"EDMUND SCOTT BATCHELOR, JR.\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\"}, \"currentIAEmployments\": [], \"previousEmployments\": [], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 0}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"2/22/2007\", \"examScope\": \"IA\"}], \"principalExamCategory\": [], \"productExamCategory\": [], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"North Carolina\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"2/23/2007\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/3/2022\"}], \"registeredSROs\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Edmund Batchelor",
+    "fetched_name": "EDMUND SCOTT BATCHELOR",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Edmund Batchelor' did not match fetched name 'EDMUND SCOTT BATCHELOR' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

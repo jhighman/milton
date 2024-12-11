@@ -1,0 +1,92 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Jared",
+    "middle_name": "",
+    "last_name": "Johnson",
+    "name": "Jared Johnson",
+    "organization_name": "EP Wealth Advisors Inc",
+    "license_type": "",
+    "employee_number": "EN-044457"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:32:07",
+    "cache_files": {
+      "basic_info": "./cache/sec_Jared Johnson_111147_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4904945_detailed_info.json"
+    },
+    "individual_name": "Jared Johnson",
+    "firm_crd": "111147",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4904945",
+      "ind_firstname": "JARED",
+      "ind_middlename": "LEE",
+      "ind_lastname": "JOHNSON",
+      "ind_other_names": [
+        "JARED  JOHNSON"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-06-25",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "branch_city": "DALLAS",
+          "branch_state": "TX",
+          "branch_zip": "75219",
+          "ia_only": "Y"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4904945, \"firstName\": \"JARED\", \"middleName\": \"LEE\", \"lastName\": \"JOHNSON\", \"otherNames\": [\"JARED  JOHNSON\"], \"bcScope\": \"NotInScope\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"6/25/2007\"}, \"currentIAEmployments\": [{\"firmId\": 111147, \"firmName\": \"EP WEALTH ADVISORS\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"8/11/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"3500 Maple Avenue\", \"street2\": \"Suite 1160\", \"city\": \"DALLAS\", \"cityAlias\": [\"DALLAS\", \"HIGHLAND PARK\"], \"state\": \"TX\", \"country\": \"United States\", \"zipCode\": \"75219\", \"latitude\": \"32.805428\", \"longitude\": \"-96.814226\", \"geoLocation\": \"32.805428,-96.814226\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"05/30/2023\"}]}], \"previousEmployments\": [], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"63576\", \"iaSECNumberType\": \"801\", \"firmId\": 132657, \"firmName\": \"BAKERAVENUE\", \"city\": \"SOUTHLAKE\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2013\", \"registrationEndDate\": \"5/30/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"FORT WORTH\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"3/4/2009\", \"registrationEndDate\": \"1/3/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"FORT WORTH\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"3/4/2009\", \"registrationEndDate\": \"1/3/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"FT. WORTH\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"4/4/2005\", \"registrationEndDate\": \"2/21/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 1}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/2/2005\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/1/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/8/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APP_PEND_IARCE\", \"regDate\": \"8/11/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"8/11/2023\"}], \"registeredSROs\": [], \"currentEmployments\": []}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Jared Johnson",
+    "fetched_name": "JARED LEE JOHNSON",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Jared Johnson' did not match fetched name 'JARED LEE JOHNSON' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

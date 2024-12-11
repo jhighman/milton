@@ -1,0 +1,98 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Laura",
+    "middle_name": "",
+    "last_name": "Mercer Amy",
+    "name": "Laura Mercer Amy",
+    "organization_name": "SignatureFD LLC",
+    "license_type": "",
+    "employee_number": "EN-048893"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:13:59",
+    "cache_files": {
+      "basic_info": "./cache/sec_Laura Mercer Amy_112758_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4694189_detailed_info.json"
+    },
+    "individual_name": "Laura Mercer Amy",
+    "firm_crd": "112758",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4694189",
+      "ind_firstname": "LAURA",
+      "ind_middlename": "KATHERINE MERCER",
+      "ind_lastname": "AMY",
+      "ind_other_names": [
+        "KATIE  AMY",
+        "LAURA K AMY",
+        "KATIE  MERCER",
+        "LAURA KATHERINE MERCER",
+        "LAURA KATHERINE MERCER-AMY"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2007-10-29",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "112758",
+          "firm_name": "SIGNATUREFD, LLC",
+          "branch_city": "ATLANTA",
+          "branch_state": "GA",
+          "branch_zip": "30309",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "60393",
+          "firm_ia_full_sec_number": "801-60393"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4694189, \"firstName\": \"LAURA\", \"middleName\": \"KATHERINE MERCER\", \"lastName\": \"AMY\", \"otherNames\": [\"KATIE  AMY\", \"LAURA K AMY\", \"KATIE  MERCER\", \"LAURA KATHERINE MERCER\", \"LAURA KATHERINE MERCER-AMY\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/29/2007\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 112758, \"firmName\": \"SIGNATUREFD, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/13/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"60393\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"56777\", \"street1\": \"1230 PEACHTREE STREET, NE\", \"street2\": \"SUITE 1800\", \"city\": \"ATLANTA\", \"cityAlias\": [\"ATL\", \"ATLANTA\"], \"state\": \"GA\", \"country\": \"United States\", \"zipCode\": \"30309\", \"latitude\": \"33.798463\", \"longitude\": \"-84.388284\", \"geoLocation\": \"33.798463,-84.388284\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"10/31/2018\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"58108\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"51324\", \"firmId\": 46173, \"firmName\": \"PARK AVENUE SECURITIES LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"11/17/2006\", \"registrationEndDate\": \"10/9/2018\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"58108\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"51324\", \"firmId\": 46173, \"firmName\": \"PARK AVENUE SECURITIES LLC\", \"city\": \"ATLANTA\", \"state\": \"GA\", \"registrationBeginDate\": \"4/18/2005\", \"registrationEndDate\": \"11/8/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"3/16/2021\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"5/6/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"7/17/2007\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 26\", \"examName\": \"Investment Company Products/Variable Contracts Principal Examination\", \"examTakenDate\": \"7/11/2005\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/6/2007\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"4/15/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Georgia\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/13/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Laura Mercer Amy",
+    "fetched_name": "LAURA KATHERINE MERCER AMY",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Laura Mercer Amy' did not match fetched name 'LAURA KATHERINE MERCER AMY' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

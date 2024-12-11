@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Brendan",
+    "middle_name": "",
+    "last_name": "Collins",
+    "name": "Brendan Collins",
+    "organization_name": "CW Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-051948"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:26:01",
+    "cache_files": {
+      "basic_info": "./cache/sec_Brendan Collins_310873_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6216754_detailed_info.json"
+    },
+    "individual_name": "Brendan Collins",
+    "firm_crd": "310873",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6216754",
+      "ind_firstname": "BRENDAN",
+      "ind_middlename": "MICHAEL",
+      "ind_lastname": "COLLINS",
+      "ind_other_names": [
+        "Brendan M Collins"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2015-03-07",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "310873",
+          "firm_name": "CW ADVISORS, LLC",
+          "branch_city": "BOSTON",
+          "branch_state": "MA",
+          "branch_zip": "02210",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "119667",
+          "firm_ia_full_sec_number": "801-119667"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6216754, \"firstName\": \"BRENDAN\", \"middleName\": \"MICHAEL\", \"lastName\": \"COLLINS\", \"otherNames\": [\"Brendan M Collins\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/7/2015\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 310873, \"firmName\": \"CW ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"11/22/2021\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"119667\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"746126\", \"street1\": \"155 SEAPORT BLVD\", \"street2\": \"3RD FLOOR\", \"city\": \"BOSTON\", \"cityAlias\": [\"BOSTON\"], \"state\": \"MA\", \"country\": \"United States\", \"zipCode\": \"02210\", \"latitude\": \"42.346571\", \"longitude\": \"-71.039563\", \"geoLocation\": \"42.346571,-71.039563\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"11/01/2021\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"registrationBeginDate\": \"1/14/2020\", \"registrationEndDate\": \"11/18/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"HINGHAM\", \"state\": \"MA\", \"registrationBeginDate\": \"3/5/2015\", \"registrationEndDate\": \"1/14/2020\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"1/14/2020\", \"registrationEndDate\": \"11/18/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"112027\", \"iaSECNumberType\": \"801\", \"firmId\": 288590, \"firmName\": \"FIDELITY PERSONAL AND WORKPLACE ADVISORS\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"7/13/2018\", \"registrationEndDate\": \"1/30/2020\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"13243\", \"iaSECNumberType\": \"801\", \"firmId\": 104555, \"firmName\": \"STRATEGIC ADVISERS LLC\", \"city\": \"HINGHAM\", \"state\": \"MA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/20/2016\", \"registrationEndDate\": \"7/13/2018\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/9/2016\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"9/16/2014\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/5/2015\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/22/2021\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Brendan Collins",
+    "fetched_name": "BRENDAN MICHAEL COLLINS",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Brendan Collins' did not match fetched name 'BRENDAN MICHAEL COLLINS' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Michael",
+    "middle_name": "",
+    "last_name": "Millman",
+    "name": "Michael Millman",
+    "organization_name": "Parallel Advisors LLC",
+    "license_type": "",
+    "employee_number": "EN-044973"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:12:25",
+    "cache_files": {
+      "basic_info": "./cache/sec_Michael Millman_140800_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_2696729_detailed_info.json"
+    },
+    "individual_name": "Michael Millman",
+    "firm_crd": "140800",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "2696729",
+      "ind_firstname": "Michael",
+      "ind_middlename": "Steven",
+      "ind_lastname": "Millman",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "1998-03-16",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "140800",
+          "firm_name": "PARALLEL ADVISORS, LLC",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94105",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "68107",
+          "firm_ia_full_sec_number": "801-68107"
+        },
+        {
+          "firm_id": "140800",
+          "firm_name": "PARALLEL ADVISORS, LLC",
+          "branch_city": "RENO",
+          "branch_state": "NV",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "68107",
+          "firm_ia_full_sec_number": "801-68107"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 2696729, \"firstName\": \"Michael\", \"middleName\": \"Steven\", \"lastName\": \"Millman\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/16/1998\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 140800, \"firmName\": \"PARALLEL ADVISORS, LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"4/6/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"68107\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"258465\", \"street1\": \"150 SPEAR STREET\", \"street2\": \"SUITE 1600\", \"city\": \"SAN FRANCISCO\", \"cityAlias\": [\"SAN FRANCISCO\"], \"state\": \"CA\", \"country\": \"United States\", \"zipCode\": \"94105\", \"latitude\": \"37.788543\", \"longitude\": \"-122.393872\", \"geoLocation\": \"37.788543,-122.393872\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"03/31/2023\"}, {\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"RENO\", \"state\": \"NV\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"03/31/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"68122\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35359\", \"firmId\": 17868, \"firmName\": \"U.S. BANCORP INVESTMENTS, INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"registrationBeginDate\": \"4/18/2013\", \"registrationEndDate\": \"11/3/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"6/22/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"12/18/2003\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"BOSTON\", \"state\": \"MA\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"11/2/2001\", \"registrationEndDate\": \"11/14/2003\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"SMITHFIELD\", \"state\": \"RI\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"9/15/1998\", \"registrationEndDate\": \"9/28/2001\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"WESTLAKE\", \"state\": \"TX\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"4/28/1997\", \"registrationEndDate\": \"9/10/1998\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41459\", \"firmId\": 24906, \"firmName\": \"THE HERITAGE GROUP, INC.\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/11/1996\", \"registrationEndDate\": \"3/5/1997\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"122096\", \"iaSECNumberType\": \"801\", \"firmId\": 313015, \"firmName\": \"FIFTH THIRD WEALTH ADVISORS LLC\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"11/21/2022\", \"registrationEndDate\": \"3/15/2023\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"68122\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"35359\", \"firmId\": 17868, \"firmName\": \"U.S. BANCORP INVESTMENTS, INC.\", \"city\": \"Stateline\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"4/19/2013\", \"registrationEndDate\": \"11/3/2022\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"37967\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"37180\", \"firmId\": 19616, \"firmName\": \"WELLS FARGO ADVISORS, LLC\", \"city\": \"ST. LOUIS\", \"state\": \"MO\", \"country\": \"United States\", \"registrationBeginDate\": \"1/3/2011\", \"registrationEndDate\": \"6/22/2012\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"38588\", \"firmId\": 10582, \"firmName\": \"WELLS FARGO INVESTMENTS, LLC\", \"city\": \"SAN FRANCISCO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"12/18/2003\", \"registrationEndDate\": \"1/3/2011\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"33805\", \"firmId\": 16361, \"firmName\": \"BANC OF AMERICA INVESTMENT SERVICES, INC.\", \"city\": \"WALNUT CREEK\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/23/2002\", \"registrationEndDate\": \"11/14/2003\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"5/25/2012\", \"disclosureType\": \"Employment Separation After Allegations\", \"disclosureResolution\": \"\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Firm Name\": \"WELLS FARGO ADVISORS, LLC\", \"Termination Type\": \"Voluntary Resignation\", \"Allegations\": \"ALLEGATIONS WERE MADE THAT MR. MILLMAN, A WELLS FARGO BANK EMPLOYEE, RECEIVED PAYMENTS FROM A WELLS FARGO BANK CLIENT WHILE HE WAS EMPLOYED AT WELLS FARGO IN EXCHANGE FOR A CLIENT REFERRAL.\"}}, {\"eventDate\": \"9/16/2008\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"UNAUTHORIZED TRADING - COST TO FIRM TO REVERSE THE TRADE IN ACCOUNT EXCEEDED $5,000.\", \"Settlement Amount\": \"$158,825.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"REGISTRANT IS EMPLOYED BY WELLS FARGO BANK N.A. HE IS REGISTERED WITH, BUT NOT AN EMPLOYEE OF, WELLS FARGO INVESTMENTS, LLC (WFI).  THE COMPLAINING CUSTOMER NAMED ALL MEMBERS OF HER BANKING/BROKERAGE TEAM IN HER COMPLAINT.  THE ALLEGED UNAUTHORIZED TRANSACTION TOOK PLACE WHILE REGISTRANT WAS TRAVELLING ABROAD ON VACATION.  FURTHER, REGISTRANT IS UNABLE TO ENTER ANY ORDER FOR ANY WFI CUSTOMER BECAUSE HE DOES NOT HAVE ACCESS TO THE WFI ORDER ENTRY SYSTEM.  REGISTRANT BECAME AWARE OF THE PROBLEM WHEN CUSTOMER FIRST COMPLAINED ABOUT IT IN EARLY SEPTEMBER 2008 (APPROXIMATELY 4 MONTHS AFTER TRADE DATE) AND UPON SAID NOTIFICATION, REGISTRANT PROMPTLY QUESTIONED BROKER THAT PLACED THE ORDER.  AFTER SAID INQUIRY, REGISTRANT IMMEDIATELY NOTIFIED MANAGEMENT.  REGISTRANT WAS NOT INVOLVED IN THE DECISION TO REVERSE THIS TRADE OR COMPENSATE CUSTOMER.  REGISTRANT BELIEVES THAT BROKER RESPONSIBLE FOR PLACING THIS TRANSACTION WAS TERMINATED. REGISTRANT ADVISED BY WFI COMPLIANCE THAT THE FIRM DECIDED TO REVERSE SAID TRANSACTION AS A BUSINESS DECISION AT A COST OF $158,825 AND FURTHER UNDERSTANDS THAT BROKER WHO PLACED THIS FNM.T TRADE WAS TERMINATED AS A RESULT OF ADMITTING THAT HE ENTERED THE ORDER WITHOUT OBTAINING DIRECT APPROVAL FROM THE WFI CUSTOMER.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}, {\"disclosureType\": \"Termination\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"11/11/1998\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"12/12/1996\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"12/10/1996\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 2}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/6/2023\"}, {\"state\": \"Nevada\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/11/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Michael Millman",
+    "fetched_name": "Michael Steven Millman",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Michael Millman' did not match fetched name 'Michael Steven Millman' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Michael Millman has 1 employment separation after allegations disclosure, 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Employment Separation After Allegations Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "5/25/2012",
+          "resolution": "",
+          "details": {
+            "Firm Name": "WELLS FARGO ADVISORS, LLC",
+            "Termination Type": "Voluntary Resignation",
+            "Allegations": "ALLEGATIONS WERE MADE THAT MR. MILLMAN, A WELLS FARGO BANK EMPLOYEE, RECEIVED PAYMENTS FROM A WELLS FARGO BANK CLIENT WHILE HE WAS EMPLOYED AT WELLS FARGO IN EXCHANGE FOR A CLIENT REFERRAL."
+          }
+        },
+        "description": "Unknown disclosure type Employment Separation After Allegations on 5/25/2012."
+      },
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "9/16/2008",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "UNAUTHORIZED TRADING - COST TO FIRM TO REVERSE THE TRADE IN ACCOUNT EXCEEDED $5,000.",
+            "Settlement Amount": "$158,825.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "REGISTRANT IS EMPLOYED BY WELLS FARGO BANK N.A. HE IS REGISTERED WITH, BUT NOT AN EMPLOYEE OF, WELLS FARGO INVESTMENTS, LLC (WFI).  THE COMPLAINING CUSTOMER NAMED ALL MEMBERS OF HER BANKING/BROKERAGE TEAM IN HER COMPLAINT.  THE ALLEGED UNAUTHORIZED TRANSACTION TOOK PLACE WHILE REGISTRANT WAS TRAVELLING ABROAD ON VACATION.  FURTHER, REGISTRANT IS UNABLE TO ENTER ANY ORDER FOR ANY WFI CUSTOMER BECAUSE HE DOES NOT HAVE ACCESS TO THE WFI ORDER ENTRY SYSTEM.  REGISTRANT BECAME AWARE OF THE PROBLEM WHEN CUSTOMER FIRST COMPLAINED ABOUT IT IN EARLY SEPTEMBER 2008 (APPROXIMATELY 4 MONTHS AFTER TRADE DATE) AND UPON SAID NOTIFICATION, REGISTRANT PROMPTLY QUESTIONED BROKER THAT PLACED THE ORDER.  AFTER SAID INQUIRY, REGISTRANT IMMEDIATELY NOTIFIED MANAGEMENT.  REGISTRANT WAS NOT INVOLVED IN THE DECISION TO REVERSE THIS TRADE OR COMPENSATE CUSTOMER.  REGISTRANT BELIEVES THAT BROKER RESPONSIBLE FOR PLACING THIS TRANSACTION WAS TERMINATED. REGISTRANT ADVISED BY WFI COMPLIANCE THAT THE FIRM DECIDED TO REVERSE SAID TRANSACTION AS A BUSINESS DECISION AT A COST OF $158,825 AND FURTHER UNDERSTANDS THAT BROKER WHO PLACED THIS FNM.T TRADE WAS TERMINATED AS A RESULT OF ADMITTING THAT HE ENTERED THE ORDER WITHOUT OBTAINING DIRECT APPROVAL FROM THE WFI CUSTOMER."
+          }
+        },
+        "description": "Customer dispute on 9/16/2008. Resolution: Settled. Allegations: UNAUTHORIZED TRADING - COST TO FIRM TO REVERSE THE TRADE IN ACCOUNT EXCEEDED $5,000.. Damage requested: Not specified. Settlement: $158,825.00"
+      }
+    ]
+  }
+}

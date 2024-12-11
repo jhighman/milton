@@ -1,0 +1,91 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Joseph",
+    "middle_name": "",
+    "last_name": "McLaughlin",
+    "name": "Joseph McLaughlin",
+    "organization_name": "Churchill Management Group",
+    "license_type": "",
+    "employee_number": "EN-053595"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:40",
+    "cache_files": {
+      "basic_info": "./cache/sec_Joseph McLaughlin_109651_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_5002329_detailed_info.json"
+    },
+    "individual_name": "Joseph McLaughlin",
+    "firm_crd": "109651",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5002329",
+      "ind_firstname": "JOSEPH",
+      "ind_middlename": "DENNIS",
+      "ind_lastname": "MCLAUGHLIN",
+      "ind_other_names": [],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2008-03-17",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "109651",
+          "firm_name": "CHURCHILL MANAGEMENT GROUP",
+          "branch_city": "Beaverton",
+          "branch_state": "OR",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "4211",
+          "firm_ia_full_sec_number": "801-4211"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 5002329, \"firstName\": \"JOSEPH\", \"middleName\": \"DENNIS\", \"lastName\": \"MCLAUGHLIN\", \"otherNames\": [], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"3/17/2008\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 109651, \"firmName\": \"CHURCHILL MANAGEMENT GROUP\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"12/19/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"4211\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Beaverton\", \"state\": \"OR\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"12/19/2016\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"BEAVERTON\", \"state\": \"OR\", \"registrationBeginDate\": \"11/2/2015\", \"registrationEndDate\": \"4/18/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"44112\", \"firmId\": 29106, \"firmName\": \"E*TRADE SECURITIES LLC\", \"city\": \"PORTLAND\", \"state\": \"OR\", \"registrationBeginDate\": \"11/11/2013\", \"registrationEndDate\": \"10/23/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"registrationBeginDate\": \"10/7/2009\", \"registrationEndDate\": \"11/4/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"67473\", \"firmId\": 142518, \"firmName\": \"TRICOR FINANCIAL, LLC\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"USA\", \"registrationBeginDate\": \"2/13/2009\", \"registrationEndDate\": \"9/14/2009\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"53428\", \"firmId\": 114473, \"firmName\": \"WORLD GROUP SECURITIES, INC.\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"registrationBeginDate\": \"12/6/2007\", \"registrationEndDate\": \"1/28/2008\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"25028\", \"firmId\": 8327, \"firmName\": \"M.L. STERN & CO., LLC.\", \"city\": \"HENDERSON\", \"state\": \"NV\", \"registrationBeginDate\": \"8/19/2005\", \"registrationEndDate\": \"6/29/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"29362\", \"iaSECNumberType\": \"801\", \"firmId\": 107342, \"firmName\": \"FISHER INVESTMENTS\", \"city\": \"CAMAS\", \"state\": \"WA\", \"country\": \"United States\", \"registrationBeginDate\": \"4/5/2016\", \"registrationEndDate\": \"12/27/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"BEAVERTON\", \"state\": \"OR\", \"country\": \"United States\", \"registrationBeginDate\": \"11/3/2015\", \"registrationEndDate\": \"4/18/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"58085\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"49730\", \"firmId\": 42159, \"firmName\": \"E*TRADE CAPITAL MANAGEMENT, LLC\", \"city\": \"PORTLAND\", \"state\": \"OR\", \"country\": \"United States\", \"registrationBeginDate\": \"11/15/2013\", \"registrationEndDate\": \"10/23/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/7/2009\", \"registrationEndDate\": \"11/4/2013\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"SAN DIEGO\", \"state\": \"CA\", \"country\": \"United States\", \"registrationBeginDate\": \"10/7/2009\", \"registrationEndDate\": \"11/4/2013\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"67209\", \"iaSECNumberType\": \"801\", \"firmId\": 141775, \"firmName\": \"TRICOR ADVISORY SERVICES, LLC\", \"city\": \"LAS VEGAS\", \"state\": \"NV\", \"country\": \"UNITED STATES\", \"registrationBeginDate\": \"6/25/2009\", \"registrationEndDate\": \"9/14/2009\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"bdSECNumber\": \"25028\", \"firmId\": 8327, \"firmName\": \"M. L. STERN & CO, LLC.\", \"city\": \"HENDERSON\", \"state\": \"NV\", \"country\": \"United States\", \"registrationBeginDate\": \"9/9/2005\", \"registrationEndDate\": \"6/29/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"9/8/2005\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"4/18/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"8/18/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Oregon\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"12/19/2016\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Joseph McLaughlin",
+    "fetched_name": "JOSEPH DENNIS MCLAUGHLIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Joseph McLaughlin' did not match fetched name 'JOSEPH DENNIS MCLAUGHLIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

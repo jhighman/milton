@@ -1,0 +1,93 @@
+{
+  "claim": {
+    "crd_number": "5071176",
+    "first_name": "Ryan",
+    "middle_name": "",
+    "last_name": "Drews",
+    "name": "Ryan Drews",
+    "organization_name": "RWA Wealth Partners LLC",
+    "license_type": "",
+    "employee_number": "EN-117415"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:13:29",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_5071176_basic_info.json",
+      "detailed_info": "./cache/brokercheck_5071176_detailed_info.json"
+    },
+    "crd_number": "5071176",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "5071176",
+      "ind_firstname": "Ryan",
+      "ind_lastname": "Drews",
+      "ind_other_names": [
+        "RYAN JEFFEREY DREWS",
+        "RYAN JEFFREY DREWS",
+        "RYAN JEFFEREY SILVERTHORN-DREWS"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "5430",
+      "ind_current_employments": [
+        {
+          "firm_id": "156984",
+          "firm_name": "RWA WEALTH PARTNERS",
+          "branch_city": "Troy",
+          "branch_state": "MI",
+          "branch_zip": "48083",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "73098",
+          "firm_ia_full_sec_number": "801-73098"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 5071176, \"firstName\": \"Ryan\", \"lastName\": \"Drews\", \"otherNames\": [\"RYAN JEFFEREY DREWS\", \"RYAN JEFFREY DREWS\", \"RYAN JEFFEREY SILVERTHORN-DREWS\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 5430}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"8095\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"14088\", \"firmId\": 2881, \"firmName\": \"NORTHWESTERN MUTUAL INVESTMENT SERVICES, LLC\", \"city\": \"TROY\", \"state\": \"MI\", \"registrationBeginDate\": \"6/28/2021\", \"registrationEndDate\": \"4/18/2023\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"29938\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16514\", \"firmId\": 5393, \"firmName\": \"CHARLES SCHWAB & CO., INC.\", \"city\": \"Troy\", \"state\": \"MI\", \"registrationBeginDate\": \"6/10/2019\", \"registrationEndDate\": \"5/25/2021\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"72263\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"26486\", \"firmId\": 10111, \"firmName\": \"PFS INVESTMENTS INC.\", \"city\": \"SARASOTA\", \"state\": \"FL\", \"registrationBeginDate\": \"5/23/2018\", \"registrationEndDate\": \"6/6/2019\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"10970\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"17668\", \"firmId\": 6413, \"firmName\": \"LPL FINANCIAL LLC\", \"city\": \"BLOOMFIELD HILLS\", \"state\": \"MI\", \"registrationBeginDate\": \"6/30/2014\", \"registrationEndDate\": \"6/2/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"FARMINGTON\", \"state\": \"MI\", \"registrationBeginDate\": \"4/28/2009\", \"registrationEndDate\": \"7/1/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"23292\", \"firmId\": 7784, \"firmName\": \"FIDELITY BROKERAGE SERVICES LLC\", \"city\": \"BIRMINGHAM\", \"state\": \"MI\", \"registrationBeginDate\": \"9/26/2007\", \"registrationEndDate\": \"2/18/2009\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"41840\", \"firmId\": 25574, \"firmName\": \"CHASE INVESTMENT SERVICES CORP.\", \"city\": \"TROY\", \"state\": \"MI\", \"registrationBeginDate\": \"6/28/2006\", \"registrationEndDate\": \"8/31/2007\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"14172\", \"firmId\": 7556, \"firmName\": \"MORGAN STANLEY DW INC.\", \"city\": \"BIRMINGHAM\", \"state\": \"MI\", \"registrationBeginDate\": \"1/19/2006\", \"registrationEndDate\": \"6/6/2006\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/15/2010\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 31\", \"examName\": \"Futures Managed Funds Examination\", \"examTakenDate\": \"2/16/2006\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/18/2006\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2023\"}, {\"state\": \"Massachusetts\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"7/14/2023\"}, {\"state\": \"Michigan\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"11/10/2023\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"4/20/2023\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Ryan Drews",
+    "fetched_name": "Ryan  Drews",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Ryan Drews' did not match fetched name 'Ryan  Drews' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Anthony",
+    "middle_name": "",
+    "last_name": "Delane",
+    "name": "Anthony Delane",
+    "organization_name": "Halbert Hargrove",
+    "license_type": "",
+    "employee_number": "EN-119619"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 10:44:43",
+    "cache_files": {
+      "basic_info": "./cache/sec_Anthony Delane_105515_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_6396785_detailed_info.json"
+    },
+    "individual_name": "Anthony Delane",
+    "firm_crd": "105515",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6396785",
+      "ind_firstname": "ANTHONY",
+      "ind_middlename": "DOMINIC",
+      "ind_lastname": "DELANE",
+      "ind_other_names": [
+        "ANTHONY DOMINIC COLLINS"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "N",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2015-10-02",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105515",
+          "firm_name": "HALBERT HARGROVE",
+          "branch_city": "BELLEVUE",
+          "branch_state": "WA",
+          "branch_zip": "98004",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "33048",
+          "firm_ia_full_sec_number": "801-33048"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 6396785, \"firstName\": \"ANTHONY\", \"middleName\": \"DOMINIC\", \"lastName\": \"DELANE\", \"otherNames\": [\"ANTHONY DOMINIC COLLINS\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"10/2/2015\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105515, \"firmName\": \"HALBERT HARGROVE\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"6/8/2016\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"33048\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"street1\": \"10900 NE 8TH ST\", \"street2\": \"SUITE 1640\", \"city\": \"BELLEVUE\", \"cityAlias\": [\"BEAUX ARTS\", \"BEAUX ARTS VILLAGE\", \"BELLEVUE\", \"CLYDE HILL\", \"HUNTS POINT\", \"YARROW POINT\"], \"state\": \"WA\", \"country\": \"United States\", \"zipCode\": \"98004\", \"latitude\": \"47.617746\", \"longitude\": \"-122.210797\", \"geoLocation\": \"47.617746,-122.210797\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"06/01/2022\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"SARASOTA\", \"state\": \"FL\", \"registrationBeginDate\": \"9/4/2015\", \"registrationEndDate\": \"5/9/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"7163\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"16267\", \"firmId\": 8174, \"firmName\": \"UBS FINANCIAL SERVICES INC.\", \"city\": \"SARASOTA\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"2/11/2016\", \"registrationEndDate\": \"5/9/2016\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"N\", \"iaDisclosureFlag\": \"N\", \"disclosures\": [], \"iaDisclosures\": [], \"examsCount\": {\"stateExamCount\": 1, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 66\", \"examName\": \"Uniform Combined State Law Examination\", \"examTakenDate\": \"2/8/2016\", \"examScope\": \"BOTH\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"5/9/2016\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"9/4/2015\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 3}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/8/2016\"}, {\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/7/2024\"}, {\"state\": \"Washington\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"6/2/2022\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Anthony Delane",
+    "fetched_name": "ANTHONY DOMINIC DELANE",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Anthony Delane' did not match fetched name 'ANTHONY DOMINIC DELANE' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Low",
+    "recommendations": "No action needed.",
+    "alerts": []
+  }
+}

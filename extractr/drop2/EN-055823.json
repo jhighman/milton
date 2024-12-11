@@ -1,0 +1,104 @@
+{
+  "claim": {
+    "crd_number": "6005872",
+    "first_name": "Xiu",
+    "middle_name": "",
+    "last_name": "Xu",
+    "name": "Xiu Xu",
+    "organization_name": "Baker Avenue Asset Management",
+    "license_type": "",
+    "employee_number": "EN-055823"
+  },
+  "search_evaluation": {
+    "search_strategy": "basic_info",
+    "search_date": "2024-11-17 13:52:38",
+    "cache_files": {
+      "basic_info": "./cache/brokercheck_6005872_basic_info.json",
+      "detailed_info": "./cache/brokercheck_6005872_detailed_info.json"
+    },
+    "crd_number": "6005872",
+    "data_source": "BrokerCheck",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "6005872",
+      "ind_firstname": "XIUHUA",
+      "ind_lastname": "XU",
+      "ind_other_names": [
+        "SYLVIA  XU"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_days": "2083",
+      "ind_current_employments": [
+        {
+          "firm_id": "132657",
+          "firm_name": "BAKERAVENUE",
+          "branch_city": "SAN FRANCISCO",
+          "branch_state": "CA",
+          "branch_zip": "94111",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "63576",
+          "firm_ia_full_sec_number": "801-63576"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "content": "{\"basicInformation\": {\"individualId\": 6005872, \"firstName\": \"XIUHUA\", \"lastName\": \"XU\", \"otherNames\": [\"SYLVIA  XU\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustry\": 2083}, \"currentEmployments\": [], \"currentIAEmployments\": [], \"previousEmployments\": [{\"iaOnly\": \"N\", \"iaSECNumber\": \"14235\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"7221\", \"firmId\": 7691, \"firmName\": \"MERRILL LYNCH, PIERCE, FENNER & SMITH INCORPORATED\", \"city\": \"NEW YORK\", \"state\": \"NY\", \"registrationBeginDate\": \"3/9/2016\", \"registrationEndDate\": \"12/7/2017\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}, {\"iaOnly\": \"N\", \"bdSECNumber\": \"24760\", \"firmId\": 8206, \"firmName\": \"SCOTTRADE, INC.\", \"city\": \"MILPITAS\", \"state\": \"CA\", \"registrationBeginDate\": \"3/15/2012\", \"registrationEndDate\": \"2/26/2016\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"11/7/2017\", \"disclosureType\": \"Employment Separation After Allegations\", \"disclosureResolution\": \"\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Firm Name\": \"Merrill Lynch, Pierce, Fenner & Smith Incorporated\", \"Termination Type\": \"Voluntary Resignation\", \"Allegations\": \"Conduct involving impersonating a client.\"}}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 0, \"productExamCount\": 2}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/14/2016\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"4/9/2012\", \"examScope\": \"BC\"}], \"principalExamCategory\": [], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"12/7/2017\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"3/14/2012\", \"examScope\": \"BC\"}], \"registrationCount\": {\"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0}, \"registeredStates\": [{\"state\": \"California\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"10/22/2019\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Xiu Xu",
+    "fetched_name": "XIUHUA  XU",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Xiu Xu' did not match fetched name 'XIUHUA  XU' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "evaluation_skipped": true,
+    "reason": "Exams information not available."
+  },
+  "disclosure_review": {
+    "evaluation_skipped": true,
+    "reason": "Disclosures information not available."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "Medium",
+    "recommendations": "Further review recommended due to potential compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": "Xiu Xu",
+          "fetched_name": "XIUHUA  XU",
+          "other_names": [
+            "SYLVIA  XU"
+          ]
+        },
+        "description": "Expected name 'Xiu Xu' did not match fetched name 'XIUHUA  XU'."
+      }
+    ]
+  }
+}

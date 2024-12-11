@@ -1,0 +1,154 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "John",
+    "middle_name": "",
+    "last_name": "Calamos Sr.",
+    "name": "John Calamos Sr.",
+    "organization_name": "Calamos Wealth Management LLC",
+    "license_type": "",
+    "employee_number": "EN-045225"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:39",
+    "cache_files": {
+      "basic_info": "./cache/sec_John Calamos Sr._143490_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_38210_detailed_info.json"
+    },
+    "individual_name": "John Calamos Sr.",
+    "firm_crd": "143490",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "38210",
+      "ind_firstname": "JOHN",
+      "ind_middlename": "PETER",
+      "ind_lastname": "CALAMOS SR.",
+      "ind_other_names": [
+        "JOHN PETER CALAMOS"
+      ],
+      "ind_bc_scope": "Active",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 1,
+      "ind_employments_count": 3,
+      "ind_industry_cal_date_iapd": "1971-11-30",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "143490",
+          "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+          "branch_city": "NAPERVILLE",
+          "branch_state": "IL",
+          "branch_zip": "60563-2787",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "67787",
+          "firm_ia_full_sec_number": "801-67787"
+        },
+        {
+          "firm_id": "105758",
+          "firm_name": "CALAMOS ADVISORS LLC",
+          "branch_city": "NAPERVILLE",
+          "branch_state": "IL",
+          "branch_zip": "60563-2787",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "29688",
+          "firm_ia_full_sec_number": "801-29688"
+        },
+        {
+          "firm_id": "19850",
+          "firm_name": "CALAMOS FINANCIAL SERVICES LLC",
+          "branch_city": "NAPERVILLE",
+          "branch_state": "IL",
+          "branch_zip": "60563",
+          "ia_only": "N",
+          "firm_bd_sec_number": "37854",
+          "firm_bd_full_sec_number": "8-37854"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 38210, \"firstName\": \"JOHN\", \"middleName\": \"PETER\", \"lastName\": \"CALAMOS SR.\", \"otherNames\": [\"JOHN PETER CALAMOS\"], \"bcScope\": \"Active\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"11/30/1971\"}, \"currentEmployments\": [{\"firmId\": 19850, \"firmName\": \"CALAMOS FINANCIAL SERVICES LLC\", \"iaOnly\": \"N\", \"registrationBeginDate\": \"7/15/1987\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"NOTINSCOPE\", \"bdSECNumber\": \"37854\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"287824\", \"street1\": \"2020 CALAMOS COURT\", \"city\": \"NAPERVILLE\", \"cityAlias\": [\"NAPERVILLE\", \"WARRENVILLE\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60563\", \"latitude\": \"41.799902\", \"longitude\": \"-88.170949\", \"geoLocation\": \"41.799902,-88.170949\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/18/2005\"}]}], \"currentIAEmployments\": [{\"firmId\": 143490, \"firmName\": \"CALAMOS WEALTH MANAGEMENT LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/23/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"67787\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"323342\", \"street1\": \"2020 CALAMOS COURT\", \"city\": \"NAPERVILLE\", \"cityAlias\": [\"NAPERVILLE\", \"WARRENVILLE\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60563-2787\", \"latitude\": \"41.799902\", \"longitude\": \"-88.170949\", \"geoLocation\": \"41.799902,-88.170949\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/18/2005\"}]}, {\"firmId\": 105758, \"firmName\": \"CALAMOS ADVISORS LLC\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"1/6/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"29688\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 1, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"N\", \"branchOfficeId\": \"51772\", \"street1\": \"2020 CALAMOS COURT\", \"city\": \"NAPERVILLE\", \"cityAlias\": [\"NAPERVILLE\", \"WARRENVILLE\"], \"state\": \"IL\", \"country\": \"United States\", \"zipCode\": \"60563-2787\", \"latitude\": \"41.799902\", \"longitude\": \"-88.170949\", \"geoLocation\": \"41.799902,-88.170949\", \"nonRegisteredOfficeFlag\": \"N\", \"elaBeginDate\": \"07/18/2005\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"21594\", \"firmId\": 7411, \"firmName\": \"NODDINGS, CALAMOS AND ASSOCIATES, INC.\", \"registrationBeginDate\": \"6/17/1977\", \"registrationEndDate\": \"9/17/1987\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 906, \"firmName\": \"WOOLARD & COMPANY INCORPORATED\", \"registrationBeginDate\": \"6/4/1976\", \"registrationEndDate\": \"7/11/1977\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 412, \"firmName\": \"HORNBLOWER & WEEKS - HEMPHILL, NOYES INCORPORATED\", \"registrationBeginDate\": \"10/6/1975\", \"registrationEndDate\": \"7/18/1976\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 325, \"firmName\": \"DUPONT GLORE FORGAN INCORPORATED\", \"registrationBeginDate\": \"12/1/1971\", \"registrationEndDate\": \"4/23/1976\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 7058, \"firmName\": \"BACHE & CO INCORPORATED\", \"registrationBeginDate\": \"10/23/1974\", \"registrationEndDate\": \"10/30/1975\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 1000003, \"firmName\": \"LOEB RHOADES & CO\", \"registrationBeginDate\": \"3/27/1974\", \"registrationEndDate\": \"11/2/1974\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"firmId\": 870, \"firmName\": \"DUPONT WALSTON, INCORPORATED\", \"registrationBeginDate\": \"7/2/1973\", \"registrationEndDate\": \"5/26/1974\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"NOTINSCOPE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"29688\", \"iaSECNumberType\": \"801\", \"firmId\": 105758, \"firmName\": \"CALAMOS ADVISORS LLC\", \"city\": \"NAPERVILLE\", \"state\": \"IL\", \"country\": \"United States\", \"registrationBeginDate\": \"3/19/1993\", \"registrationEndDate\": \"1/5/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"6/28/2010\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"CLAIMANT ALLEGES THAT SHE COMPLAINED TO MR. CALAMOS ABOUT A FIRM EMPLOYEE WHO ALLEDGEDLY FAILED TO FOLLOW HER ORAL INSTRUCTION TO SELL MUTUAL FUNDS IN 2008, AND THAT MR. CALAMOS FAILED TO RESPOND TO HER COMPLAINT AS PROMISED. MR. CALAMOS DENIES THAT CLAIMANT MADE SUCH A COMPLAINT TO HIM, OR THAT SHE MADE ANY COMPLAINT OTHER THAN THAT SHE HAD NOT RECEIVED A TAX REPORT. MR. CALAMOS DENIES ANY WRONGDOING.\", \"Damage Amount Requested\": \"$2,700,000.00\", \"Settlement Amount\": \"$1,350,000.00\", \"DisplayAAOLinkIfExists\": \"Y\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"10-02858\", \"Broker Comment\": \"CLAIMANT WITHDREW AND VOLUNTARILY DISMISSED WITH PREJUDICE ALL CLAIMS AGAINST JOHN P. CALAMOS, SR. CLAIMANT SETTLED ALL CLAIMS AGAINST CALAMOS FINANCIAL SERVICES LLC (\\\"CFS\\\") IN EXCHANGE FOR A PAYMENT BY CFS IN THE AMOUNT OF $1,350,000, REPRESENTING 50% OF HER CLAIM. JOHN P. CALAMOS, SR. DID NOT CONTRIBUTE TO THE SETTLEMENT.\"}}, {\"eventDate\": \"10/16/1996\", \"disclosureType\": \"Regulatory\", \"disclosureResolution\": \"Final\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 10, \"iaCtgryType\": 10, \"disclosureDetail\": {\"DocketNumberFDA\": \"\", \"DocketNumberAAO\": \"\", \"Initiated By\": \"SECURITIES AND EXCHANGE COMMISSION\", \"Resolution\": \"Consent\", \"SanctionDetails\": [{\"Sanctions\": \"Cease and Desist/Injunction\"}], \"Broker Comment\": \"THE TRADES IN QUESTION RESULTED FROM BUNCHING ORDERS FOR 17 BROKER DEALER CLIENTS FOR WHICH CALAMOS WAS ALSO THE INVESTMENT ADVISER.  CFS USED AN AVERAGE PRICE ACCOUNT TO\\r\\nCONSOLIDATE THESE TRADES. IN THE COURSE OF CONSOLIDATION,\\r\\nTHESE TRADES WERE TEMPORARILY HELD IN AN ACCOUNT BEARING CFS' NAME. THE SEC CLAIMED THAT EVEN TEMPORARILY HOLDING THE\\r\\nSECURITIES IN CFS' ACCOUNT VIOLATED SECURITES LAWS. UPON\\r\\nNOTIFICATION CFS IMMEDIATELY CORRECTED THE PROCEDURE. THE\\r\\nTRADES DID NOT IMPOSE ANY FINANCIAL ADVERSITY ON THE CLIENTS. PRINCIPAL TRADE MARK UPS AND MARK DOWNS WERE EQUIVALENT COMMISSIONS BEING CHARGED ON AN AGENCY BASIS.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Regulatory Event\", \"disclosureCount\": 1}, {\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 6, \"productExamCount\": 5}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"1/7/1993\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"1/7/1993\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 27\", \"examName\": \"Financial and Operations Principal Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 53\", \"examName\": \"Municipal Securities Principal Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 24\", \"examName\": \"General Securities Principal Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 4\", \"examName\": \"Registered Options Principal Examination\", \"examTakenDate\": \"9/13/1977\", \"examScope\": \"BC\"}, {\"examCategory\": \"F04\", \"examName\": \"Financial Principal Examination\", \"examTakenDate\": \"4/6/1977\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 40\", \"examName\": \"Registered Principal Examination\", \"examTakenDate\": \"12/29/1976\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"Series 99TO\", \"examName\": \"Operations Professional Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7TO\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 52TO\", \"examName\": \"Municipal Securities Representative Examination\", \"examTakenDate\": \"1/2/2023\", \"examScope\": \"BC\"}, {\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"10/1/2018\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 1\", \"examName\": \"Registered Representative Examination\", \"examTakenDate\": \"11/19/1971\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 1, \"approvedFinraRegistrationCount\": 1, \"approvedStateRegistrationCount\": 44, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Arizona\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Arkansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/18/2000\"}, {\"state\": \"California\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/6/1987\"}, {\"state\": \"Colorado\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Connecticut\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/15/1988\"}, {\"state\": \"Delaware\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"District of Columbia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/19/1993\"}, {\"state\": \"Florida\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/7/1987\"}, {\"state\": \"Georgia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Hawaii\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/16/1993\"}, {\"state\": \"Idaho\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/15/1993\"}, {\"state\": \"Illinois\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/7/1987\"}, {\"state\": \"Illinois\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"1/6/2015\"}, {\"state\": \"Indiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Iowa\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Kansas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/29/1993\"}, {\"state\": \"Kentucky\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/15/1993\"}, {\"state\": \"Louisiana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Maine\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/7/1994\"}, {\"state\": \"Maryland\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Massachusetts\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Michigan\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Minnesota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Mississippi\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/10/1994\"}, {\"state\": \"Missouri\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/14/1993\"}, {\"state\": \"Montana\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Nebraska\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/29/1993\"}, {\"state\": \"Nevada\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"New Hampshire\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/22/1998\"}, {\"state\": \"New Jersey\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"2/22/1988\"}, {\"state\": \"New Mexico\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"New York\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"North Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Ohio\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/1/1988\"}, {\"state\": \"Oklahoma\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/13/1993\"}, {\"state\": \"Oregon\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Pennsylvania\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"Rhode Island\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/30/1993\"}, {\"state\": \"South Carolina\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/12/1993\"}, {\"state\": \"South Dakota\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"4/25/1995\"}, {\"state\": \"Texas\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"8/5/1987\"}, {\"state\": \"Utah\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"10/21/1993\"}, {\"state\": \"Virginia\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"7/26/1993\"}, {\"state\": \"Washington\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"3/29/1993\"}, {\"state\": \"Wisconsin\", \"regScope\": \"BC\", \"status\": \"APPROVED\", \"regDate\": \"1/29/1988\"}], \"registeredSROs\": [{\"sro\": \"FINRA\", \"status\": \"APPROVED\"}], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "John Calamos Sr.",
+    "fetched_name": "JOHN PETER CALAMOS SR.",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'John Calamos Sr.' did not match fetched name 'JOHN PETER CALAMOS SR.' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "John Calamos Sr. has 1 customer dispute disclosure, 1 regulatory disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "6/28/2010",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "CLAIMANT ALLEGES THAT SHE COMPLAINED TO MR. CALAMOS ABOUT A FIRM EMPLOYEE WHO ALLEDGEDLY FAILED TO FOLLOW HER ORAL INSTRUCTION TO SELL MUTUAL FUNDS IN 2008, AND THAT MR. CALAMOS FAILED TO RESPOND TO HER COMPLAINT AS PROMISED. MR. CALAMOS DENIES THAT CLAIMANT MADE SUCH A COMPLAINT TO HIM, OR THAT SHE MADE ANY COMPLAINT OTHER THAN THAT SHE HAD NOT RECEIVED A TAX REPORT. MR. CALAMOS DENIES ANY WRONGDOING.",
+            "Damage Amount Requested": "$2,700,000.00",
+            "Settlement Amount": "$1,350,000.00",
+            "DisplayAAOLinkIfExists": "Y",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "10-02858",
+            "Broker Comment": "CLAIMANT WITHDREW AND VOLUNTARILY DISMISSED WITH PREJUDICE ALL CLAIMS AGAINST JOHN P. CALAMOS, SR. CLAIMANT SETTLED ALL CLAIMS AGAINST CALAMOS FINANCIAL SERVICES LLC (\"CFS\") IN EXCHANGE FOR A PAYMENT BY CFS IN THE AMOUNT OF $1,350,000, REPRESENTING 50% OF HER CLAIM. JOHN P. CALAMOS, SR. DID NOT CONTRIBUTE TO THE SETTLEMENT."
+          }
+        },
+        "description": "Customer dispute on 6/28/2010. Resolution: Settled. Allegations: CLAIMANT ALLEGES THAT SHE COMPLAINED TO MR. CALAMOS ABOUT A FIRM EMPLOYEE WHO ALLEDGEDLY FAILED TO FOLLOW HER ORAL INSTRUCTION TO SELL MUTUAL FUNDS IN 2008, AND THAT MR. CALAMOS FAILED TO RESPOND TO HER COMPLAINT AS PROMISED. MR. CALAMOS DENIES THAT CLAIMANT MADE SUCH A COMPLAINT TO HIM, OR THAT SHE MADE ANY COMPLAINT OTHER THAN THAT SHE HAD NOT RECEIVED A TAX REPORT. MR. CALAMOS DENIES ANY WRONGDOING.. Damage requested: $2,700,000.00. Settlement: $1,350,000.00"
+      },
+      {
+        "alert_type": "Regulatory Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "10/16/1996",
+          "resolution": "Final",
+          "details": {
+            "DocketNumberFDA": "",
+            "DocketNumberAAO": "",
+            "Initiated By": "SECURITIES AND EXCHANGE COMMISSION",
+            "Resolution": "Consent",
+            "SanctionDetails": [
+              {
+                "Sanctions": "Cease and Desist/Injunction"
+              }
+            ],
+            "Broker Comment": "THE TRADES IN QUESTION RESULTED FROM BUNCHING ORDERS FOR 17 BROKER DEALER CLIENTS FOR WHICH CALAMOS WAS ALSO THE INVESTMENT ADVISER.  CFS USED AN AVERAGE PRICE ACCOUNT TO\r\nCONSOLIDATE THESE TRADES. IN THE COURSE OF CONSOLIDATION,\r\nTHESE TRADES WERE TEMPORARILY HELD IN AN ACCOUNT BEARING CFS' NAME. THE SEC CLAIMED THAT EVEN TEMPORARILY HOLDING THE\r\nSECURITIES IN CFS' ACCOUNT VIOLATED SECURITES LAWS. UPON\r\nNOTIFICATION CFS IMMEDIATELY CORRECTED THE PROCEDURE. THE\r\nTRADES DID NOT IMPOSE ANY FINANCIAL ADVERSITY ON THE CLIENTS. PRINCIPAL TRADE MARK UPS AND MARK DOWNS WERE EQUIVALENT COMMISSIONS BEING CHARGED ON AN AGENCY BASIS."
+          }
+        },
+        "description": "Regulatory action on 10/16/1996 initiated by SECURITIES AND EXCHANGE COMMISSION. Resolution: Final. Allegations: Not specified. Sanctions: Cease and Desist/Injunction"
+      }
+    ]
+  }
+}

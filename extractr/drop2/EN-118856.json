@@ -1,0 +1,115 @@
+{
+  "claim": {
+    "crd_number": "",
+    "first_name": "Edward",
+    "middle_name": "",
+    "last_name": "Brownstein",
+    "name": "Edward Brownstein",
+    "organization_name": "Creative Planning LLC",
+    "license_type": "",
+    "employee_number": "EN-118856"
+  },
+  "search_evaluation": {
+    "search_strategy": "correlated_firm_info",
+    "search_date": "2024-11-17 13:52:41",
+    "cache_files": {
+      "basic_info": "./cache/sec_Edward Brownstein_105348_correlated_firm_info.json",
+      "detailed_info": "./cache/sec_4907060_detailed_info.json"
+    },
+    "individual_name": "Edward Brownstein",
+    "firm_crd": "105348",
+    "crd_number": "",
+    "data_source": "IAPD",
+    "search_outcome": "Record found",
+    "search_compliance": true,
+    "individual": {
+      "ind_source_id": "4907060",
+      "ind_firstname": "EDWARD",
+      "ind_middlename": "JOSEPH",
+      "ind_lastname": "BROWNSTEIN",
+      "ind_namesuffix": "III",
+      "ind_other_names": [
+        "ED  BROWNSTEIN",
+        "EDDIE  BROWNSTEIN",
+        "EDWARD JOSEPH BROWNSTEIN"
+      ],
+      "ind_bc_scope": "InActive",
+      "ind_ia_scope": "Active",
+      "ind_ia_disclosure_fl": "Y",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 1,
+      "ind_industry_cal_date_iapd": "2005-05-05",
+      "ind_ia_current_employments": [
+        {
+          "firm_id": "105348",
+          "firm_name": "CREATIVE PLANNING",
+          "branch_city": "Lewisville",
+          "branch_state": "TX",
+          "ia_only": "Y",
+          "firm_ia_sec_number": "18564",
+          "firm_ia_full_sec_number": "801-18564"
+        }
+      ]
+    },
+    "detailed_info": {
+      "hits": {
+        "total": 1,
+        "hits": [
+          {
+            "_type": "_doc",
+            "_source": {
+              "iacontent": "{\"basicInformation\": {\"individualId\": 4907060, \"firstName\": \"EDWARD\", \"middleName\": \"JOSEPH\", \"lastName\": \"BROWNSTEIN\", \"nameSuffix\": \"III\", \"otherNames\": [\"ED  BROWNSTEIN\", \"EDDIE  BROWNSTEIN\", \"EDWARD JOSEPH BROWNSTEIN\"], \"bcScope\": \"InActive\", \"iaScope\": \"Active\", \"daysInIndustryCalculatedDateIAPD\": \"5/5/2005\"}, \"currentEmployments\": [], \"currentIAEmployments\": [{\"firmId\": 105348, \"firmName\": \"CREATIVE PLANNING\", \"iaOnly\": \"Y\", \"registrationBeginDate\": \"5/19/2015\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"ACTIVE\", \"iaSECNumber\": \"18564\", \"iaSECNumberType\": \"801\", \"branchOfficeLocations\": [{\"displayOrder\": 2, \"locatedAtFlag\": \"Y\", \"supervisedFromFlag\": \"N\", \"privateResidenceFlag\": \"Y\", \"city\": \"Lewisville\", \"state\": \"TX\", \"country\": \"United States\", \"nonRegisteredOfficeFlag\": \"Y\", \"elaBeginDate\": \"04/03/2023\"}]}], \"previousEmployments\": [{\"iaOnly\": \"N\", \"bdSECNumber\": \"24760\", \"firmId\": 8206, \"firmName\": \"SCOTTRADE, INC.\", \"city\": \"DALLAS\", \"state\": \"TX\", \"registrationBeginDate\": \"6/13/2014\", \"registrationEndDate\": \"6/18/2015\", \"firmBCScope\": \"INACTIVE\", \"firmIAScope\": \"NOTINSCOPE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"TAMPA\", \"state\": \"FL\", \"registrationBeginDate\": \"1/17/2007\", \"registrationEndDate\": \"6/4/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"N\", \"iaSECNumber\": \"126328\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41241\", \"firmId\": 5475, \"firmName\": \"USAA INVESTMENT MANAGEMENT COMPANY\", \"city\": \"SAN ANTONIO\", \"state\": \"TX\", \"registrationBeginDate\": \"2/8/2005\", \"registrationEndDate\": \"10/30/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"previousIAEmployments\": [{\"iaOnly\": \"Y\", \"iaSECNumber\": \"55501\", \"iaSECNumberType\": \"801\", \"firmId\": 111514, \"firmName\": \"AMERIVEST INVESTMENT MANAGEMENT, LLC\", \"city\": \"TAMPA\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"11/17/2010\", \"registrationEndDate\": \"6/4/2014\", \"firmBCScope\": \"NOTINSCOPE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"60469\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"23395\", \"firmId\": 7870, \"firmName\": \"TD AMERITRADE, INC.\", \"city\": \"TAMPA\", \"state\": \"FL\", \"country\": \"United States\", \"registrationBeginDate\": \"1/17/2007\", \"registrationEndDate\": \"6/4/2014\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"INACTIVE\"}, {\"iaOnly\": \"Y\", \"iaSECNumber\": \"126328\", \"iaSECNumberType\": \"801\", \"bdSECNumber\": \"41241\", \"firmId\": 5475, \"firmName\": \"USAA INVESTMENT MANAGEMENT COMPANY\", \"city\": \"SAN ANTONIO\", \"state\": \"TX\", \"country\": \"United States\", \"registrationBeginDate\": \"4/24/2006\", \"registrationEndDate\": \"10/30/2006\", \"firmBCScope\": \"ACTIVE\", \"firmIAScope\": \"ACTIVE\"}], \"disclosureFlag\": \"Y\", \"iaDisclosureFlag\": \"Y\", \"disclosures\": [{\"eventDate\": \"4/22/2009\", \"disclosureType\": \"Customer Dispute\", \"disclosureResolution\": \"Settled\", \"isIapdExcludedCCFlag\": \"N\", \"isBcExcludedCCFlag\": \"N\", \"bcCtgryType\": 11, \"iaCtgryType\": 10, \"disclosureDetail\": {\"Allegations\": \"THE CLIENT ALLEGES MISREPRESENTATION.\", \"Damage Amount Requested\": \"$7,500.00\", \"Settlement Amount\": \"$1,000.00\", \"DisplayAAOLinkIfExists\": \"N\", \"arbitrationClaimFiledDetail\": \"\", \"arbitrationDocketNumber\": \"\", \"Broker Comment\": \"UPON REVIEW, THE FIRM FOUND NO MERIT TO THE CLIENT'S ALLEGATION OF MISREPRESENTATION BY MR. BROWNSTEIN.\"}}], \"iaDisclosures\": [{\"disclosureType\": \"Customer Dispute\", \"disclosureCount\": 1}], \"examsCount\": {\"stateExamCount\": 2, \"principalExamCount\": 2, \"productExamCount\": 3}, \"stateExamCategory\": [{\"examCategory\": \"Series 65\", \"examName\": \"Uniform Investment Adviser Law Examination\", \"examTakenDate\": \"4/21/2006\", \"examScope\": \"IA\"}, {\"examCategory\": \"Series 63\", \"examName\": \"Uniform Securities Agent State Law Examination\", \"examTakenDate\": \"2/11/2005\", \"examScope\": \"BC\"}], \"principalExamCategory\": [{\"examCategory\": \"Series 10\", \"examName\": \"General Securities Sales Supervisor - General Module Examination\", \"examTakenDate\": \"10/17/2014\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 9\", \"examName\": \"General Securities Sales Supervisor - Options Module Examination\", \"examTakenDate\": \"7/28/2014\", \"examScope\": \"BC\"}], \"productExamCategory\": [{\"examCategory\": \"SIE\", \"examName\": \"Securities Industry Essentials Examination\", \"examTakenDate\": \"6/18/2015\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 7\", \"examName\": \"General Securities Representative Examination\", \"examTakenDate\": \"7/8/2005\", \"examScope\": \"BC\"}, {\"examCategory\": \"Series 6\", \"examName\": \"Investment Company Products/Variable Contracts Representative Examination\", \"examTakenDate\": \"2/7/2005\", \"examScope\": \"BC\"}], \"registrationCount\": {\"hasInactiveRegistration\": \"N\", \"hasSuspendedRegistration\": \"N\", \"approvedSRORegistrationCount\": 0, \"approvedFinraRegistrationCount\": 0, \"approvedStateRegistrationCount\": 0, \"approvedIAStateRegistrationCount\": 1}, \"registeredStates\": [{\"state\": \"Texas\", \"regScope\": \"IA\", \"status\": \"APPROVED\", \"regDate\": \"5/19/2015\"}], \"registeredSROs\": [], \"brokerDetails\": {\"hasBCComments\": \"N\", \"hasIAComments\": \"N\", \"legacyReportStatusDescription\": \"Not Requested\"}}"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "status_evaluation": {
+    "status_compliant": true,
+    "alerts": []
+  },
+  "name": {
+    "expected_name": "Edward Brownstein",
+    "fetched_name": "EDWARD JOSEPH BROWNSTEIN",
+    "name_match": false,
+    "name_match_explanation": "Expected name 'Edward Brownstein' did not match fetched name 'EDWARD JOSEPH BROWNSTEIN' (case-insensitive comparison)"
+  },
+  "license_verification": {
+    "license_compliance": true,
+    "license_compliance_explanation": "The individual holds an active license."
+  },
+  "exam_evaluation": {
+    "exam_compliance": true,
+    "exam_compliance_explanation": "The individual has passed all required exams."
+  },
+  "disclosure_review": {
+    "disclosure_compliance": false,
+    "disclosure_compliance_explanation": "Edward Brownstein has 1 customer dispute disclosure."
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Customer Dispute Disclosure",
+        "severity": "High",
+        "metadata": {
+          "event_date": "4/22/2009",
+          "resolution": "Settled",
+          "details": {
+            "Allegations": "THE CLIENT ALLEGES MISREPRESENTATION.",
+            "Damage Amount Requested": "$7,500.00",
+            "Settlement Amount": "$1,000.00",
+            "DisplayAAOLinkIfExists": "N",
+            "arbitrationClaimFiledDetail": "",
+            "arbitrationDocketNumber": "",
+            "Broker Comment": "UPON REVIEW, THE FIRM FOUND NO MERIT TO THE CLIENT'S ALLEGATION OF MISREPRESENTATION BY MR. BROWNSTEIN."
+          }
+        },
+        "description": "Customer dispute on 4/22/2009. Resolution: Settled. Allegations: THE CLIENT ALLEGES MISREPRESENTATION.. Damage requested: $7,500.00. Settlement: $1,000.00"
+      }
+    ]
+  }
+}
