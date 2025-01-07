@@ -15,6 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+from urllib.parse import urlencode
 
 class ApiClient:
     def __init__(self, cache_folder: str, wait_time: int, logger, webdriver_enabled: bool = False):
@@ -188,7 +189,7 @@ class ApiClient:
 
         try:
             if service == 'brokercheck':
-                url = f'https://api.brokercheck.finra.org/individual/{crd_number}/summary'
+                base_url = f'https://api.brokercheck.finra.org/search/individual/{crd_number}'
                 params = {
                     'query': crd_number,
                     'filter': 'active=true,prev=true,bar=true,broker=true,ia=true,brokeria=true',
@@ -199,6 +200,7 @@ class ApiClient:
                     'r': '25',
                     'wt': 'json'
                 }
+                url = f"{base_url}"
             elif service == 'sec':
                 url = f'https://api.adviserinfo.sec.gov/search/individual/{crd_number}'
                 params = {}
@@ -206,7 +208,7 @@ class ApiClient:
                 self.logger.error(f"Unsupported service: {service}")
                 return None, None
 
-            response = requests.get(url, params=params)
+            response = requests.get(url)
             if response.status_code == 200:
                 data = response.json()
                 self._write_to_cache(crd_number, "detailed_info", data, service, employee_number)
@@ -496,26 +498,22 @@ class ApiClient:
             cache_filename = os.path.join(employee_dir_cache, f"finra_disciplinary_result_{idx}.json")
             name_key = f"{f_name}_{l_name}"
 
-            # Construct the URL for the query
             search_query = f"{f_name}+{l_name}"
             url = base_url.format(search_query)
 
             # Check cache
             if os.path.exists(cache_filename):
-                self.logger.debug(f"Cache hit for FINRA disciplinary data: {cache_filename}")
+                print(f"Cache hit for FINRA disciplinary data: {cache_filename}")
                 with open(cache_filename, 'r', encoding='utf-8') as infile:
                     result = json.load(infile)
-                # Add the URL to the result if it's not already there
                 result["url"] = url
                 results[name_key] = result
                 continue
 
-            # If not cached, fetch and parse
-            self.logger.debug(f"No cache found for FINRA disciplinary data, querying for {f_name} {l_name}.")
+            print(f"No cache found for {name_key}, querying FINRA disciplinary data...")
             input_data = {"name": name_key, "search": url}
             result_data = self._fetch_and_parse_finra(input_data)
 
-            # Add the URL to the result
             result = {
                 "data": result_data,
                 "url": url
@@ -525,9 +523,13 @@ class ApiClient:
             with open(cache_filename, 'w', encoding='utf-8') as outfile:
                 json.dump(result, outfile, indent=4)
 
+            print(f"Fetched and cached result for {name_key}: {json.dumps(result, indent=4)}")
             results[name_key] = result
-            # Delay to respect wait_time
             time.sleep(self.wait_time)
+
+        print("Final results for all name variations:")
+        for name, data in results.items():
+            print(f"{name}: {json.dumps(data, indent=4)}")
 
         return results
 

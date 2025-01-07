@@ -10,6 +10,7 @@ import sys
 from datetime import datetime
 from typing import Dict, List
 from collections import OrderedDict
+from selenium.webdriver.support.ui import Select
 
 # Import the ApiClient from api_client.py
 from api_client import ApiClient, RateLimitExceeded
@@ -39,6 +40,7 @@ log_file_path = os.path.join(output_folder, 'unresolved_crd_cases.csv')  # CSV f
 
 # Canonical field mappings
 canonical_fields = {
+    'reference_id': ['referenceId', 'reference_id', 'Reference ID', 'ReferenceId'],
     'crd': ['crd', 'CRD', 'CRDNumber', 'crd_number', 'crdnumber', 'CRD Number'],
     'first_name': ['first_name', 'First Name', 'firstname', 'FirstName', 'first', 'firstName'],
     'middle_name': ['middle_name', 'Middle Name', 'middlename', 'MiddleName', 'middle', 'middleName'],
@@ -246,12 +248,17 @@ def determine_search_strategy(claim, api_client: ApiClient):
         "individual_name": individual_name
     }
 
-def save_evaluation_report(evaluation_report: dict, employee_number: str):
-    output_file_name = f"{employee_number}.json"
+def save_evaluation_report(evaluation_report: dict, employee_number: str, reference_id: str):
+    if not reference_id:
+        logging.warning("Reference ID is missing. Using 'unknown' as the filename.")
+        reference_id = "unknown"
+
+    output_file_name = f"{reference_id}.json"
     output_file_path = os.path.join(output_folder, output_file_name)
     with open(output_file_path, 'w') as json_file:
         json.dump(evaluation_report, json_file, indent=2)
     log_diagnostic(f"Evaluation report saved to {output_file_path}")
+
 
 def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
     evaluations_performed = [evaluation_report['search_evaluation']['search_compliance']]
@@ -526,6 +533,7 @@ def process_row(row, resolved_headers):
     global records_written
 
     # Extract claim information from the row
+    reference_id = row.get(resolved_headers.get('reference_id', ''), '').strip()
     crd_number = row.get(resolved_headers.get('crd', ''), '').strip()
     first_name = row.get(resolved_headers.get('first_name', ''), '').strip()
     middle_name = row.get(resolved_headers.get('middle_name', ''), '').strip()
@@ -533,6 +541,11 @@ def process_row(row, resolved_headers):
     name = f"{first_name} {last_name}".strip()
     license_type = row.get(resolved_headers.get('license_type', ''), '').strip()
     employee_number = row.get(resolved_headers.get('employee_number', ''), '').strip()
+
+     # If employee_number is missing, use reference_id as fallback
+    if not employee_number and reference_id:
+        logging.info(f"Employee number missing; using reference ID '{reference_id}' as employee number.")
+        employee_number = reference_id
     organization_name_field = resolved_headers.get('organization_name', '')
     organization_name = row.get(organization_name_field, '').strip()
 
@@ -551,13 +564,14 @@ def process_row(row, resolved_headers):
     search_evaluation = perform_search(claim, api_client)
 
     evaluation_report = OrderedDict()
+    evaluation_report['reference_id'] = reference_id  
     evaluation_report['claim'] = claim
     evaluation_report['search_evaluation'] = search_evaluation
 
     if not search_evaluation['search_compliance']:
         alerts = []
         build_final_evaluation(evaluation_report, alerts)
-        save_evaluation_report(evaluation_report, claim.get('employee_number', 'unknown'))
+        save_evaluation_report(evaluation_report, claim.get('employee_number', 'unknown'), reference_id)
         records_written += 1
         return
 
@@ -571,13 +585,16 @@ def process_row(row, resolved_headers):
     data_handler = DataSourceHandler(data_source)
     extracted_info = data_handler.extract_individual_info(individual, detailed_info)
 
-    # Perform disciplinary evaluation
-    disciplinary_records = api_client.get_finra_disciplinary_actions(
+    # Test the result set 
+    disciplinary_records_full = api_client.get_finra_disciplinary_actions(
         employee_number=claim.get('employee_number'),
         first_name=claim.get('first_name', ''),
         last_name=claim.get('last_name', ''),
         alternate_names=extracted_info.get('other_names', [])
-    ).get('result', [])
+    )
+    # Assuming the results are structured as a dictionary with disciplinary data keyed by name variation
+    disciplinary_records = [value["data"] for value in disciplinary_records_full.values()]
+
 
     disciplinary_compliance, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(disciplinary_records, name)
     evaluation_report['disciplinary_evaluation'] = {
@@ -603,7 +620,7 @@ def process_row(row, resolved_headers):
 
     # Build the final evaluation report
     build_final_evaluation(evaluation_report, alerts)
-    save_evaluation_report(evaluation_report, claim.get('employee_number', 'unknown'))
+    save_evaluation_report(evaluation_report, "unknown", reference_id)
     records_written += 1
 
 def main():
