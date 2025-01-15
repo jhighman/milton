@@ -11,6 +11,8 @@ from datetime import datetime
 from typing import Dict, List
 from collections import OrderedDict
 from selenium.webdriver.support.ui import Select
+# main.py
+from evaluation_library import determine_alert_category
 
 # Import the ApiClient from api_client.py
 from api_client import ApiClient, RateLimitExceeded
@@ -261,11 +263,12 @@ def save_evaluation_report(evaluation_report: dict, employee_number: str, refere
 
 
 def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
+    # 1) Gather evaluations to determine overall_compliance
     evaluations_performed = [evaluation_report['search_evaluation']['search_compliance']]
     if 'name' in evaluation_report and 'name_match' in evaluation_report['name']:
         evaluations_performed.append(evaluation_report['name']['name_match'])
-    if 'license_verification' in evaluation_report and 'license_compliance' in evaluation_report['license_verification']:
-        evaluations_performed.append(evaluation_report['license_verification']['license_compliance'])
+    if 'license_verification' in evaluation_report and 'compliance' in evaluation_report['license_verification']:
+        evaluations_performed.append(evaluation_report['license_verification']['compliance'])
     if 'exam_evaluation' in evaluation_report and 'exam_compliance' in evaluation_report['exam_evaluation']:
         evaluations_performed.append(evaluation_report['exam_evaluation']['exam_compliance'])
     if 'registration_status' in evaluation_report and 'status_compliance' in evaluation_report['registration_status']:
@@ -277,6 +280,7 @@ def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
 
     overall_compliance = all(evaluations_performed) if evaluations_performed else True
 
+    # 2) Derive overall risk level from any existing alerts
     if any(alert.severity == AlertSeverity.HIGH for alert in alerts):
         overall_risk_level = "High"
     elif any(alert.severity == AlertSeverity.MEDIUM for alert in alerts):
@@ -284,6 +288,7 @@ def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
     else:
         overall_risk_level = "Low"
 
+    # 3) Decide on recommendations based on risk level
     if overall_risk_level == "High":
         recommendations = "Immediate action required due to critical compliance issues."
     elif overall_risk_level == "Medium":
@@ -291,12 +296,22 @@ def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
     else:
         recommendations = "No action needed."
 
+    # 4) Assign alert categories if not already set
+    for alert in alerts:
+        if alert.alert_category is None:
+            alert.alert_category = determine_alert_category(alert.alert_type)
+
+    # 5) For the final evaluation's 'alerts' list, omit any alerts with severity=INFO
+    final_alerts = [alert for alert in alerts if alert.severity != AlertSeverity.INFO]
+
     evaluation_report['final_evaluation'] = {
         'overall_compliance': overall_compliance,
         'overall_risk_level': overall_risk_level,
         'recommendations': recommendations,
-        'alerts': [alert.to_dict() for alert in alerts]
+        'alerts': [alert.to_dict() for alert in final_alerts]
     }
+
+
 
 def perform_search(claim: dict, api_client: ApiClient) -> dict:
     search_evaluation = {}
@@ -422,6 +437,9 @@ def process_csv(csv_file_path, start_line):
             save_checkpoint()
 
 def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: dict, alerts: list):
+    
+    alternate_names=extracted_info.get('other_names', [])
+
     # Check if we have individual data before proceeding with status evaluation
     if not extracted_info.get('individual'):
         logging.warning("No individual data available for status evaluation")
@@ -446,15 +464,10 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
     }
 
     if config.get('evaluate_name', True):
-        name_match, name_alert = evaluate_name(name, extracted_info['fetched_name'], extracted_info['other_names'])
-        fetched_name_lower = extracted_info['fetched_name'].lower()
-        expected_name_lower = name.lower()
-        evaluation_report['name'].update({
-            'fetched_name': extracted_info['fetched_name'],
-            'name_match': fetched_name_lower == expected_name_lower,
-            'name_match_explanation': "" if fetched_name_lower == expected_name_lower 
-                                   else f"Expected name '{name}' did not match fetched name '{extracted_info['fetched_name']}'"
-        })
+        evaluation_details, name_alert = evaluate_name(name, extracted_info['fetched_name'], extracted_info['other_names'])
+        # Update evaluation report with the returned details
+        evaluation_report['name'].update(evaluation_details)
+            # Add any generated alerts
         if name_alert:
             alerts.append(name_alert)
     else:
@@ -467,7 +480,7 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
         ia_scope = extracted_info.get('ia_scope', '')
         license_compliant, license_alert = evaluate_license(license_type, bc_scope, ia_scope, name)
         evaluation_report['license_verification'] = {
-            'license_compliance': license_compliant,
+            'compliance': license_compliant, 
             'license_compliance_explanation': "The individual holds an active license." if license_compliant else "License compliance failed."
         }
         if license_alert:

@@ -7,7 +7,7 @@ from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # S3 bucket details
-S3_BUCKET = "cenxtgen-dev-brokersearch"
+S3_BUCKET = "cenxtgen-dev-brokersearch-response"
 S3_FOLDER = "fmrdb/output/"
 LOCAL_OUTPUT_FOLDER = "./output"
 
