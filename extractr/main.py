@@ -49,8 +49,52 @@ canonical_fields = {
     'last_name': ['last_name', 'Last Name', 'lastname', 'LastName', 'last', 'lastName'],
     'employee_number': ['employee_number', 'Employee Number', 'employeenumber', 'EmployeeNumber', 'employeeNumber'],
     'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
-    'organization_name': ['organization_name', 'Organization Name', 'organizationname', 'OrganizationName', 'organization']
+    'organization_name': ['organization_name', 'Organization Name', 'organizationname', 'OrganizationName', 'organization'],
+
+    # Newly added fields
+    'suffix': ['suffix', 'Suffix'],
+    'ssn': ['ssn', 'SSN', 'Social Security Number', 'social_security_number'],
+    'dob': ['dob', 'DOB', 'Date of Birth', 'date_of_birth', 'birthDate', 'birth_date'],
+    'address_line1': ['addressLine1', 'Address Line 1', 'address_line1', 'addressLineOne'],
+    'address_line2': ['addressLine2', 'Address Line 2', 'address_line2', 'addressLineTwo'],
+    'city': ['city', 'City'],
+    'county': ['county', 'County'],
+    'state': ['state', 'State', 'state_code', 'stateCode'],
+    'zip': ['zip', 'Zip', 'zipcode', 'postalCode', 'postal_code'],
+    'country': ['country', 'Country'],
+    'gender': ['gender', 'Gender', 'sex'],
+    'role': ['role', 'Role', 'jobRole', 'job_role'],
+    'title': ['title', 'Title', 'jobTitle', 'job_title'],
+    'department_number': ['departmentNumber', 'Department Number', 'department_number'],
+    'division_name': ['divisionName', 'Division Name', 'division_name'],
+    'division_code': ['divisionCode', 'Division Code', 'division_code'],
+    'business_unit': ['businessUnit', 'Business Unit', 'business_unit'],
+    'location': ['location', 'Location', 'workLocation', 'work_location'],
+    'original_hire_date': ['originalHireDate', 'Original Hire Date', 'original_hire_date'],
+    'last_hire_date': ['lastHireDate', 'Last Hire Date', 'last_hire_date'],
+    'email': ['email', 'Email', 'emailAddress', 'email_address'],
+    'phone': ['phone', 'Phone', 'phoneNumber', 'phone_number'],
+    'city_of_birth': ['cityofBirth', 'City of Birth', 'city_of_birth'],
+    'state_of_birth': ['stateofBirth', 'State of Birth', 'state_of_birth'],
+    'county_of_birth': ['countyofBirth', 'County of Birth', 'county_of_birth'],
+    'employee_status': ['employeeStatus', 'Employee Status', 'employee_status'],
+    'employment_type': ['employmentType', 'Employment Type', 'employment_type'],
+    'professional_license_number': ['professionalLicenseNumber1', 'Professional License Number', 'licenseNumber', 'license_number'],
+    'professional_license_industry': ['professionalLicenseIndustry1', 'Professional License Industry', 'licenseIndustry', 'license_industry'],
+    'professional_license_category': ['professionalLicenseCategory1', 'Professional License Category', 'licenseCategory', 'license_category'],
+    'professional_license_speciality': ['professionalLicenseSpeciality1', 'Professional License Speciality', 'licenseSpeciality', 'license_speciality'],
+    'professional_license_name': ['professionalLicenseName1', 'Professional License Name', 'licenseName', 'license_name'],
+    'professional_license_state': ['professionalLicenseState1', 'Professional License State', 'licenseState', 'license_state'],
+    'professional_license_issued_date': ['professionalLicenseIssuedDate1', 'Professional License Issued Date', 'licenseIssuedDate', 'license_issued_date'],
+    'professional_license_exp_date': ['professionalLicenseExpDate1', 'Professional License Exp Date', 'licenseExpDate', 'license_exp_date'],
+    'driving_license_number': ['drivingLicenseNumber', 'Driving License Number', 'driversLicenseNumber', 'driving_license_number'],
+    'driving_license_state': ['drivingLicenseState', 'Driving License State', 'driversLicenseState', 'driving_license_state'],
+    'driving_license_issue_date': ['drivingLicenseIssueDate', 'Driving License Issue Date', 'driversLicenseIssueDate', 'driving_license_issue_date'],
+    'driving_license_expiry_date': ['drivingLicenseExpiryDate', 'Driving License Expiry Date', 'driversLicenseExpiryDate', 'driving_license_expiry_date'],
+    'driving_license_class_code': ['drivingLicenseClassCode', 'Driving License Class Code', 'driversLicenseClassCode', 'driving_license_class_code'],
+    'driving_license_restriction_code': ['drivingLicenseRestrictionCode', 'Driving License Restriction Code', 'driversLicenseRestrictionCode', 'driving_license_restriction_code']
 }
+
 
 class DataSourceHandler:
     """Handles data extraction based on the data source."""
@@ -72,6 +116,24 @@ class DataSourceHandler:
             extracted_info['bc_scope'] = individual.get('ind_bc_scope', '')
             extracted_info['ia_scope'] = individual.get('ind_ia_scope', '')
             extracted_info['individual'] = individual
+        # Parse the "content" JSON from detailed_info
+            # (Make sure you check for None or empty hits)
+            if detailed_info and 'hits' in detailed_info:
+                hits_list = detailed_info['hits'].get('hits', [])
+                if len(hits_list) > 0:
+                    content_str = hits_list[0]['_source'].get('content', '')
+                    try:
+                        content_json = json.loads(content_str)
+                    except json.JSONDecodeErrorcd as e:
+                        logging.warning(f"Error parsing 'content' JSON: {e}")
+                        content_json = {}
+
+                    # Now stash the disclosures
+                    extracted_info['disclosures'] = content_json.get('disclosures', [])
+                    # (You can parse more fields if needed)
+
+            extracted_info['individual'] = individual
+            # done        
 
         elif self.data_source == "IAPD":
             basic_info = individual
@@ -218,9 +280,39 @@ def resolve_headers(headers):
         logging.warning(f"Unmapped canonical fields: {unmapped_canonical_fields}")
     return resolved_headers
 
+def extract_organization_name(input_string):
+    """
+    Extracts the organization name by checking for a concatenated identifier separated by a dash.
+    If no concatenation is detected, returns the input string as is.
+    
+    Args:
+        input_string (str): The raw organization name field.
+    
+    Returns:
+        str: The extracted organization name with concatenated identifier removed, if present.
+    """
+    # Split the input string on the first occurrence of a dash
+    parts = input_string.split(" - ", 1)
+    
+    # Return the second part if a dash is found; otherwise, return the original input
+    return parts[1] if len(parts) > 1 else input_string
+
+# Example Usage
+examples = [
+    "SC22-00171 - Connecticut Wealth Management",
+    "Connecticut Wealth Management",
+    "NY-234-789 - New York Financial Group",
+    "Some Company Name Without Identifier"
+]
+
+# Process and print results
+for example in examples:
+    print(f"Input: {example}\nOutput: {extract_organization_name(example)}\n")
+
+
 def determine_search_strategy(claim, api_client: ApiClient):
     crd_number = claim.get('crd_number', '').strip()
-    organization_name = claim.get('organization_name', '').strip()
+    organization_name = extract_organization_name(claim.get('organization_name', '').strip())
     name = claim.get('name', '').strip()
     individual_name = f"{name}".strip()
 
@@ -310,7 +402,7 @@ def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
         'recommendations': recommendations,
         'alerts': [alert.to_dict() for alert in final_alerts]
     }
-
+ 
 
 
 def perform_search(claim: dict, api_client: ApiClient) -> dict:

@@ -399,7 +399,20 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
     severity = AlertSeverity.HIGH  # default
 
     if disclosure_type == 'Regulatory':
+        # 1. Generate the standard regulatory description.
         description = generate_regulatory_alert_description(event_date, resolution, details)
+
+        # 2. Check if the sanctions mention anything "civil".
+        #    e.g. "Civil and Administrative Penalty(ies)/Fine(s)"
+        sanctions_list = details.get('SanctionDetails', [])
+        # Combine all 'Sanctions' fields into one lowercased string:
+        combined_sanctions = " ".join(s.get('Sanctions', '') for s in sanctions_list).lower()
+
+        if "civil" in combined_sanctions:
+            # 3. Optionally override severity or the alert description to indicate a civil penalty
+            severity = AlertSeverity.HIGH
+            description += " [Detected Civil Penalty within Regulatory sanctions.]"
+
     elif disclosure_type == 'Customer Dispute':
         description = generate_customer_dispute_alert_description(event_date, resolution, details)
     elif disclosure_type == 'Criminal':
@@ -417,6 +430,7 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             description=description
         )
     return None
+
 
 def generate_regulatory_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
     initiated_by = details.get('Initiated By', 'Unknown')
