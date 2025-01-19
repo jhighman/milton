@@ -7,6 +7,7 @@ import logging
 import argparse
 import signal
 import sys
+import random
 from datetime import datetime
 from typing import Dict, List
 from collections import OrderedDict
@@ -16,6 +17,7 @@ from evaluation_library import determine_alert_category
 
 # Import the ApiClient from api_client.py
 from api_client import ApiClient, RateLimitExceeded
+
 
 # Import evaluation functions and classes from evaluation_library.py
 from evaluation_library import (
@@ -43,7 +45,7 @@ log_file_path = os.path.join(output_folder, 'unresolved_crd_cases.csv')  # CSV f
 # Canonical field mappings
 canonical_fields = {
     'reference_id': ['referenceId', 'reference_id', 'Reference ID', 'ReferenceId'],
-    'crd': ['crd', 'CRD', 'CRDNumber', 'crd_number', 'crdnumber', 'CRD Number'],
+    'crd_number': ['crd', 'CRD', 'CRDNumber', 'crd_number', 'crdnumber', 'CRD Number'],
     'first_name': ['first_name', 'First Name', 'firstname', 'FirstName', 'first', 'firstName'],
     'middle_name': ['middle_name', 'Middle Name', 'middlename', 'MiddleName', 'middle', 'middleName'],
     'last_name': ['last_name', 'Last Name', 'lastname', 'LastName', 'last', 'lastName'],
@@ -265,6 +267,24 @@ def log_unresolved_crd(row, resolved_fields):
             writer.writeheader()
         writer.writerow({field: row.get(field, '') for field in fieldnames})
 
+
+def generate_reference_id(prefix="DEF-") -> str:
+    """
+    Generates a reference_id with the specified prefix followed by a 
+    12-digit randomly generated sponsor_id.
+
+    Args:
+        prefix (str): The prefix for the reference_id. Defaults to "DEF-".
+
+    Returns:
+        str: The generated reference_id.
+    """
+    # Generate a 12-digit random sponsor_id
+    sponsor_id = ''.join(random.choices("0123456789", k=12))
+    # Concatenate the prefix and sponsor_id
+    return f"{prefix}{sponsor_id}"
+
+
 def resolve_headers(headers):
     resolved_headers = {}
     unmapped_canonical_fields = set(canonical_fields.keys())
@@ -297,50 +317,99 @@ def extract_organization_name(input_string):
     # Return the second part if a dash is found; otherwise, return the original input
     return parts[1] if len(parts) > 1 else input_string
 
-# Example Usage
-examples = [
-    "SC22-00171 - Connecticut Wealth Management",
-    "Connecticut Wealth Management",
-    "NY-234-789 - New York Financial Group",
-    "Some Company Name Without Identifier"
-]
-
-# Process and print results
-for example in examples:
-    print(f"Input: {example}\nOutput: {extract_organization_name(example)}\n")
 
 
 def determine_search_strategy(claim, api_client: ApiClient):
+    """
+    Determines the best search strategy based on whether a CRD number,
+    an organization name, or neither is provided.
+
+    If neither CRD nor organization is specified, attempts to derive a CRD
+    from firms.json (via get_firm_crd). If that fails, returns a strategy
+    of "unknown_org" with an error.
+    """
     crd_number = claim.get('crd_number', '').strip()
     organization_name = extract_organization_name(claim.get('organization_name', '').strip())
     name = claim.get('name', '').strip()
-    individual_name = f"{name}".strip()
 
+    # 1) If both CRD and organization name are missing,
+    #    try to look up a known CRD from firms.json
+    if not crd_number and not organization_name:
+        potential_firm_name = claim.get('firm_lookup_key', '')
+        derived_firm_crd = api_client.get_firm_crd(potential_firm_name) if potential_firm_name else None
+
+        if derived_firm_crd == "NOT_FOUND":
+            logging.warning(f"Firm not found in index for firm lookup key: '{potential_firm_name}'")
+            return {
+                "strategy": "unknown_org",
+                "error": "Firm not found in organization index",
+                "individual_name": name,
+                "crd_number": crd_number
+            }
+        elif not derived_firm_crd:
+            logging.error("Failed to load firms cache or invalid firm lookup key")
+            return {
+                "strategy": "unknown_org",
+                "error": "Failed to load firms cache or invalid firm lookup key",
+                "individual_name": name,
+                "crd_number": crd_number
+            }
+
+        logging.info(f"Derived CRD from known firm reference: {derived_firm_crd}")
+        return {
+            "strategy": "correlated_firm_info",
+            "firm_crd": derived_firm_crd,
+            "individual_name": name,
+            "crd_number": crd_number
+        }
+
+    # 2) If CRD is provided, default to 'basic_info'
     if crd_number:
-        logging.info(f"Search strategy selected: 'basic_info' using CRD '{crd_number}' for individual '{individual_name}'")
+        logging.info(f"Search strategy selected: 'basic_info' using CRD '{crd_number}' for individual '{name}'")
         return {
             "strategy": "basic_info",
             "crd_number": crd_number,
-            "individual_name": individual_name
+            "individual_name": name
         }
-    elif organization_name and individual_name:
+
+    # 3) If organization name is provided (and possibly no CRD),
+    #    try to get the firm's CRD via the API client
+    if organization_name:
         firm_crd = api_client.get_firm_crd(organization_name)
-        if firm_crd:
-            logging.info(f"Search strategy selected: 'correlated_firm_info' using org '{organization_name}' with CRD '{firm_crd}' for '{individual_name}'")
+        if firm_crd == "NOT_FOUND":
+            logging.warning(f"Organization '{organization_name}' not found in index")
             return {
-                "strategy": "correlated_firm_info",
-                "firm_crd": firm_crd,
-                "individual_name": individual_name,
+                "strategy": "unknown_org",
+                "error": f"Organization '{organization_name}' not found in index",
+                "individual_name": name,
                 "crd_number": crd_number
             }
-        else:
-            logging.info(f"Firm CRD not found for organization '{organization_name}', defaulting to 'basic_info' strategy")
-    logging.info(f"Search strategy selected: 'basic_info' with no CRD or organization for '{individual_name}'")
+        elif not firm_crd:
+            logging.error("Failed to load firms cache")
+            return {
+                "strategy": "unknown_org",
+                "error": "Failed to load firms cache",
+                "individual_name": name,
+                "crd_number": crd_number
+            }
+
+        logging.info(f"Search strategy selected: 'correlated_firm_info' using org '{organization_name}' with CRD '{firm_crd}' for '{name}'")
+        return {
+            "strategy": "correlated_firm_info",
+            "firm_crd": firm_crd,
+            "individual_name": name,
+            "crd_number": crd_number
+        }
+
+    # 4) If no valid CRD or organization, fallback to 'unknown_org'
+    logging.warning("Insufficient data to determine search strategy")
     return {
-        "strategy": "basic_info",
-        "crd_number": crd_number,
-        "individual_name": individual_name
+        "strategy": "unknown_org",
+        "error": "Insufficient data to determine search strategy",
+        "individual_name": name,
+        "crd_number": crd_number
     }
+
 
 def save_evaluation_report(evaluation_report: dict, employee_number: str, reference_id: str):
     if not reference_id:
@@ -356,19 +425,19 @@ def save_evaluation_report(evaluation_report: dict, employee_number: str, refere
 
 def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
     # 1) Gather evaluations to determine overall_compliance
-    evaluations_performed = [evaluation_report['search_evaluation']['search_compliance']]
+    evaluations_performed = [evaluation_report['search_evaluation']['compliance']]
     if 'name' in evaluation_report and 'name_match' in evaluation_report['name']:
         evaluations_performed.append(evaluation_report['name']['name_match'])
-    if 'license_verification' in evaluation_report and 'compliance' in evaluation_report['license_verification']:
-        evaluations_performed.append(evaluation_report['license_verification']['compliance'])
-    if 'exam_evaluation' in evaluation_report and 'exam_compliance' in evaluation_report['exam_evaluation']:
-        evaluations_performed.append(evaluation_report['exam_evaluation']['exam_compliance'])
-    if 'registration_status' in evaluation_report and 'status_compliance' in evaluation_report['registration_status']:
-        evaluations_performed.append(evaluation_report['registration_status']['status_compliance'])
-    if 'disclosure_review' in evaluation_report and 'disclosure_compliance' in evaluation_report['disclosure_review']:
-        evaluations_performed.append(evaluation_report['disclosure_review']['disclosure_compliance'])
-    if 'arbitration_evaluation' in evaluation_report and 'arbitration_compliance' in evaluation_report['arbitration_evaluation']:
-        evaluations_performed.append(evaluation_report['arbitration_evaluation']['arbitration_compliance'])
+    if 'license_evaluation' in evaluation_report and 'compliance' in evaluation_report['license_evaluation']:
+        evaluations_performed.append(evaluation_report['license_evaluation']['compliance'])
+    if 'exam_evaluation' in evaluation_report and 'compliance' in evaluation_report['exam_evaluation']:
+        evaluations_performed.append(evaluation_report['exam_evaluation']['compliance'])
+    if 'registration_status' in evaluation_report and 'compliance' in evaluation_report['registration_status']:
+        evaluations_performed.append(evaluation_report['registration_status']['compliance'])
+    if 'disclosure_review' in evaluation_report and 'compliance' in evaluation_report['disclosure_review']:
+        evaluations_performed.append(evaluation_report['disclosure_review']['compliance'])
+    if 'arbitration_evaluation' in evaluation_report and 'compliance' in evaluation_report['arbitration_evaluation']:
+        evaluations_performed.append(evaluation_report['arbitration_evaluation']['compliance'])
 
     overall_compliance = all(evaluations_performed) if evaluations_performed else True
 
@@ -404,19 +473,50 @@ def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
     }
  
 
-
 def perform_search(claim: dict, api_client: ApiClient) -> dict:
-    search_evaluation = {}
+    """
+    Executes the search based on the determined strategy. If the strategy
+    is 'unknown_org', or if an error occurs, it returns a failed compliance
+    state with appropriate alerts, always placing 'compliance' and 
+    'compliance_explanation' first in the result.
+    """
+    # Start by building an OrderedDict with placeholders for compliance fields
+    search_evaluation = OrderedDict([
+        ('compliance', False),                  # default
+        ('compliance_explanation', ''),         # will fill in based on outcome
+        ('search_strategy', None),
+        ('search_outcome', None),
+        ('search_date', datetime.now().strftime('%Y-%m-%d %H:%M:%S')),
+        ('cache_files', {}),
+        # We will fill in or overwrite these fields as we discover info
+    ])
+
+    # Determine search strategy
     search_strategy = determine_search_strategy(claim, api_client)
     search_evaluation['search_strategy'] = search_strategy['strategy']
-    search_evaluation['search_date'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    search_evaluation['cache_files'] = {}
 
     employee_number = claim.get('employee_number')
+
+    # 1) Handle the 'unknown_org' strategy or error from determine_search_strategy
+    if search_strategy['strategy'] == 'unknown_org':
+        error_message = search_strategy.get('error', 'Unknown error occurred while determining search strategy.')
+        search_evaluation['search_outcome'] = error_message
+        search_evaluation['compliance'] = False
+        search_evaluation['compliance_explanation'] = error_message
+        search_evaluation['alerts'] = [
+            {
+                "alert_type": "SearchStrategyError",
+                "message": error_message,
+                "severity": "HIGH",
+                "alert_category": "SearchEvaluation"
+            }
+        ]
+        return search_evaluation
 
     try:
         individual, detailed_info = None, None
 
+        # 2) Strategy: basic_info
         if search_strategy['strategy'] == 'basic_info':
             crd_number = claim.get('crd_number', '').strip()
             search_evaluation['crd_number'] = crd_number
@@ -424,15 +524,23 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
             if crd_number and crd_number.isdigit() and int(crd_number) > 0:
                 crd_number = int(crd_number)
                 log_diagnostic(f"Processing CRD {crd_number}")
-                
-                basic_info, basic_info_cache_file = api_client.get_individual_basic_info(crd_number, return_cache_filename=True, employee_number=employee_number)
+
+                basic_info, basic_info_cache_file = api_client.get_individual_basic_info(
+                    crd_number,
+                    return_cache_filename=True,
+                    employee_number=employee_number
+                )
                 search_evaluation['data_source'] = "BrokerCheck"
                 search_evaluation['cache_files']['basic_info'] = basic_info_cache_file
-                
+
                 total_hits = basic_info.get('hits', {}).get('total', 0) if basic_info else 0
                 if total_hits == 1:
                     individual = basic_info['hits']['hits'][0]['_source']
-                    detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(crd_number, return_cache_filename=True, employee_number=employee_number)
+                    detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(
+                        crd_number,
+                        return_cache_filename=True,
+                        employee_number=employee_number
+                    )
                     search_evaluation['cache_files']['detailed_info'] = detailed_info_cache_file
                     search_evaluation['search_outcome'] = "Record found"
                 elif total_hits == 0:
@@ -442,6 +550,7 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
             else:
                 search_evaluation['search_outcome'] = "Invalid or missing CRD value"
 
+        # 3) Strategy: correlated_firm_info
         elif search_strategy['strategy'] == 'correlated_firm_info':
             individual_name = claim.get('name', '').strip()
             firm_crd = search_strategy['firm_crd']
@@ -453,33 +562,55 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
 
             log_diagnostic(f"Processing individual '{individual_name}' with CRD '{crd_number}' at firm CRD {firm_crd}")
 
+            # If CRD is numeric, treat it like a BrokerCheck search
             if crd_number and crd_number.isdigit() and int(crd_number) > 0:
                 crd_number = int(crd_number)
-                basic_info, basic_info_cache_file = api_client.get_individual_basic_info(crd_number, return_cache_filename=True, employee_number=employee_number)
+                basic_info, basic_info_cache_file = api_client.get_individual_basic_info(
+                    crd_number,
+                    return_cache_filename=True,
+                    employee_number=employee_number
+                )
                 search_evaluation['data_source'] = "BrokerCheck"
                 search_evaluation['cache_files']['basic_info'] = basic_info_cache_file
-                
+
                 total_hits = basic_info.get('hits', {}).get('total', 0) if basic_info else 0
                 if total_hits == 1:
                     individual = basic_info['hits']['hits'][0]['_source']
-                    detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(crd_number, service='sec', return_cache_filename=True, employee_number=employee_number)
+                    detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(
+                        crd_number,
+                        service='sec',
+                        return_cache_filename=True,
+                        employee_number=employee_number
+                    )
                     search_evaluation['cache_files']['detailed_info'] = detailed_info_cache_file
                     search_evaluation['search_outcome'] = "Record found"
                 elif total_hits == 0:
                     search_evaluation['search_outcome'] = "No records found"
                 else:
                     search_evaluation['search_outcome'] = f"Multiple records found ({total_hits})"
+
+            # Otherwise, treat it like an IAPD search using the correlated firm CRD
             else:
-                basic_info, basic_info_cache_file = api_client.get_individual_correlated_firm_info(individual_name, firm_crd, return_cache_filename=True, employee_number=employee_number)
+                basic_info, basic_info_cache_file = api_client.get_individual_correlated_firm_info(
+                    individual_name,
+                    firm_crd,
+                    return_cache_filename=True,
+                    employee_number=employee_number
+                )
                 search_evaluation['data_source'] = "IAPD"
                 search_evaluation['cache_files']['basic_info'] = basic_info_cache_file
-                
+
                 total_hits = basic_info.get('hits', {}).get('total', 0) if basic_info else 0
                 if total_hits == 1:
                     individual = basic_info['hits']['hits'][0]['_source']
                     individual_id = individual.get('ind_source_id') 
                     if individual_id:
-                        detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(individual_id, service='sec', return_cache_filename=True, employee_number=employee_number)
+                        detailed_info, detailed_info_cache_file = api_client.get_individual_detailed_info(
+                            individual_id,
+                            service='sec',
+                            return_cache_filename=True,
+                            employee_number=employee_number
+                        )
                         search_evaluation['cache_files']['detailed_info'] = detailed_info_cache_file
                         search_evaluation['search_outcome'] = "Record found"
                     else:
@@ -488,27 +619,41 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
                     search_evaluation['search_outcome'] = "No matching individual found"
                 else:
                     search_evaluation['search_outcome'] = f"Multiple records found ({total_hits})"
+
+        # 4) Any unrecognized strategy
         else:
             search_evaluation['search_outcome'] = f"Unsupported search strategy: {search_strategy['strategy']}"
 
     except RateLimitExceeded as e:
         logging.error(str(e))
-        logging.info(f"Processed records before rate limiting.")
+        logging.info("Processed records before rate limiting.")
         save_checkpoint()
         sys.exit(1)
     except Exception as e:
         logging.exception("An unexpected error occurred during search.")
         search_evaluation['search_outcome'] = "Search failed due to an error"
 
-    search_compliance = search_evaluation.get('search_outcome') == "Record found"
-    search_evaluation['search_compliance'] = search_compliance
+    # 5) Determine if record was found
+    #    (We only consider "Record found" as a True compliance)
+    search_compliance = (search_evaluation.get('search_outcome') == "Record found")
+    search_evaluation['compliance'] = search_compliance
 
+    # Provide a final compliance_explanation if none has been set
+    # or simply reuse the 'search_outcome' as the explanation.
+    if not search_evaluation['compliance_explanation']:
+        explanation = search_evaluation.get('search_outcome', 'No explanation available')
+        search_evaluation['compliance_explanation'] = explanation
+
+    # If record is found, stash the data we retrieved
     if search_compliance:
-        search_evaluation['individual'] = individual    
+        search_evaluation['individual'] = individual
         search_evaluation['detailed_info'] = detailed_info
+        # If data_source wasn't set earlier, default to 'Unknown'
         search_evaluation['data_source'] = search_evaluation.get('data_source', 'Unknown')
 
     return search_evaluation
+
+
 
 def process_csv(csv_file_path, start_line):
     global last_processed_line, current_csv_file
@@ -529,58 +674,98 @@ def process_csv(csv_file_path, start_line):
             save_checkpoint()
 
 def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: dict, alerts: list):
-    
-    alternate_names=extracted_info.get('other_names', [])
+    """
+    Performs various compliance checks (status, name, license, exam, disclosures)
+    and updates evaluation_report accordingly. Uses OrderedDict to ensure
+    'compliance' and 'compliance_explanation' appear first.
+    """
 
-    # Check if we have individual data before proceeding with status evaluation
+    alternate_names = extracted_info.get('other_names', [])
+
+    # 1) REGISTRATION STATUS EVALUATION
     if not extracted_info.get('individual'):
         logging.warning("No individual data available for status evaluation")
-        evaluation_report['status_evaluation'] = {
-            'status_compliant': False,
-            'alerts': ['No individual data available for status evaluation']
-        }
-        return
+        evaluation_report['status_evaluation'] = OrderedDict([
+            ('compliance', False),
+            ('compliance_explanation', "No individual data available for status evaluation."),
+            ('alerts', ["No data found for status evaluation"]),
+        ])
+        return  # Stop further checks if we have no data at all
 
-    # Registration Status Evaluation
     status_compliant, status_alerts = evaluate_registration_status(extracted_info['individual'])
-    evaluation_report['status_evaluation'] = {
-        'status_compliance': status_compliant,
-        'alerts': status_alerts
-    }
+    evaluation_report['status_evaluation'] = OrderedDict([
+        ('compliance', status_compliant),
+        ('compliance_explanation',
+            "The individual was found and registration status is valid."
+            if status_compliant
+            else "The individual was found, but registration status check failed."
+        ),
+        ('alerts', status_alerts),
+    ])
     alerts.extend(status_alerts)
 
-    # Name Evaluation
+    # 2) NAME EVALUATION
     name = f"{claim.get('first_name', '')} {claim.get('last_name', '')}".strip()
-    evaluation_report['name'] = {
-        'expected_name': name,
-    }
 
     if config.get('evaluate_name', True):
-        evaluation_details, name_alert = evaluate_name(name, extracted_info['fetched_name'], extracted_info['other_names'])
-        # Update evaluation report with the returned details
-        evaluation_report['name'].update(evaluation_details)
-            # Add any generated alerts
+        evaluation_details, name_alert = evaluate_name(
+            name,
+            extracted_info.get('fetched_name', ''),
+            extracted_info.get('other_names', [])
+        )
+        # Determine compliance from evaluation_details (e.g., name_match)
+        name_compliance = evaluation_details.get('name_match', False)
+        name_explanation = (
+            "Name matches the fetched record."
+            if name_compliance
+            else "Name mismatch detected."
+        )
+
+        # Build an OrderedDict with compliance info first
+        evaluation_report['name'] = OrderedDict([
+            ('compliance', name_compliance),
+            ('compliance_explanation', name_explanation),
+            ('expected_name', name),
+        ])
+        # Preserve any additional fields from evaluation_details
+        for k, v in evaluation_details.items():
+            if k not in ('name_match'):
+                evaluation_report['name'][k] = v
+
         if name_alert:
             alerts.append(name_alert)
     else:
-        evaluation_report['name'] = {'evaluation_skipped': True}
+        # If name evaluation is skipped by config
+        evaluation_report['name'] = OrderedDict([
+            ('compliance', False),
+            ('compliance_explanation', "Name evaluation was skipped by configuration."),
+            ('evaluation_skipped', True),
+            ('expected_name', name),
+        ])
 
-    # License Evaluation
+    # 3) LICENSE EVALUATION
     if config.get('evaluate_license', True):
         license_type = claim.get('license_type', '')
         bc_scope = extracted_info.get('bc_scope', '')
         ia_scope = extracted_info.get('ia_scope', '')
         license_compliant, license_alert = evaluate_license(license_type, bc_scope, ia_scope, name)
-        evaluation_report['license_verification'] = {
-            'compliance': license_compliant, 
-            'license_compliance_explanation': "The individual holds an active license." if license_compliant else "License compliance failed."
-        }
+
+        evaluation_report['license_evaluation'] = OrderedDict([
+            ('compliance', license_compliant),
+            ('compliance_explanation',
+             "The individual holds an active license." if license_compliant
+             else "License compliance failed."),
+        ])
         if license_alert:
             alerts.append(license_alert)
     else:
-        evaluation_report['license_verification'] = {'evaluation_skipped': True}
+        evaluation_report['license_evaluation'] = OrderedDict([
+            ('compliance', False),
+            ('compliance_explanation', "License evaluation was skipped by configuration."),
+            ('evaluation_skipped', True),
+        ])
 
-    # Exam Evaluation
+    # 4) EXAM EVALUATION
     if config.get('evaluate_exams', True):
         exams = extracted_info.get('exams', [])
         if exams:
@@ -588,145 +773,187 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
                 passed_exams = get_passed_exams(exams)
                 license_type = claim.get('license_type', '')
                 exam_compliant, exam_alert = evaluate_exams(passed_exams, license_type, name)
-                evaluation_report['exam_evaluation'] = {
-                    'exam_compliance': exam_compliant,
-                    'exam_compliance_explanation': "The individual has passed all required exams." if exam_compliant else "Exam compliance failed."
-                }
+
+                evaluation_report['exam_evaluation'] = OrderedDict([
+                    ('compliance', exam_compliant),
+                    ('compliance_explanation',
+                     "The individual has passed all required exams." if exam_compliant
+                     else "Exam compliance failed."),
+                ])
                 if exam_alert:
                     alerts.append(exam_alert)
+
             except Exception as e:
                 logging.warning(f"Failed to evaluate exams: {e}")
-                evaluation_report['exam_evaluation'] = {
-                    'evaluation_skipped': True,
-                    'reason': 'Failed to evaluate exams.'
-                }
+                evaluation_report['exam_evaluation'] = OrderedDict([
+                    ('compliance', False),
+                    ('compliance_explanation', "Failed to fully evaluate exams due to an error."),
+                    ('evaluation_skipped', True),
+                    ('reason', 'Failed to evaluate exams.'),
+                ])
         else:
-            evaluation_report['exam_evaluation'] = {
-                'evaluation_skipped': True,
-                'reason': 'Exams information not available.'
-            }
+            # If no exam data is available
+            evaluation_report['exam_evaluation'] = OrderedDict([
+                ('compliance', False),
+                ('compliance_explanation', "No exam information available."),
+                ('evaluation_skipped', True),
+                ('reason', 'Exams information not available.'),
+            ])
     else:
-        evaluation_report['exam_evaluation'] = {'evaluation_skipped': True}
+        # If exam evaluation is off in config
+        evaluation_report['exam_evaluation'] = OrderedDict([
+            ('compliance', False),
+            ('compliance_explanation', "Exam evaluation was skipped by configuration."),
+            ('evaluation_skipped', True),
+        ])
 
-    # Disclosures Review
+    # 5) DISCLOSURE REVIEW
     if config.get('evaluate_disclosures', True):
         disclosures = extracted_info.get('disclosures', [])
         if disclosures:
             try:
                 disclosure_compliance, disclosure_summary, disclosure_alerts = evaluate_disclosures(disclosures, name)
-                evaluation_report['disclosure_review'] = {
-                    'disclosure_compliance': disclosure_compliance,
-                    'disclosure_compliance_explanation': disclosure_summary
-                }
+                evaluation_report['disclosure_review'] = OrderedDict([
+                    ('compliance', disclosure_compliance),
+                    ('compliance_explanation', disclosure_summary if disclosure_summary else "No disclosure summary provided."),
+                ])
                 alerts.extend(disclosure_alerts)
             except Exception as e:
                 logging.warning(f"Failed to evaluate disclosures: {e}")
-                evaluation_report['disclosure_review'] = {
-                    'evaluation_skipped': True,
-                    'reason': 'Failed to evaluate disclosures.'
-                }
+                evaluation_report['disclosure_review'] = OrderedDict([
+                    ('compliance', False),
+                    ('compliance_explanation', "Failed to evaluate disclosures due to an error."),
+                    ('evaluation_skipped', True),
+                    ('reason', 'Failed to evaluate disclosures.'),
+                ])
         else:
-            evaluation_report['disclosure_review'] = {
-                'evaluation_skipped': True,
-                'reason': 'Disclosures information not available.'
-            }
+            evaluation_report['disclosure_review'] = OrderedDict([
+                ('compliance', False),
+                ('compliance_explanation', "No disclosures information available."),
+                ('evaluation_skipped', True),
+                ('reason', 'Disclosures information not available.'),
+            ])
     else:
-        evaluation_report['disclosure_review'] = {'evaluation_skipped': True}
-
+        evaluation_report['disclosure_review'] = OrderedDict([
+            ('compliance', False),
+            ('compliance_explanation', "Disclosure review was skipped by configuration."),
+            ('evaluation_skipped', True),
+        ])
 
 def process_row(row, resolved_headers):
     global records_written
 
-    # Extract claim information from the row
+    # 1) Extract the reference_id separately
     reference_id = row.get(resolved_headers.get('reference_id', ''), '').strip()
-    crd_number = row.get(resolved_headers.get('crd', ''), '').strip()
-    first_name = row.get(resolved_headers.get('first_name', ''), '').strip()
-    middle_name = row.get(resolved_headers.get('middle_name', ''), '').strip()
-    last_name = row.get(resolved_headers.get('last_name', ''), '').strip()
-    name = f"{first_name} {last_name}".strip()
-    license_type = row.get(resolved_headers.get('license_type', ''), '').strip()
-    employee_number = row.get(resolved_headers.get('employee_number', ''), '').strip()
 
-     # If employee_number is missing, use reference_id as fallback
-    if not employee_number and reference_id:
-        logging.info(f"Employee number missing; using reference ID '{reference_id}' as employee number.")
-        employee_number = reference_id
-    organization_name_field = resolved_headers.get('organization_name', '')
-    organization_name = row.get(organization_name_field, '').strip()
+    # 2) If reference_id is missing, generate one
+    if not reference_id:
+        reference_id = generate_reference_id()
 
-    claim = {
-        'crd_number': crd_number,
-        'first_name': first_name,
-        'middle_name': middle_name,
-        'last_name': last_name,
-        'name': name,
-        'organization_name': organization_name,
-        'license_type': license_type,
-        'employee_number': employee_number if employee_number else None
-    }
+    # 3) Initialize the claim dictionary
+    claim = {}
 
-    # Perform initial search
+    # 4) Populate claim fields dynamically based on the canonical model
+    for canonical_field, variations in canonical_fields.items():
+        # Find the header for this canonical field in the resolved_headers
+        header = resolved_headers.get(canonical_field)
+        # Set the value in the claim, or default to None if not found
+        claim[canonical_field] = row.get(header, '').strip() if header else None
+    
+    first_name = claim.get('first_name', '').strip()
+    last_name = claim.get('last_name', '').strip()
+    claim['name'] = f"{first_name} {last_name}".strip()  
+
+    # 5) Ensure employee_number defaults to the reference_id if missing
+    if not claim.get('employee_number'):
+        claim['employee_number'] = reference_id
+
+    # 6) Perform the search based on the strategy
     search_evaluation = perform_search(claim, api_client)
 
+    # 7) Prepare our evaluation report as an OrderedDict
     evaluation_report = OrderedDict()
-    evaluation_report['reference_id'] = reference_id  
+    evaluation_report['reference_id'] = reference_id
     evaluation_report['claim'] = claim
     evaluation_report['search_evaluation'] = search_evaluation
 
-    if not search_evaluation['search_compliance']:
-        alerts = []
+    alerts = []
+
+    # 8) If the strategy is unknown_org, generate a HIGH-severity alert
+    if search_evaluation.get('search_strategy') == 'unknown_org':
+        unknown_org_alert = Alert(
+            alert_type="OrganizationNotIndexed",
+            severity=AlertSeverity.HIGH,
+            alert_category="SearchEvaluation",
+            metadata={},
+            description="Neither CRD nor organization was provided, and no CRD was found in firms.json."
+        )
+        alerts.append(unknown_org_alert)
+
+    # 9) If we failed to find a record ("search_compliance" == False), skip further evaluations
+    if not search_evaluation['compliance']:
         build_final_evaluation(evaluation_report, alerts)
         save_evaluation_report(evaluation_report, claim.get('employee_number', 'unknown'), reference_id)
         records_written += 1
         return
 
+    # 10) If we did find a record, continue with further evaluations
     individual = search_evaluation['individual']
     data_source = search_evaluation['data_source']
     detailed_info = search_evaluation.get('detailed_info')
 
-    alerts = []
-
-    # Extract individual information
+    # Extract additional individual info
     data_handler = DataSourceHandler(data_source)
     extracted_info = data_handler.extract_individual_info(individual, detailed_info)
 
-    # Test the result set 
+    # FINRA disciplinary checks
     disciplinary_records_full = api_client.get_finra_disciplinary_actions(
         employee_number=claim.get('employee_number'),
         first_name=claim.get('first_name', ''),
         last_name=claim.get('last_name', ''),
         alternate_names=extracted_info.get('other_names', [])
     )
-    # Assuming the results are structured as a dictionary with disciplinary data keyed by name variation
     disciplinary_records = [value["data"] for value in disciplinary_records_full.values()]
 
+    disciplinary_compliance, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(
+        disciplinary_records,
+        claim.get('name')
+    )
 
-    disciplinary_compliance, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(disciplinary_records, name)
-    evaluation_report['disciplinary_evaluation'] = {
-        'disciplinary_compliance': disciplinary_compliance,
-        'disciplinary_compliance_explanation': disciplinary_explanation,
-        'disciplinary_records': disciplinary_records,
-        'alerts': [alert.to_dict() for alert in disciplinary_alerts]
-    }
+    # Convert disciplinary_evaluation to OrderedDict
+    evaluation_report['disciplinary_evaluation'] = OrderedDict([
+        ('compliance', disciplinary_compliance),
+        ('compliance_explanation', disciplinary_explanation),
+        ('disciplinary_records', disciplinary_records),
+        ('alerts', [alert.to_dict() for alert in disciplinary_alerts]),
+    ])
     alerts.extend(disciplinary_alerts)
 
-    # Perform other evaluations
+    # Perform standard evaluations (name, license, exam, disclosures, etc.)
     perform_evaluations(evaluation_report, extracted_info, claim, alerts)
 
-    # Arbitration evaluation
+    # ARBITRATION checks
     arbitrations = extracted_info.get('arbitrations', [])
-    arbitration_compliance, arbitration_explanation, arbitration_alerts = evaluate_arbitration(arbitrations, name)
-    evaluation_report['arbitration_evaluation'] = {
-        'arbitration_compliance': arbitration_compliance,
-        'arbitration_compliance_explanation': arbitration_explanation,
-        'arbitrations': arbitrations,
-    }
+    arbitration_compliance, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
+        arbitrations,
+        claim.get('name')
+    )
+
+    # Convert arbitration_evaluation to OrderedDict
+    evaluation_report['arbitration_evaluation'] = OrderedDict([
+        ('compliance', arbitration_compliance),
+        ('compliance_explanation', arbitration_explanation),
+        ('arbitrations', arbitrations),
+    ])
     alerts.extend(arbitration_alerts)
 
-    # Build the final evaluation report
+    # 11) Build the final evaluation, then save the report
     build_final_evaluation(evaluation_report, alerts)
-    save_evaluation_report(evaluation_report, "unknown", reference_id)
+    save_evaluation_report(evaluation_report, claim['employee_number'], reference_id)
     records_written += 1
+
+
+
 
 def main():
     global files_processed, last_processed_line, current_csv_file

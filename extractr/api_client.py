@@ -51,24 +51,6 @@ class ApiClient:
         driver = webdriver.Chrome(service=service, options=chrome_options)
         return driver
 
-    def close(self):
-        """
-        Closes the WebDriver if initialized.
-        """
-        if self.driver:
-            self.driver.quit()
-
-    def _load_firms_cache(self) -> Optional[Dict]:
-        """Loads the firms.json file from the cache."""
-        firms_cache_file = os.path.join(self.cache_folder, "firms.json")
-        if os.path.exists(firms_cache_file):
-            self.logger.debug(f"Loaded firms cache from {firms_cache_file}.")
-            with open(firms_cache_file, 'r') as f:
-                return json.load(f)
-        else:
-            self.logger.error(f"Firms cache file {firms_cache_file} not found.")
-            return None
-
     def get_firm_crd(self, organization_name: str) -> Optional[str]:
         """Looks up the CRD for a given organization name from the firms.json cache."""
         firms_data = self._load_firms_cache()
@@ -91,8 +73,28 @@ class ApiClient:
                     self.logger.warning(f"CRD not found for organization '{organization_name}'.")
                     return None
 
+        # Return a special value indicating the organization was not found
         self.logger.warning(f"Organization '{organization_name}' not found in firms data.")
-        return None
+        return "NOT_FOUND"
+    def close(self):
+        """
+        Closes the WebDriver if initialized.
+        """
+        if self.driver:
+            self.driver.quit()
+
+    def _load_firms_cache(self) -> Optional[Dict]:
+        """Loads the firms.json file from the cache."""
+        firms_cache_file = os.path.join(self.cache_folder, "firms.json")
+        if os.path.exists(firms_cache_file):
+            self.logger.debug(f"Loaded firms cache from {firms_cache_file}.")
+            with open(firms_cache_file, 'r') as f:
+                return json.load(f)
+        else:
+            self.logger.error(f"Firms cache file {firms_cache_file} not found.")
+            return None
+
+
 
     def _read_from_cache(self, identifier: str, operation: str, service: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         """Reads data from cache, using employee-based directory if provided."""

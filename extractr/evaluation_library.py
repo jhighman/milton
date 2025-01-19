@@ -211,7 +211,7 @@ def evaluate_name(
             "fetched_name": best_match["fetched_name"],
             "score": best_score
         },
-        "name_compliance": name_compliance
+        "compliance": name_compliance
     }
 
     alert = None
