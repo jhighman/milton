@@ -40,7 +40,7 @@ def handle_cookie_consent(driver):
     """
     print("Step 1: Checking for cookie consent banner...")
     try:
-        cookie_button = WebDriverWait(driver, 15).until(
+        cookie_button = WebDriverWait(driver, 3).until(
             EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Continue')]"))
         )
         driver.execute_script("arguments[0].click();", cookie_button)
@@ -92,7 +92,7 @@ def search_and_extract(first_name, last_name):
         document_type_dropdown.select_by_visible_text("All Document Types")
 
         print("Step 6: Clicking 'Terms of Service' checkbox...")
-        terms_checkbox = WebDriverWait(driver, 10).until(
+        terms_checkbox = WebDriverWait(driver, 3).until(
             EC.element_to_be_clickable((By.ID, "edit-terms-of-service"))
         )
         if not terms_checkbox.is_selected():

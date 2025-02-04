@@ -9,10 +9,11 @@ from exceptions import RateLimitExceeded
 
 # Additional imports for WebDriver and parsing
 from selenium import webdriver
+from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
@@ -536,6 +537,7 @@ class ApiClient:
         return results
 
     def _fetch_and_parse_finra(self, input_data: Dict[str, str]) -> Dict:
+        
         """
         Fetches and parses the FINRA Disciplinary Actions Online results.
 
@@ -588,3 +590,216 @@ class ApiClient:
         except requests.exceptions.RequestException as e:
             self.logger.error(f"Error fetching FINRA disciplinary data for {name}: {e}")
             return {"name": name, "error": str(e)}
+    
+    def get_finra_arbitrations(
+        self,
+        employee_number: str,
+        first_name: str,
+        last_name: str,
+        alternate_names: List[str] = None
+    ) -> Dict[str, Dict]:
+        """
+        Retrieves FINRA arbitration actions for the given individual and optional alternate names.
+        Uses a WebDriver-based approach to fill out the FINRA Disciplinary Actions Online form 
+        (but specifically for arbitration results). Caches each query so subsequent calls are faster.
+
+        Returns:
+            dict: A dictionary keyed by "f_name_l_name" with 'data' and 'url' fields.
+                  For example:
+                  {
+                    "John_Smith": {
+                      "data": { ... parsed arbitration data ... },
+                      "url": "https://www.finra.org/...some-search-url..."
+                    },
+                    "Johnny_Smith": { ... }
+                  }
+        """
+        # Ensure WebDriver is available
+        if not self.webdriver_enabled or not self.driver:
+            self.logger.error("WebDriver not enabled. Cannot perform FINRA arbitration lookups.")
+            return {}
+
+        if alternate_names is None:
+            alternate_names = []
+
+        # Compile all name variations: primary plus alternates
+        name_variations = [(first_name, last_name)]
+        for alt_name in alternate_names:
+            parts = alt_name.strip().split()
+            if len(parts) >= 2:
+                name_variations.append((parts[0], parts[-1]))
+
+        results = {}
+        employee_dir_cache = os.path.join(self.cache_folder, employee_number)
+        os.makedirs(employee_dir_cache, exist_ok=True)
+
+        for idx, (f_name, l_name) in enumerate(name_variations, start=1):
+            cache_filename = os.path.join(employee_dir_cache, f"finra_arbitration_result_{idx}.json")
+            name_key = f"{f_name}_{l_name}"
+
+            # We'll assume a base URL or direct link to the FINRA form
+            # (Below is the same as in your snippet for Disciplinary Actions, but you might
+            # have a separate page or dropdown for "Arbitration" specifically.)
+            base_url = "https://www.finra.org/rules-guidance/oversight-enforcement/finra-disciplinary-actions-online"
+            # If the search URL is more complex, you can build it here:
+            url = base_url  # or maybe you pass query params, etc.
+
+            # 1) Check if we've already cached this name variation
+            if os.path.exists(cache_filename):
+                self.logger.debug(f"Cache hit for FINRA arbitration data: {cache_filename}")
+                with open(cache_filename, 'r', encoding='utf-8') as infile:
+                    result = json.load(infile)
+                # Make sure the result has the URL attached
+                result["url"] = url
+                results[name_key] = result
+                continue
+
+            # 2) Not cached, so fetch & parse via helper function
+            self.logger.debug(f"No cache found for {name_key}, querying FINRA arbitration data...")
+            data = self._fetch_and_parse_finra_arbitrations(f_name, l_name, url)
+
+            result = {
+                "data": data,  # The parsed table or error
+                "url": url
+            }
+
+            # 3) Write to cache
+            with open(cache_filename, 'w', encoding='utf-8') as outfile:
+                json.dump(result, outfile, indent=4)
+
+            self.logger.info(f"Fetched and cached result for {name_key}: {json.dumps(result, indent=4)}")
+            results[name_key] = result
+
+            # 4) Sleep to respect wait_time
+            time.sleep(self.wait_time)
+
+        return results
+
+    def _fetch_and_parse_finra_arbitrations(self, first_name: str, last_name: str, url: str) -> Dict:
+        """
+        Actually navigates the FINRA site using self.driver, performs the search, 
+        and parses the table, mirroring the approach in search_and_extract.
+
+        Returns a dictionary containing "search_parameters" and the "results" table.
+        """
+
+        # Define wait intervals
+        SHORT_WAIT = 3
+        LONG_WAIT = 10
+
+        driver = self.driver
+
+        try:
+            # STEP 1: Navigate to the page
+            self.logger.debug("Step 1: Navigating to the FINRA page...")
+            driver.get(url)
+
+            # STEP 2: Handle cookie consent (if it appears)
+            self.logger.debug("Step 2: Checking for cookie consent banner...")
+            try:
+                cookie_button = WebDriverWait(driver, SHORT_WAIT).until(
+                    EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Continue')]"))
+                )
+                driver.execute_script("arguments[0].click();", cookie_button)
+                self.logger.debug("Cookie consent accepted.")
+
+                WebDriverWait(driver, SHORT_WAIT).until(
+                    EC.invisibility_of_element((By.XPATH, "//button[contains(text(), 'Continue')]"))
+                )
+                self.logger.debug("Cookie banner dismissed.")
+            except TimeoutException:
+                self.logger.debug("No cookie banner detected or already dismissed.")
+
+            # STEP 3: Fill in the 'Individual Name or CRD#' field
+            self.logger.debug("Step 3: Filling in the 'Individual Name or CRD#' field...")
+            individuals_field = WebDriverWait(driver, SHORT_WAIT).until(
+                EC.visibility_of_element_located((By.ID, "edit-individuals"))
+            )
+            individuals_field.clear()
+            individuals_field.send_keys(f"{first_name} {last_name}")
+
+            # STEP 4: Select "All Document Types" in the dropdown
+            self.logger.debug("Step 4: Setting 'Document Types' to 'All Document Types'...")
+            document_type_dropdown = Select(
+                WebDriverWait(driver, SHORT_WAIT).until(
+                    EC.visibility_of_element_located((By.ID, "edit-document-type"))
+                )
+            )
+            document_type_dropdown.select_by_visible_text("All Document Types")
+
+            # STEP 5: Click "Terms of Service" checkbox
+            self.logger.debug("Step 5: Clicking 'Terms of Service' checkbox...")
+            terms_checkbox = WebDriverWait(driver, SHORT_WAIT).until(
+                EC.element_to_be_clickable((By.ID, "edit-terms-of-service"))
+            )
+            if not terms_checkbox.is_selected():
+                try:
+                    terms_checkbox.click()
+                    self.logger.debug("'Terms of Service' checkbox clicked.")
+                except ElementClickInterceptedException:
+                    self.logger.debug("Checkbox click intercepted, using JS.")
+                    driver.execute_script("arguments[0].click();", terms_checkbox)
+
+            # STEP 6: Click the 'Submit' button
+            self.logger.debug("Step 6: Clicking the 'Submit' button...")
+            submit_button = WebDriverWait(driver, SHORT_WAIT).until(
+                EC.element_to_be_clickable((By.ID, "edit-actions-submit"))
+            )
+            try:
+                submit_button.click()
+                self.logger.debug("'Submit' button clicked.")
+            except ElementClickInterceptedException:
+                self.logger.debug("Submit button click intercepted, using JS.")
+                driver.execute_script("arguments[0].click();", submit_button)
+
+            # STEP 7: Wait for the results table to load
+            self.logger.debug("Step 7: Waiting for the results table to load...")
+            WebDriverWait(driver, LONG_WAIT).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, "div.table-responsive.col > table.views-table.views-view-table.cols-5")
+                )
+            )
+            self.logger.debug("Results table loaded.")
+
+            # STEP 8: Parse the table
+            self.logger.debug("Step 8: Extracting table data...")
+            html_content = driver.page_source
+            soup = BeautifulSoup(html_content, 'html.parser')
+            table = soup.find("table", class_="table views-table.views-view-table.cols-5")
+
+            if not table:
+                # If no table found, either no results or an error
+                return {
+                    "search_parameters": {"first_name": first_name, "last_name": last_name},
+                    "results": [],
+                    "message": "No arbitration table found.",
+                }
+
+            # Example headers from your snippet:
+            headers = ["Case ID", "Case Summary", "Document Type", "Firms/Individuals", "Action Date"]
+
+            rows = []
+            for tr in table.find_all("tr")[1:]:  # skip the header
+                cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+                row_data = dict(zip(headers, cells))
+                rows.append(row_data)
+                # If you want to log each row:
+                self.logger.debug(json.dumps(row_data, indent=2))
+
+            # STEP 9: Return combined results
+            return {
+                "search_parameters": {"first_name": first_name, "last_name": last_name},
+                "results": rows,
+                "arbitration_count": len(rows),
+            }
+
+        except Exception as e:
+            self.logger.exception(f"Error during FINRA arbitration search or extraction for {first_name} {last_name}: {e}")
+            return {
+                "search_parameters": {"first_name": first_name, "last_name": last_name},
+                "error": str(e)
+            }
+
+
+
+

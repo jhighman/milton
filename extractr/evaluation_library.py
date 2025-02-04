@@ -165,7 +165,7 @@ def evaluate_name(
     def score_single_name(claim_dict, fetched_input) -> Dict[str, Any]:
         corr_name = parse_name(fetched_input)
         
-        weights = {"last": 50, "first": 30, "middle": 20}
+        weights = {"last": 50, "first": 40, "middle": 10}
         if not claim_dict["middle"] and not corr_name["middle"]:
             weights["middle"] = 0
 
@@ -466,21 +466,41 @@ def generate_civil_alert_description(event_date: str, resolution: str, details: 
 ######################
 
 def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Checks a list of arbitration records for pending or adverse outcomes.
+    Returns:
+      (compliance_bool, explanation_string, [Alert objects])
+
+    Example outcomes:
+    - If no arbitrations found => (True, "No arbitrations found for <name>", [])
+    - If some are pending or adverse => (False, "Arbitration issues found...", [Alert(...)])
+    - Otherwise => (True, "<name> has arbitration history but no pending or adverse outcomes.", [])
+    """
+
+    # 1) No arbitrations => compliance = True, no alerts
     if not arbitrations:
         return True, f"No arbitrations found for {name}.", []
 
+    # 2) Some are present; scan them for 'pending' or 'adverse' data
     pending_cases = []
     adverse_cases = []
+
     for arb in arbitrations:
+        # If your arbitration records have different key names, adjust accordingly
         status = arb.get('status', '').lower()
-        outcome = (arb.get('outcome', '') or '').lower()
-        case_number = arb.get('case_number', 'Unknown')
+        outcome = arb.get('outcome', '').lower()
+
+        # Try both "case_number" or "Case ID" to unify your data shape
+        case_number = (arb.get('case_number') 
+                       or arb.get('Case ID') 
+                       or 'Unknown')
 
         if status == 'pending':
             pending_cases.append(case_number)
         if outcome in ['award against individual', 'adverse finding']:
             adverse_cases.append(case_number)
 
+    # 3) If any pending or adverse, we return compliance=False with an Alert
     if pending_cases or adverse_cases:
         metadata = {}
         if pending_cases:
@@ -502,8 +522,10 @@ def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple
         )
 
         return False, f"Arbitration issues found for {name}.", [alert]
-    else:
-        return True, f"{name} has arbitration history but no pending or adverse outcomes.", []
+
+    # 4) Otherwise => compliance=True but you note they have some arbitration history
+    return True, f"{name} has arbitration history but no pending or adverse outcomes.", []
+
 
 ######################
 # Disciplinary Evaluation

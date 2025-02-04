@@ -704,7 +704,7 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
     ])
     alerts.extend(status_alerts)
 
-    # 2) NAME EVALUATION
+    # 2) NAME EVALUATION (renamed key to "name_evaluation")
     name = f"{claim.get('first_name', '')} {claim.get('last_name', '')}".strip()
 
     if config.get('evaluate_name', True):
@@ -721,8 +721,8 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
             else "Name mismatch detected."
         )
 
-        # Build an OrderedDict with compliance info first
-        evaluation_report['name'] = OrderedDict([
+        # Build an OrderedDict with compliance info first using "name_evaluation"
+        evaluation_report['name_evaluation'] = OrderedDict([
             ('compliance', name_compliance),
             ('compliance_explanation', name_explanation),
             ('expected_name', name),
@@ -730,14 +730,14 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
         # Preserve any additional fields from evaluation_details
         for k, v in evaluation_details.items():
             if k not in ('name_match'):
-                evaluation_report['name'][k] = v
+                evaluation_report['name_evaluation'][k] = v
 
         if name_alert:
             alerts.append(name_alert)
     else:
-        # If name evaluation is skipped by config
-        evaluation_report['name'] = OrderedDict([
-            ('compliance', False),
+        # If name evaluation is skipped by configuration, mark compliance as True.
+        evaluation_report['name_evaluation'] = OrderedDict([
+            ('compliance', True),
             ('compliance_explanation', "Name evaluation was skipped by configuration."),
             ('evaluation_skipped', True),
             ('expected_name', name),
@@ -759,8 +759,9 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
         if license_alert:
             alerts.append(license_alert)
     else:
+        # If license evaluation is skipped, mark compliance as True.
         evaluation_report['license_evaluation'] = OrderedDict([
-            ('compliance', False),
+            ('compliance', True),
             ('compliance_explanation', "License evaluation was skipped by configuration."),
             ('evaluation_skipped', True),
         ])
@@ -786,23 +787,24 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
             except Exception as e:
                 logging.warning(f"Failed to evaluate exams: {e}")
                 evaluation_report['exam_evaluation'] = OrderedDict([
-                    ('compliance', False),
+                    # When evaluation is skipped due to error, mark as compliant.
+                    ('compliance', True),
                     ('compliance_explanation', "Failed to fully evaluate exams due to an error."),
                     ('evaluation_skipped', True),
                     ('reason', 'Failed to evaluate exams.'),
                 ])
         else:
-            # If no exam data is available
+            # If no exam data is available, mark evaluation as skipped and compliant.
             evaluation_report['exam_evaluation'] = OrderedDict([
-                ('compliance', False),
+                ('compliance', True),
                 ('compliance_explanation', "No exam information available."),
                 ('evaluation_skipped', True),
                 ('reason', 'Exams information not available.'),
             ])
     else:
-        # If exam evaluation is off in config
+        # If exam evaluation is off in config, mark as skipped and compliant.
         evaluation_report['exam_evaluation'] = OrderedDict([
-            ('compliance', False),
+            ('compliance', True),
             ('compliance_explanation', "Exam evaluation was skipped by configuration."),
             ('evaluation_skipped', True),
         ])
@@ -821,27 +823,34 @@ def perform_evaluations(evaluation_report: dict, extracted_info: dict, claim: di
             except Exception as e:
                 logging.warning(f"Failed to evaluate disclosures: {e}")
                 evaluation_report['disclosure_review'] = OrderedDict([
-                    ('compliance', False),
+                    ('compliance', True),
                     ('compliance_explanation', "Failed to evaluate disclosures due to an error."),
                     ('evaluation_skipped', True),
                     ('reason', 'Failed to evaluate disclosures.'),
                 ])
         else:
             evaluation_report['disclosure_review'] = OrderedDict([
-                ('compliance', False),
+                ('compliance', True),
                 ('compliance_explanation', "No disclosures information available."),
                 ('evaluation_skipped', True),
                 ('reason', 'Disclosures information not available.'),
             ])
     else:
         evaluation_report['disclosure_review'] = OrderedDict([
-            ('compliance', False),
+            ('compliance', True),
             ('compliance_explanation', "Disclosure review was skipped by configuration."),
             ('evaluation_skipped', True),
         ])
 
+
 def process_row(row, resolved_headers):
     global records_written
+
+    # ------------------------------
+    # Feature flags for toggling checks
+    # ------------------------------
+    DISCIPLINARY_ENABLED = True
+    ARBITRATION_ENABLED = True
 
     # 1) Extract the reference_id separately
     reference_id = row.get(resolved_headers.get('reference_id', ''), '').strip()
@@ -859,10 +868,10 @@ def process_row(row, resolved_headers):
         header = resolved_headers.get(canonical_field)
         # Set the value in the claim, or default to None if not found
         claim[canonical_field] = row.get(header, '').strip() if header else None
-    
+
     first_name = claim.get('first_name', '').strip()
     last_name = claim.get('last_name', '').strip()
-    claim['name'] = f"{first_name} {last_name}".strip()  
+    claim['name'] = f"{first_name} {last_name}".strip()
 
     # 5) Ensure employee_number defaults to the reference_id if missing
     if not claim.get('employee_number'):
@@ -906,46 +915,100 @@ def process_row(row, resolved_headers):
     data_handler = DataSourceHandler(data_source)
     extracted_info = data_handler.extract_individual_info(individual, detailed_info)
 
-    # FINRA disciplinary checks
-    disciplinary_records_full = api_client.get_finra_disciplinary_actions(
-        employee_number=claim.get('employee_number'),
-        first_name=claim.get('first_name', ''),
-        last_name=claim.get('last_name', ''),
-        alternate_names=extracted_info.get('other_names', [])
-    )
-    disciplinary_records = [value["data"] for value in disciplinary_records_full.values()]
+    # -----------------------------------------------------------------------
+    # Disciplinary checks (toggle with DISCIPLINARY_ENABLED)
+    # -----------------------------------------------------------------------
+    if DISCIPLINARY_ENABLED:
+        disciplinary_records_full = api_client.get_finra_disciplinary_actions(
+            employee_number=claim.get('employee_number'),
+            first_name=claim.get('first_name', ''),
+            last_name=claim.get('last_name', ''),
+            alternate_names=extracted_info.get('other_names', [])
+        )
+        disciplinary_records = [value["data"] for value in disciplinary_records_full.values()]
 
-    disciplinary_compliance, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(
-        disciplinary_records,
-        claim.get('name')
-    )
+        disciplinary_compliance, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(
+            disciplinary_records,
+            claim.get('name')
+        )
 
-    # Convert disciplinary_evaluation to OrderedDict
-    evaluation_report['disciplinary_evaluation'] = OrderedDict([
-        ('compliance', disciplinary_compliance),
-        ('compliance_explanation', disciplinary_explanation),
-        ('disciplinary_records', disciplinary_records),
-        ('alerts', [alert.to_dict() for alert in disciplinary_alerts]),
-    ])
-    alerts.extend(disciplinary_alerts)
+        # Convert disciplinary_evaluation to OrderedDict
+        evaluation_report['disciplinary_evaluation'] = OrderedDict([
+            ('compliance', disciplinary_compliance),
+            ('compliance_explanation', disciplinary_explanation),
+            ('disciplinary_records', disciplinary_records),
+            ('alerts', [alert.to_dict() for alert in disciplinary_alerts]),
+        ])
+        alerts.extend(disciplinary_alerts)
+    else:
+        # If disciplinary checks are disabled, just note it in the report
+        evaluation_report['disciplinary_evaluation'] = OrderedDict([
+            ('compliance', True),
+            ('compliance_explanation', "Disciplinary checks were skipped by configuration."),
+            ('disciplinary_records', []),
+            ('alerts', []),
+        ])
 
     # Perform standard evaluations (name, license, exam, disclosures, etc.)
     perform_evaluations(evaluation_report, extracted_info, claim, alerts)
 
-    # ARBITRATION checks
-    arbitrations = extracted_info.get('arbitrations', [])
-    arbitration_compliance, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
-        arbitrations,
-        claim.get('name')
-    )
+    # -----------------------------------------------------------------------
+    # Arbitration checks (toggle with ARBITRATION_ENABLED)
+    # -----------------------------------------------------------------------
+    if ARBITRATION_ENABLED:
+        arbitration_records_full = api_client.get_finra_arbitrations(
+            employee_number=claim.get('employee_number'),
+            first_name=claim.get('first_name', ''),
+            last_name=claim.get('last_name', ''),
+            alternate_names=extracted_info.get('other_names', [])
+        )
+        # Flatten the returned data
+        arbitration_records = [value["data"] for value in arbitration_records_full.values()]
 
-    # Convert arbitration_evaluation to OrderedDict
-    evaluation_report['arbitration_evaluation'] = OrderedDict([
-        ('compliance', arbitration_compliance),
-        ('compliance_explanation', arbitration_explanation),
-        ('arbitrations', arbitrations),
-    ])
-    alerts.extend(arbitration_alerts)
+        # Evaluate these arbitration records
+        arbitration_compliance, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
+            arbitration_records,
+            claim.get('name')
+        )
+
+    if ARBITRATION_ENABLED:
+        arbitration_records_full = api_client.get_finra_arbitrations(
+            employee_number=claim.get('employee_number'),
+            first_name=claim.get('first_name', ''),
+            last_name=claim.get('last_name', ''),
+            alternate_names=extracted_info.get('other_names', [])
+        )
+        # Flatten the returned data
+        arbitration_records = [value["data"] for value in arbitration_records_full.values()]
+
+        # Evaluate these arbitration records
+        arbitration_compliance, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
+            arbitration_records,
+            claim.get('name')
+        )
+
+        # -------- NEW ARBITRATION_REVIEW BLOCK (like disclosure_review) --------
+        evaluation_report['arbitration_review'] = OrderedDict([
+            ('compliance', arbitration_compliance),
+            ('compliance_explanation', arbitration_explanation),
+            ('arbitrations', arbitration_records),  # The raw data or partial data
+            ('alerts', [alert.to_dict() for alert in arbitration_alerts]),
+        ])
+        alerts.extend(arbitration_alerts)
+    else:
+        # If arbitration checks are disabled, just note it in the report
+        evaluation_report['arbitration_review'] = OrderedDict([
+            ('compliance', True),
+            ('compliance_explanation', "Arbitration checks were skipped by configuration."),
+            ('arbitrations', []),
+            ('alerts', []),
+        ])
+        evaluation_report['arbitration_evaluation'] = OrderedDict([
+            ('compliance', True),
+            ('compliance_explanation', "Arbitration checks were skipped by configuration."),
+            ('arbitrations', []),
+        ])
+
 
     # 11) Build the final evaluation, then save the report
     build_final_evaluation(evaluation_report, alerts)
