@@ -17,6 +17,7 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
+from webdriver_manager.chrome import ChromeDriverManager
 
 class ApiClient:
     def __init__(self, cache_folder: str, wait_time: int, logger, webdriver_enabled: bool = False):
@@ -36,6 +37,7 @@ class ApiClient:
     def _initialize_webdriver(self):
         """
         Initialize the Chrome WebDriver with predefined options.
+        Automatically downloads and uses the correct ChromeDriver version.
         """
         chrome_options = Options()
         chrome_options.add_argument("--headless")
@@ -48,7 +50,8 @@ class ApiClient:
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
         )
 
-        service = ChromeService()
+        # Use webdriver_manager to automatically handle ChromeDriver
+        service = ChromeService(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
         return driver
 
@@ -471,6 +474,25 @@ class ApiClient:
 
         return results
 
+    def _evaluate_disciplinary_records(self, records: List[Dict]) -> Tuple[bool, str]:
+        """
+        Evaluates disciplinary records to determine compliance status.
+        If any disciplinary records exist, compliance should be False.
+        
+        Parameters:
+            records (List[Dict]): List of disciplinary records found
+            
+        Returns:
+            Tuple[bool, str]: (compliance_status, explanation)
+        """
+        if not records:
+            return True, "No disciplinary history found."
+            
+        # Any disciplinary records = non-compliant
+        record_count = len(records)
+        explanation = f"Found {record_count} disciplinary record(s). Further review required."
+        return False, explanation
+
     def get_finra_disciplinary_actions(self, employee_number: str, first_name: str, last_name: str, alternate_names: List[str] = None) -> Dict[str, Dict]:
         """
         Retrieves FINRA disciplinary actions for the given individual and optional alternate names.
@@ -522,30 +544,30 @@ class ApiClient:
                 "url": url
             }
 
+            # Always use results array, which will be empty if no records found
+            result["data"]["disciplinary_evaluation"] = {
+                "compliance": True if not result_data.get("results") else False,
+                "compliance_explanation": (
+                    f"No disciplinary records found for {f_name} {l_name}." 
+                    if not result_data.get("results") 
+                    else f"Disciplinary records found for {f_name} {l_name}."
+                ),
+                "disciplinary_records": result_data.get("results", [])
+            }
+
             # Save to cache
             with open(cache_filename, 'w', encoding='utf-8') as outfile:
                 json.dump(result, outfile, indent=4)
 
-            print(f"Fetched and cached result for {name_key}: {json.dumps(result, indent=4)}")
             results[name_key] = result
             time.sleep(self.wait_time)
-
-        print("Final results for all name variations:")
-        for name, data in results.items():
-            print(f"{name}: {json.dumps(data, indent=4)}")
 
         return results
 
     def _fetch_and_parse_finra(self, input_data: Dict[str, str]) -> Dict:
-        
         """
         Fetches and parses the FINRA Disciplinary Actions Online results.
-
-        Parameters:
-            input_data (dict): Input object containing "name" and "search" URL.
-
-        Returns:
-            dict: Extracted data or a "No Results Found" message.
+        Returns a consistent structure whether no results are found or there's an error.
         """
         search_url = input_data.get("search")
         name = input_data.get("name", "Unknown")
@@ -562,34 +584,33 @@ class ApiClient:
             # Locate table rows
             table = soup.find("table", class_="views-table")
             if not table:
-                return {"name": name, "result": "No Results Found"}
+                return {"name": name, "results": []}
 
             rows = table.find_all("tr")[1:]  # Skip header row
             if not rows:
-                return {"name": name, "result": "No Results Found"}
+                return {"name": name, "results": []}
 
-            data = []
+            results = []
             for row in rows:
                 cells = row.find_all("td")
-                case_id = cells[0].text.strip() if len(cells) > 0 else "N/A"
-                case_summary = cells[1].text.strip() if len(cells) > 1 else "N/A"
-                document_type = cells[2].text.strip() if len(cells) > 2 else "N/A"
-                firms_individuals = cells[3].text.strip() if len(cells) > 3 else "N/A"
-                action_date = cells[4].text.strip() if len(cells) > 4 else "N/A"
+                if len(cells) >= 5:  # Ensure we have all expected columns
+                    result = {
+                        "Case ID": cells[0].text.strip(),
+                        "Case Summary": cells[1].text.strip(),
+                        "Document Type": cells[2].text.strip(),
+                        "Firms/Individuals": cells[3].text.strip(),
+                        "Action Date": cells[4].text.strip()
+                    }
+                    results.append(result)
 
-                data.append({
-                    "Case ID": case_id,
-                    "Case Summary": case_summary,
-                    "Document Type": document_type,
-                    "Firms/Individuals": firms_individuals,
-                    "Action Date": action_date
-                })
-
-            return {"name": name, "result": data}
+            return {
+                "name": name,
+                "results": results  # Will be empty list if no results found
+            }
 
         except requests.exceptions.RequestException as e:
             self.logger.error(f"Error fetching FINRA disciplinary data for {name}: {e}")
-            return {"name": name, "error": str(e)}
+            return {"name": name, "results": [], "error": str(e)}
     
     def get_finra_arbitrations(
         self,

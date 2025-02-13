@@ -423,55 +423,48 @@ def save_evaluation_report(evaluation_report: dict, employee_number: str, refere
     log_diagnostic(f"Evaluation report saved to {output_file_path}")
 
 
-def build_final_evaluation(evaluation_report: dict, alerts: List[Alert]):
-    # 1) Gather evaluations to determine overall_compliance
-    evaluations_performed = [evaluation_report['search_evaluation']['compliance']]
-    if 'name' in evaluation_report and 'name_match' in evaluation_report['name']:
-        evaluations_performed.append(evaluation_report['name']['name_match'])
-    if 'license_evaluation' in evaluation_report and 'compliance' in evaluation_report['license_evaluation']:
-        evaluations_performed.append(evaluation_report['license_evaluation']['compliance'])
-    if 'exam_evaluation' in evaluation_report and 'compliance' in evaluation_report['exam_evaluation']:
-        evaluations_performed.append(evaluation_report['exam_evaluation']['compliance'])
-    if 'registration_status' in evaluation_report and 'compliance' in evaluation_report['registration_status']:
-        evaluations_performed.append(evaluation_report['registration_status']['compliance'])
-    if 'disclosure_review' in evaluation_report and 'compliance' in evaluation_report['disclosure_review']:
-        evaluations_performed.append(evaluation_report['disclosure_review']['compliance'])
-    if 'arbitration_evaluation' in evaluation_report and 'compliance' in evaluation_report['arbitration_evaluation']:
-        evaluations_performed.append(evaluation_report['arbitration_evaluation']['compliance'])
+def build_final_evaluation(evaluation_report: Dict, alerts: List[Alert]) -> None:
+    """
+    Builds the final evaluation section of the report.
+    If ANY evaluation shows non-compliance, overall_compliance should be False.
+    """
+    # Check all evaluation sections for any non-compliance
+    evaluation_sections = [
+        'search_evaluation',
+        'status_evaluation', 
+        'name_evaluation',
+        'license_evaluation',
+        'exam_evaluation',
+        'disclosure_review',
+        'disciplinary_evaluation',
+        'arbitration_review'
+    ]
+    
+    # If any evaluation section has compliance = False, overall is False
+    overall_compliance = all(
+        evaluation_report.get(section, {}).get('compliance', True)
+        for section in evaluation_sections
+    )
 
-    overall_compliance = all(evaluations_performed) if evaluations_performed else True
-
-    # 2) Derive overall risk level from any existing alerts
+    # Set risk level based on alerts
+    risk_level = "Low"
     if any(alert.severity == AlertSeverity.HIGH for alert in alerts):
-        overall_risk_level = "High"
+        risk_level = "High"
     elif any(alert.severity == AlertSeverity.MEDIUM for alert in alerts):
-        overall_risk_level = "Medium"
-    else:
-        overall_risk_level = "Low"
+        risk_level = "Medium"
 
-    # 3) Decide on recommendations based on risk level
-    if overall_risk_level == "High":
-        recommendations = "Immediate action required due to critical compliance issues."
-    elif overall_risk_level == "Medium":
-        recommendations = "Further review recommended due to potential compliance issues."
-    else:
-        recommendations = "No action needed."
-
-    # 4) Assign alert categories if not already set
+    # Add alert categories
     for alert in alerts:
-        if alert.alert_category is None:
+        if not alert.alert_category:
             alert.alert_category = determine_alert_category(alert.alert_type)
-
-    # 5) For the final evaluation's 'alerts' list, omit any alerts with severity=INFO
-    final_alerts = [alert for alert in alerts if alert.severity != AlertSeverity.INFO]
 
     evaluation_report['final_evaluation'] = {
         'overall_compliance': overall_compliance,
-        'overall_risk_level': overall_risk_level,
-        'recommendations': recommendations,
-        'alerts': [alert.to_dict() for alert in final_alerts]
+        'overall_risk_level': risk_level,
+        'recommendations': 'Immediate action required due to critical compliance issues.' if not overall_compliance else 'No immediate action required.',
+        'alerts': [alert.to_dict() for alert in alerts]
     }
- 
+
 
 def perform_search(claim: dict, api_client: ApiClient) -> dict:
     """

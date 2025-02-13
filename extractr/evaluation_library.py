@@ -537,60 +537,48 @@ def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str)
     
     According to specification:
     - If no disciplinary records: compliant = True, no alert.
-    - If any records with concerning outcomes: compliant = False, high severity alert.
-    - Else: disciplinary records exist but no concerning outcomes, compliant = True, no alert.
-    
-    This version also creates an alert for each disciplinary record, 
-    setting severity to HIGH if it contains concerning keywords, otherwise INFO.
+    - If ANY disciplinary records exist: compliant = False, create alert.
     """
     if not disciplinary_records:
         return True, f"No disciplinary records found for {name}.", []
 
-    concerning_keywords = ['suspension', 'revocation', 'barred', 'fine']
-    is_concerning_overall = False
-    all_alerts = []
-
+    # If we have any disciplinary records, check if they have results
+    alerts = []
+    has_records = False
+    
     for record in disciplinary_records:
-        case_id = record.get('Case ID', 'Unknown')
-        case_summary = record.get('Case Summary', '').lower()
-
-        if any(keyword in case_summary for keyword in concerning_keywords):
-            is_concerning_overall = True
-            alert_severity = AlertSeverity.HIGH
-            alert_type = "Disciplinary Alert (Concerning)"
-            alert_description = (f"Concerning disciplinary record found: Case ID {case_id} for "
-                                 f"{name}. This record mentions a potential suspension/revocation.")
-        else:
-            alert_severity = AlertSeverity.INFO
-            alert_type = "Disciplinary Alert (Non-concerning)"
-            alert_description = f"Disciplinary record found: Case ID {case_id} for {name}, no concerning outcomes."
-
-        new_alert = Alert(
-            alert_type=alert_type,
-            severity=alert_severity,
+        # Skip if record has no results or empty results array
+        if not record.get('result') and not record.get('results'):
+            continue
+            
+        results = record.get('result', []) or record.get('results', [])
+        if not results:
+            continue
+            
+        has_records = True
+        case_id = results[0].get('Case ID', 'Unknown') if results else 'Unknown'
+        alert = Alert(
+            alert_type="Disciplinary Alert",
+            severity=AlertSeverity.HIGH,
             metadata={"record": record},
-            description=alert_description
+            description=f"Disciplinary record found: Case ID {case_id} for {name}."
         )
-        all_alerts.append(new_alert)
+        alerts.append(alert)
 
-    if is_concerning_overall:
-        return (
-            False,
-            f"Disciplinary issues found for {name}.",
-            all_alerts
-        )
-    else:
-        return (
-            True,
-            f"{name} has disciplinary history but no concerning outcomes.",
-            all_alerts
-        )
+    if not has_records:
+        return True, f"No disciplinary records found for {name}.", []
+
+    return (
+        False,  # Only non-compliant if we found actual records
+        f"Disciplinary records found for {name}.",
+        alerts
+    )
 
 ############################################################
 # NEW: Category Mapping (Optional) - no scattering
 ############################################################
 
-# Here’s a sample helper to map alert_type -> alert_category
+# Here's a sample helper to map alert_type -> alert_category
 # You can expand or fine-tune this based on specificed taxonomy.
 def determine_alert_category(alert_type: str) -> str:
     alert_type = alert_type.lower()
