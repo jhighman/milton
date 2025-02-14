@@ -321,22 +321,32 @@ def extract_organization_name(input_string):
 
 def determine_search_strategy(claim, api_client: ApiClient):
     """
-    Determines the best search strategy based on whether a CRD number,
-    an organization name, or neither is provided.
-
-    If neither CRD nor organization is specified, attempts to derive a CRD
-    from firms.json (via get_firm_crd). If that fails, returns a strategy
-    of "unknown_org" with an error.
+    Determines the best search strategy based on available claim data.
     """
-    crd_number = claim.get('crd_number', '').strip()
-    organization_name = extract_organization_name(claim.get('organization_name', '').strip())
-    name = claim.get('name', '').strip()
+    # Extract key fields, ensuring we handle None values
+    crd_number = claim.get('crd_number')
+    crd_number = crd_number.strip() if crd_number else ''
+    
+    organization_name = claim.get('organization_name')
+    organization_name = organization_name.strip() if organization_name else ''
+    
+    name = claim.get('name')
+    name = name.strip() if name else ''
 
-    # 1) If both CRD and organization name are missing,
+    # 1) If we have a valid CRD number, that's our best option
+    if crd_number and crd_number.isdigit() and int(crd_number) > 0:
+        logging.info(f"Search strategy selected: 'basic_info' using CRD '{crd_number}'")
+        return {
+            "strategy": "basic_info",
+            "crd_number": crd_number,
+            "individual_name": name
+        }
+
+    # 2) If both CRD and organization name are missing,
     #    try to look up a known CRD from firms.json
     if not crd_number and not organization_name:
         potential_firm_name = claim.get('firm_lookup_key', '')
-        derived_firm_crd = api_client.get_firm_crd(potential_firm_name) if potential_firm_name else None
+        derived_firm_crd = api_client.get_organization_crd(potential_firm_name) if potential_firm_name else None
 
         if derived_firm_crd == "NOT_FOUND":
             logging.warning(f"Firm not found in index for firm lookup key: '{potential_firm_name}'")
@@ -363,19 +373,10 @@ def determine_search_strategy(claim, api_client: ApiClient):
             "crd_number": crd_number
         }
 
-    # 2) If CRD is provided, default to 'basic_info'
-    if crd_number:
-        logging.info(f"Search strategy selected: 'basic_info' using CRD '{crd_number}' for individual '{name}'")
-        return {
-            "strategy": "basic_info",
-            "crd_number": crd_number,
-            "individual_name": name
-        }
-
     # 3) If organization name is provided (and possibly no CRD),
     #    try to get the firm's CRD via the API client
     if organization_name:
-        firm_crd = api_client.get_firm_crd(organization_name)
+        firm_crd = api_client.get_organization_crd(organization_name)
         if firm_crd == "NOT_FOUND":
             logging.warning(f"Organization '{organization_name}' not found in index")
             return {

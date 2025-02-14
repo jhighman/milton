@@ -6,6 +6,7 @@ import time
 import requests
 from typing import Optional, Dict, Tuple, List
 from exceptions import RateLimitExceeded
+import warnings
 
 # Additional imports for WebDriver and parsing
 from selenium import webdriver
@@ -55,50 +56,77 @@ class ApiClient:
         driver = webdriver.Chrome(service=service, options=chrome_options)
         return driver
 
-    def get_firm_crd(self, organization_name: str) -> Optional[str]:
-        """Looks up the CRD for a given organization name from the firms.json cache."""
-        firms_data = self._load_firms_cache()
-        if not firms_data:
-            self.logger.error("Failed to load firms cache.")
+    def _load_organizations_cache(self) -> Optional[List[Dict]]:
+        """Loads the organizationsCrd.jsonl file from input directory."""
+        cache_file = os.path.join("input", "organizationsCrd.jsonl")
+        if not os.path.exists(cache_file):
+            self.logger.error("Failed to load organizations cache.")
+            return None
+        
+        try:
+            organizations = []
+            with open(cache_file, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        organizations.append(json.loads(line))
+            return organizations
+        except Exception as e:
+            self.logger.error(f"Error loading organizations cache: {e}")
             return None
 
-        # Normalize the organization name for matching
-        normalized_org_name = organization_name.lower()
+    def _normalize_organization_name(self, name: str) -> str:
+        """
+        Normalizes an organization name by:
+        1. Converting to lowercase
+        2. Removing all spaces
+        
+        Args:
+            name: Raw organization name
+            
+        Returns:
+            Normalized name string
+        """
+        return name.lower().replace(" ", "")
 
-        # Search for the organization name in the firms data
-        for firm in firms_data:
-            firm_name = firm.get("OrganizationName", "").lower()
-            if firm_name == normalized_org_name:
-                crd = firm.get("CRD")
-                if crd:
+    def get_organization_crd(self, organization_name: str) -> Optional[str]:
+        """
+        Looks up the CRD for a given organization name using normalized name matching.
+        
+        Args:
+            organization_name: Name of the organization to look up
+            
+        Returns:
+            str: The organization's CRD number if found
+            None: If organization not found or error occurred
+            "NOT_FOUND": Special value indicating organization was searched but not found
+        """
+        orgs_data = self._load_organizations_cache()
+        if not orgs_data:
+            self.logger.error("Failed to load organizations cache.")
+            return None
+
+        # Normalize the input organization name
+        normalized_search_name = self._normalize_organization_name(organization_name)
+        
+        for org in orgs_data:
+            # Compare using the pre-normalized name from the data
+            if org.get("normalizedName") == normalized_search_name:
+                crd = org.get("organizationCRD")
+                if crd and crd != "N/A":
                     self.logger.info(f"Found CRD {crd} for organization '{organization_name}'.")
                     return crd
                 else:
                     self.logger.warning(f"CRD not found for organization '{organization_name}'.")
                     return None
 
-        # Return a special value indicating the organization was not found
-        self.logger.warning(f"Organization '{organization_name}' not found in firms data.")
         return "NOT_FOUND"
+
     def close(self):
         """
         Closes the WebDriver if initialized.
         """
         if self.driver:
             self.driver.quit()
-
-    def _load_firms_cache(self) -> Optional[Dict]:
-        """Loads the firms.json file from the cache."""
-        firms_cache_file = os.path.join(self.cache_folder, "firms.json")
-        if os.path.exists(firms_cache_file):
-            self.logger.debug(f"Loaded firms cache from {firms_cache_file}.")
-            with open(firms_cache_file, 'r') as f:
-                return json.load(f)
-        else:
-            self.logger.error(f"Firms cache file {firms_cache_file} not found.")
-            return None
-
-
 
     def _read_from_cache(self, identifier: str, operation: str, service: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         """Reads data from cache, using employee-based directory if provided."""
@@ -281,51 +309,14 @@ class ApiClient:
             self.logger.error(f"Request error for individual '{individual_name}' at firm {firm_crd} from SEC API: {e}")
             return None, None
 
-    def get_firm_crd_from_brokercheck(self, organization_name: str, employee_number: Optional[str] = None) -> Optional[str]:
-        """Fetches firm CRD from BrokerCheck using organization name."""
-        service = "brokercheck"
-        cache_key = f"{organization_name}"
-        cache_file = self._get_cache_file_path(cache_key, "firm_search", service, employee_number)
-        cached_data = self._read_from_cache(cache_key, "firm_search", service, employee_number)
-        if cached_data:
-            self.logger.info(f"Retrieved firm info for '{organization_name}' from {service} cache (employee: {employee_number}).")
-            # Extract CRD from cached data
-            hits = cached_data.get('hits', {}).get('hits', [])
-            if hits:
-                firm_crd = hits[0].get('_source', {}).get('firm_crd_nb')
-                return firm_crd
-            return None
-
-        try:
-            url = 'https://api.brokercheck.finra.org/search/firm'
-            params = {
-                'query': organization_name,
-                'filter': 'active=true,previous=true',
-                'hl': 'true',
-                'nrows': '10',
-                'start': '0',
-                'wt': 'json'
-            }
-
-            response = requests.get(url, params=params)
-            if response.status_code == 200:
-                data = response.json()
-                self._write_to_cache(cache_key, "firm_search", data, service, employee_number=employee_number)
-                self.logger.info(f"Fetched firm info for '{organization_name}' from BrokerCheck API (employee: {employee_number}).")
-                time.sleep(self.wait_time)
-                hits = data.get('hits', {}).get('hits', [])
-                if hits:
-                    firm_crd = hits[0].get('_source', {}).get('firm_crd_nb')
-                    return firm_crd
-                return None
-            elif response.status_code == 403:
-                raise RateLimitExceeded(f"Rate limit exceeded for firm '{organization_name}'.")
-            else:
-                self.logger.error(f"Error fetching firm info for '{organization_name}' from BrokerCheck: {response.status_code}")
-                return None
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"Request error for firm '{organization_name}' from BrokerCheck: {e}")
-            return None
+    def get_firm_crd(self, organization_name: str) -> Optional[str]:
+        """DEPRECATED: Use get_organization_crd instead. Will be removed in future version."""
+        warnings.warn(
+            "get_firm_crd is deprecated and will be removed. Use get_organization_crd instead.",
+            DeprecationWarning,
+            stacklevel=2
+        )
+        return self.get_organization_crd(organization_name)
 
     # -------------------------
     # New SEC Enforcement Action Methods
