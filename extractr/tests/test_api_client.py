@@ -86,5 +86,25 @@ class TestApiClient(unittest.TestCase):
         self.assertEqual(result, cached_data)
         self.logger.info.assert_called_with(f"Retrieved basic info for CRD {crd_number} from cache.")
 
+    def test_get_organization_crd(self):
+        """Test organization CRD lookup with the new format"""
+        # Create a test input directory with test data
+        os.makedirs("input", exist_ok=True)
+        test_data = {
+            "entityName": "Test Organization",
+            "organizationCRD": "123456",
+            "normalizedName": "testorganization"
+        }
+        with open("input/organizationsCrd.jsonl", "w") as f:
+            f.write(json.dumps(test_data) + "\n")
+
+        client = ApiClient("test_cache", 0, self.logger)
+        crd = client.get_organization_crd("Test Organization")
+        self.assertEqual(crd, "123456")
+
+        # Clean up
+        os.remove("input/organizationsCrd.jsonl")
+        os.rmdir("input")
+
 if __name__ == '__main__':
     unittest.main()
