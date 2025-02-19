@@ -1,0 +1,150 @@
+import os
+import json
+import sys
+from pathlib import Path
+
+def green_check(message):
+    """Print message with green check mark"""
+    print(f"✅ {message}")
+
+def red_x(message):
+    """Print message with red X"""
+    print(f"❌ {message}")
+
+def warning(message):
+    """Print warning message"""
+    print(f"⚠️  {message}")
+
+def check_directories():
+    """Check if all required directories exist"""
+    required_dirs = ['drop', 'output', 'archive', 'cache', 'index']
+    missing_dirs = []
+    
+    for dir_path in required_dirs:
+        if not os.path.exists(dir_path):
+            missing_dirs.append(dir_path)
+    
+    return missing_dirs
+
+def check_config():
+    """Check if config.json exists and has required fields"""
+    config_path = 'config.json'
+    required_fields = [
+        'evaluate_name',
+        'evaluate_license',
+        'evaluate_exams',
+        'evaluate_disclosures'
+    ]
+    
+    if not os.path.exists(config_path):
+        return False, f"Missing config file: {config_path}"
+    
+    try:
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+            
+        missing_fields = [field for field in required_fields if field not in config]
+        if missing_fields:
+            return False, f"Config file missing fields: {', '.join(missing_fields)}"
+            
+    except json.JSONDecodeError:
+        return False, f"Invalid JSON in config file: {config_path}"
+        
+    return True, "Config file valid"
+
+def check_index_file():
+    """Check if organizationsCrd.jsonl exists and is valid"""
+    index_path = 'index/organizationsCrd.jsonl'
+    
+    if not os.path.exists(index_path):
+        return False, f"Missing index file: {index_path}\nPlease copy organizationsCrd.jsonl to the index directory before proceeding."
+        
+    try:
+        with open(index_path, 'r') as f:
+            # Check first line can be parsed as JSON
+            first_line = f.readline().strip()
+            json.loads(first_line)
+    except json.JSONDecodeError:
+        return False, f"Invalid JSONL format in: {index_path}"
+    except Exception as e:
+        return False, f"Error reading index file: {str(e)}"
+        
+    return True, "Index file valid"
+
+def check_venv():
+    """Check if running in a virtual environment"""
+    return hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix)
+
+def check_packages():
+    """Check if required packages are installed"""
+    required_packages = ['beautifulsoup4', 'selenium']
+    missing_packages = []
+    
+    for package in required_packages:
+        try:
+            __import__(package)
+        except ImportError:
+            missing_packages.append(package)
+            
+    return missing_packages
+
+def main():
+    print("\nVerifying FINRA Data Processing System setup...")
+    print("--------------------------------------------\n")
+    success = True
+    
+    # Ensure we're in the v2 directory
+    if not os.path.basename(os.getcwd()) == 'v2':
+        os.chdir('v2')
+        green_check("Changed working directory to v2/")
+    
+    # Check directories
+    missing_dirs = check_directories()
+    if missing_dirs:
+        red_x("Missing directories:")
+        for dir_path in missing_dirs:
+            print(f"   - {dir_path}")
+        success = False
+    else:
+        green_check("All required directories exist")
+    
+    # Check config
+    config_valid, config_msg = check_config()
+    if not config_valid:
+        red_x(f"Config check failed: {config_msg}")
+        success = False
+    else:
+        green_check("Config file valid")
+    
+    # Check index file
+    index_valid, index_msg = check_index_file()
+    if not index_valid:
+        red_x(f"Index file check failed: {index_msg}")
+        success = False
+    else:
+        green_check("Index file valid")
+    
+    # Check virtual environment
+    if not check_venv():
+        warning("Not running in a virtual environment")
+    else:
+        green_check("Running in virtual environment")
+    
+    # Check required packages
+    missing_packages = check_packages()
+    if missing_packages:
+        red_x(f"Missing required packages: {', '.join(missing_packages)}")
+        success = False
+    else:
+        green_check("Required packages installed")
+    
+    print("\nVerification Results:")
+    print("-------------------")
+    if success:
+        green_check("Setup verification completed successfully!")
+    else:
+        red_x("Setup verification failed! Please check the errors above and refer to instructions.txt")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main() 

@@ -1,0 +1,8 @@
+FINRA Data Processing System
+==========================
+
+Setup Instructions
+----------------
+
+1. Initial Setup
+Run the setup script: 

@@ -1,26 +1,9 @@
 import os
 import json
 
-# Define folder paths
-folder_path = './'
-input_folder = os.path.join(folder_path, 'drop')
-output_folder = os.path.join(folder_path, 'output')
-archive_folder = os.path.join(folder_path, 'archive')
-cache_folder = os.path.join(folder_path, 'cache')
-index_folder = os.path.join(folder_path, 'index')
-config_file = os.path.join(folder_path, 'config.json')
-
-# Default configuration to be written to config.json if it doesn't exist
-default_config = {
-    "evaluate_name": True,
-    "evaluate_license": True,
-    "evaluate_exams": True,
-    "evaluuate_disclosures": True
-}
-
-# Function to create directories if they don't exist
 def create_folders():
-    directories = [input_folder, output_folder, archive_folder, cache_folder, index_folder]
+    """Create required directories if they don't exist"""
+    directories = ['drop', 'output', 'archive', 'cache', 'index']
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -28,8 +11,16 @@ def create_folders():
         else:
             print(f"Directory already exists: {directory}")
 
-# Function to create config.json if it doesn't exist
 def create_config():
+    """Create config.json with default settings if it doesn't exist"""
+    config_file = 'config.json'
+    default_config = {
+        "evaluate_name": True,
+        "evaluate_license": True,
+        "evaluate_exams": True,
+        "evaluate_disclosures": True  # Fixed typo
+    }
+    
     if not os.path.exists(config_file):
         with open(config_file, 'w') as f:
             json.dump(default_config, f, indent=4)
@@ -37,11 +28,18 @@ def create_config():
     else:
         print(f"Config file already exists at: {config_file}")
 
-if __name__ == "__main__":
-    # Create folders
-    create_folders()
+def main():
+    # Ensure we're in the v2 directory
+    if not os.path.basename(os.getcwd()) == 'v2':
+        os.chdir('v2')
+        print("Changed working directory to v2/")
     
-    # Create config.json
+    # Create folders and config
+    create_folders()
     create_config()
+    
+    print("\nSetup complete!")
+    print("Run 'python verify_setup.py' to verify the installation.")
 
-    print("Setup complete!")
+if __name__ == "__main__":
+    main()
