@@ -112,6 +112,62 @@ def check_sec_agent():
     except Exception as e:
         return False, f"SEC agent setup error: {str(e)}"
 
+def check_finra_arbitration_agent():
+    """Check if FINRA arbitration agent is working properly"""
+    try:
+        from finra_arbitration_agent import search_individual, create_driver
+        
+        # Test no results case
+        with create_driver(headless=True) as driver:
+            results = search_individual(driver, "Izq", "Qzv")
+            if not isinstance(results, dict):
+                return False, "FINRA agent returned unexpected result type"
+            if results.get("result") != "No Results Found":
+                return False, "FINRA agent failed no-results test case"
+        
+        # Test multiple results case
+        with create_driver(headless=True) as driver:
+            results = search_individual(driver, "Izq", "Que")
+            if not isinstance(results, dict):
+                return False, "FINRA agent returned unexpected result type"
+            if not isinstance(results.get("result"), list):
+                return False, "FINRA agent failed multiple-results test case"
+            if len(results["result"]) <= 1:
+                return False, "FINRA agent did not return multiple results"
+        
+        return True, "FINRA arbitration agent is working properly"
+        
+    except Exception as e:
+        return False, f"FINRA arbitration agent setup error: {str(e)}"
+
+def check_nfa_basic_agent():
+    """Check if NFA BASIC agent is working properly"""
+    try:
+        from nfa_basic_agent import search_nfa_profile, create_driver
+        
+        # Test no results case
+        with create_driver(headless=True) as driver:
+            results = search_nfa_profile(driver, "Izq", "Qzv")
+            if not isinstance(results, dict):
+                return False, "NFA agent returned unexpected result type"
+            if results.get("result") != "No Results Found":
+                return False, "NFA agent failed no-results test case"
+        
+        # Test found results case
+        with create_driver(headless=True) as driver:
+            results = search_nfa_profile(driver, "Sam", "Smith")
+            if not isinstance(results, dict):
+                return False, "NFA agent returned unexpected result type"
+            if not isinstance(results.get("result"), list):
+                return False, "NFA agent failed found-results test case"
+            if len(results["result"]) == 0:
+                return False, "NFA agent did not return any results"
+        
+        return True, "NFA BASIC agent is working properly"
+        
+    except Exception as e:
+        return False, f"NFA BASIC agent setup error: {str(e)}"
+
 def main():
     print("\nVerifying FINRA Data Processing System setup...")
     print("--------------------------------------------\n")
@@ -155,6 +211,22 @@ def main():
         success = False
     else:
         green_check("SEC agent setup valid")
+    
+    # Add FINRA arbitration check after SEC check
+    finra_valid, finra_msg = check_finra_arbitration_agent()
+    if not finra_valid:
+        red_x(f"FINRA arbitration agent check failed: {finra_msg}")
+        success = False
+    else:
+        green_check("FINRA arbitration agent setup valid")
+    
+    # Add NFA BASIC check after FINRA check
+    nfa_valid, nfa_msg = check_nfa_basic_agent()
+    if not nfa_valid:
+        red_x(f"NFA BASIC agent check failed: {nfa_msg}")
+        success = False
+    else:
+        green_check("NFA BASIC agent setup valid")
     
     # Check index file
     index_valid, index_msg = check_index_file()
