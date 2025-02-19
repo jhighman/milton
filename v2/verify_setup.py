@@ -2,6 +2,8 @@ import os
 import json
 import sys
 from pathlib import Path
+from contextlib import contextmanager
+from finra_disciplinary_agent import get_driver, search_individual
 
 def green_check(message):
     """Print message with green check mark"""
@@ -75,18 +77,18 @@ def check_venv():
     """Check if running in a virtual environment"""
     return hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix)
 
-def check_packages():
-    """Check if required packages are installed"""
-    required_packages = ['beautifulsoup4', 'selenium']
-    missing_packages = []
-    
-    for package in required_packages:
-        try:
-            __import__(package)
-        except ImportError:
-            missing_packages.append(package)
-            
-    return missing_packages
+def check_selenium_setup():
+    """Check if Selenium and Chrome are working properly"""
+    try:
+        with get_driver(headless=True) as driver:
+            # Try a simple search that should return no results
+            result = search_individual(driver, "zballs", "maginszi")
+            if result.get("result") == "No Results Found":
+                return True, "Selenium and Chrome are working properly"
+            else:
+                return False, "Selenium test returned unexpected results"
+    except Exception as e:
+        return False, f"Selenium/Chrome setup error: {str(e)}"
 
 def main():
     print("\nVerifying FINRA Data Processing System setup...")
@@ -116,6 +118,14 @@ def main():
     else:
         green_check("Config file valid")
     
+    # Check Selenium setup
+    selenium_valid, selenium_msg = check_selenium_setup()
+    if not selenium_valid:
+        red_x(f"Selenium check failed: {selenium_msg}")
+        success = False
+    else:
+        green_check("Selenium setup valid")
+    
     # Check index file
     index_valid, index_msg = check_index_file()
     if not index_valid:
@@ -129,14 +139,6 @@ def main():
         warning("Not running in a virtual environment")
     else:
         green_check("Running in virtual environment")
-    
-    # Check required packages
-    missing_packages = check_packages()
-    if missing_packages:
-        red_x(f"Missing required packages: {', '.join(missing_packages)}")
-        success = False
-    else:
-        green_check("Required packages installed")
     
     print("\nVerification Results:")
     print("-------------------")

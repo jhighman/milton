@@ -9,6 +9,35 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 
+"""
+FINRA Disciplinary Actions Online Search Tool
+
+This script processes JSON files to search for disciplinary actions on FINRA's website.
+Each JSON file in the 'drop' directory should have the following structure:
+
+{
+    "claim": {
+        "first_name": "John",
+        "last_name": "Doe"
+    },
+    "alternate_names": [
+        ["Jane", "Doe"],
+        ["Johnny", "Doe"]
+    ]
+}
+
+Required JSON fields:
+- claim.first_name: Primary first name to search
+- claim.last_name: Primary last name to search
+- alternate_names: (Optional) List of alternate name pairs to search
+
+The script will:
+1. Search for the primary name
+2. Search for all alternate names if provided
+3. Save results to the output directory
+4. Cache intermediate results in the cache directory
+"""
+
 # Constants
 RUN_HEADLESS = True  # Set to False to run with the browser visible
 
@@ -109,6 +138,42 @@ def process_finra_search(driver, first_name, last_name):
         return {"error": str(e)}
 
 
+def validate_json_data(data, file_path):
+    """
+    Validate that the JSON data has the required fields.
+    Returns (is_valid, error_message)
+    """
+    if not isinstance(data, dict):
+        return False, f"Invalid JSON structure in {file_path}: expected object, got {type(data)}"
+    
+    # Check for claim object
+    if "claim" not in data:
+        return False, f"Missing 'claim' object in {file_path}"
+    
+    claim = data.get("claim", {})
+    if not isinstance(claim, dict):
+        return False, f"Invalid 'claim' structure in {file_path}: expected object, got {type(claim)}"
+    
+    # Check for required name fields
+    if not claim.get("first_name"):
+        return False, f"Missing or empty 'first_name' in claim: {file_path}"
+    if not claim.get("last_name"):
+        return False, f"Missing or empty 'last_name' in claim: {file_path}"
+    
+    # Validate alternate_names format if present
+    if "alternate_names" in data:
+        alt_names = data["alternate_names"]
+        if not isinstance(alt_names, list):
+            return False, f"Invalid 'alternate_names' structure: expected list in {file_path}"
+        
+        for i, name_pair in enumerate(alt_names):
+            if not isinstance(name_pair, list) or len(name_pair) != 2:
+                return False, f"Invalid alternate name pair at index {i} in {file_path}"
+            if not all(isinstance(n, str) and n.strip() for n in name_pair):
+                return False, f"Invalid or empty name in alternate name pair at index {i} in {file_path}"
+    
+    return True, ""
+
 def process_json_file(driver, file_path):
     """
     Process a single JSON file for disciplinary actions.
@@ -118,16 +183,24 @@ def process_json_file(driver, file_path):
     try:
         print(f"\nProcessing file: {file_path}")
         with open(file_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-
-        claim = data.get("claim", {})
-        first_name = claim.get("first_name")
-        last_name = claim.get("last_name")
-        alternate_names = data.get("alternate_names", [])
-
-        if not first_name or not last_name:
-            print(f"Skipping file due to missing name fields: {file_path}")
+            try:
+                data = json.load(file)
+            except json.JSONDecodeError as e:
+                errors_count += 1
+                print(f"Error: Invalid JSON format in {file_path}: {str(e)}")
+                return
+        
+        # Validate JSON structure
+        is_valid, error_message = validate_json_data(data, file_path)
+        if not is_valid:
+            errors_count += 1
+            print(f"Error: {error_message}")
             return
+
+        claim = data["claim"]
+        first_name = claim["first_name"]
+        last_name = claim["last_name"]
+        alternate_names = data.get("alternate_names", [])
 
         total_individuals_count += 1
         all_names = [(first_name, last_name)] + alternate_names
@@ -176,31 +249,96 @@ def summarize_results():
     print(f"Total Errors: {errors_count}")
 
 
-def main():
+class FinraSearcher:
     """
-    Main function to process all JSON files.
+    Interface for searching FINRA disciplinary actions.
     """
-    print("Starting FINRA disciplinary actions processing...")
-    os.makedirs(input_folder, exist_ok=True)
-    os.makedirs(output_folder, exist_ok=True)
-    os.makedirs(cache_folder, exist_ok=True)
+    def __init__(self, headless=True):
+        """Initialize the searcher with browser options"""
+        self.chrome_options = Options()
+        if headless:
+            self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--no-sandbox")
+        self.chrome_options.add_argument("--disable-dev-shm-usage")
+        self.chrome_options.add_argument("--disable-gpu")
+        self.chrome_options.add_argument("--window-size=1920,1080")
+        self.chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
+        
+        self.service = ChromeService()
+        self.driver = None
+        
+    def __enter__(self):
+        """Context manager entry"""
+        self.driver = webdriver.Chrome(service=self.service, options=self.chrome_options)
+        return self
+        
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit"""
+        if self.driver:
+            self.driver.quit()
+            
+    def search_individual(self, first_name, last_name, alternate_names=None, cache_dir=None):
+        """
+        Search for disciplinary actions for an individual.
+        
+        Args:
+            first_name (str): Primary first name
+            last_name (str): Primary last name
+            alternate_names (list): Optional list of [first_name, last_name] pairs
+            cache_dir (str): Optional directory to cache results
+            
+        Returns:
+            dict: Search results including primary and alternate name searches
+        """
+        if not self.driver:
+            raise RuntimeError("Searcher not initialized. Use with context manager.")
+            
+        if not first_name or not last_name:
+            raise ValueError("Both first_name and last_name are required")
+            
+        alternate_names = alternate_names or []
+        all_names = [(first_name, last_name)] + alternate_names
+        results = []
+        
+        for idx, (fname, lname) in enumerate(all_names, start=1):
+            print(f"\n--- Performing search {idx} for: {fname} {lname} ---")
+            result = process_finra_search(self.driver, fname, lname)
+            results.append(result)
+            
+            # Cache result if directory provided
+            if cache_dir:
+                employee_dir = os.path.join(cache_dir, f"{first_name}_{last_name}")
+                os.makedirs(employee_dir, exist_ok=True)
+                with open(os.path.join(employee_dir, f"result_{idx}.json"), 'w', encoding='utf-8') as f:
+                    json.dump(result, f, indent=4)
+                    
+        return results
 
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
-    try:
-        json_files = [f for f in os.listdir(input_folder) if f.endswith('.json')]
+def batch_process_folder(input_dir='drop', output_dir='output', cache_dir='cache', headless=True):
+    """
+    Process all JSON files in the input directory.
+    
+    This maintains the original batch processing functionality.
+    """
+    global total_individuals_count, disciplinary_action_count, no_results_count, errors_count
+    
+    os.makedirs(input_dir, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(cache_dir, exist_ok=True)
+    
+    with FinraSearcher(headless=headless) as searcher:
+        json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
         if not json_files:
             print("No JSON files found in the input folder.")
             return
-
+            
         for json_file in json_files:
-            file_path = os.path.join(input_folder, json_file)
-            process_json_file(driver, file_path)
-
+            file_path = os.path.join(input_dir, json_file)
+            process_json_file(searcher.driver, file_path)
+            
         summarize_results()
-    finally:
-        driver.quit()
 
-
+# Example usage:
 if __name__ == "__main__":
-    main()
+    # Batch processing (original functionality)
+    batch_process_folder()
