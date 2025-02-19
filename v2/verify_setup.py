@@ -90,6 +90,28 @@ def check_selenium_setup():
     except Exception as e:
         return False, f"Selenium/Chrome setup error: {str(e)}"
 
+def check_sec_agent():
+    """Check if SEC agent is working properly"""
+    try:
+        from sec_arbitration_agent import process_name
+        
+        # Try a simple search that should return no results
+        results, stats = process_name("John", "Doe", headless=True)
+        
+        if not isinstance(results, dict):
+            return False, "SEC agent returned unexpected result type"
+            
+        if results.get("result") != "No Results Found":
+            return False, "SEC agent returned unexpected results"
+            
+        if not all(key in stats for key in ['individuals_searched', 'total_searches', 'no_enforcement_actions']):
+            return False, "SEC agent returned invalid stats structure"
+            
+        return True, "SEC agent is working properly"
+        
+    except Exception as e:
+        return False, f"SEC agent setup error: {str(e)}"
+
 def main():
     print("\nVerifying FINRA Data Processing System setup...")
     print("--------------------------------------------\n")
@@ -125,6 +147,14 @@ def main():
         success = False
     else:
         green_check("Selenium setup valid")
+    
+    # Add SEC agent check
+    sec_valid, sec_msg = check_sec_agent()
+    if not sec_valid:
+        red_x(f"SEC agent check failed: {sec_msg}")
+        success = False
+    else:
+        green_check("SEC agent setup valid")
     
     # Check index file
     index_valid, index_msg = check_index_file()

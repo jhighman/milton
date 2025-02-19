@@ -1,0 +1,47 @@
+{
+    "first_name": "Andrew",
+    "last_name": "Miller",
+    "result": [
+        {
+            "Enforcement Action": "SECURITIES AND EXCHANGE COMMISSION v. ANDREW MILLER, 1:15-cv-04585 (S.D.N.Y.)",
+            "Date Filed": "June 12, 2015",
+            "Documents": [
+                {
+                    "title": "SEC Complaint",
+                    "link": "https://www.sec.gov/litigation/complaints/2015/comp23284.pdf"
+                },
+                {
+                    "title": "LR-23284",
+                    "link": "https://www.sec.gov/litigation/litreleases/2015/lr23284.htm"
+                },
+                {
+                    "title": "Judgment",
+                    "link": "/files/Judg15-cv-04585Miller.pdf"
+                }
+            ]
+        },
+        {
+            "Enforcement Action": "SECURITIES AND EXCHANGE COMMISSION v. ANDREW M. MILLER, 3:15-cv-01461 (N.D. Cal.)",
+            "Date Filed": "March 31, 2015",
+            "Documents": [
+                {
+                    "title": "SEC Complaint",
+                    "link": "https://www.sec.gov/litigation/complaints/2015/comp-pr2015-53.pdf"
+                },
+                {
+                    "title": "LR-23225",
+                    "link": "https://www.sec.gov/litigation/litreleases/2015/lr23225.htm"
+                },
+                {
+                    "title": "Judgment",
+                    "link": "/files/Judg15-cv-01461Miller.pdf"
+                },
+                {
+                    "title": "LR-23454",
+                    "link": "https://www.sec.gov/litigation/litreleases/2016/lr23454.htm"
+                }
+            ]
+        }
+    ],
+    "total_actions": 2
+}
