@@ -7,6 +7,7 @@ input_folder = os.path.join(folder_path, 'drop')
 output_folder = os.path.join(folder_path, 'output')
 archive_folder = os.path.join(folder_path, 'archive')
 cache_folder = os.path.join(folder_path, 'cache')
+index_folder = os.path.join(folder_path, 'index')
 config_file = os.path.join(folder_path, 'config.json')
 
 # Default configuration to be written to config.json if it doesn't exist
@@ -19,7 +20,7 @@ default_config = {
 
 # Function to create directories if they don't exist
 def create_folders():
-    directories = [input_folder, output_folder, archive_folder, cache_folder]
+    directories = [input_folder, output_folder, archive_folder, cache_folder, index_folder]
     for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
