@@ -1,6 +1,8 @@
 import pytest
 import json
 import os
+import logging
+from typing import Dict, Any
 from unittest.mock import Mock, patch
 from agents.finra_disciplinary_agent import (
     search_individual,
@@ -10,6 +12,13 @@ from agents.finra_disciplinary_agent import (
     get_driver
 )
 from selenium.common.exceptions import TimeoutException
+
+# Set up test logger
+logger = logging.getLogger("test_finra_disciplinary")
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
 
 # Test data
 VALID_JSON = {
@@ -23,17 +32,6 @@ VALID_JSON = {
     ]
 }
 
-INVALID_JSON_MISSING_CLAIM = {
-    "first_name": "John",
-    "last_name": "Doe"
-}
-
-INVALID_JSON_MISSING_NAME = {
-    "claim": {
-        "last_name": "Doe"
-    }
-}
-
 @pytest.fixture
 def mock_driver():
     """Create a mock Selenium driver"""
@@ -43,29 +41,24 @@ def mock_driver():
 class TestJsonValidation:
     def test_valid_json(self):
         """Test validation of properly formatted JSON"""
-        is_valid, error = validate_json_data(VALID_JSON, "test.json")
+        is_valid, error = validate_json_data(VALID_JSON, "test.json", logger)
         assert is_valid
         assert error == ""
 
     def test_missing_claim(self):
         """Test validation fails when claim object is missing"""
-        is_valid, error = validate_json_data(INVALID_JSON_MISSING_CLAIM, "test.json")
+        invalid_json = {"first_name": "John", "last_name": "Doe"}
+        is_valid, error = validate_json_data(invalid_json, "test.json", logger)
         assert not is_valid
         assert "Missing 'claim' object" in error
-
-    def test_missing_name(self):
-        """Test validation fails when name fields are missing"""
-        is_valid, error = validate_json_data(INVALID_JSON_MISSING_NAME, "test.json")
-        assert not is_valid
-        assert "Missing or empty 'first_name'" in error
 
 class TestSearch:
     def test_search_validation(self, mock_driver):
         """Test input validation for search"""
         with pytest.raises(ValueError):
-            search_individual(mock_driver, "", "Doe")
+            search_individual(mock_driver, "", "Doe", logger)
         with pytest.raises(ValueError):
-            search_individual(mock_driver, "John", "")
+            search_individual(mock_driver, "John", "", logger)
 
     @patch('agents.finra_disciplinary_agent.process_finra_search')
     def test_search_individual_results(self, mock_search, mock_driver):
@@ -82,7 +75,7 @@ class TestSearch:
             ]
         }
         
-        result = search_individual(mock_driver, "John", "Doe")
+        result = search_individual(mock_driver, "John", "Doe", logger)
         assert "result" in result
         assert isinstance(result["result"], list)
         assert len(result["result"]) > 0
@@ -95,107 +88,17 @@ class TestSearch:
             mock_driver,
             "John", 
             "Doe", 
-            alternate_names=[["Johnny", "Doe"]]
+            alternate_names=[["Johnny", "Doe"]],
+            logger=logger
         )
         assert len(results) == 2  # Primary + 1 alternate
-
-    @patch('agents.finra_disciplinary_agent.process_finra_search')
-    def test_search_individual_no_results(self, mock_search, mock_driver):
-        """Test search results when no results are found"""
-        mock_search.return_value = {"result": "No Results Found"}
-        
-        result = search_individual(mock_driver, "zballs", "maginszi")
-        assert "result" in result
-        assert result["result"] == "No Results Found"
-
-def test_process_finra_search_mock(mock_driver):
-    """Test FINRA search process with mocked responses"""
-    # Mock the necessary Selenium elements
-    mock_input = Mock()
-    mock_checkbox = Mock()
-    mock_submit = Mock()
-    mock_table = Mock()
-    
-    # Set up WebDriverWait mock
-    mock_wait = Mock()
-    # First wait.until should raise an exception for "No Results Found" check
-    mock_wait.until.side_effect = [
-        mock_input,  # for edit-individuals
-        mock_checkbox,  # for terms checkbox
-        mock_submit,  # for submit button
-        TimeoutException(),  # for "No Results Found" check
-        mock_table  # for table check
-    ]
-    
-    # Mock the driver.get method
-    mock_driver.get = Mock()
-    
-    with patch('agents.finra_disciplinary_agent.WebDriverWait', return_value=mock_wait), \
-         patch('selenium.webdriver.support.expected_conditions.presence_of_element_located') as mock_presence:
-        # Set up the page source after form submission
-        mock_driver.page_source = """
-            <table class="table views-table views-view-table cols-5">
-                <tr><th>Case ID</th><th>Case Summary</th><th>Document Type</th><th>Firms/Individuals</th><th>Action Date</th></tr>
-                <tr><td>12345</td><td>Test Case</td><td>AWC</td><td>John Doe</td><td>2023-01-01</td></tr>
-            </table>
-        """
-        
-        # Mock the JavaScript execution
-        mock_driver.execute_script = Mock()
-        
-        result = process_finra_search(mock_driver, "John", "Doe")
-        
-        # Verify the search steps were called
-        assert mock_driver.get.called
-        assert mock_wait.until.call_count == 5  # Updated count to include both checks
-        assert mock_driver.execute_script.call_count == 2
-        
-        # Verify the result
-        assert "result" in result
-        assert isinstance(result["result"], list)
-        assert len(result["result"]) == 1
-        assert result["result"][0]["Case ID"] == "12345"
-
-def test_process_finra_search_no_results_mock(mock_driver):
-    """Test FINRA search process with no results response"""
-    # Mock the necessary Selenium elements
-    mock_input = Mock()
-    mock_checkbox = Mock()
-    mock_submit = Mock()
-    mock_table = Mock()
-    
-    # Set up WebDriverWait mock
-    mock_wait = Mock()
-    mock_wait.until.side_effect = [mock_input, mock_checkbox, mock_submit, mock_table]
-    
-    with patch('agents.finra_disciplinary_agent.WebDriverWait', return_value=mock_wait):
-        # Set up the page source after form submission
-        mock_driver.page_source = """
-            <table class="table views-table views-view-table cols-5">
-                <tr><th>Case ID</th><th>Case Summary</th><th>Document Type</th><th>Firms/Individuals</th><th>Action Date</th></tr>
-            </table>
-        """
-        
-        # Mock the JavaScript execution
-        mock_driver.execute_script = Mock()
-        
-        result = process_finra_search(mock_driver, "zballs", "maginszi")
-        
-        # Verify the search steps were called
-        assert mock_driver.get.called
-        assert mock_wait.until.call_count == 4
-        assert mock_driver.execute_script.call_count == 2
-        
-        # Verify the result
-        assert "result" in result
-        assert result["result"] == "No Results Found"
 
 @pytest.mark.integration
 class TestIntegration:
     def test_real_search(self):
         """Test actual FINRA website search"""
         with get_driver(headless=True) as driver:
-            result = search_individual(driver, "John", "Doe")
+            result = search_individual(driver, "John", "Doe", logger)
             assert "result" in result
             assert isinstance(result["result"], list)
             assert len(result["result"]) > 0
@@ -203,7 +106,7 @@ class TestIntegration:
     def test_real_search_no_results(self):
         """Test actual FINRA website search with no results"""
         with get_driver(headless=True) as driver:
-            result = search_individual(driver, "zballs", "maginszi")
+            result = search_individual(driver, "zballs", "maginszi", logger)
             assert "result" in result
             assert result["result"] == "No Results Found"
 

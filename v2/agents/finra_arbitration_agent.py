@@ -2,6 +2,8 @@ import os
 import json
 import argparse
 import time
+import logging
+from typing import Dict, Any
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,6 +22,13 @@ RUN_HEADLESS = True
 input_folder = './drop'
 output_folder = './output'
 cache_folder = './cache'
+
+# Set up module logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
 
 def create_driver(headless=True):
     options = Options()
@@ -48,90 +57,105 @@ def handle_cookie_consent(driver):
     except Exception as e:
         print(f"Error dismissing cookie consent: {e}")
 
-def search_individual(driver, first_name, last_name):
+def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome, 
+                     logger: logging.Logger, service: str = "finra") -> Dict[str, Any]:
+    """
+    Searches for an individual and parses the results, with the base URL encapsulated.
+    
+    Args:
+        first_name: Individual's first name.
+        last_name: Individual's last name.
+        driver: Selenium WebDriver instance.
+        logger: Logger for debugging and errors.
+        service: Identifier for the service (default: "finra").
+    
+    Returns:
+        Dictionary with parsed results or error information.
+    """
     search_term = f"{first_name} {last_name}"
     if not first_name or not last_name:
         raise ValueError("Both first_name and last_name are required")
-    return process_arbitration_search(driver, search_term)
+    return process_arbitration_search(driver, search_term, logger)
 
-def process_arbitration_search(driver, search_term):
-    print(f"Starting search for '{search_term}'...")
+def process_arbitration_search(driver: webdriver.Chrome, search_term: str, logger: logging.Logger) -> Dict[str, Any]:
+    """Process the arbitration search with the given search term"""
+    logger.info(f"Starting search for '{search_term}'...")
     try:
-        print("Navigating to Arbitration Awards page...")
+        logger.info("Navigating to Arbitration Awards page...")
         driver.get("https://www.finra.org/arbitration-mediation/arbitration-awards")
         
         # Step 1: Handle cookie consent popup
         handle_cookie_consent(driver)
 
         # Step 2: Click Terms of Service checkbox
-        print("Locating Terms of Service checkbox...")
+        logger.info("Locating Terms of Service checkbox...")
         terms_checkbox = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "edit-terms-of-service"))
         )
         if not terms_checkbox.is_selected():
             driver.execute_script("arguments[0].click();", terms_checkbox)
-            print("Clicked Terms of Service checkbox")
-            print("Waiting 5 seconds after clicking Terms of Service...")
+            logger.info("Clicked Terms of Service checkbox")
+            logger.info("Waiting 5 seconds after clicking Terms of Service...")
             time.sleep(5)
         else:
-            print("Terms of Service checkbox already selected")
+            logger.info("Terms of Service checkbox already selected")
 
         # Step 3: Enter search term
-        print("Locating search input...")
+        logger.info("Locating search input...")
         search_input = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "edit-search"))
         )
         search_input.clear()
         time.sleep(1)
         search_input.send_keys(search_term)
-        print(f"Entered search term: '{search_term}'")
+        logger.info(f"Entered search term: '{search_term}'")
         time.sleep(2)
 
         # Step 4: Submit the form
-        print("Locating and clicking search button...")
+        logger.info("Locating and clicking search button...")
         submit_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "edit-actions-submit"))
         )
         driver.execute_script("arguments[0].click();", submit_button)
-        print("Waiting 5 seconds after submitting search...")
+        logger.info("Waiting 5 seconds after submitting search...")
         time.sleep(5)
 
         # Step 5: Wait for results
-        print("Waiting for results...")
+        logger.info("Waiting for results...")
         try:
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//em[text()='No Results Found']"))
             )
-            print("No results found")
+            logger.info("No results found")
             return {"result": "No Results Found"}
         except:
             WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "table.views-table.views-view-table.cols-5"))
             )
-            print("Results table detected")
+            logger.info("Results table detected")
             time.sleep(3)
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             table = soup.find("table", class_=["views-table", "views-view-table", "cols-5"])
             
             if not table:
-                print("No results table found in BeautifulSoup parse")
-                print(f"Page source length: {len(driver.page_source)}")
+                logger.info("No results table found in BeautifulSoup parse")
+                logger.info(f"Page source length: {len(driver.page_source)}")
                 driver.save_screenshot("debug_table_not_found.png")
                 # Fallback to Selenium extraction
                 table_element = driver.find_element(By.CSS_SELECTOR, "table.views-table.views-view-table.cols-5")
                 soup = BeautifulSoup(table_element.get_attribute("outerHTML"), 'html.parser')
                 table = soup.find("table")
                 if not table:
-                    print("Fallback failed: Table still not found")
+                    logger.info("Fallback failed: Table still not found")
                     return {"result": "No Results Found"}
-                print("Fallback to Selenium table extraction succeeded")
+                logger.info("Fallback to Selenium table extraction succeeded")
 
-            print("Table found, parsing results...")
+            logger.info("Table found, parsing results...")
             headers = ["Award Document", "Case Summary", "Document Type", "Forum", "Date of Award"]
             result_rows = []
             tbody = table.find("tbody")
             if not tbody:
-                print("No tbody found in table")
+                logger.info("No tbody found in table")
                 return {"result": "No Results Found"}
             
             for tr in tbody.find_all("tr"):
@@ -154,11 +178,11 @@ def process_arbitration_search(driver, search_term):
                         row[header] = td.get_text(strip=True)
                 result_rows.append(row)
             
-            print(f"Extracted {len(result_rows)} awards")
+            logger.info(f"Extracted {len(result_rows)} awards")
             return {"result": result_rows}
 
     except Exception as e:
-        print(f"Error during search: {e}")
+        logger.error(f"Error during search: {e}")
         driver.save_screenshot("debug_error.png")
         return {"error": str(e)}
 
@@ -169,11 +193,27 @@ def validate_json_data(data, file_path):
         return False, f"Invalid 'alternate_names' in {file_path}"
     return True, ""
 
-def search_with_alternates(driver, first_name, last_name, alternate_names=None):
+def search_with_alternates(driver, first_name, last_name, alternate_names=None, logger=logger):
+    """
+    Search for an individual and their alternate names.
+    
+    Args:
+        driver: Selenium WebDriver instance
+        first_name: Primary first name
+        last_name: Primary last name
+        alternate_names: List of [first_name, last_name] pairs
+        logger: Logger instance (defaults to module logger)
+    """
     all_names = [(first_name, last_name)] + (alternate_names or [])
-    return [search_individual(driver, fname, lname) for fname, lname in all_names]
+    return [search_individual(fname, lname, driver, logger) for fname, lname in all_names]
 
-def batch_process_folder():
+def batch_process_folder(logger=logger):
+    """
+    Process all JSON files in the input folder.
+    
+    Args:
+        logger: Logger instance (defaults to module logger)
+    """
     os.makedirs(input_folder, exist_ok=True)
     os.makedirs(output_folder, exist_ok=True)
     os.makedirs(cache_folder, exist_ok=True)
@@ -237,7 +277,7 @@ def main():
     
     if args.first_name and args.last_name:
         with create_driver(args.headless) as driver:
-            result = search_individual(driver, args.first_name, args.last_name)
+            result = search_individual(args.first_name, args.last_name, driver, logger)
             print(json.dumps(result, indent=2))
     elif args.batch:
         batch_process_folder()

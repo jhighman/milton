@@ -732,12 +732,6 @@ class ApiClient:
 
             # STEP 4: Select "All Document Types" in the dropdown
             self.logger.debug("Step 4: Setting 'Document Types' to 'All Document Types'...")
-            document_type_dropdown = Select(
-                WebDriverWait(driver, SHORT_WAIT).until(
-                    EC.visibility_of_element_located((By.ID, "edit-document-type"))
-                )
-            )
-            document_type_dropdown.select_by_visible_text("All Document Types")
 
             # STEP 5: Click "Terms of Service" checkbox
             self.logger.debug("Step 5: Clicking 'Terms of Service' checkbox...")

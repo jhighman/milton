@@ -2,35 +2,39 @@ import pytest
 import os
 import time
 import sys
+import logging
 from pathlib import Path
+from typing import Dict, Any, Tuple
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from agents.sec_arbitration_agent import process_name, process_claim
 
+# Set up test logger
+logger = logging.getLogger("test_sec_arbitration")
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+logger.addHandler(handler)
+
 # Only keep LONG_WAIT for the override tests
 LONG_WAIT = 10
 
 def test_no_results():
     """Test case for a name with no enforcement actions"""
-    results, stats = process_name("John", "Doe", headless=True)
+    results, stats = process_name("John", "Doe", headless=True, logger=logger)
     
     print("\nTesting No Results Case:")
-    print(f"Expected: No Results Found")
     print(f"Received: {results}")
+    print(f"Stats: {stats}")
     
-    # Check results structure
-    assert isinstance(results, dict), f"Expected dict, got {type(results)}"
-    assert results["first_name"] == "John", f"Expected first_name 'John', got {results.get('first_name')}"
-    assert results["last_name"] == "Doe", f"Expected last_name 'Doe', got {results.get('last_name')}"
-    assert results["result"] == "No Results Found", f"Expected 'No Results Found', got {results.get('result')}"
+    assert isinstance(results, dict)
+    assert results["first_name"] == "John"
+    assert results["last_name"] == "Doe"
+    assert results["result"] == "No Results Found"
     
-    print("\nTesting Stats:")
-    print(f"Expected stats: individuals=1, searches=1, no_actions=1, actions=0, errors=0")
-    print(f"Received stats: {stats}")
-    
-    # Check stats
+    # Verify stats
     assert stats["individuals_searched"] == 1
     assert stats["total_searches"] == 1
     assert stats["no_enforcement_actions"] == 1
@@ -39,7 +43,7 @@ def test_no_results():
 
 def test_single_enforcement_action():
     """Test case for Mark Miller who has one enforcement action"""
-    results, stats = process_name("Mark", "Miller", headless=True)
+    results, stats = process_name("Mark", "Miller", headless=True, logger=logger)
     
     print("\nTesting Single Enforcement Action Case:")
     print(f"Expected: One enforcement action for W. MARK MILLER from July 2, 2014")
@@ -72,7 +76,7 @@ def test_single_enforcement_action():
 
 def test_multiple_enforcement_actions():
     """Test case for Andrew Miller who has multiple enforcement actions"""
-    results, stats = process_name("Andrew", "Miller", headless=True)
+    results, stats = process_name("Andrew", "Miller", headless=True, logger=logger)
     
     print("\nTesting Multiple Enforcement Actions Case:")
     print(f"Expected: Multiple enforcement actions")
@@ -109,7 +113,7 @@ def test_alternate_names():
         }
     }
     
-    results, stats = process_claim(claim_data, headless=True)
+    results, stats = process_claim(claim_data, headless=True, logger=logger)
     
     # Should have results for each name variant
     assert isinstance(results, list)
@@ -125,7 +129,7 @@ def test_alternate_names():
 # Change this to only test visible vs headless modes
 def test_visible_browser():
     """Test that browser can run in visible mode"""
-    results, stats = process_name("Mark", "Miller", headless=False)
+    results, stats = process_name("Mark", "Miller", headless=False, logger=logger)
     
     # Results should be the same as headless mode
     assert isinstance(results, dict)
@@ -134,10 +138,27 @@ def test_visible_browser():
     assert isinstance(results["result"], list)
     assert len(results["result"]) == 1
 
+def test_found_results():
+    """Test case for a name with enforcement actions"""
+    results, stats = process_name("Mark", "Miller", headless=True, logger=logger)
+    
+    assert isinstance(results, dict)
+    assert results["first_name"] == "Mark"
+    assert results["last_name"] == "Miller"
+    assert isinstance(results["result"], list)
+    assert len(results["result"]) > 0
+    
+    # Verify result structure
+    for action in results["result"]:
+        assert "Enforcement Action" in action
+        assert "Date Filed" in action
+        assert "Documents" in action
+        assert isinstance(action["Documents"], list)
+
 def test_wait_time_override():
     """Test that wait time can be overridden"""
     start_time = time.time()
-    results, _ = process_name("John", "Doe", headless=True, wait_time=LONG_WAIT)
+    results, _ = process_name("John", "Doe", headless=True, wait_time=LONG_WAIT, logger=logger)
     elapsed_time = time.time() - start_time
     
     # Should take at least LONG_WAIT seconds

@@ -1,15 +1,17 @@
 import os
 import json
+from typing import Dict, List, Tuple, Optional, Any, Generator
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.support.ui import Select
 from bs4 import BeautifulSoup
 import argparse
 from contextlib import contextmanager
+import logging
+from logging import Logger
 
 """
 FINRA Disciplinary Actions Online Search Tool
@@ -32,13 +34,15 @@ Required JSON fields:
 - claim.first_name: Primary first name to search
 - claim.last_name: Primary last name to search
 - alternate_names: (Optional) List of alternate name pairs to search
-
-The script will:
-1. Search for the primary name
-2. Search for all alternate names if provided
-3. Save results to the output directory
-4. Cache intermediate results in the cache directory
 """
+
+# Module-level logger configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
+    handlers=[logging.StreamHandler()]
+)
+logger = logging.getLogger(__name__)
 
 # Constants
 RUN_HEADLESS = True  # Set to False to run with the browser visible
@@ -49,8 +53,18 @@ input_folder = os.path.join(folder_path, 'drop')
 output_folder = os.path.join(folder_path, 'output')
 cache_folder = os.path.join(folder_path, 'cache')
 
-def create_driver(headless=True):
-    """Create and configure a Chrome WebDriver"""
+def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.Chrome:
+    """
+    Create and configure a Chrome WebDriver.
+
+    Args:
+        headless (bool): Whether to run the browser in headless mode. Defaults to True.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
+    Returns:
+        webdriver.Chrome: Configured WebDriver instance.
+    """
+    logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
     options = Options()
     if headless:
         options.add_argument("--headless")
@@ -64,93 +78,126 @@ def create_driver(headless=True):
     return webdriver.Chrome(service=service, options=options)
 
 @contextmanager
-def get_driver(headless=True):
-    """Context manager for WebDriver"""
+def get_driver(headless: bool = True) -> Generator[webdriver.Chrome, None, None]:
+    """
+    Context manager for creating and cleaning up a Chrome WebDriver.
+    
+    Args:
+        headless: Whether to run browser in headless mode
+        
+    Yields:
+        A configured Chrome WebDriver instance
+    """
     driver = create_driver(headless)
     try:
         yield driver
     finally:
         driver.quit()
 
-def search_individual(driver, first_name, last_name):
+def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str, logger: Logger = logger) -> Dict[str, Any]:
     """
-    Search for an individual's disciplinary actions
-    
+    Search for an individual's disciplinary actions on FINRA.
+
     Args:
-        driver: Selenium WebDriver instance
-        first_name (str): First name to search
-        last_name (str): Last name to search
-    
+        driver (webdriver.Chrome): Selenium WebDriver instance.
+        first_name (str): First name to search.
+        last_name (str): Last name to search.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
     Returns:
-        dict: Search results
+        Dict[str, Any]: Search results containing either 'result' or 'error'.
+
+    Raises:
+        ValueError: If first_name or last_name is empty or None.
     """
     if not first_name or not last_name:
+        logger.error("Invalid input: first_name and last_name must not be empty", 
+                    extra={"first_name": first_name, "last_name": last_name})
         raise ValueError("Both first_name and last_name are required")
     
-    return process_finra_search(driver, first_name, last_name)
+    logger.info("Initiating search for individual", 
+                extra={"first_name": first_name, "last_name": last_name})
+    return process_finra_search(driver, first_name, last_name, logger)
 
-def search_with_alternates(driver, first_name, last_name, alternate_names=None):
+def search_with_alternates(driver: webdriver.Chrome, first_name: str, last_name: str, 
+                         alternate_names: Optional[List[List[str]]] = None, 
+                         logger: Logger = logger) -> List[Dict[str, Any]]:
     """
-    Search for an individual including alternate names
-    
+    Search for an individual including alternate names.
+
     Args:
-        driver: Selenium WebDriver instance
-        first_name (str): Primary first name
-        last_name (str): Primary last name
-        alternate_names (list): Optional list of [first_name, last_name] pairs
-    
+        driver (webdriver.Chrome): Selenium WebDriver instance.
+        first_name (str): Primary first name.
+        last_name (str): Primary last name.
+        alternate_names (Optional[List[List[str]]]): List of [first_name, last_name] pairs. Defaults to None.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
     Returns:
-        list: Results for primary and alternate names
+        List[Dict[str, Any]]: List of search results for primary and alternate names.
     """
     all_names = [(first_name, last_name)] + (alternate_names or [])
-    return [search_individual(driver, fname, lname) for fname, lname in all_names]
+    logger.debug("Preparing to search with alternates", 
+                extra={"primary_name": f"{first_name} {last_name}", "alternate_count": len(alternate_names or [])})
+    return [search_individual(driver, fname, lname, logger) for fname, lname in all_names]
 
-def process_finra_search(driver, first_name, last_name):
+def process_finra_search(driver: webdriver.Chrome, first_name: str, last_name: str, 
+                        logger: Logger = logger) -> Dict[str, Any]:
     """
     Perform a FINRA disciplinary actions search and extract results.
+
+    Args:
+        driver (webdriver.Chrome): Selenium WebDriver instance.
+        first_name (str): First name to search.
+        last_name (str): Last name to search.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
+    Returns:
+        Dict[str, Any]: Dictionary with 'result' (list or "No Results Found") or 'error'.
     """
-    print(f"Step 1: Performing search for {first_name} {last_name}...")
+    logger.info("Starting FINRA search process", 
+               extra={"first_name": first_name, "last_name": last_name})
+    
     try:
         # Navigate to FINRA search page
-        print("Step 2: Navigating to the FINRA disciplinary actions page...")
+        logger.debug("Navigating to FINRA disciplinary actions page")
         driver.get("https://www.finra.org/rules-guidance/oversight-enforcement/finra-disciplinary-actions-online")
 
         # Input search details
-        print("Step 3: Filling in search fields...")
+        logger.debug("Filling in search fields")
         search_input = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "edit-individuals"))
         )
         search_input.send_keys(f"{first_name} {last_name}")
 
         # Agree to terms and submit
-        print("Step 5: Agreeing to 'Terms of Service' and submitting the form...")
+        logger.debug("Agreeing to terms and submitting form")
         try:
             terms_checkbox = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.ID, "edit-terms-of-service"))
             )
             driver.execute_script("arguments[0].click();", terms_checkbox)
-            print("Step 5.1: 'Terms of Service' checkbox clicked.")
+            logger.debug("Terms of Service checkbox clicked")
 
             submit_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.ID, "edit-actions-submit"))
             )
             driver.execute_script("arguments[0].click();", submit_button)
-            print("Step 5.2: Submit button clicked.")
+            logger.debug("Submit button clicked")
         except Exception as e:
-            print(f"Error during form submission: {e}")
-            return {"error": str(e)}
+            logger.error("Error during form submission", extra={"error": str(e)})
+            return {"error": f"Form submission failed: {str(e)}"}
 
-        # Wait for either "No Results Found" or the results table
-        print("Step 6: Waiting for results...")
+        # Wait for results or no results message
+        logger.debug("Waiting for search results")
         try:
-            no_results = WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//em[text()='No Results Found']"))
             )
-            print("Step 7: No results found for this search.")
+            logger.info("No results found for search")
             return {"result": "No Results Found"}
         except:
-            # If "No Results Found" isn't found, look for the table
-            print("Step 6.1: Looking for results table...")
+            # Look for results table
+            logger.debug("Checking for results table")
             WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "div.table-responsive.col > table.views-table.views-view-table.cols-5"))
             )
@@ -159,64 +206,99 @@ def process_finra_search(driver, first_name, last_name):
             table = soup.find("table", class_="table views-table views-view-table cols-5")
 
             if not table:
-                print("Step 7: No results table found.")
+                logger.warning("No results table found after search")
                 return {"result": "No Results Found"}
 
             # Parse table data
-            print("Step 7: Extracting disciplinary action data from the table...")
+            logger.debug("Extracting disciplinary action data")
             headers = ["Case ID", "Case Summary", "Document Type", "Firms/Individuals", "Action Date"]
-            result_rows = []
-            for tr in table.find_all("tr")[1:]:  # Skip header row
-                cells = [td.get_text(strip=True) for td in tr.find_all("td")]
-                result_rows.append(dict(zip(headers, cells)))
-
-            print(f"Step 8: Extracted {len(result_rows)} disciplinary actions.")
+            result_rows = [
+                dict(zip(headers, [td.get_text(strip=True) for td in tr.find_all("td")]))
+                for tr in table.find_all("tr")[1:]  # Skip header row
+            ]
+            logger.info("Search completed successfully", 
+                       extra={"result_count": len(result_rows)})
             return {"result": result_rows}
 
     except Exception as e:
-        print(f"Step 8: Error during the search: {e}")
+        logger.error("Search process failed", 
+                    extra={"first_name": first_name, "last_name": last_name, "error": str(e)})
         return {"error": str(e)}
 
-
-def validate_json_data(data, file_path):
+def validate_json_data(data: Any, file_path: str, logger: Logger = logger) -> Tuple[bool, str]:
     """
     Validate that the JSON data has the required fields.
-    Returns (is_valid, error_message)
+
+    Args:
+        data (Any): JSON data to validate.
+        file_path (str): Path to the JSON file for error reporting.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
+    Returns:
+        Tuple[bool, str]: (is_valid, error_message)
     """
-    if not isinstance(data, dict):
-        return False, f"Invalid JSON structure in {file_path}: expected object, got {type(data)}"
+    logger.debug("Validating JSON data", extra={"file_path": file_path})
     
-    # Check for claim object
+    if not isinstance(data, dict):
+        error = f"Invalid JSON structure in {file_path}: expected object, got {type(data)}"
+        logger.error(error)
+        return False, error
+    
     if "claim" not in data:
-        return False, f"Missing 'claim' object in {file_path}"
+        error = f"Missing 'claim' object in {file_path}"
+        logger.error(error)
+        return False, error
     
     claim = data.get("claim", {})
     if not isinstance(claim, dict):
-        return False, f"Invalid 'claim' structure in {file_path}: expected object, got {type(claim)}"
+        error = f"Invalid 'claim' structure in {file_path}: expected object, got {type(claim)}"
+        logger.error(error)
+        return False, error
     
-    # Check for required name fields
     if not claim.get("first_name"):
-        return False, f"Missing or empty 'first_name' in claim: {file_path}"
+        error = f"Missing or empty 'first_name' in claim: {file_path}"
+        logger.error(error)
+        return False, error
     if not claim.get("last_name"):
-        return False, f"Missing or empty 'last_name' in claim: {file_path}"
+        error = f"Missing or empty 'last_name' in claim: {file_path}"
+        logger.error(error)
+        return False, error
     
-    # Validate alternate_names format if present
     if "alternate_names" in data:
         alt_names = data["alternate_names"]
         if not isinstance(alt_names, list):
-            return False, f"Invalid 'alternate_names' structure: expected list in {file_path}"
+            error = f"Invalid 'alternate_names' structure: expected list in {file_path}"
+            logger.error(error)
+            return False, error
         
         for i, name_pair in enumerate(alt_names):
             if not isinstance(name_pair, list) or len(name_pair) != 2:
-                return False, f"Invalid alternate name pair at index {i} in {file_path}"
+                error = f"Invalid alternate name pair at index {i} in {file_path}"
+                logger.error(error)
+                return False, error
             if not all(isinstance(n, str) and n.strip() for n in name_pair):
-                return False, f"Invalid or empty name in alternate name pair at index {i} in {file_path}"
+                error = f"Invalid or empty name in alternate name pair at index {i} in {file_path}"
+                logger.error(error)
+                return False, error
     
+    logger.debug("JSON data validated successfully", extra={"file_path": file_path})
     return True, ""
 
-def batch_process_folder(input_dir='drop', output_dir='output', cache_dir='cache', headless=True):
+def batch_process_folder(input_dir: str = 'drop', output_dir: str = 'output', 
+                        cache_dir: str = 'cache', headless: bool = True, 
+                        logger: Logger = logger) -> Dict[str, int]:
     """
-    Process all JSON files in the input directory
+    Process all JSON files in the input directory.
+
+    Args:
+        input_dir (str): Directory containing input JSON files. Defaults to 'drop'.
+        output_dir (str): Directory for output results. Defaults to 'output'.
+        cache_dir (str): Directory for caching results. Defaults to 'cache'.
+        headless (bool): Whether to run the browser in headless mode. Defaults to True.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+
+    Returns:
+        Dict[str, int]: Processing statistics.
     """
     os.makedirs(input_dir, exist_ok=True)
     os.makedirs(output_dir, exist_ok=True)
@@ -229,60 +311,70 @@ def batch_process_folder(input_dir='drop', output_dir='output', cache_dir='cache
         'errors': 0
     }
     
+    logger.info("Starting batch processing", extra={"input_dir": input_dir})
+    
     with get_driver(headless) as driver:
         json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
         if not json_files:
-            print("No JSON files found in the input folder.")
+            logger.warning("No JSON files found in input folder", extra={"input_dir": input_dir})
             return stats
-            
+        
         for json_file in json_files:
             file_path = os.path.join(input_dir, json_file)
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                 
-                is_valid, error = validate_json_data(data, file_path)
+                is_valid, error = validate_json_data(data, file_path, logger)
                 if not is_valid:
                     stats['errors'] += 1
-                    print(f"Error: {error}")
+                    logger.error("Skipping file due to validation error", extra={"file_path": file_path})
                     continue
 
                 claim = data["claim"]
                 results = search_with_alternates(
-                    driver,
-                    claim["first_name"],
-                    claim["last_name"],
-                    data.get("alternate_names", [])
+                    driver, claim["first_name"], claim["last_name"], 
+                    data.get("alternate_names", []), logger
                 )
                 
                 stats['total_individuals'] += 1
-                
-                # Update stats and handle results
                 handle_search_results(
-                    results,
-                    claim["first_name"],
-                    claim["last_name"],
-                    output_dir,
-                    cache_dir,
-                    stats
+                    results, claim["first_name"], claim["last_name"], 
+                    output_dir, cache_dir, stats, logger
                 )
 
             except Exception as e:
                 stats['errors'] += 1
-                print(f"Error processing file {file_path}: {e}")
+                logger.error("Error processing file", 
+                            extra={"file_path": file_path, "error": str(e)})
     
-    print_summary(stats)
+    print_summary(stats, logger)
     return stats
 
-def handle_search_results(results, first_name, last_name, output_dir, cache_dir, stats):
-    """Handle search results including caching and stats"""
-    # Cache results
+def handle_search_results(results: List[Dict[str, Any]], first_name: str, last_name: str, 
+                        output_dir: str, cache_dir: str, stats: Dict[str, int], 
+                        logger: Logger = logger) -> None:
+    """
+    Handle search results including caching and stats updating.
+
+    Args:
+        results (List[Dict[str, Any]]): List of search results.
+        first_name (str): First name of the individual.
+        last_name (str): Last name of the individual.
+        output_dir (str): Directory for output results.
+        cache_dir (str): Directory for caching results.
+        stats (Dict[str, int]): Dictionary to update with processing stats.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+    """
+    logger.debug("Handling search results", 
+                extra={"first_name": first_name, "last_name": last_name, "result_count": len(results)})
+    
     cache_path = os.path.join(cache_dir, f"{first_name}_{last_name}", "results.json")
     os.makedirs(os.path.dirname(cache_path), exist_ok=True)
     with open(cache_path, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=4)
+    logger.debug("Results cached", extra={"cache_path": cache_path})
 
-    # Update stats
     for result in results:
         if result.get("result") == "No Results Found":
             stats['no_results'] += 1
@@ -291,22 +383,29 @@ def handle_search_results(results, first_name, last_name, output_dir, cache_dir,
         else:
             stats['disciplinary_actions'] += len(result["result"])
 
-    # Save to output if actions found
     if any(r.get("result") != "No Results Found" for r in results):
         output_path = os.path.join(output_dir, f"{first_name}_{last_name}", "results.json")
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(results, f, indent=4)
+        logger.debug("Results saved to output", extra={"output_path": output_path})
 
-def print_summary(stats):
-    """Print processing summary"""
+def print_summary(stats: Dict[str, int], logger: Logger = logger) -> None:
+    """
+    Print processing summary.
+
+    Args:
+        stats (Dict[str, int]): Processing statistics.
+        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+    """
+    logger.info("Processing summary", extra=stats)
     print("\n--- Summary ---")
     print(f"Total Individuals Processed: {stats['total_individuals']}")
     print(f"Total Disciplinary Actions Found: {stats['disciplinary_actions']}")
     print(f"Total No Results: {stats['no_results']}")
     print(f"Total Errors: {stats['errors']}")
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description='Search FINRA disciplinary actions')
     parser.add_argument('--first-name', help='First name to search')
     parser.add_argument('--last-name', help='Last name to search')
@@ -320,7 +419,7 @@ def main():
             result = search_individual(driver, args.first_name, args.last_name)
             print(json.dumps(result, indent=2))
     else:
-        batch_process_folder(headless=args.headless)
+        batch_process_folder(headless=args.headless, logger=logger)
 
 if __name__ == "__main__":
     main()
