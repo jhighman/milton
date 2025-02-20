@@ -1,0 +1,289 @@
+Milton Agent Services Specification
+=================================
+
+This document outlines the available agent services and their response formats.
+
+Import Guide
+-----------
+1. SEC IAPD Agent:
+   from agents.sec_iapd_agent import search_individual, search_individual_detailed_info
+
+2. FINRA BrokerCheck Agent:
+   from agents.finra_broker_check_agent import search_individual
+
+3. SEC Arbitration Agent:
+   from agents.sec_arbitration_agent import process_name, process_claim
+
+4. FINRA Disciplinary Agent:
+   from agents.finra_disciplinary_agent import search_individual
+
+5. NFA Basic Agent:
+   from agents.nfa_basic_agent import search_nfa_profile
+
+# Or import all from agents package:
+from agents import (
+    iapd_search_individual,          # SEC IAPD basic search
+    iapd_search_detailed,            # SEC IAPD detailed search
+    process_name,                    # SEC Arbitration name processing
+    process_claim,                   # SEC Arbitration claim processing
+    RateLimitExceeded               # Exception class
+)
+
+1. SEC IAPD Agent
+----------------
+Purpose: Query the SEC's Investment Adviser Public Disclosure (IAPD) database
+
+Services:
+a) Basic Search (search_individual)
+   Input: CRD number (str)
+   Output Example:
+   {
+     "hits": {
+       "total": 1,
+       "hits": [{
+         "_source": {
+           "ind_source_id": "1438859",
+           "ind_firstname": "RICHARD",
+           "ind_lastname": "GOTTERER",
+           "ind_bc_scope": "NotInScope",
+           "ind_ia_scope": "Active",
+           "ind_ia_disclosure_fl": "N",
+           "ind_employments_count": 1,
+           "ind_ia_current_employments": [{
+             "firm_id": "143490",
+             "firm_name": "CALAMOS WEALTH MANAGEMENT LLC",
+             "branch_city": "Coral Gables",
+             "branch_state": "FL",
+             "branch_zip": "33134",
+             "ia_only": "Y"
+           }]
+         }
+       }]
+     }
+   }
+
+b) Detailed Search (search_individual_detailed_info)
+   Input: CRD number (str)
+   Output Example:
+   {
+     "basicInformation": {
+       "individualId": 1438859,
+       "firstName": "RICHARD",
+       "lastName": "GOTTERER",
+       "bcScope": "NotInScope",
+       "iaScope": "Active"
+     },
+     "currentIAEmployments": [{
+       "firmId": 143490,
+       "firmName": "CALAMOS WEALTH MANAGEMENT LLC",
+       "iaOnly": "Y",
+       "registrationBeginDate": "7/28/2015"
+     }],
+     "disclosureFlag": "N",
+     "registeredStates": [
+       {"state": "Florida", "regScope": "IA", "status": "APPROVED"}
+     ]
+   }
+
+2. FINRA BrokerCheck Agent
+-------------------------
+Purpose: Query FINRA's BrokerCheck system for broker information
+
+Services:
+a) Basic Search (search_individual)
+   Input: CRD number (str)
+   Output Example:
+   {
+     "brokerCheckResult": {
+       "searchResults": [{
+         "name": "JOHN DOE",
+         "crd": "1234567",
+         "currentRegistrations": ["Series 7", "Series 63"],
+         "employmentHistory": [{
+           "firmName": "MORGAN STANLEY",
+           "startDate": "2020-01",
+           "endDate": "Present"
+         }]
+       }]
+     }
+   }
+
+3. SEC Arbitration Agent
+-----------------------
+Purpose: Process SEC arbitration claims and names
+
+Services:
+a) Process Name (process_name)
+   Input: Name string (str)
+   Output: Normalized name components
+   Example: "John A. Doe Jr." ->
+   {
+     "first_name": "JOHN",
+     "middle_name": "A",
+     "last_name": "DOE",
+     "suffix": "JR"
+   }
+
+b) Process Claim (process_claim)
+   Input: Claim text (str)
+   Output: Structured claim data
+   Example: "Unauthorized trading resulting in $50,000 loss" ->
+   {
+     "category": "UNAUTHORIZED_TRADING",
+     "amount": 50000,
+     "outcome": "PENDING"
+   }
+
+4. FINRA Disciplinary Agent
+--------------------------
+Purpose: Search FINRA disciplinary actions
+
+Services:
+a) Search Individual (search_individual)
+   Input: CRD number (str)
+   Output Example:
+   {
+     "disciplinaryActions": [{
+       "actionDate": "2022-03-15",
+       "actionType": "FINE",
+       "amount": 5000,
+       "description": "Failed to disclose outside business activities",
+       "status": "FINAL"
+     }]
+   }
+
+5. NFA Basic Agent
+-----------------
+Purpose: Query NFA BASIC system for futures industry professionals
+
+Services:
+a) Search Profile (search_nfa_profile)
+   Input: NFA ID (str)
+   Output Example:
+   {
+     "individual": {
+       "nfaId": "0123456",
+       "name": "JANE SMITH",
+       "registrationStatus": "APPROVED",
+       "registrationCategories": ["FCM", "IB"],
+       "firms": [{
+         "name": "FUTURES TRADING LLC",
+         "relationship": "PRINCIPAL",
+         "status": "CURRENT"
+       }]
+     }
+   }
+
+Error Handling
+-------------
+All agents may raise:
+- RateLimitExceeded: When API rate limits are hit
+- RequestException: For network/HTTP errors
+
+Response Format Notes
+-------------------
+1. All dates are in YYYY-MM-DD format unless specified
+2. Boolean flags are typically "Y"/"N" strings
+3. Status values are uppercase strings
+4. All name fields are returned in uppercase
+5. Monetary amounts are integers in USD
+
+Usage Notes
+----------
+1. All agents accept an optional employee_number parameter for tracking
+2. All agents use structured logging
+3. No caching is done at the agent level
+4. Rate limiting should be handled by the calling application 
+
+Error Handling Examples
+---------------------
+1. Not Found Responses:
+
+SEC IAPD Agent:
+{
+    "hits": {
+        "total": 0,
+        "hits": []
+    }
+}
+
+FINRA BrokerCheck Agent:
+{
+    "brokerCheckResult": {
+        "searchResults": [],
+        "totalResults": 0
+    }
+}
+
+NFA Basic Agent:
+{
+    "individual": None,
+    "error": "NO_RESULTS"
+}
+
+2. Exception Handling:
+
+Rate Limit Example:
+try:
+    result = search_individual("1234567", "EMP001")
+except RateLimitExceeded as e:
+    print(f"Rate limit hit: {e}")
+    # Handle rate limiting (e.g., wait and retry)
+except Exception as e:
+    print(f"Unexpected error: {e}")
+    # Handle other errors
+
+Network Error Example:
+try:
+    result = search_individual("1234567", "EMP001")
+except requests.exceptions.RequestException as e:
+    print(f"Network error: {e}")
+    # Handle network issues
+
+3. Invalid Input Responses:
+
+Invalid CRD Format:
+# Empty or non-string CRD
+result = search_individual("", "EMP001")  # Returns None
+result = search_individual(None, "EMP001")  # Returns None
+
+Invalid Name Format:
+# Empty name
+result = process_name("")
+{
+    "error": "INVALID_INPUT",
+    "message": "Name cannot be empty"
+}
+
+# Malformed name
+result = process_name("123")
+{
+    "error": "INVALID_FORMAT",
+    "message": "Name must contain alphabetic characters"
+}
+
+4. Common Error Codes:
+- NO_RESULTS: No matching records found
+- INVALID_INPUT: Input parameters are invalid
+- RATE_LIMITED: API rate limit exceeded
+- ACCESS_DENIED: Authentication/authorization failed
+- SERVICE_ERROR: Upstream service error
+- PARSE_ERROR: Response parsing failed
+
+5. Logging Examples:
+
+Success Log:
+2024-02-20 10:25:35,018 | INFO | sec_iapd_agent | Starting SEC IAPD search | {"crd": "1438859", "employee": "EMP001"}
+2024-02-20 10:25:35,245 | INFO | sec_iapd_agent | Data fetched successfully | {"crd": "1438859", "employee": "EMP001"}
+
+Error Log:
+2024-02-20 10:25:35,018 | ERROR | sec_iapd_agent | Rate limit exceeded | {"crd": "1438859", "employee": "EMP001"}
+2024-02-20 10:25:35,245 | ERROR | sec_iapd_agent | Network error during fetch | {"crd": "1438859", "error": "Connection refused"}
+
+Response Validation Notes
+-----------------------
+1. All responses include a status indicator (success/error)
+2. Error responses include an error code and message
+3. Empty results are distinguished from errors
+4. All agents validate input before making API calls
+5. Response format is consistent across error conditions 
