@@ -1,0 +1,9 @@
+Metadata-Version: 2.2
+Name: milton-agents
+Version: 0.1.0
+Requires-Python: >=3.8
+Requires-Dist: requests>=2.25.0
+Requires-Dist: pytest>=6.0.0
+Requires-Dist: pytest-mock>=3.6.0
+Dynamic: requires-dist
+Dynamic: requires-python
