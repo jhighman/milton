@@ -5,7 +5,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from nfa_basic_agent import search_nfa_profile, create_driver
+from agents.nfa_basic_agent import search_nfa_profile, create_driver
 
 def test_no_results():
     """Test case for a name with no NFA profile"""

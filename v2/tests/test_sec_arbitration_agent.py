@@ -7,7 +7,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from sec_arbitration_agent import process_name
+from agents.sec_arbitration_agent import process_name, process_claim
 
 # Only keep LONG_WAIT for the override tests
 LONG_WAIT = 10
@@ -109,7 +109,6 @@ def test_alternate_names():
         }
     }
     
-    from sec_arbitration_agent import process_claim
     results, stats = process_claim(claim_data, headless=True)
     
     # Should have results for each name variant

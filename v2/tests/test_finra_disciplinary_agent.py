@@ -2,7 +2,7 @@ import pytest
 import json
 import os
 from unittest.mock import Mock, patch
-from finra_disciplinary_agent import (
+from agents.finra_disciplinary_agent import (
     search_individual,
     search_with_alternates,
     validate_json_data,
@@ -67,7 +67,7 @@ class TestSearch:
         with pytest.raises(ValueError):
             search_individual(mock_driver, "John", "")
 
-    @patch('finra_disciplinary_agent.process_finra_search')
+    @patch('agents.finra_disciplinary_agent.process_finra_search')
     def test_search_individual_results(self, mock_search, mock_driver):
         """Test search results are properly returned"""
         mock_search.return_value = {
@@ -87,7 +87,7 @@ class TestSearch:
         assert isinstance(result["result"], list)
         assert len(result["result"]) > 0
 
-    @patch('finra_disciplinary_agent.process_finra_search')
+    @patch('agents.finra_disciplinary_agent.process_finra_search')
     def test_search_with_alternates_results(self, mock_search, mock_driver):
         """Test searching with alternate names"""
         mock_search.return_value = {"result": "No Results Found"}
@@ -99,7 +99,7 @@ class TestSearch:
         )
         assert len(results) == 2  # Primary + 1 alternate
 
-    @patch('finra_disciplinary_agent.process_finra_search')
+    @patch('agents.finra_disciplinary_agent.process_finra_search')
     def test_search_individual_no_results(self, mock_search, mock_driver):
         """Test search results when no results are found"""
         mock_search.return_value = {"result": "No Results Found"}
@@ -130,7 +130,7 @@ def test_process_finra_search_mock(mock_driver):
     # Mock the driver.get method
     mock_driver.get = Mock()
     
-    with patch('finra_disciplinary_agent.WebDriverWait', return_value=mock_wait), \
+    with patch('agents.finra_disciplinary_agent.WebDriverWait', return_value=mock_wait), \
          patch('selenium.webdriver.support.expected_conditions.presence_of_element_located') as mock_presence:
         # Set up the page source after form submission
         mock_driver.page_source = """
@@ -168,7 +168,7 @@ def test_process_finra_search_no_results_mock(mock_driver):
     mock_wait = Mock()
     mock_wait.until.side_effect = [mock_input, mock_checkbox, mock_submit, mock_table]
     
-    with patch('finra_disciplinary_agent.WebDriverWait', return_value=mock_wait):
+    with patch('agents.finra_disciplinary_agent.WebDriverWait', return_value=mock_wait):
         # Set up the page source after form submission
         mock_driver.page_source = """
             <table class="table views-table views-view-table cols-5">

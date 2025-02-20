@@ -71,23 +71,21 @@ def process_arbitration_search(driver, search_term):
         if not terms_checkbox.is_selected():
             driver.execute_script("arguments[0].click();", terms_checkbox)
             print("Clicked Terms of Service checkbox")
+            print("Waiting 5 seconds after clicking Terms of Service...")
+            time.sleep(5)
         else:
             print("Terms of Service checkbox already selected")
-        print("Waiting 3 seconds after clicking Terms of Service...")
-        time.sleep(3)
 
         # Step 3: Enter search term
         print("Locating search input...")
         search_input = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "edit-search"))
         )
-        if not search_input.is_displayed() or not search_input.is_enabled():
-            print("Search input exists but is not interactable")
-            driver.save_screenshot("debug_search_input.png")
-            raise Exception("Search input not interactable")
         search_input.clear()
+        time.sleep(1)
         search_input.send_keys(search_term)
         print(f"Entered search term: '{search_term}'")
+        time.sleep(2)
 
         # Step 4: Submit the form
         print("Locating and clicking search button...")
@@ -95,6 +93,8 @@ def process_arbitration_search(driver, search_term):
             EC.element_to_be_clickable((By.ID, "edit-actions-submit"))
         )
         driver.execute_script("arguments[0].click();", submit_button)
+        print("Waiting 5 seconds after submitting search...")
+        time.sleep(5)
 
         # Step 5: Wait for results
         print("Waiting for results...")
@@ -109,7 +109,7 @@ def process_arbitration_search(driver, search_term):
                 EC.presence_of_element_located((By.CSS_SELECTOR, "table.views-table.views-view-table.cols-5"))
             )
             print("Results table detected")
-            time.sleep(2)  # Ensure DOM stabilizes
+            time.sleep(3)
             soup = BeautifulSoup(driver.page_source, 'html.parser')
             table = soup.find("table", class_=["views-table", "views-view-table", "cols-5"])
             

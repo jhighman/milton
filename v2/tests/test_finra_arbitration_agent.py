@@ -5,7 +5,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from finra_arbitration_agent import search_individual, create_driver
+from agents.finra_arbitration_agent import search_individual, create_driver
 
 def test_no_results():
     """Test case for a name with no arbitration awards"""

@@ -1,9 +1,14 @@
 import os
 import json
 import sys
+import pytest
 from pathlib import Path
 from contextlib import contextmanager
-from finra_disciplinary_agent import get_driver, search_individual
+from agents.finra_disciplinary_agent import get_driver, search_individual
+from agents.nfa_basic_agent import search_nfa_profile, create_driver as nfa_create_driver
+from agents.finra_arbitration_agent import search_individual as finra_search_individual, create_driver as finra_create_driver
+from agents.sec_arbitration_agent import process_name
+from agents.api_client import get_organization_crd, get_individual_basic_info
 
 def green_check(message):
     """Print message with green check mark"""
@@ -93,78 +98,57 @@ def check_selenium_setup():
 def check_sec_agent():
     """Check if SEC agent is working properly"""
     try:
-        from sec_arbitration_agent import process_name
+        # Run the tests from test_sec_arbitration_agent.py
+        test_result = pytest.main([
+            "-v",
+            "tests/test_sec_arbitration_agent.py",
+            "--no-header",  # Cleaner output
+            "--tb=no"  # Hide traceback
+        ])
         
-        # Try a simple search that should return no results
-        results, stats = process_name("John", "Doe", headless=True)
-        
-        if not isinstance(results, dict):
-            return False, "SEC agent returned unexpected result type"
+        if test_result == 0:  # pytest.ExitCode.OK
+            return True, "SEC agent is working properly"
+        else:
+            return False, "SEC agent tests failed"
             
-        if results.get("result") != "No Results Found":
-            return False, "SEC agent returned unexpected results"
-            
-        if not all(key in stats for key in ['individuals_searched', 'total_searches', 'no_enforcement_actions']):
-            return False, "SEC agent returned invalid stats structure"
-            
-        return True, "SEC agent is working properly"
-        
     except Exception as e:
         return False, f"SEC agent setup error: {str(e)}"
 
 def check_finra_arbitration_agent():
     """Check if FINRA arbitration agent is working properly"""
     try:
-        from finra_arbitration_agent import search_individual, create_driver
+        # Run the tests from test_finra_arbitration_agent.py
+        test_result = pytest.main([
+            "-v",
+            "tests/test_finra_arbitration_agent.py",
+            "--no-header",  # Cleaner output
+            "--tb=no"  # Hide traceback
+        ])
         
-        # Test no results case
-        with create_driver(headless=True) as driver:
-            results = search_individual(driver, "Izq", "Qzv")
-            if not isinstance(results, dict):
-                return False, "FINRA agent returned unexpected result type"
-            if results.get("result") != "No Results Found":
-                return False, "FINRA agent failed no-results test case"
-        
-        # Test multiple results case
-        with create_driver(headless=True) as driver:
-            results = search_individual(driver, "Izq", "Que")
-            if not isinstance(results, dict):
-                return False, "FINRA agent returned unexpected result type"
-            if not isinstance(results.get("result"), list):
-                return False, "FINRA agent failed multiple-results test case"
-            if len(results["result"]) <= 1:
-                return False, "FINRA agent did not return multiple results"
-        
-        return True, "FINRA arbitration agent is working properly"
-        
+        if test_result == 0:  # pytest.ExitCode.OK
+            return True, "FINRA arbitration agent is working properly"
+        else:
+            return False, "FINRA arbitration agent tests failed"
+            
     except Exception as e:
         return False, f"FINRA arbitration agent setup error: {str(e)}"
 
 def check_nfa_basic_agent():
     """Check if NFA BASIC agent is working properly"""
     try:
-        from nfa_basic_agent import search_nfa_profile, create_driver
+        # Run the tests from test_nfa_basic_agent.py
+        test_result = pytest.main([
+            "-v",
+            "tests/test_nfa_basic_agent.py",
+            "--no-header",
+            "--tb=no"
+        ])
         
-        # Test no results case
-        with create_driver(headless=True) as driver:
-            results = search_nfa_profile(driver, "Izq", "Qzv")
-            if not isinstance(results, dict):
-                return False, "NFA agent returned unexpected result type"
-            if results.get("result") != "No Results Found":
-                return False, "NFA agent failed no-results test case"
-        
-        # Test found results case
-        with create_driver(headless=True) as driver:
-            results = search_nfa_profile(driver, "Sam", "Smith")
-            if not isinstance(results, dict):
-                return False, "NFA agent returned unexpected result type"
-            if not isinstance(results.get("result"), list):
-                return False, "NFA agent failed found-results test case"
-            if len(results["result"]) == 0:
-                return False, "NFA agent did not return any results"
-        
-        return True, "NFA BASIC agent is working properly"
-        
+        if test_result == 0:
+            return True, "NFA BASIC agent is working properly"
+        else:
+            return False, "NFA BASIC agent tests failed"
+            
     except Exception as e:
         return False, f"NFA BASIC agent setup error: {str(e)}"
 
