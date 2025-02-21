@@ -77,7 +77,9 @@ class FinancialServicesFacade:
 
         normalized_search_name = self._normalize_organization_name(organization_name)
         for org in orgs_data:
-            if org.get("normalizedName") == normalized_search_name:
+            # Normalize the stored name the same way as the search name
+            stored_name = self._normalize_organization_name(org.get("name", ""))
+            if stored_name == normalized_search_name:
                 crd = org.get("organizationCRD")
                 if crd and crd != "N/A":
                     logger.info(f"Found CRD {crd} for organization '{organization_name}'.")
@@ -85,6 +87,8 @@ class FinancialServicesFacade:
                 else:
                     logger.warning(f"CRD not found for organization '{organization_name}'.")
                     return None
+        
+        logger.warning(f"Organization '{organization_name}' not found in cache.")
         return "NOT_FOUND"
 
     # SEC IAPD Agent Functions
