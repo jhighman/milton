@@ -25,7 +25,7 @@ def driver():
 
 def test_no_results(driver):
     """Test case for a name with no NFA profile"""
-    results = search_individual(driver, "Izq", "Qzv", logger)
+    results = search_individual("Izq", "Qzv", driver=driver, logger=logger)
     
     print("\nTesting No Results Case:")
     print(f"Received: {results}")
@@ -35,7 +35,7 @@ def test_no_results(driver):
 
 def test_found_results(driver):
     """Test case for a name with NFA profile(s)"""
-    results = search_individual(driver, "Sam", "Smith", logger)
+    results = search_individual("Sam", "Smith", driver=driver, logger=logger)
     
     print("\nTesting Found Results Case:")
     print(f"Received: {results}")

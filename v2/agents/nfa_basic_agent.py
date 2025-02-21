@@ -67,7 +67,7 @@ def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.C
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/115.0.0.0 Safari/537.36")
     return webdriver.Chrome(service=ChromeService(), options=options)
 
-def search_individual(first_name: str, last_name: str,
+def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
                      employee_number: Optional[str] = None,
                      logger: Logger = logger) -> Dict[str, Any]:
     """
@@ -76,6 +76,7 @@ def search_individual(first_name: str, last_name: str,
     Args:
         first_name (str): First name to search.
         last_name (str): Last name to search.
+        driver (webdriver.Chrome): Selenium WebDriver instance.
         employee_number (Optional[str]): Optional identifier for logging context.
         logger (Logger): Logger instance for structured logging.
 
@@ -215,16 +216,18 @@ def search_with_alternates(driver: webdriver.Chrome, first_name: str, last_name:
         driver (webdriver.Chrome): Selenium WebDriver instance.
         first_name (str): Primary first name.
         last_name (str): Primary last name.
-        alternate_names (Optional[List[List[str]]]): List of [first_name, last_name] pairs. Defaults to None.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+        alternate_names (Optional[List[List[str]]]): List of [first_name, last_name] pairs.
+        logger (Logger): Logger instance for structured logging.
 
     Returns:
         List[Dict[str, Any]]: List of search results for all names.
     """
     all_names = [(first_name, last_name)] + (alternate_names or [])
     logger.debug("Searching with alternates", 
-                extra={"primary_name": f"{first_name} {last_name}", "alternate_count": len(alternate_names or [])})
-    return [search_individual(fname, lname, logger) for fname, lname in all_names]
+                extra={"primary_name": f"{first_name} {last_name}", 
+                      "alternate_count": len(alternate_names or [])})
+    return [search_individual(fname, lname, driver=driver, logger=logger) 
+            for fname, lname in all_names]
 
 def batch_process_folder(logger: Logger = logger) -> Dict[str, int]:
     """
@@ -314,7 +317,7 @@ def main() -> None:
     
     if args.first_name and args.last_name:
         with create_driver(args.headless, logger) as driver:
-            result = search_individual(args.first_name, args.last_name, logger)
+            result = search_individual(args.first_name, args.last_name, driver=driver, logger=logger)
             print(json.dumps(result, indent=2))
     elif args.batch:
         batch_process_folder(logger)
