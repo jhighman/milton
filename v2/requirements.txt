@@ -1,16 +1,5 @@
-beautifulsoup4==4.12.0
-selenium==4.10.0
-
-# AWS dependencies
-boto3>=1.26.0
-botocore>=1.29.0
-
-# Additional required dependencies
-requests>=2.25.0
-webdriver-manager>=4.0.1
-
-# Development dependencies
-setuptools>=65.0.0
-pytest>=6.0.0
-pytest-mock>=3.6.0
-pytest-integration>=0.2.2 
+beautifulsoup4>=4.9.3  # For HTML parsing
+selenium>=4.0.0        # For web automation
+requests>=2.25.1       # For HTTP requests
+typing>=3.7.4          # For type hints
+pytest>=6.0.0         # For testing

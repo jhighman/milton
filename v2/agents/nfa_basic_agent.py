@@ -67,19 +67,23 @@ def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.C
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/115.0.0.0 Safari/537.36")
     return webdriver.Chrome(service=ChromeService(), options=options)
 
-def search_nfa_profile(driver: webdriver.Chrome, first_name: str, last_name: str, 
-                      logger: Logger = logger) -> Dict[str, Any]:
+def search_individual(first_name: str, last_name: str,
+                     employee_number: Optional[str] = None,
+                     logger: Logger = logger) -> Dict[str, Any]:
     """
-    Search for an individual's profile on NFA BASIC.
+    Search for an individual's profile in NFA BASIC.
 
     Args:
-        driver (webdriver.Chrome): Selenium WebDriver instance.
         first_name (str): First name to search.
         last_name (str): Last name to search.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+        employee_number (Optional[str]): Optional identifier for logging context.
+        logger (Logger): Logger instance for structured logging.
 
     Returns:
-        Dict[str, Any]: Dictionary containing 'result' (list of profiles or "No Results Found") or 'error'.
+        Dict[str, Any]: Dictionary containing either:
+            - {"result": List[Dict]} for results found
+            - {"result": "No Results Found"} for no results 
+            - {"error": str} for errors
     """
     search_term = f"{first_name} {last_name}"
     logger.info("Starting NFA profile search", extra={"search_term": search_term})
@@ -220,7 +224,7 @@ def search_with_alternates(driver: webdriver.Chrome, first_name: str, last_name:
     all_names = [(first_name, last_name)] + (alternate_names or [])
     logger.debug("Searching with alternates", 
                 extra={"primary_name": f"{first_name} {last_name}", "alternate_count": len(alternate_names or [])})
-    return [search_nfa_profile(driver, fname, lname, logger) for fname, lname in all_names]
+    return [search_individual(fname, lname, logger) for fname, lname in all_names]
 
 def batch_process_folder(logger: Logger = logger) -> Dict[str, int]:
     """
@@ -310,7 +314,7 @@ def main() -> None:
     
     if args.first_name and args.last_name:
         with create_driver(args.headless, logger) as driver:
-            result = search_nfa_profile(driver, args.first_name, args.last_name, logger)
+            result = search_individual(args.first_name, args.last_name, logger)
             print(json.dumps(result, indent=2))
     elif args.batch:
         batch_process_folder(logger)

@@ -6,7 +6,6 @@ from typing import Dict, Any
 from unittest.mock import Mock, patch
 from agents.finra_disciplinary_agent import (
     search_individual,
-    search_with_alternates,
     validate_json_data,
     process_finra_search,
     get_driver
@@ -25,18 +24,8 @@ VALID_JSON = {
     "claim": {
         "first_name": "John",
         "last_name": "Doe"
-    },
-    "alternate_names": [
-        ["Johnny", "Doe"],
-        ["Jon", "Doe"]
-    ]
+    }
 }
-
-@pytest.fixture
-def mock_driver():
-    """Create a mock Selenium driver"""
-    with patch('selenium.webdriver.Chrome') as mock:
-        yield mock
 
 class TestJsonValidation:
     def test_valid_json(self):
@@ -53,16 +42,22 @@ class TestJsonValidation:
         assert "Missing 'claim' object" in error
 
 class TestSearch:
-    def test_search_validation(self, mock_driver):
+    def test_search_validation(self):
         """Test input validation for search"""
         with pytest.raises(ValueError):
-            search_individual(mock_driver, "", "Doe", logger)
+            search_individual("", "Doe", logger=logger)
         with pytest.raises(ValueError):
-            search_individual(mock_driver, "John", "", logger)
+            search_individual("John", "", logger=logger)
+        with pytest.raises(ValueError):
+            search_individual(None, "Doe", logger=logger)
+        with pytest.raises(ValueError):
+            search_individual("John", None, logger=logger)
 
+    @patch('agents.finra_disciplinary_agent.create_driver')
     @patch('agents.finra_disciplinary_agent.process_finra_search')
     def test_search_individual_results(self, mock_search, mock_driver):
         """Test search results are properly returned"""
+        mock_driver.return_value.__enter__.return_value = Mock()
         mock_search.return_value = {
             "result": [
                 {
@@ -75,39 +70,24 @@ class TestSearch:
             ]
         }
         
-        result = search_individual(mock_driver, "John", "Doe", logger)
+        result = search_individual("John", "Doe", logger=logger)
         assert "result" in result
         assert isinstance(result["result"], list)
         assert len(result["result"]) > 0
-
-    @patch('agents.finra_disciplinary_agent.process_finra_search')
-    def test_search_with_alternates_results(self, mock_search, mock_driver):
-        """Test searching with alternate names"""
-        mock_search.return_value = {"result": "No Results Found"}
-        results = search_with_alternates(
-            mock_driver,
-            "John", 
-            "Doe", 
-            alternate_names=[["Johnny", "Doe"]],
-            logger=logger
-        )
-        assert len(results) == 2  # Primary + 1 alternate
 
 @pytest.mark.integration
 class TestIntegration:
     def test_real_search(self):
         """Test actual FINRA website search"""
-        with get_driver(headless=True) as driver:
-            result = search_individual(driver, "John", "Doe", logger)
-            assert "result" in result
-            assert isinstance(result["result"], list)
-            assert len(result["result"]) > 0
+        result = search_individual("John", "Doe", logger=logger)
+        assert "result" in result
+        assert isinstance(result["result"], list)
+        assert len(result["result"]) > 0
 
     def test_real_search_no_results(self):
         """Test actual FINRA website search with no results"""
-        with get_driver(headless=True) as driver:
-            result = search_individual(driver, "zballs", "maginszi", logger)
-            assert "result" in result
-            assert result["result"] == "No Results Found"
+        result = search_individual("zballs", "maginszi", logger=logger)
+        assert "result" in result
+        assert result["result"] == "No Results Found"
 
     

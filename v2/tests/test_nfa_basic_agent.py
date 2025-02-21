@@ -8,7 +8,7 @@ from typing import Dict, Any
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from agents.nfa_basic_agent import search_nfa_profile, create_driver
+from agents.nfa_basic_agent import search_individual, create_driver
 
 # Set up test logger
 logger = logging.getLogger("test_nfa_basic")
@@ -25,7 +25,7 @@ def driver():
 
 def test_no_results(driver):
     """Test case for a name with no NFA profile"""
-    results = search_nfa_profile(driver, "Izq", "Qzv", logger)
+    results = search_individual(driver, "Izq", "Qzv", logger)
     
     print("\nTesting No Results Case:")
     print(f"Received: {results}")
@@ -35,7 +35,7 @@ def test_no_results(driver):
 
 def test_found_results(driver):
     """Test case for a name with NFA profile(s)"""
-    results = search_nfa_profile(driver, "Sam", "Smith", logger)
+    results = search_individual(driver, "Sam", "Smith", logger)
     
     print("\nTesting Found Results Case:")
     print(f"Received: {results}")
