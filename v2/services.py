@@ -94,6 +94,16 @@ class FinancialServicesFacade:
 
     # SEC IAPD Agent Functions
     def search_sec_iapd_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search SEC IAPD for an individual using their CRD number.
+
+        Args:
+            crd_number: The individual's CRD number
+            employee_number: Optional identifier for logging
+
+        Returns:
+            Optional[Dict]: Search results if found, None if not found or on error
+        """
         logger.info(f"Fetching SEC IAPD basic info for CRD: {crd_number}, Employee: {employee_number}")
         result = fetch_agent_sec_iapd_search(employee_number, {"crd_number": crd_number})
         if result:
@@ -103,6 +113,16 @@ class FinancialServicesFacade:
         return None
 
     def search_sec_iapd_detailed(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search SEC IAPD for detailed information about an individual using their CRD number.
+
+        Args:
+            crd_number: The individual's CRD number
+            employee_number: Optional identifier for logging
+
+        Returns:
+            Optional[Dict]: Detailed search results if found, None if not found or on error
+        """
         logger.info(f"Fetching SEC IAPD detailed info for CRD: {crd_number}, Employee: {employee_number}")
         result = fetch_agent_sec_iapd_detailed(employee_number, {"crd_number": crd_number})
         if result:
@@ -136,6 +156,16 @@ class FinancialServicesFacade:
 
     # FINRA BrokerCheck Agent Functions
     def search_finra_brokercheck_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search FINRA BrokerCheck for an individual using their CRD number.
+
+        Args:
+            crd_number: The individual's CRD number
+            employee_number: Optional identifier for logging
+
+        Returns:
+            Optional[Dict]: Search results if found, None if not found or on error
+        """
         logger.info(f"Fetching FINRA BrokerCheck basic info for CRD: {crd_number}, Employee: {employee_number}")
         time.sleep(5)  # Enforce rate limiting for FINRA BrokerCheck
         result = fetch_agent_finra_bc_search(employee_number, {"crd_number": crd_number})
@@ -146,6 +176,16 @@ class FinancialServicesFacade:
         return None
 
     def search_finra_brokercheck_detailed(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search FINRA BrokerCheck for detailed information about an individual using their CRD number.
+
+        Args:
+            crd_number: The individual's CRD number
+            employee_number: Optional identifier for logging
+
+        Returns:
+            Optional[Dict]: Detailed search results if found, None if not found or on error
+        """
         logger.info(f"Fetching FINRA BrokerCheck detailed info for CRD: {crd_number}, Employee: {employee_number}")
         time.sleep(5)  # Enforce rate limiting
         result = fetch_agent_finra_bc_detailed(employee_number, {"crd_number": crd_number})
