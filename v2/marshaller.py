@@ -38,7 +38,11 @@ def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger
     return webdriver.Chrome(service=ChromeService(), options=options)
 
 # Import agent functions (assuming they exist in your modules)
-from agents.sec_iapd_agent import search_individual as sec_iapd_search, search_individual_detailed_info as sec_iapd_search_detailed
+from agents.sec_iapd_agent import (
+    search_individual as sec_iapd_search, 
+    search_individual_detailed_info as sec_iapd_search_detailed,
+    search_individual_by_firm as sec_iapd_correlated_search
+)
 from agents.finra_broker_check_agent import search_individual as finra_bc_search, search_individual_detailed_info as finra_bc_search_detailed
 from agents.sec_arbitration_agent import search_individual as sec_arb_search
 from agents.finra_disciplinary_agent import search_individual as finra_disc_search
@@ -49,7 +53,8 @@ from agents.finra_arbitration_agent import search_individual as finra_arb_search
 AGENT_SERVICES: Dict[str, Dict[str, Callable]] = {
     "SEC_IAPD_Agent": {
         "search_individual": sec_iapd_search,
-        "search_individual_detailed_info": sec_iapd_search_detailed
+        "search_individual_detailed_info": sec_iapd_search_detailed,
+        "search_individual_by_firm": sec_iapd_correlated_search
     },
     "FINRA_BrokerCheck_Agent": {
         "search_individual": finra_bc_search,
@@ -212,6 +217,7 @@ fetch_agent_sec_arb_search = create_fetcher("SEC_Arbitration_Agent", "search_ind
 fetch_agent_finra_disc_search = create_fetcher("FINRA_Disciplinary_Agent", "search_individual")
 fetch_agent_nfa_search = create_fetcher("NFA_Basic_Agent", "search_individual")
 fetch_agent_finra_arb_search = create_fetcher("FINRA_Arbitration_Agent", "search_individual")
+fetch_agent_sec_iapd_correlated = create_fetcher("SEC_IAPD_Agent", "search_individual_by_firm")
 
 # Example usage demonstrating all agents
 def main():
@@ -255,6 +261,16 @@ def main():
         # 8. FINRA Arbitration Agent - search_individual (Selenium)
         finra_arb_result = fetch_agent_finra_arb_search(employee_number, {"first_name": "Bob", "last_name": "Smith"}, driver)
         print("FINRA Arbitration Search Result:", finra_arb_result)
+
+        # Add example of correlated search
+        sec_iapd_correlated_result = fetch_agent_sec_iapd_correlated(
+            employee_number, 
+            {
+                "individual_name": "Matthew Vetto",
+                "firm_crd": "282563"
+            }
+        )
+        print("SEC IAPD Correlated Search Result:", sec_iapd_correlated_result)
 
     finally:
         driver.quit()
