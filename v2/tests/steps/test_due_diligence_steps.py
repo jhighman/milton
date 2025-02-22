@@ -12,6 +12,7 @@ scenarios('../features/due_diligence_org_crd_only.feature')
 scenarios('../features/due_diligence_org_name_only.feature')
 scenarios('../features/due_diligence_both_crds.feature')
 scenarios('../features/due_diligence_no_fields.feature')
+scenarios('../features/due_diligence_correlated_search.feature')
 
 # Fixtures
 @pytest.fixture
@@ -26,6 +27,7 @@ def mock_facade(mocker) -> FinancialServicesFacade:
     mocker.patch.object(facade, 'search_sec_iapd_individual', return_value=None)
     mocker.patch.object(facade, 'search_sec_iapd_detailed', return_value=None)
     mocker.patch.object(facade, 'get_organization_crd', return_value=None)
+    mocker.patch.object(facade, 'search_sec_iapd_correlated', return_value=None)
     return facade
 
 @pytest.fixture
@@ -78,6 +80,33 @@ def given_sec_iapd_outcome(mock_facade, outcome):
 @given(parsers.parse('the organization lookup for "{org_name}" returns "{org_lookup}"'))
 def given_org_lookup(mock_facade, org_name, org_lookup):
     mock_facade.get_organization_crd.return_value = org_lookup if org_lookup != "NOT_FOUND" else "NOT_FOUND"
+
+@given(parsers.parse('"individual_name" = "{name}"'))
+def given_individual_name(claim_fixture, name):
+    claim_fixture['individual_name'] = name
+
+@given(parsers.parse('"firm_crd" = "{firm_crd}"'))
+def given_firm_crd(claim_fixture, firm_crd):
+    claim_fixture['firm_crd'] = firm_crd
+
+@given(parsers.parse('SEC IAPD correlated search indicates {outcome}'))
+def given_sec_iapd_correlated_outcome(mock_facade, outcome):
+    if outcome == 'hit':
+        mock_facade.search_sec_iapd_correlated.return_value = {
+            "hits": {
+                "total": 1,
+                "hits": [{
+                    "_source": {
+                        "ind_name": "Matthew Vetto",
+                        "ind_current_employments": [{"firm_id": "282563"}]
+                    }
+                }]
+            }
+        }
+    else:
+        mock_facade.search_sec_iapd_correlated.return_value = {
+            "hits": {"total": 0, "hits": []}
+        }
 
 # When Steps
 @when('I process the claim')

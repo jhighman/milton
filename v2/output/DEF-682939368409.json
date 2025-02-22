@@ -1,0 +1,27 @@
+{
+  "reference_id": "DEF-682939368409",
+  "claim": {
+    "crd_number": "11111",
+    "first_name": "John",
+    "last_name": "Doe",
+    "organization_crd_number": "99999",
+    "individual_name": "John Doe",
+    "employee_number": "DEF-682939368409"
+  },
+  "search_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Record found via SEC_IAPD.",
+    "search_strategy": "search_with_both_crds",
+    "search_outcome": "Record found",
+    "search_date": "2025-02-22 12:21:12",
+    "alerts": []
+  },
+  "license_status": "Passed Series 7",
+  "disciplinary": "None",
+  "arbitration": "None",
+  "overall_compliance": true,
+  "alerts": [
+    ""
+  ],
+  "risk_level": "Low"
+}

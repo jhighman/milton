@@ -12,11 +12,16 @@ handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(name)s |
 logger.addHandler(handler)
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
+    individual_name = claim.get("individual_name", "")
+    firm_crd = claim.get("firm_crd", "")
     crd_number = claim.get("crd_number", "")
     organization_crd_number = claim.get("organization_crd_number", "")
     organization_name = claim.get("organization_name", "")
 
-    if crd_number and organization_crd_number:
+    if individual_name and firm_crd:
+        logger.info("Claim has individual_name and firm_crd, selecting search_with_correlated")
+        return search_with_correlated
+    elif crd_number and organization_crd_number:
         logger.info("Claim has both crd_number and organization_crd_number, selecting search_with_both_crds")
         return search_with_both_crds
     elif crd_number and organization_name and not organization_crd_number:
@@ -164,6 +169,25 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
         **claim,
         "source": "Default",
         "result": {"error": error_msg}
+    }
+
+def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
+    individual_name = claim.get("individual_name", "")
+    firm_crd = claim.get("firm_crd", "")
+    logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', firm_crd='{firm_crd}', Employee='{employee_number}'")
+
+    result = facade.search_sec_iapd_correlated(individual_name, firm_crd, employee_number)
+    compliance = result and result.get("hits", {}).get("total", 0) > 0
+
+    return {
+        "source": "SEC_IAPD",
+        "basic_result": result,
+        "search_evaluation": {
+            "search_strategy": "search_with_correlated",
+            "compliance": compliance,
+            "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+            "compliance_explanation": "Record found via SEC_IAPD." if compliance else "No records found"
+        }
     }
 
 def process_claim(

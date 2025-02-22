@@ -1,0 +1,26 @@
+{
+  "reference_id": "DEF-354702070173",
+  "claim": {
+    "first_name": "Matthew",
+    "last_name": "Vetto",
+    "firm_crd": "282563",
+    "individual_name": "Matthew Vetto",
+    "employee_number": "DEF-354702070173"
+  },
+  "search_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Record found via SEC_IAPD.",
+    "search_strategy": "search_with_correlated",
+    "search_outcome": "Record found",
+    "search_date": "2025-02-22 12:11:18",
+    "alerts": []
+  },
+  "license_status": "Passed Series 7",
+  "disciplinary": "None",
+  "arbitration": "None",
+  "overall_compliance": true,
+  "alerts": [
+    ""
+  ],
+  "risk_level": "Low"
+}
