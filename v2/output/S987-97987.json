@@ -1,0 +1,41 @@
+{
+  "reference_id": "S987-97987",
+  "claim": {
+    "crd_number": "",
+    "first_name": "Matthew",
+    "last_name": "Vetto",
+    "organization_crd_number": "282563",
+    "employee_number": "FIRST_RUN",
+    "reference_id": "S987-97987",
+    "individual_name": "Matthew Vetto"
+  },
+  "search_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
+    "search_strategy": "search_with_entity",
+    "search_outcome": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
+    "search_date": "2025-02-22 17:48:11",
+    "alerts": [],
+    "detailed_info": {
+      "search_evaluation": {
+        "compliance": false,
+        "compliance_explanation": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
+        "search_strategy": "search_with_entity",
+        "search_outcome": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
+        "search_date": "2025-02-22 17:48:11",
+        "alerts": []
+      },
+      "source": "Entity_Search",
+      "basic_result": null,
+      "detailed_result": null
+    }
+  },
+  "license_status": "Passed Series 7",
+  "disciplinary": "None",
+  "arbitration": "None",
+  "overall_compliance": false,
+  "alerts": [
+    "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number."
+  ],
+  "risk_level": "Medium"
+}

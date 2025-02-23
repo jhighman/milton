@@ -15,10 +15,11 @@ from business import process_claim
 from services import FinancialServicesFacade
 
 # Setup logging
+os.makedirs('logs', exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.FileHandler('output/app.log'), logging.StreamHandler()]
+    handlers=[logging.FileHandler('logs/app.log'), logging.StreamHandler()]
 )
 logger = logging.getLogger('main')
 
@@ -66,8 +67,8 @@ def load_config(config_path: str = "config.json") -> Dict[str, bool]:
 
 def generate_reference_id(crd_number: str = None) -> str:
     """Generate a unique reference ID, using CRD if provided."""
-    if crd_number:
-        return crd_number  # Use CRD for determinism in tests
+    if crd_number and crd_number.strip():
+        return crd_number
     return f"DEF-{random.randint(100000000000, 999999999999)}"
 
 def setup_folders():
@@ -85,8 +86,13 @@ def load_checkpoint() -> Optional[Dict[str, Any]]:
 
 def save_checkpoint(csv_file: str, line_number: int):
     """Save the current file and line to checkpoint.json."""
-    with open(CHECKPOINT_FILE, 'w') as f:
+    if csv_file is None or line_number is None:
+        logger.error(f"Cannot save checkpoint: csv_file={csv_file}, line_number={line_number}")
+        return
+    checkpoint_path = str(CHECKPOINT_FILE)  # Force string to avoid Path/None issues
+    with open(checkpoint_path, 'w') as f:
         json.dump({"csv_file": csv_file, "line": line_number}, f)
+    logger.debug(f"Checkpoint saved: {csv_file}, line {line_number}")
 
 def signal_handler(sig, frame):
     """Handle SIGINT/SIGTERM by saving checkpoint and exiting."""
@@ -97,7 +103,9 @@ def signal_handler(sig, frame):
 
 def get_csv_files() -> list[str]:
     """List all CSV files in the drop folder."""
-    return sorted([f for f in os.listdir(INPUT_FOLDER) if f.endswith('.csv')])
+    files = sorted([f for f in os.listdir(INPUT_FOLDER) if f.endswith('.csv')])
+    logger.debug(f"Found CSV files: {files}")
+    return files
 
 def archive_file(csv_file_path: str):
     """Move processed CSV to archive with date-based subfolder."""
@@ -115,6 +123,7 @@ def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
         for canonical, variants in canonical_fields.items():
             if header in variants:
                 resolved_headers[header] = canonical
+                logger.debug(f"Mapped header '{header}' to '{canonical}'")
                 break
         else:
             logger.warning(f"Unmapped CSV column: {header}")
@@ -127,15 +136,19 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
     """Process a CSV file starting from the given line."""
     global current_csv, current_line
     current_csv = os.path.basename(csv_file_path)
+    current_line = 0  # Reset to avoid None creep
+    logger.info(f"Starting to process {csv_file_path} from line {start_line}")
 
     with open(csv_file_path, 'r') as f:
         reader = csv.DictReader(f)
         resolved_headers = resolve_headers(reader.fieldnames)
+        logger.debug(f"Resolved headers: {resolved_headers}")
 
         for i, row in enumerate(reader, start=2):  # Start at 2 to account for header
             if i <= start_line:
+                logger.debug(f"Skipping line {i} (before start_line {start_line})")
                 continue
-            logger.debug(f"Processing {current_csv}, line {i}")
+            logger.debug(f"Processing {current_csv}, line {i}, row: {row}")
             current_line = i
             try:
                 process_row(row, resolved_headers, facade, config)
@@ -146,40 +159,62 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
 
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
     """Process a single CSV row and generate an evaluation report."""
-    # Extract or generate reference_id
-    reference_id_key = resolved_headers.get('reference_id', '')
-    crd_key = resolved_headers.get('crd_number', 'CRD')  # Default to 'CRD' if not mapped
-    crd_number = row.get(crd_key, '').strip()
-    reference_id = row.get(reference_id_key, '').strip() or generate_reference_id(crd_number)
+    logger.debug(f"Processing row: {row}")
+    # Extract reference_id
+    reference_id_key = resolved_headers.get('reference_id', 'reference_id')
+    reference_id = row.get(reference_id_key, '').strip()
+    if not reference_id:
+        logger.error(f"Skipping row - missing or blank reference_id")
+        return
+
+    # Extract employee_number
+    employee_number_key = resolved_headers.get('employee_number', 'employee_number')
+    employee_number = row.get(employee_number_key, '').strip()
+    if not employee_number:
+        logger.error(f"Skipping row - missing or blank employee_number for reference_id='{reference_id}'")
+        return
+
+    logger.debug(f"Reference ID: {reference_id}, Employee Number: {employee_number}")
 
     # Build claim dictionary
     claim = {}
     for header, canonical in resolved_headers.items():
         claim[canonical] = row.get(header, '').strip()
+    logger.debug(f"Claim built: {claim}")
 
     # Add individual_name from first_name and last_name
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
     claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
-
-    # Enforce employee_number
-    employee_number = claim.get('employee_number', '').strip() or reference_id
     claim['employee_number'] = employee_number
+    logger.debug(f"Updated claim with individual_name: {claim['individual_name']}")
 
     # Perform search via business.py
     try:
-        search_result = process_claim(claim, facade)
+        detailed_info = process_claim(claim, facade, employee_number)
+        if detailed_info is None:
+            logger.error(f"process_claim returned None for reference_id='{reference_id}'")
+            return
+        logger.debug(f"Detailed info from process_claim: {detailed_info}")
         evaluation_report = OrderedDict([
             ("reference_id", reference_id),
             ("claim", claim),
-            ("search_evaluation", search_result["search_evaluation"])
+            ("search_evaluation", {
+                **detailed_info["search_evaluation"],
+                "detailed_info": detailed_info
+            })
         ])
     except ValueError as e:
         logger.error(f"Unresolved CRD for {reference_id}: {str(e)}")
         evaluation_report = OrderedDict([
             ("reference_id", reference_id),
             ("claim", claim),
-            ("search_evaluation", {"compliance": False, "search_strategy": "unknown", "search_outcome": str(e)})
+            ("search_evaluation", {
+                "compliance": False,
+                "search_strategy": "unknown",
+                "search_outcome": str(e),
+                "detailed_info": {}
+            })
         ])
         save_evaluation_report(evaluation_report, employee_number, reference_id)
         return
@@ -189,29 +224,34 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     if config["evaluate_license"]:
         license_status = "Passed Series 7"  # Stub
         evaluation_report["license_status"] = license_status
+        logger.debug("Added license_status stub")
 
     if DISCIPLINARY_ENABLED:
         disciplinary = "None"  # Stub
         if disciplinary != "None":
             alerts.append("Disciplinary action found")
         evaluation_report["disciplinary"] = disciplinary
+        logger.debug("Added disciplinary stub")
 
     if ARBITRATION_ENABLED:
         arbitration = "None"  # Stub
         if arbitration != "None":
             alerts.append("Arbitration issue found")
         evaluation_report["arbitration"] = arbitration
+        logger.debug("Added arbitration stub")
 
     # Final evaluation
-    evaluation_report["overall_compliance"] = search_result["search_evaluation"]["compliance"] and not alerts
-    evaluation_report["alerts"] = alerts or [search_result["search_evaluation"]["search_outcome"] if not search_result["search_evaluation"]["compliance"] else ""]
+    evaluation_report["overall_compliance"] = evaluation_report["search_evaluation"]["compliance"] and not alerts
+    evaluation_report["alerts"] = alerts or [evaluation_report["search_evaluation"]["search_outcome"] if not evaluation_report["search_evaluation"]["compliance"] else ""]
     evaluation_report["risk_level"] = "High" if alerts else "Low" if evaluation_report["overall_compliance"] else "Medium"
+    logger.debug(f"Evaluation report built: {evaluation_report}")
 
     save_evaluation_report(evaluation_report, employee_number, reference_id)
 
 def save_evaluation_report(report: Dict[str, Any], employee_number: str, reference_id: str):
     """Save the evaluation report as a JSON file."""
     report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
+    logger.debug(f"Saving report to {report_path}")
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
     compliance = report.get('search_evaluation', {}).get('compliance', False)
@@ -246,6 +286,7 @@ def main():
     for csv_file in csv_files:
         csv_path = os.path.join(INPUT_FOLDER, csv_file)
         if start_file and csv_file < start_file:
+            logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
             continue
         logger.info(f"Processing {csv_path} from line {start_line}")
         process_csv(csv_path, start_line, facade, config, args.wait_time)

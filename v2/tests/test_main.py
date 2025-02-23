@@ -7,6 +7,13 @@ import csv
 import signal
 from datetime import datetime
 from collections import OrderedDict
+import sys
+from pathlib import Path
+
+# Add project root to path if not already there
+project_root = Path(__file__).parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 # Add parent dir to path to find main.py
 import sys
@@ -80,11 +87,11 @@ def test_load_config(temp_dirs):
     _, output_dir, _ = temp_dirs
     config = load_config(str(output_dir / "nonexistent.json"))
     assert config == {
-        "evaluate_name": True,
-        "evaluate_license": True,
-        "evaluate_exams": True,
-        "evaluate_disclosures": True
-    }
+    "evaluate_name": True,
+    "evaluate_license": True,
+    "evaluate_exams": True,
+    "evaluate_disclosures": True
+}
 
 def test_process_row_success(mock_facade, temp_dirs, caplog):
     """Test processing a row with successful search."""
@@ -181,7 +188,7 @@ def test_process_csv_resume(sample_csv, mock_facade, temp_dirs, caplog):
             }
         }):
             process_csv(sample_csv, 2, mock_facade, config, 0.01)
-            checkpoint = load_checkpoint()
+    checkpoint = load_checkpoint()
             assert checkpoint["line"] == 3
             json_files = [f for f in output_dir.glob('*.json') if f.name != "checkpoint.json"]
             assert len(json_files) == 1, f"Expected 1 JSON report, got {len(json_files)}"
@@ -231,7 +238,7 @@ def test_main_full_run(sample_csv, temp_dirs, monkeypatch, caplog):
              }
          }), \
          patch('main.archive_file'):  # Prevent file move
-        main()
+    main()
         assert "Processed 1 files" in caplog.text, "Expected 'Processed 1 files' in logs"
         assert "2 records" in caplog.text, "Expected '2 records' in logs"
         json_files = [f for f in output_dir.glob('*.json') if f.name != "checkpoint.json"]

@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import logging
+import subprocess
 from pathlib import Path
 
 # Add parent directory to path if not already there
@@ -81,13 +82,39 @@ def verify_api_access():
         logger.error(f"API test failed: {str(e)}")
         return False
 
+def verify_bdd_tests():
+    """Verify BDD tests can run and pass"""
+    logger.info("Verifying BDD tests...")
+    
+    try:
+        # Run just the BDD feature tests
+        result = subprocess.run([
+            "pytest",
+            "tests/steps/test_due_diligence_steps.py",
+            "-v",
+            "--gherkin-terminal-reporter"
+        ], capture_output=True, text=True)
+        
+        if result.returncode == 0:
+            logger.info("BDD tests passed successfully")
+            return True
+        else:
+            logger.error("BDD tests failed")
+            logger.error(f"Test output:\n{result.stdout}\n{result.stderr}")
+            return False
+            
+    except Exception as e:
+        logger.error(f"Error running BDD tests: {str(e)}")
+        return False
+
 def main():
     logger.info("Starting setup verification...")
     
     checks = [
         ("Directory structure", verify_directories),
         ("Configuration file", verify_config),
-        ("API access", verify_api_access)
+        ("API access", verify_api_access),
+        ("BDD tests", verify_bdd_tests)  # Added BDD test verification
     ]
     
     all_passed = True

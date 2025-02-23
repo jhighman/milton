@@ -18,7 +18,11 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     organization_crd_number = claim.get("organization_crd_number", "")
     organization_name = claim.get("organization_name", "")
 
-    if individual_name and firm_crd:
+    # Prioritize individual_name and organization_crd_number as per the scenario outline
+    if individual_name and organization_crd_number:
+        logger.info("Claim has individual_name and organization_crd_number, selecting search_with_correlated")
+        return search_with_correlated
+    elif individual_name and firm_crd:
         logger.info("Claim has individual_name and firm_crd, selecting search_with_correlated")
         return search_with_correlated
     elif crd_number and organization_crd_number:
@@ -46,9 +50,12 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
 
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
+    compliance = basic_result and basic_result.get("hits", {}).get("total", 0) > 0
 
     return {
-        **claim,
+        "compliance": compliance,
+        "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+        "compliance_explanation": f"Record found via SEC_IAPD for employee_number='{employee_number}'" if compliance else "No records found",
         "source": "SEC_IAPD",
         "basic_result": basic_result,
         "detailed_result": detailed_result
@@ -59,48 +66,54 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
     org_name = claim.get("organization_name", "")
     logger.info(f"Searching with crd_number='{crd_number}', organization_name='{org_name}', Employee='{employee_number}'")
 
-    # Try BrokerCheck first
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
     if broker_result and broker_result.get("hits", {}).get("total", 0) > 0:
         logger.info(f"Found in BrokerCheck for CRD: {crd_number}")
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
         return {
-            **claim,
+            "compliance": True,
+            "search_outcome": "BrokerCheck hit",
+            "compliance_explanation": f"Record found via BrokerCheck for employee_number='{employee_number}'",
             "source": "BrokerCheck",
             "basic_result": broker_result,
             "detailed_result": detailed_result
         }
 
-    # If no BrokerCheck hits, attempt to look up the organization CRD
     if org_name.strip():
         org_crd_number = facade.get_organization_crd(org_name)
         if org_crd_number is None or org_crd_number == "NOT_FOUND":
             error_msg = "unknown organization by lookup"
             logger.warning(error_msg)
             return {
-                **claim,
+                "compliance": False,
+                "search_outcome": error_msg,
+                "compliance_explanation": error_msg,
                 "source": "Entity_Search",
-                "result": {"error": error_msg}
+                "basic_result": None,
+                "detailed_result": None
             }
-        else:
-            # Found an org CRD, but let's assume entity searching is still unsupported
-            error_msg = (
-                "Entity search using the derived org_crd_number is not supported "
-                "even though we found one for this organization."
-            )
-            logger.warning(error_msg)
-            return {
-                **claim,
-                "source": "Entity_Search",
-                "result": {"error": error_msg}
-            }
-    else:
-        # If the org_name is empty, fallback to SEC IAPD with the crd_number
+        # Fallback to SEC IAPD if org_crd found but entity search unsupported
         logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
         detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
+        compliance = basic_result and basic_result.get("hits", {}).get("total", 0) > 0
         return {
-            **claim,
+            "compliance": compliance,
+            "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+            "compliance_explanation": f"Record found via SEC_IAPD for employee_number='{employee_number}'" if compliance else "No records found",
+            "source": "SEC_IAPD",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result
+        }
+    else:
+        logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
+        basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
+        detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
+        compliance = basic_result and basic_result.get("hits", {}).get("total", 0) > 0
+        return {
+            "compliance": compliance,
+            "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+            "compliance_explanation": f"Record found via SEC_IAPD for employee_number='{employee_number}'" if compliance else "No records found",
             "source": "SEC_IAPD",
             "basic_result": basic_result,
             "detailed_result": detailed_result
@@ -115,7 +128,9 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
         logger.info(f"Found in BrokerCheck for CRD: {crd_number}")
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
         return {
-            **claim,
+            "compliance": True,
+            "search_outcome": "BrokerCheck hit",
+            "compliance_explanation": f"Record found via BrokerCheck for employee_number='{employee_number}'",
             "source": "BrokerCheck",
             "basic_result": broker_result,
             "detailed_result": detailed_result
@@ -124,8 +139,11 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
     logger.info(f"No BrokerCheck hits => searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
+    compliance = basic_result and basic_result.get("hits", {}).get("total", 0) > 0
     return {
-        **claim,
+        "compliance": compliance,
+        "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+        "compliance_explanation": f"Record found via SEC_IAPD for employee_number='{employee_number}'" if compliance else "No records found",
         "source": "SEC_IAPD",
         "basic_result": basic_result,
         "detailed_result": detailed_result
@@ -141,9 +159,12 @@ def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, e
     )
     logger.warning(error_msg)
     return {
-        **claim,
+        "compliance": False,
+        "search_outcome": error_msg,
+        "compliance_explanation": error_msg,
         "source": "Entity_Search",
-        "result": {"error": error_msg}
+        "basic_result": None,
+        "detailed_result": None
     }
 
 def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
@@ -156,9 +177,12 @@ def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFa
     )
     logger.warning(error_msg)
     return {
-        **claim,
+        "compliance": False,
+        "search_outcome": error_msg,
+        "compliance_explanation": error_msg,
         "source": "Entity_Search",
-        "result": {"error": error_msg}
+        "basic_result": None,
+        "detailed_result": None
     }
 
 def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
@@ -166,9 +190,12 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
     error_msg = "Insufficient identifiers to perform search"
     logger.warning(error_msg)
     return {
-        **claim,
+        "compliance": False,
+        "search_outcome": error_msg,
+        "compliance_explanation": error_msg,
         "source": "Default",
-        "result": {"error": error_msg}
+        "basic_result": None,
+        "detailed_result": None
     }
 
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
@@ -178,16 +205,13 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
 
     result = facade.search_sec_iapd_correlated(individual_name, firm_crd, employee_number)
     compliance = result and result.get("hits", {}).get("total", 0) > 0
-
     return {
+        "compliance": compliance,
+        "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
+        "compliance_explanation": f"Record found via SEC_IAPD for employee_number='{employee_number}'" if compliance else "No records found",
         "source": "SEC_IAPD",
         "basic_result": result,
-        "search_evaluation": {
-            "search_strategy": "search_with_correlated",
-            "compliance": compliance,
-            "search_outcome": "SEC_IAPD hit" if compliance else "No records found",
-            "compliance_explanation": "Record found via SEC_IAPD." if compliance else "No records found"
-        }
+        "detailed_result": None
     }
 
 def process_claim(
@@ -210,54 +234,30 @@ def process_claim(
     # 2) Pick the strategy
     strategy_func = determine_search_strategy(claim)
     search_evaluation['search_strategy'] = strategy_func.__name__
+    logger.debug(f"Selected strategy: {strategy_func.__name__} for employee_number={employee_number}")
 
     # 3) Execute it
     strategy_result = strategy_func(claim, facade, employee_number)
-
-    # 4) Inspect for error vs. record found
-    error_msg = None
-    if 'result' in strategy_result and isinstance(strategy_result['result'], dict):
-        error_msg = strategy_result['result'].get('error')
-
-    record_found = False
-    basic_result = strategy_result.get('basic_result', {})
-    if basic_result and isinstance(basic_result, dict):
-        hits = basic_result.get('hits', {})
-        total_hits = hits.get('total', 0)
-        if total_hits > 0:
-            record_found = True
-
-    source = strategy_result.get('source', '')
-
-    if error_msg:
-        search_evaluation['search_outcome'] = error_msg
-        search_evaluation['compliance'] = False
-        search_evaluation['compliance_explanation'] = error_msg
-        search_evaluation['alerts'].append({
-            "alert_type": "SearchStrategyError",
-            "message": error_msg,
-            "severity": "HIGH",
-            "alert_category": "SearchEvaluation"
+    if strategy_result is None:
+        logger.error(f"Strategy {strategy_func.__name__} returned None for claim: {claim}, employee_number={employee_number}")
+        search_evaluation.update({
+            "compliance": False,
+            "search_outcome": "Search failed - no data returned",
+            "compliance_explanation": "Strategy returned no result"
         })
-    elif record_found:
-        search_evaluation['search_outcome'] = "Record found"
-        search_evaluation['compliance'] = True
-        
-        # If we have a known source, reference it explicitly
-        if source:
-            explanation = f"Record found via {source}."
-        else:
-            explanation = "Record found via an unspecified data source."
-        search_evaluation['compliance_explanation'] = explanation
     else:
-        not_found_msg = "No records found"
-        search_evaluation['search_outcome'] = not_found_msg
-        search_evaluation['compliance'] = False
-        search_evaluation['compliance_explanation'] = not_found_msg
+        logger.debug(f"Strategy result: {strategy_result}")
+        search_evaluation.update({
+            "compliance": strategy_result.get("compliance", False),
+            "search_outcome": strategy_result.get("search_outcome", "Unknown"),
+            "compliance_explanation": strategy_result.get("compliance_explanation", "No explanation provided")
+        })
 
-    # 5) Merge and return
+    # 4) Merge and return
     final_output = {
-        **strategy_result,
-        "search_evaluation": search_evaluation
+        "search_evaluation": search_evaluation,
+        "source": strategy_result.get("source", "Unknown"),
+        "basic_result": strategy_result.get("basic_result"),
+        "detailed_result": strategy_result.get("detailed_result")
     }
     return final_output
