@@ -267,7 +267,7 @@ def main():
             employee_number, 
             {
                 "individual_name": "Matthew Vetto",
-                "firm_crd": "282563"
+                "orginization_crd": "282563"
             }
         )
         print("SEC IAPD Correlated Search Result:", sec_iapd_correlated_result)
