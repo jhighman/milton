@@ -1,0 +1,4 @@
+# Add to v2/.gitignore
+__pycache__/
+*.py[cod]
+*$py.class
