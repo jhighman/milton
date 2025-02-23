@@ -65,14 +65,7 @@ class FinancialServicesFacade:
         basic_info: Optional[Dict[str, Any]],
         detailed_info: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
-        """
-        Creates a unified 'individual record' from BrokerCheck or IAPD data.
-
-        :param data_source: "BrokerCheck" or "IAPD"
-        :param basic_info: JSON from basic search
-        :param detailed_info: JSON from detailed search (optional)
-        :return: Normalized dictionary with individual data
-        """
+        """Normalize individual records from different data sources."""
         extracted_info = {
             "crd_number": "",
             "fetched_name": "",
@@ -82,110 +75,118 @@ class FinancialServicesFacade:
             "disclosures": [],
             "arbitrations": [],
             "exams": [],
-            "current_ia_employments": []
+            "current_ia_employments": [],
         }
 
         valid_sources = {"BrokerCheck", "IAPD"}
         if data_source not in valid_sources:
-            logger.error(f"Invalid data_source '{data_source}'. Must be one of {valid_sources}. Returning minimal extracted_info.")
+            logger.error(f"Invalid data_source '{data_source}'. Must be one of {valid_sources}.")
             return extracted_info
 
         if not basic_info:
-            logger.warning("No basic_info provided. Returning empty extracted_info.")
+            logger.warning("No basic_info provided.")
             return extracted_info
 
         hits_list = basic_info.get("hits", {}).get("hits", [])
-        if hits_list:
-            individual = hits_list[0].get("_source", {})
-        else:
-            logger.warning(f"{data_source}: basic_info had no hits. Returning mostly empty extracted_info.")
+        if not hits_list:
+            logger.warning(f"{data_source}: basic_info had no hits.")
             return extracted_info
 
+        individual = hits_list[0].get("_source", {})
         fetched_name = f"{individual.get('ind_firstname', '')} {individual.get('ind_middlename', '')} {individual.get('ind_lastname', '')}".strip()
-        extracted_info["crd_number"] = individual.get("crd_number", "")
+        
+        # Use ind_source_id as primary CRD source
+        extracted_info["crd_number"] = individual.get("ind_source_id", individual.get("crd_number", ""))
         extracted_info["fetched_name"] = fetched_name
         extracted_info["other_names"] = individual.get("ind_other_names", [])
         extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
         extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
 
         if data_source == "BrokerCheck":
-            if detailed_info and "hits" in detailed_info:
-                detailed_hits = detailed_info["hits"].get("hits", [])
-                if detailed_hits:
-                    content_str = detailed_hits[0]["_source"].get("content", "")
-                    try:
-                        content_json = json.loads(content_str)
-                    except json.JSONDecodeError as e:
-                        logger.warning(f"Failed to parse BrokerCheck 'content' JSON: {e}")
-                        content_json = {}
-                    extracted_info["disclosures"] = content_json.get("disclosures", [])
-                else:
-                    logger.info("BrokerCheck detailed_info had no hits. No disclosures extracted.")
+            if detailed_info and "hits" in detailed_info and detailed_info["hits"].get("hits"):
+                content_str = detailed_info["hits"]["hits"][0]["_source"].get("content", "")
+                try:
+                    content_json = json.loads(content_str) if content_str else {}
+                except json.JSONDecodeError as e:
+                    logger.warning(f"Failed to parse BrokerCheck 'content' JSON: {e}")
+                    content_json = {}
+                extracted_info["disclosures"] = content_json.get("disclosures", [])
+                # Add exams for BrokerCheck
+                extracted_info["exams"] = (
+                    content_json.get("stateExamCategory", []) +
+                    content_json.get("principalExamCategory", []) +
+                    content_json.get("productExamCategory", [])
+                )
             else:
-                logger.info("No BrokerCheck detailed_info provided or empty, skipping disclosures parsing.")
+                logger.info("No BrokerCheck detailed_info provided or empty.")
 
         elif data_source == "IAPD":
             iacontent_str = individual.get("iacontent", "{}")
             try:
-                iacontent_data = json.loads(iacontent_str)
+                iacontent_data = json.loads(iacontent_str) if iacontent_str else {}
             except json.JSONDecodeError as e:
                 logger.warning(f"IAPD basic_info iacontent parse error: {e}")
                 iacontent_data = {}
 
+            # Get employments from detailed data first
             current_employments = []
-            for emp in iacontent_data.get("currentIAEmployments", []):
-                current_employments.append({
-                    "firm_crd": emp.get("firmId"),
-                    "firm_name": emp.get("firmName"),
-                    "registration_begin_date": emp.get("registrationBeginDate"),
-                    "branch_offices": [
-                        {
-                            "street": office.get("street1"),
-                            "city": office.get("city"),
-                            "state": office.get("state"),
-                            "zip_code": office.get("zipCode")
-                        }
-                        for office in emp.get("branchOfficeLocations", [])
-                    ]
-                })
-            extracted_info["current_ia_employments"] = current_employments
+            if detailed_info and "hits" in detailed_info and detailed_info["hits"].get("hits"):
+                detailed_hits = detailed_info["hits"]["hits"][0]["_source"].get("iacontent", "{}")
+                try:
+                    iapd_detailed_data = json.loads(detailed_hits) if detailed_hits else {}
+                    logger.debug(f"Parsed IAPD detailed iacontent: {iapd_detailed_data}")
+                    current_employments = iapd_detailed_data.get("currentIAEmployments", [])
+                    extracted_info["disclosures"] = iapd_detailed_data.get("disclosures", [])
+                    extracted_info["exams"] = (
+                        iapd_detailed_data.get("stateExamCategory", []) +
+                        iapd_detailed_data.get("principalExamCategory", []) +
+                        iapd_detailed_data.get("productExamCategory", [])
+                    )
+                except json.JSONDecodeError as e:
+                    logger.warning(f"IAPD detailed_info iacontent parse error: {e}")
 
-            if detailed_info and "hits" in detailed_info:
-                detailed_hits = detailed_info["hits"].get("hits", [])
-                if detailed_hits:
-                    iapd_detailed_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
-                    try:
-                        iapd_detailed_content_data = json.loads(iapd_detailed_content_str)
-                    except json.JSONDecodeError as e:
-                        logger.warning(f"IAPD detailed_info iacontent parse error: {e}")
-                        iapd_detailed_content_data = {}
-
-                    state_exams = iapd_detailed_content_data.get("stateExamCategory", [])
-                    principal_exams = iapd_detailed_content_data.get("principalExamCategory", [])
-                    product_exams = iapd_detailed_content_data.get("productExamCategory", [])
-                    extracted_info["exams"] = state_exams + principal_exams + product_exams
-                    extracted_info["disclosures"] = iapd_detailed_content_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = iapd_detailed_content_data.get("arbitrations", [])
-                else:
-                    logger.info("IAPD detailed_info had no hits. Using only basic_info's iacontent if available.")
-                    extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
-            else:
+            # Fallback to basic info employments if none found in detailed
+            if not current_employments:
+                current_employments = iacontent_data.get("currentIAEmployments", individual.get("ind_ia_current_employments", []))
                 extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
-                extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
+                extracted_info["exams"] = []
+
+            for emp in current_employments:
+                firm_crd = emp.get("firmId", emp.get("firm_id"))
+                try:
+                    firm_crd = int(firm_crd) if firm_crd else None
+                except (ValueError, TypeError):
+                    pass  # Keep as string if conversion fails
+
+                employment = {
+                    "firm_crd": firm_crd,
+                    "firm_name": emp.get("firmName", emp.get("firm_name")),
+                    "registration_begin_date": emp.get("registrationBeginDate", ""),
+                }
+
+                # Handle branch offices with fallback
+                if emp.get("branchOfficeLocations"):
+                    employment["branch_offices"] = [{
+                        "street": office.get("street1"),
+                        "city": office.get("city"),
+                        "state": office.get("state"),
+                        "zip_code": office.get("zipCode", office.get("branch_zip"))
+                    } for office in emp["branchOfficeLocations"]]
+                else:
+                    employment["branch_offices"] = [{
+                        "street": None,
+                        "city": emp.get("branch_city"),
+                        "state": emp.get("branch_state"),
+                        "zip_code": emp.get("branch_zip")
+                    }] if any([emp.get("branch_city"), emp.get("branch_state"), emp.get("branch_zip")]) else []
+                
+                extracted_info["current_ia_employments"].append(employment)
 
         return extracted_info
 
     def get_organization_crd(self, organization_name: str) -> Optional[str]:
         """
         Looks up the CRD for a given organization name using normalized name matching.
-        
-        Args:
-            organization_name: Name of the organization to look up.
-            
-        Returns:
-            The organization's CRD number if found; None if not found or on error;
-            or "NOT_FOUND" if the organization was searched but not found.
         """
         orgs_data = self._load_organizations_cache()
         if not orgs_data:
@@ -267,48 +268,64 @@ class FinancialServicesFacade:
         return self.search_finra_brokercheck_individual(crd_number, employee_number)
 
     # SEC Arbitration Agent Functions
-    def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+    def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search SEC Arbitration for an individual by name, returning normalized data.
+        """
         logger.info(f"Fetching SEC Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        return fetch_agent_sec_arb_search(employee_number, params)
+        result = fetch_agent_sec_arb_search(employee_number, params)
+        if result:
+            logger.info(f"Successfully fetched SEC Arbitration data for {first_name} {last_name}")
+            return self._normalize_individual_record("IAPD", result)
+        logger.warning(f"No data found for {first_name} {last_name} in SEC Arbitration search")
+        return None
 
     # FINRA Disciplinary Agent Functions
-    def search_finra_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+    def search_finra_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search FINRA Disciplinary for an individual by name, returning normalized data.
+        """
         logger.info(f"Fetching FINRA Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        return fetch_agent_finra_disc_search(employee_number, params)
+        result = fetch_agent_finra_disc_search(employee_number, params)
+        if result:
+            logger.info(f"Successfully fetched FINRA Disciplinary data for {first_name} {last_name}")
+            return self._normalize_individual_record("BrokerCheck", result)
+        logger.warning(f"No data found for {first_name} {last_name} in FINRA Disciplinary search")
+        return None
 
     # NFA Basic Agent Functions
     def search_nfa_basic(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Search NFA Basic for an individual by name (no normalization applied).
+        """
         logger.info(f"Fetching NFA Basic data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         return fetch_agent_nfa_search(employee_number, params)
 
     # FINRA Arbitration Agent Functions
-    def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+    def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        """
+        Search FINRA Arbitration for an individual by name, returning normalized data.
+        """
         logger.info(f"Fetching FINRA Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        return fetch_agent_finra_arb_search(employee_number, params)
+        result = fetch_agent_finra_arb_search(employee_number, params)
+        if result:
+            logger.info(f"Successfully fetched FINRA Arbitration data for {first_name} {last_name}")
+            return self._normalize_individual_record("BrokerCheck", result)
+        logger.warning(f"No data found for {first_name} {last_name} in FINRA Arbitration search")
+        return None
 
-
-# Example usage in a batch process
-def main():
-    facade = FinancialServicesFacade()
-    # SEC IAPD
-    print("SEC IAPD Individual:", facade.search_sec_iapd_individual("12345", "EMP001"))
-    # Note: search_sec_iapd_detailed is now redundant
-    print("SEC IAPD Correlated:", facade.search_sec_iapd_correlated("Matthew Vetto", "282563", "EMP001"))
-
-    # FINRA BrokerCheck
-    print("FINRA BrokerCheck Individual:", facade.search_finra_brokercheck_individual("67890", "EMP001"))
-    # Note: search_finra_brokercheck_detailed is now redundant
-
-    # Other services (unchanged)
-    print("SEC Arbitration:", facade.search_sec_arbitration("Mark", "Miller", "EMP001"))
-    print("FINRA Disciplinary:", facade.search_finra_disciplinary("John", "Doe", "EMP001"))
-    print("NFA Basic:", facade.search_nfa_basic("Jane", "Smith", "EMP001"))
-    print("FINRA Arbitration:", facade.search_finra_arbitration("Bob", "Smith", "EMP001"))
-
+    # Example usage in a batch process
+    def main():
+        facade = FinancialServicesFacade()
+        print("SEC Person Correlated to firm:", facade.search_sec_iapd_correlated("Matthew Vetto", "282563", "EMP001"))
+        print("SEC IAPD Individual:", facade.search_sec_iapd_individual("2112848", "EMP001"))
+        print("SEC IAPD Detail:", facade.search_sec_iapd_detailed("2112848", "EMP001"))
+        print("FINRA BrokerCheck Individual:", facade.search_finra_brokercheck_individual("2722375", "EMP002"))
+        print("FINRA BrokerCheck Detail:", facade.search_finra_brokercheck_detailed("2722375", "EMP002"))
 
 if __name__ == "__main__":
     main()

@@ -60,11 +60,10 @@ REQUEST_DELAY = 5.0
 
 
 
-def search_individual_by_firm(individual_name: str, employee_number: Optional[str] = None, organization_crd: Optional[str] = None,
+def search_individual_by_firm(individual_name: str, organization_crd: str, employee_number: Optional[str] = None,
                     logger: Logger = logger) -> Optional[Dict]:
     """
     Search for an individual by name within a specific firm using the firm's CRD.
-    
     Args:
         individual_name: Individual's name to search for
         employee_number: Optional identifier for logging

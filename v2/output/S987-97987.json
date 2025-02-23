@@ -10,32 +10,154 @@
     "individual_name": "Matthew Vetto"
   },
   "search_evaluation": {
-    "compliance": false,
-    "compliance_explanation": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
-    "search_strategy": "search_with_entity",
-    "search_outcome": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
-    "search_date": "2025-02-22 17:48:11",
-    "alerts": [],
+    "compliance": null,
+    "compliance_explanation": "Record found",
+    "search_strategy": "search_with_correlated",
+    "search_outcome": "Record found",
+    "search_date": "2025-02-23 11:22:25",
+    "crd_number": "2112848",
+    "data_source": "SEC_IAPD",
+    "individual": {
+      "ind_source_id": "2112848",
+      "ind_firstname": "",
+      "ind_middlename": "",
+      "ind_lastname": "",
+      "ind_other_names": [
+        "Matthew Lee Vetto"
+      ],
+      "ind_bc_scope": "NotInScope",
+      "ind_ia_scope": "Active",
+      "ind_bc_disclosure_fl": "",
+      "ind_approved_finra_registration_count": 0,
+      "ind_employments_count": 0,
+      "ind_industry_cal_date": "",
+      "ind_current_employments": [
+        {
+          "firm_crd": 282563,
+          "firm_name": "DOUGLAS C. LANE & ASSOCIATES",
+          "registration_begin_date": "",
+          "branch_offices": [
+            {
+              "street": null,
+              "city": "NEW YORK",
+              "state": "NY",
+              "zip_code": "10017"
+            }
+          ]
+        }
+      ]
+    },
     "detailed_info": {
-      "search_evaluation": {
-        "compliance": false,
-        "compliance_explanation": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
-        "search_strategy": "search_with_entity",
-        "search_outcome": "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number.",
-        "search_date": "2025-02-22 17:48:11",
-        "alerts": []
+      "crd_number": "2112848",
+      "fetched_name": "MATTHEW LEE VETTO",
+      "other_names": [
+        "Matthew Lee Vetto"
+      ],
+      "bc_scope": "NotInScope",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "current_ia_employments": [
+        {
+          "firm_crd": 282563,
+          "firm_name": "DOUGLAS C. LANE & ASSOCIATES",
+          "registration_begin_date": "",
+          "branch_offices": [
+            {
+              "street": null,
+              "city": "NEW YORK",
+              "state": "NY",
+              "zip_code": "10017"
+            }
+          ]
+        }
+      ]
+    },
+    "alerts": []
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Registration status is valid.",
+    "alerts": []
+  },
+  "name_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Name matches fetched record.",
+    "evaluation_details": {
+      "claimed_name": {
+        "first": "Matthew",
+        "middle": null,
+        "last": "Vetto"
       },
-      "source": "Entity_Search",
-      "basic_result": null,
-      "detailed_result": null
+      "all_matches": [
+        {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": "MATTHEW",
+            "middle": "LEE",
+            "last": "VETTO"
+          },
+          "score": 95.0,
+          "first_score": 1.0,
+          "middle_score": 0.5,
+          "last_score": 1.0
+        },
+        {
+          "name_source": "other_names[0]",
+          "fetched_name": {
+            "first": "Matthew",
+            "middle": "Lee",
+            "last": "Vetto"
+          },
+          "score": 95.0,
+          "first_score": 1.0,
+          "middle_score": 0.5,
+          "last_score": 1.0
+        }
+      ],
+      "best_match": {
+        "name_source": "main_fetched_name",
+        "fetched_name": {
+          "first": "MATTHEW",
+          "middle": "LEE",
+          "last": "VETTO"
+        },
+        "score": 95.0,
+        "first_score": 1.0,
+        "middle_score": 0.5,
+        "last_score": 1.0
+      },
+      "compliance": true
     }
   },
-  "license_status": "Passed Series 7",
-  "disciplinary": "None",
-  "arbitration": "None",
-  "overall_compliance": false,
-  "alerts": [
-    "Entity search using organization_crd_number is not supported at this time. Please provide an individual crd_number."
-  ],
-  "risk_level": "Medium"
+  "license_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "License is active and compliant."
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Required exams are passed."
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Matthew Vetto.",
+    "alerts": []
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No disciplinary records found for Matthew Vetto.",
+    "alerts": []
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No arbitrations found for Matthew Vetto.",
+    "alerts": []
+  },
+  "final_evaluation": {
+    "overall_compliance": null,
+    "overall_risk_level": "Low",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": []
+  }
 }

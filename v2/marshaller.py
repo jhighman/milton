@@ -152,16 +152,23 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
     try:
         agent_fn = AGENT_SERVICES[agent_name][service]
         start_time = time.time()
+        
+        # For SEC IAPD correlated search, remap the parameters
+        if service == "search_individual_by_firm":
+            # Remap organization_crd_number to organization_crd
+            if "organization_crd_number" in params:
+                params["organization_crd"] = params.pop("organization_crd_number")
+        
         if agent_name in SELENIUM_AGENTS:
             if driver is None:
                 raise ValueError(f"Agent {agent_name} requires a WebDriver instance")
-            # Handle case where agent might not accept driver
             try:
                 result = agent_fn(**params, driver=driver, logger=logger)
             except TypeError:
                 result = agent_fn(**params, logger=logger)
         else:
             result = agent_fn(**params, logger=logger)
+        
         duration = time.time() - start_time
         logger.debug(f"Fetched {agent_name}/{service}: result size = {len(result) if isinstance(result, list) else 1 if result else 0}")
         return result if isinstance(result, list) else [result] if result else [], duration

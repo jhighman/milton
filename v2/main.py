@@ -13,6 +13,7 @@ import random
 
 from business import process_claim
 from services import FinancialServicesFacade
+from reporting import generate_evaluation_report
 
 # Setup logging
 os.makedirs('logs', exist_ok=True)
@@ -89,7 +90,7 @@ def save_checkpoint(csv_file: str, line_number: int):
     if csv_file is None or line_number is None:
         logger.error(f"Cannot save checkpoint: csv_file={csv_file}, line_number={line_number}")
         return
-    checkpoint_path = str(CHECKPOINT_FILE)  # Force string to avoid Path/None issues
+    checkpoint_path = str(CHECKPOINT_FILE)
     with open(checkpoint_path, 'w') as f:
         json.dump({"csv_file": csv_file, "line": line_number}, f)
     logger.debug(f"Checkpoint saved: {csv_file}, line {line_number}")
@@ -136,7 +137,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
     """Process a CSV file starting from the given line."""
     global current_csv, current_line
     current_csv = os.path.basename(csv_file_path)
-    current_line = 0  # Reset to avoid None creep
+    current_line = 0
     logger.info(f"Starting to process {csv_file_path} from line {start_line}")
 
     with open(csv_file_path, 'r') as f:
@@ -144,7 +145,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
         resolved_headers = resolve_headers(reader.fieldnames)
         logger.debug(f"Resolved headers: {resolved_headers}")
 
-        for i, row in enumerate(reader, start=2):  # Start at 2 to account for header
+        for i, row in enumerate(reader, start=2):
             if i <= start_line:
                 logger.debug(f"Skipping line {i} (before start_line {start_line})")
                 continue
@@ -160,14 +161,9 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
     """Process a single CSV row and generate an evaluation report."""
     logger.debug(f"Processing row: {row}")
-    # Extract reference_id
     reference_id_key = resolved_headers.get('reference_id', 'reference_id')
-    reference_id = row.get(reference_id_key, '').strip()
-    if not reference_id:
-        logger.error(f"Skipping row - missing or blank reference_id")
-        return
+    reference_id = row.get(reference_id_key, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
 
-    # Extract employee_number
     employee_number_key = resolved_headers.get('employee_number', 'employee_number')
     employee_number = row.get(employee_number_key, '').strip()
     if not employee_number:
@@ -180,73 +176,37 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     claim = {}
     for header, canonical in resolved_headers.items():
         claim[canonical] = row.get(header, '').strip()
-    logger.debug(f"Claim built: {claim}")
-
-    # Add individual_name from first_name and last_name
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
     claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
     claim['employee_number'] = employee_number
-    logger.debug(f"Updated claim with individual_name: {claim['individual_name']}")
+    logger.debug(f"Claim built: {claim}")
 
-    # Perform search via business.py
+    # Process claim and generate report
     try:
-        detailed_info = process_claim(claim, facade, employee_number)
-        if detailed_info is None:
+        search_result = process_claim(claim, facade, employee_number)
+        if search_result is None:
             logger.error(f"process_claim returned None for reference_id='{reference_id}'")
             return
-        logger.debug(f"Detailed info from process_claim: {detailed_info}")
+        logger.debug(f"Search result from process_claim: {search_result}")
+
+        evaluation_report = generate_evaluation_report(claim, search_result, reference_id)
+        save_evaluation_report(evaluation_report, employee_number, reference_id)
+
+    except Exception as e:
+        logger.error(f"Error processing claim for reference_id='{reference_id}': {str(e)}")
         evaluation_report = OrderedDict([
             ("reference_id", reference_id),
             ("claim", claim),
             ("search_evaluation", {
-                **detailed_info["search_evaluation"],
-                "detailed_info": detailed_info
-            })
-        ])
-    except ValueError as e:
-        logger.error(f"Unresolved CRD for {reference_id}: {str(e)}")
-        evaluation_report = OrderedDict([
-            ("reference_id", reference_id),
-            ("claim", claim),
-            ("search_evaluation", {
-                "compliance": False,
                 "search_strategy": "unknown",
                 "search_outcome": str(e),
-                "detailed_info": {}
+                "search_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                "alerts": [{"alert_type": "Processing Error", "severity": "High", "metadata": {}, "description": str(e)}],
+                "source": "Unknown"
             })
         ])
         save_evaluation_report(evaluation_report, employee_number, reference_id)
-        return
-
-    # Additional evaluations (stubs)
-    alerts = []
-    if config["evaluate_license"]:
-        license_status = "Passed Series 7"  # Stub
-        evaluation_report["license_status"] = license_status
-        logger.debug("Added license_status stub")
-
-    if DISCIPLINARY_ENABLED:
-        disciplinary = "None"  # Stub
-        if disciplinary != "None":
-            alerts.append("Disciplinary action found")
-        evaluation_report["disciplinary"] = disciplinary
-        logger.debug("Added disciplinary stub")
-
-    if ARBITRATION_ENABLED:
-        arbitration = "None"  # Stub
-        if arbitration != "None":
-            alerts.append("Arbitration issue found")
-        evaluation_report["arbitration"] = arbitration
-        logger.debug("Added arbitration stub")
-
-    # Final evaluation
-    evaluation_report["overall_compliance"] = evaluation_report["search_evaluation"]["compliance"] and not alerts
-    evaluation_report["alerts"] = alerts or [evaluation_report["search_evaluation"]["search_outcome"] if not evaluation_report["search_evaluation"]["compliance"] else ""]
-    evaluation_report["risk_level"] = "High" if alerts else "Low" if evaluation_report["overall_compliance"] else "Medium"
-    logger.debug(f"Evaluation report built: {evaluation_report}")
-
-    save_evaluation_report(evaluation_report, employee_number, reference_id)
 
 def save_evaluation_report(report: Dict[str, Any], employee_number: str, reference_id: str):
     """Save the evaluation report as a JSON file."""
@@ -254,11 +214,10 @@ def save_evaluation_report(report: Dict[str, Any], employee_number: str, referen
     logger.debug(f"Saving report to {report_path}")
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
-    compliance = report.get('search_evaluation', {}).get('compliance', False)
-    logger.info(f"Processed {reference_id}, compliance: {compliance}")
+    compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
+    logger.info(f"Processed {reference_id}, overall_compliance: {compliance}")
 
 def main():
-    """Main entry point for the application."""
     parser = argparse.ArgumentParser(description="Compliance CSV Processor")
     parser.add_argument('--diagnostic', action='store_true', help="Enable verbose debug logging")
     parser.add_argument('--wait-time', type=float, default=7.0, help="Seconds to wait between API calls")
@@ -267,7 +226,6 @@ def main():
     if args.diagnostic:
         logger.setLevel(logging.DEBUG)
 
-    # Register signal handlers
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
@@ -290,7 +248,6 @@ def main():
             continue
         logger.info(f"Processing {csv_path} from line {start_line}")
         process_csv(csv_path, start_line, facade, config, args.wait_time)
-        # Count records before archiving
         with open(csv_path, 'r') as f:
             processed_records += sum(1 for _ in csv.reader(f)) - 1  # Minus header
         archive_file(csv_path)
