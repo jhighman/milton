@@ -180,12 +180,12 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
                 search_eval['search_outcome'] = "Invalid or missing CRD value"
         elif search_strategy['strategy'] == 'correlated_firm_info':
             individual_name = claim.get('name', '').strip()
-            firm_crd = search_strategy['firm_crd']
+            organization_crd = search_strategy['organization_crd']
             crd_number = claim.get('crd_number', '').strip()
             search_eval['individual_name'] = individual_name
-            search_eval['firm_crd'] = firm_crd
+            search_eval['organization_crd'] = organization_crd
             search_eval['crd_number'] = crd_number
-            log_diagnostic(f"Processing correlated search for '{individual_name}' with firm CRD {firm_crd}")
+            log_diagnostic(f"Processing correlated search for '{individual_name}' with firm CRD {organization_crd}")
             if crd_number and crd_number.isdigit() and int(crd_number) > 0:
                 crd_int = int(crd_number)
                 basic_info, basic_info_cache = api_client.get_individual_basic_info(
@@ -205,7 +205,7 @@ def perform_search(claim: dict, api_client: ApiClient) -> dict:
                     search_eval['search_outcome'] = "No records found" if total_hits == 0 else f"Multiple records found ({total_hits})"
             else:
                 basic_info, basic_info_cache = api_client.get_individual_correlated_firm_info(
-                    individual_name, firm_crd, return_cache_filename=True, employee_number=employee_number
+                    individual_name, organization_crd, return_cache_filename=True, employee_number=employee_number
                 )
                 search_eval['data_source'] = "IAPD"
                 search_eval['cache_files']['basic_info'] = basic_info_cache

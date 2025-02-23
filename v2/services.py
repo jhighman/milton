@@ -131,27 +131,27 @@ class FinancialServicesFacade:
         logger.warning(f"No data found for CRD: {crd_number} in SEC IAPD detailed search")
         return None
 
-    def search_sec_iapd_correlated(self, individual_name: str, firm_crd: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+    def search_sec_iapd_correlated(self, individual_name: str, organization_crd: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         """
         Search SEC IAPD for an individual by name within a specific firm.
 
         Args:
             individual_name: Name of the individual to search for
-            firm_crd: CRD number of the firm
+            organization_crd: CRD number of the firm
             employee_number: Optional identifier for logging
 
         Returns:
             Optional[Dict]: Search results if found, None if not found or on error
         """
-        logger.info(f"Fetching SEC IAPD correlated info for {individual_name} at firm {firm_crd}, Employee: {employee_number}")
+        logger.info(f"Fetching SEC IAPD correlated info for {individual_name} at firm {organization_crd}, Employee: {employee_number}")
         result = fetch_agent_sec_iapd_correlated(employee_number, {
             "individual_name": individual_name,
-            "firm_crd": firm_crd
+            "organization_crd": organization_crd
         })
         if result:
-            logger.info(f"Successfully fetched SEC IAPD correlated data for {individual_name} at firm {firm_crd}")
+            logger.info(f"Successfully fetched SEC IAPD correlated data for {individual_name} at firm {organization_crd}")
             return result
-        logger.warning(f"No data found for {individual_name} at firm {firm_crd} in SEC IAPD correlated search")
+        logger.warning(f"No data found for {individual_name} at firm {organization_crd} in SEC IAPD correlated search")
         return None
 
     # FINRA BrokerCheck Agent Functions

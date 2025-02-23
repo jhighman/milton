@@ -60,7 +60,7 @@ REQUEST_DELAY = 5.0
 
 
 
-def search_individual_by_firm(individual_name: str, employee_number: Optional[str] = None, firm_crd: Optional[str] = None,
+def search_individual_by_firm(individual_name: str, employee_number: Optional[str] = None, organization_crd: Optional[str] = None,
                     logger: Logger = logger) -> Optional[Dict]:
     """
     Search for an individual by name within a specific firm using the firm's CRD.
@@ -68,12 +68,12 @@ def search_individual_by_firm(individual_name: str, employee_number: Optional[st
     Args:
         individual_name: Individual's name to search for
         employee_number: Optional identifier for logging
-        firm_crd: The firm's CRD number
+        organization_crd: The firm's CRD number
         logger: Logger instance
     """
     log_context = {
         "individual_name": individual_name,
-        "firm_crd": firm_crd,
+        "organization_crd": organization_crd,
         "employee_number": employee_number
     }
     
@@ -86,7 +86,7 @@ def search_individual_by_firm(individual_name: str, employee_number: Optional[st
         url = IAPD_CONFIG["base_search_url"]
         params = {
             'query': individual_name,
-            'firm': firm_crd,
+            'firm': organization_crd,
             'start': '0',
             'sortField': 'Relevance',
             'sortOrder': 'Desc',
@@ -108,9 +108,9 @@ def search_individual_by_firm(individual_name: str, employee_number: Optional[st
             return data
 
         elif response.status_code == 403:
-            raise RateLimitExceeded(f"Rate limit exceeded for individual '{individual_name}' at firm {firm_crd}.")
+            raise RateLimitExceeded(f"Rate limit exceeded for individual '{individual_name}' at firm {organization_crd}.")
         else:
-            logger.error(f"Error fetching correlated firm info for '{individual_name}' at firm {firm_crd} from SEC API: {response.status_code}")
+            logger.error(f"Error fetching correlated firm info for '{individual_name}' at firm {organization_crd} from SEC API: {response.status_code}")
             return None
 
     except requests.exceptions.HTTPError as e:

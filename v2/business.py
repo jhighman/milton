@@ -13,7 +13,6 @@ logger.addHandler(handler)
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     individual_name = claim.get("individual_name", "")
-    firm_crd = claim.get("firm_crd", "")
     crd_number = claim.get("crd_number", "")
     organization_crd_number = claim.get("organization_crd_number", "")
     organization_name = claim.get("organization_name", "")
@@ -21,9 +20,6 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     # Prioritize individual_name and organization_crd_number as per the scenario outline
     if individual_name and organization_crd_number:
         logger.info("Claim has individual_name and organization_crd_number, selecting search_with_correlated")
-        return search_with_correlated
-    elif individual_name and firm_crd:
-        logger.info("Claim has individual_name and firm_crd, selecting search_with_correlated")
         return search_with_correlated
     elif crd_number and organization_crd_number:
         logger.info("Claim has both crd_number and organization_crd_number, selecting search_with_both_crds")
@@ -200,10 +196,10 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
 
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     individual_name = claim.get("individual_name", "")
-    firm_crd = claim.get("firm_crd", "")
-    logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', firm_crd='{firm_crd}', Employee='{employee_number}'")
+    organization_crd = claim.get("organization_crd", "")
+    logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_crd='{organization_crd}', Employee='{employee_number}'")
 
-    result = facade.search_sec_iapd_correlated(individual_name, firm_crd, employee_number)
+    result = facade.search_sec_iapd_correlated(individual_name, organization_crd, employee_number)
     compliance = result and result.get("hits", {}).get("total", 0) > 0
     return {
         "compliance": compliance,
