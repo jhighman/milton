@@ -223,25 +223,28 @@ class FinancialServicesFacade:
 # Example usage in a batch process
 def main():
     facade = FinancialServicesFacade()
+    
+    # These examples don't work, just a placeholder for local testing
+    
     # SEC IAPD
-    print("SEC IAPD Individual:", facade.search_sec_iapd_individual("12345", "EMP001"))
-    print("SEC IAPD Detailed:", facade.search_sec_iapd_detailed("6184005", "EMP001"))
+    # print("SEC IAPD Individual:", facade.search_sec_iapd_individual("12345", "EMP001"))
+    # print("SEC IAPD Detailed:", facade.search_sec_iapd_detailed("6184005", "EMP001"))
 
     # FINRA BrokerCheck
-    print("FINRA BrokerCheck Individual:", facade.search_finra_brokercheck_individual("67890", "EMP001"))
-    print("FINRA BrokerCheck Detailed:", facade.search_finra_brokercheck_detailed("1555796", "EMP001"))
+    # print("FINRA BrokerCheck Individual:", facade.search_finra_brokercheck_individual("67890", "EMP001"))
+    # print("FINRA BrokerCheck Detailed:", facade.search_finra_brokercheck_detailed("1555796", "EMP001"))
 
     # SEC Arbitration
-    print("SEC Arbitration:", facade.search_sec_arbitration("Mark", "Miller", "EMP001"))
+    # print("SEC Arbitration:", facade.search_sec_arbitration("Mark", "Miller", "EMP001"))
 
     # FINRA Disciplinary
-    print("FINRA Disciplinary:", facade.search_finra_disciplinary("John", "Doe", "EMP001"))
+    # print("FINRA Disciplinary:", facade.search_finra_disciplinary("John", "Doe", "EMP001"))
 
     # NFA Basic
-    print("NFA Basic:", facade.search_nfa_basic("Jane", "Smith", "EMP001"))
+    # print("NFA Basic:", facade.search_nfa_basic("Jane", "Smith", "EMP001"))
 
     # FINRA Arbitration
-    print("FINRA Arbitration:", facade.search_finra_arbitration("Bob", "Smith", "EMP001"))
+    # print("FINRA Arbitration:", facade.search_finra_arbitration("Bob", "Smith", "EMP001"))
 
 
 if __name__ == "__main__":
