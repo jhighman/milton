@@ -59,19 +59,17 @@ def test_is_cache_valid():
     assert is_cache_valid(valid_date) == True
     assert is_cache_valid(invalid_date) == False
 
-def test_build_cache_path(temp_cache):
+def test_build_cache_path(setup_cache_folder):
     """Test cache path construction."""
     path = build_cache_path("EMP001", "NFA_Basic_Agent", "search_individual")
-    expected = temp_cache / "EMP001" / "NFA_Basic_Agent" / "search_individual"
+    expected = setup_cache_folder / "EMP001" / "NFA_Basic_Agent" / "search_individual"
     assert path == expected
 
-def test_log_request(temp_cache):
+def test_log_request(setup_cache_folder):
     """Test logging a request to file."""
     employee_number = "EMP001"
-    # Create the employee directory
-    (temp_cache / employee_number).mkdir(parents=True, exist_ok=True)
     log_request(employee_number, "NFA_Basic_Agent", "search_individual", "Cached")
-    log_file = temp_cache / employee_number / "request_log.txt"
+    log_file = setup_cache_folder / employee_number / "request_log.txt"
     assert log_file.exists()
     with log_file.open("r") as f:
         log_entry = f.read()
@@ -86,9 +84,9 @@ def test_save_and_load_cached_data(temp_cache):
     loaded_data = load_cached_data(cache_path)
     assert loaded_data == data
 
-def test_write_and_read_manifest(temp_cache):
+def test_write_and_read_manifest(setup_cache_folder):
     """Test manifest file operations."""
-    cache_path = temp_cache / "EMP001" / "NFA_Basic_Agent" / "search_individual"
+    cache_path = setup_cache_folder / "EMP001" / "NFA_Basic_Agent" / "search_individual"
     cache_path.mkdir(parents=True, exist_ok=True)
     timestamp = "2023-01-01 12:00:00"
     write_manifest(cache_path, timestamp)

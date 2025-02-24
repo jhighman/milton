@@ -105,6 +105,8 @@ def is_cache_valid(cached_date: str) -> bool:
 
 
 def build_cache_path(employee_number: str, agent_name: str, service: str) -> Path:
+   """Build the cache path for a given request."""
+   # Ensure we're using the module's CACHE_FOLDER
    return CACHE_FOLDER / employee_number / agent_name / service
 
 
@@ -123,9 +125,11 @@ def read_manifest(cache_path: Path) -> Optional[str]:
 
 
 def write_manifest(cache_path: Path, timestamp: str) -> None:
+   """Write a manifest file with the cache timestamp."""
+   cache_path.mkdir(parents=True, exist_ok=True)
    manifest_path = cache_path / "manifest.txt"
    with manifest_path.open("w") as f:
-       f.write(f"Cached on: {timestamp}")
+       f.write(timestamp)
 
 
 def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optional[Dict], List[Dict]]:
@@ -159,17 +163,16 @@ def save_multiple_results(cache_path: Path, agent_name: str, employee_number: st
        save_cached_data(cache_path, file_name, result)
 
 
-def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: Optional[float] = None) -> None:
-   """Append a request log entry to the employee's request_log.txt."""
-   log_path = CACHE_FOLDER / employee_number / REQUEST_LOG_FILE
-   log_path.parent.mkdir(parents=True, exist_ok=True)
+def log_request(employee_number: str, agent_name: str, service: str, status: str) -> None:
+   """Log a request to the employee's request log file."""
+   log_dir = CACHE_FOLDER / employee_number
+   log_dir.mkdir(parents=True, exist_ok=True)
+   log_file = log_dir / "request_log.txt"
+   
    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-   log_entry = f"[{timestamp}] {agent_name}/{service} - {status}"
-   if duration is not None:
-       log_entry += f" (fetch duration: {duration:.2f}s)"
-   log_entry += "\n"
-  
-   with log_path.open("a") as f:
+   log_entry = f"{timestamp} - {agent_name}/{service} - {status}\n"
+   
+   with log_file.open("a") as f:
        f.write(log_entry)
 
 
@@ -222,7 +225,7 @@ def check_cache_or_fetch(
 
    logger.info(f"Cache miss or stale for {agent_name}/{service}/{employee_number}")
    results, fetch_duration = fetch_agent_data(agent_name, service, params, driver)
-   log_request(employee_number, agent_name, service, "Fetched", fetch_duration)
+   log_request(employee_number, agent_name, service, "Fetched")
   
    file_name = build_file_name(agent_name, employee_number, service, date)
    if agent_name in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"]:
