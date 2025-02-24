@@ -131,8 +131,7 @@ def when_lookup_organization(mock_facade, result_fixture, org_name):
 # Then Steps
 @then(parsers.parse('the system should choose "{strategy_name}"'))
 def then_check_strategy_used(result_fixture, strategy_name):
-    eval_data = result_fixture.get('search_evaluation', {})
-    actual_strategy = eval_data.get('search_strategy')
+    actual_strategy = result_fixture.get('search_strategy')
     assert actual_strategy == strategy_name, f"Expected {strategy_name}, got {actual_strategy}"
 
 @then(parsers.parse('the final source is "{source_name}"'))

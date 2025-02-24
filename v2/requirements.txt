@@ -2,4 +2,6 @@ beautifulsoup4>=4.9.3  # For HTML parsing
 selenium>=4.0.0        # For web automation
 requests>=2.25.1       # For HTTP requests
 typing>=3.7.4          # For type hints
-pytest>=6.0.0         # For testing
+pytest>=7.0.0
+pytest-bdd>=7.0.0
+pytest-mock>=3.10.0    # Added for mocking support
