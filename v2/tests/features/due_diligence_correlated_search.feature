@@ -1,12 +1,14 @@
-Feature: Due Diligence Correlated Search
-  As a compliance officer
-  I want to search for individuals using correlated data
-  So that I can verify their credentials and compliance status
+Feature: 7: Due Diligence Search - Correlated Search
 
-  Scenario: Search with individual name and firm CRD
-    Given "individual_name" = "Matthew Vetto"
-    And "organization_crd_number" = "282563"
-    And SEC IAPD correlated search indicates hit
+  Scenario Outline: Claim with individual name and firm CRD
+    Given "individual_name" = "<name>"
+      And "organization_crd_number" = "<org_crd>"
+      And SEC IAPD correlated search indicates <search_outcome>
     When I process the claim
     Then the system should choose "search_with_correlated"
-    And the final source is "SEC_IAPD"
+      And the final source is "SEC_IAPD"
+
+
+    Examples:
+      | name           | org_crd | search_outcome |
+      | Matthew Vetto  | 282563  | hit           |
