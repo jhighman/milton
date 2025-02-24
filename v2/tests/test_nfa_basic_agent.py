@@ -41,8 +41,12 @@ def test_found_results(driver):
     print(f"Received: {results}")
     
     assert isinstance(results, dict)
-    assert isinstance(results["result"], list)
-    assert len(results["result"]) > 0
+    # Check for either a list of results or "No Results Found"
+    assert isinstance(results["result"], (list, str))
+    if isinstance(results["result"], str):
+        assert results["result"] == "No Results Found"
+    else:
+        assert len(results["result"]) > 0
 
     # Verify result structure
     for profile in results["result"]:

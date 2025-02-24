@@ -300,3 +300,9 @@ if __name__ == "__main__":
             print(f"No detailed data retrieved for CRD {crd}")
     except RateLimitExceeded as e:
         print(f"Rate limit error: {e}")
+
+# Add this to the __all__ list at the top of the file
+__all__ = [
+    'search_individual',
+    'search_individual_detailed_info',
+]
