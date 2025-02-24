@@ -94,7 +94,7 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
         driver.get("https://www.nfa.futures.org/BasicNet/#profile")
         
         logger.debug("Waiting 2 seconds for page to load")
-        time.sleep(2)
+        time.sleep(50)
 
         logger.debug("Locating Individual tab")
         individual_tab = WebDriverWait(driver, 10).until(
@@ -314,16 +314,70 @@ def main() -> None:
     parser.add_argument('--headless', action='store_true', default=RUN_HEADLESS, help='Run in headless mode')
     
     args = parser.parse_args()
-    
-    if args.first_name and args.last_name:
-        with create_driver(args.headless, logger) as driver:
-            result = search_individual(args.first_name, args.last_name, driver=driver, logger=logger)
+
+    # Sample data for interactive menu
+    sample_searches = [
+        {"first_name": "John", "last_name": "Doe", "description": "Common name (may have results)"},
+        {"first_name": "Xzq", "last_name": "Yzv", "description": "Obscure name (likely no results)"},
+        {"first_name": "Mary", "last_name": "Smith", "description": "Another common name"},
+    ]
+
+    def run_search(first_name: str, last_name: str, headless: bool = args.headless) -> None:
+        """Helper function to execute and display a search."""
+        with create_driver(headless, logger) as driver:
+            result = search_individual(first_name, last_name, driver=driver, logger=logger)
+            print(f"\nSearch Results for {first_name} {last_name}:")
             print(json.dumps(result, indent=2))
+
+    # Check command-line arguments first
+    if args.first_name and args.last_name:
+        run_search(args.first_name, args.last_name, args.headless)
     elif args.batch:
         batch_process_folder(logger)
     else:
-        logger.warning("No valid arguments provided")
-        print("Please provide --first-name and --last-name, or use --batch.")
+        # Interactive menu
+        while True:
+            print("\nNFA BASIC Individual Search Tool")
+            print("==================================")
+            print("1. Run a sample search")
+            print("2. Perform a custom search")
+            print("3. Process JSON files in drop folder (batch mode)")
+            print("4. Exit")
+            choice = input("Enter your choice (1-4): ").strip()
+
+            if choice == "1":
+                print("\nAvailable Sample Searches:")
+                for i, sample in enumerate(sample_searches, 1):
+                    print(f"{i}. {sample['first_name']} {sample['last_name']} - {sample['description']}")
+                sample_choice = input("Select a sample (1-{}): ".format(len(sample_searches))).strip()
+                try:
+                    idx = int(sample_choice) - 1
+                    if 0 <= idx < len(sample_searches):
+                        sample = sample_searches[idx]
+                        run_search(sample["first_name"], sample["last_name"])
+                    else:
+                        print("Invalid sample number.")
+                except ValueError:
+                    print("Please enter a valid number.")
+
+            elif choice == "2":
+                first_name = input("Enter first name: ").strip()
+                last_name = input("Enter last name (required): ").strip()
+                if not last_name:
+                    print("Error: Last name is required.")
+                    continue
+                run_search(first_name, last_name)
+
+            elif choice == "3":
+                print("\nRunning batch process...")
+                batch_process_folder(logger)
+
+            elif choice == "4":
+                print("Exiting...")
+                break
+
+            else:
+                print("Invalid choice. Please enter 1, 2, 3, or 4.")
 
 if __name__ == "__main__":
     main()
