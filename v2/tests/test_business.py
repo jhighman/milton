@@ -1,146 +1,152 @@
-"""
-Business Logic Overview
-----------------------
-
-This test suite verifies the logic for searching financial regulatory databases based on different 
-claim scenarios. Here's how the system decides which databases to search:
-
-1. When both individual CRD and organization CRD are provided:
-   - Uses the organization CRD to search SEC IAPD database
-   - This is useful when we know both the individual and their firm's identifiers
-
-2. When only organization CRD is provided:
-   - Returns an error as entity-only searches aren't supported yet
-   - The system requires an individual CRD for proper searching
-
-3. When only individual CRD is provided:
-   - First searches FINRA BrokerCheck
-   - If no results found, then searches SEC IAPD as fallback
-   - This ensures we check both broker and investment adviser databases
-
-4. When individual CRD and organization name are provided:
-   - First tries FINRA BrokerCheck using individual CRD
-   - If no results, looks up organization's CRD using the name
-   - Then searches SEC IAPD with organization CRD if found
-   - This helps when we have partial information about both individual and firm
-
-5. When no CRD numbers or organization information is provided:
-   - Returns empty results as there's not enough information to search
-
-Key Terms:
-- CRD: Central Registration Depository number (unique identifier for individuals and firms)
-- SEC IAPD: Investment Adviser Public Disclosure database
-- FINRA BrokerCheck: Financial Industry Regulatory Authority's broker database
-
-The system prioritizes BrokerCheck for individual searches and uses SEC IAPD as a fallback
-or when organization information is available.
-"""
-
 import unittest
-from typing import Dict, Any, Optional
-from unittest.mock import Mock, patch
-from business import process_claim, determine_search_strategy, FinancialServicesFacade
+from unittest.mock import Mock
+from typing import Dict, Any
+import logging
+import business  # Assumes business.py is in the same directory
+
+# Note on Business Logic:
+# This test suite validates the business logic in business.py, which processes financial claims
+# to retrieve data from regulatory sources (SEC IAPD and FINRA BrokerCheck). The logic:
+# 1. Uses determine_search_strategy() to select a search function based on claim fields:
+#    - individual_name + organization_crd_number -> search_with_correlated
+#    - crd_number + organization_crd_number -> search_with_both_crds
+#    - crd_number + organization_name -> search_with_crd_and_org_name
+#    - crd_number only -> search_with_crd_only
+#    - organization_crd_number only -> search_with_entity
+#    - organization_name only -> search_with_org_name_only
+#    - insufficient fields -> search_default
+# 2. Each search function queries the FinancialServicesFacade, prioritizing BrokerCheck where
+#    applicable, falling back to SEC IAPD, and handling unsupported cases (e.g., entity-only).
+# 3. process_claim() orchestrates the strategy selection and execution, handling None results.
+# The tests mock the facade to isolate and verify this decision-making and result structure.
+
+# Setup basic logging for test visibility
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(name)s | %(message)s')
 
 class TestBusinessLogic(unittest.TestCase):
-    def setUp(self) -> None:
-        # Mock FinancialServicesFacade with type hints
-        self.facade = Mock(spec=FinancialServicesFacade)
-        self.employee_number = "EMP123"
+    def setUp(self):
+        # Mock the FinancialServicesFacade
+        self.facade = Mock(spec=business.FinancialServicesFacade)
+        self.employee_number = "EMP001"
 
-    def test_both_crd_and_org_crd(self) -> None:
-        """Test when claim has both crd and org_crd, should search SEC IAPD with org_crd."""
-        claim: Dict[str, Any] = {
-            "crd": "12345",
-            "org_crd": "67890"
-        }
-        mock_result: Dict[str, Any] = {"hits": {"total": 1, "hits": [{"_source": {"ind_source_id": "67890"}}]}}
-        self.facade.search_sec_iapd_individual.return_value = mock_result
+    def test_determine_search_strategy_correlated(self):
+        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_correlated)
 
-        result = process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD_Organization")
-        self.assertEqual(result["result"], mock_result)
-        self.facade.search_sec_iapd_individual.assert_called_once_with("67890", "EMP123")
-        self.facade.search_finra_brokercheck_individual.assert_not_called()
+    def test_determine_search_strategy_both_crds(self):
+        claim = {"crd_number": "67890", "organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_both_crds)
 
-    def test_only_org_crd(self) -> None:
-        """Test when claim has only org_crd, should return entity search error."""
-        claim: Dict[str, Any] = {"org_crd": "67890"}
-        result = process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "Entity_Search")
-        self.assertEqual(
-            result["result"],
-            {"error": "Entity search using org_crd is not supported at this time. Please provide an individual crd."}
-        )
-        self.facade.search_finra_brokercheck_individual.assert_not_called()
-        self.facade.search_sec_iapd_individual.assert_not_called()
+    def test_determine_search_strategy_crd_and_org_name(self):
+        claim = {"crd_number": "67890", "organization_name": "Acme Corp"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_crd_and_org_name)
 
-    def test_only_crd_brokercheck_hit(self) -> None:
-        """Test when claim has only crd and BrokerCheck finds a hit."""
-        claim: Dict[str, Any] = {"crd": "12345"}
-        mock_result: Dict[str, Any] = {"hits": {"total": 1, "hits": [{"_source": {"ind_source_id": "12345"}}]}}
-        self.facade.search_finra_brokercheck_individual.return_value = mock_result
+    def test_determine_search_strategy_crd_only(self):
+        claim = {"crd_number": "67890"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_crd_only)
 
-        result = process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "BrokerCheck")
-        self.assertEqual(result["result"], mock_result)
-        self.facade.search_finra_brokercheck_individual.assert_called_once_with("12345", "EMP123")
-        self.facade.search_sec_iapd_individual.assert_not_called()
+    def test_determine_search_strategy_entity(self):
+        claim = {"organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_entity)
 
-    def test_only_crd_no_brokercheck_hit(self) -> None:
-        """Test when claim has only crd and BrokerCheck returns no hits."""
-        claim: Dict[str, Any] = {"crd": "12345"}
-        broker_result: Dict[str, Any] = {"hits": {"total": 0, "hits": []}}
-        sec_result: Dict[str, Any] = {"hits": {"total": 1, "hits": [{"_source": {"ind_source_id": "12345"}}]}}
-        self.facade.search_finra_brokercheck_individual.return_value = broker_result
-        self.facade.search_sec_iapd_individual.return_value = sec_result
+    def test_determine_search_strategy_org_name_only(self):
+        claim = {"organization_name": "Acme Corp"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_org_name_only)
 
-        result = process_claim(claim, self.facade, self.employee_number)
+    def test_determine_search_strategy_default(self):
+        claim = {}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_default)
+
+    def test_process_claim_correlated(self):
+        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
+        self.facade.search_sec_iapd_correlated.return_value = {"crd_number": "67890"}
+        self.facade.search_sec_iapd_detailed.return_value = {"details": "some data"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
         self.assertEqual(result["source"], "SEC_IAPD")
-        self.assertEqual(result["result"], sec_result)
-        self.facade.search_finra_brokercheck_individual.assert_called_once_with("12345", "EMP123")
-        self.facade.search_sec_iapd_individual.assert_called_once_with("12345", "EMP123")
+        self.assertEqual(result["crd_number"], "67890")
+        self.assertEqual(result["search_strategy"], "search_with_correlated")
 
-    def test_crd_and_org_name_brokercheck_no_hit_org_crd_found(self) -> None:
-        """Test when crd fails in BrokerCheck but org_name yields a valid CRD."""
-        claim: Dict[str, Any] = {"crd": "12345", "organization_name": "ABC Securities"}
-        broker_result: Dict[str, Any] = {"hits": {"total": 0, "hits": []}}
-        sec_result: Dict[str, Any] = {"hits": {"total": 1, "hits": [{"_source": {"ind_source_id": "67890"}}]}}
-        self.facade.search_finra_brokercheck_individual.return_value = broker_result
-        self.facade.get_organization_crd.return_value = "67890"
-        self.facade.search_sec_iapd_individual.return_value = sec_result
+    def test_process_claim_crd_only_brokercheck(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": "John Doe"}
+        self.facade.search_finra_brokercheck_detailed.return_value = {"details": "broker data"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "BrokerCheck")
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
 
-        result = process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD_Organization")
-        self.assertEqual(result["result"], sec_result)
-        self.facade.search_finra_brokercheck_individual.assert_called_once_with("12345", "EMP123")
-        self.facade.get_organization_crd.assert_called_once_with("ABC Securities", "EMP123")
-        self.facade.search_sec_iapd_individual.assert_called_once_with("67890", "EMP123")
+    def test_process_claim_crd_only_sec_iapd(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": ""}
+        self.facade.search_sec_iapd_individual.return_value = {"data": "iapd data"}
+        self.facade.search_sec_iapd_detailed.return_value = {"details": "iapd details"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "SEC_IAPD")
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
 
-    def test_crd_and_org_name_brokercheck_no_hit_org_crd_not_found(self) -> None:
-        """Test when crd fails in BrokerCheck and org_name doesn't yield a CRD."""
-        claim: Dict[str, Any] = {"crd": "12345", "organization_name": "Unknown Corp"}
-        broker_result: Dict[str, Any] = {"hits": {"total": 0, "hits": []}}
-        self.facade.search_finra_brokercheck_individual.return_value = broker_result
-        self.facade.get_organization_crd.return_value = "NOT_FOUND"
-
-        result = process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD_Organization")
-        self.assertEqual(
-            result["result"],
-            {"error": "Organization supplied was not found in our index, and no org_crd was included in the search please supply a CRD"}
-        )
-        self.facade.search_finra_brokercheck_individual.assert_called_once_with("12345", "EMP123")
-        self.facade.get_organization_crd.assert_called_once_with("Unknown Corp", "EMP123")
-        self.facade.search_sec_iapd_individual.assert_not_called()
-
-    def test_no_usable_fields(self) -> None:
-        """Test when claim has no usable fields."""
-        claim: Dict[str, Any] = {}
-        result = process_claim(claim, self.facade, self.employee_number)
+    def test_process_claim_default(self):
+        claim = {}
+        result = business.process_claim(claim, self.facade, self.employee_number)
         self.assertEqual(result["source"], "Default")
-        self.assertEqual(result["result"], {"hits": {"total": 0, "hits": []}})
-        self.facade.search_finra_brokercheck_individual.assert_not_called()
-        self.facade.search_sec_iapd_individual.assert_not_called()
+        self.assertIsNone(result["crd_number"])
+        self.assertEqual(result["search_strategy"], "search_default")
+
+    def test_process_claim_none_result(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = None  # Simulate BrokerCheck failure
+        self.facade.search_sec_iapd_individual.return_value = None  # Simulate SEC IAPD failure
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "SEC_IAPD")  # Still returns SEC_IAPD as source
+        self.assertIsNone(result["basic_result"])  # No basic result
+        self.assertIsNone(result["detailed_result"])  # No detailed result
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
 
 if __name__ == "__main__":
-    unittest.main()
+    print("Welcome to the Business Logic Test Runner!")
+    print("Options:")
+    print("  1: Run all tests")
+    print("  2: Test determine_search_strategy functions")
+    print("  3: Test process_claim functions")
+    print("  4: Exit")
+    
+    while True:
+        choice = input("Enter your choice (1-4): ").strip()
+        
+        if choice == "1":
+            unittest.main(argv=[''], exit=False)  # Runs all tests
+            print("\nAll tests completed.")
+        elif choice == "2":
+            suite = unittest.TestSuite()
+            suite.addTests([
+                TestBusinessLogic('test_determine_search_strategy_correlated'),
+                TestBusinessLogic('test_determine_search_strategy_both_crds'),
+                TestBusinessLogic('test_determine_search_strategy_crd_and_org_name'),
+                TestBusinessLogic('test_determine_search_strategy_crd_only'),
+                TestBusinessLogic('test_determine_search_strategy_entity'),
+                TestBusinessLogic('test_determine_search_strategy_org_name_only'),
+                TestBusinessLogic('test_determine_search_strategy_default')
+            ])
+            unittest.TextTestRunner().run(suite)
+            print("\nStrategy tests completed.")
+        elif choice == "3":
+            suite = unittest.TestSuite()
+            suite.addTests([
+                TestBusinessLogic('test_process_claim_correlated'),
+                TestBusinessLogic('test_process_claim_crd_only_brokercheck'),
+                TestBusinessLogic('test_process_claim_crd_only_sec_iapd'),
+                TestBusinessLogic('test_process_claim_default'),
+                TestBusinessLogic('test_process_claim_none_result')
+            ])
+            unittest.TextTestRunner().run(suite)
+            print("\nProcess claim tests completed.")
+        elif choice == "4":
+            print("Exiting test runner.")
+            break
+        else:
+            print("Invalid choice, please select 1-4.")

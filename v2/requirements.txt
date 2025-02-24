@@ -5,3 +5,4 @@ typing>=3.7.4          # For type hints
 pytest>=7.0.0
 pytest-bdd>=7.0.0
 pytest-mock>=3.10.0    # Added for mocking support
+jellyfish>=1.0.0

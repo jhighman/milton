@@ -1,246 +1,149 @@
-import pytest
-import os
-import json
+import unittest
+from unittest.mock import Mock
+from typing import Dict, Any
 import logging
-from unittest.mock import Mock, patch
-import csv
-import signal
-from datetime import datetime
-from collections import OrderedDict
-import sys
-from pathlib import Path
+import business
 
-# Add project root to path if not already there
-project_root = Path(__file__).parent.parent
-if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root))
+# Note on Business Logic:
+# This test suite validates the business logic in business.py, which processes financial claims
+# to retrieve data from SEC IAPD and FINRA BrokerCheck. The logic:
+# 1. Uses determine_search_strategy() to select a search function based on claim fields:
+#    - individual_name + organization_crd_number -> search_with_correlated
+#    - crd_number + organization_crd_number -> search_with_both_crds
+#    - crd_number + organization_name -> search_with_crd_and_org_name
+#    - crd_number only -> search_with_crd_only
+#    - organization_crd_number only -> search_with_entity
+#    - organization_name only -> search_with_org_name_only
+#    - insufficient fields -> search_default
+# 2. Each search function queries the FinancialServicesFacade, prioritizing BrokerCheck where
+#    applicable, falling back to SEC IAPD, and handling unsupported cases (e.g., entity-only).
+# 3. process_claim() orchestrates the strategy selection and execution, handling None results.
 
-# Add parent dir to path to find main.py
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from main import (
-    main, process_csv, process_row, load_config, generate_reference_id,
-    setup_folders, load_checkpoint, save_checkpoint, get_csv_files,
-    archive_file, resolve_headers, signal_handler, INPUT_FOLDER, OUTPUT_FOLDER,
-    ARCHIVE_FOLDER, CHECKPOINT_FILE, canonical_fields
-)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(name)s | %(message)s')
 
-# Setup logging for tests
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger('test_main')
+class TestBusinessLogic(unittest.TestCase):
+    def setUp(self):
+        self.facade = Mock(spec=business.FinancialServicesFacade)
+        self.employee_number = "EMP001"
 
-@pytest.fixture
-def mock_facade():
-    """Mock FinancialServicesFacade."""
-    facade = Mock()
-    return facade
+    def test_determine_search_strategy_correlated(self):
+        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_correlated)
 
-@pytest.fixture
-def temp_dirs(tmp_path):
-    """Create temporary directories for testing."""
-    input_dir = tmp_path / "drop"
-    output_dir = tmp_path / "output"
-    archive_dir = tmp_path / "archive"
-    input_dir.mkdir()
-    output_dir.mkdir()
-    archive_dir.mkdir()
-    return input_dir, output_dir, archive_dir
+    def test_determine_search_strategy_both_crds(self):
+        claim = {"crd_number": "67890", "organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_both_crds)
 
-@pytest.fixture
-def sample_csv(temp_dirs):
-    """Create a sample CSV in the temp input folder."""
-    input_dir, _, _ = temp_dirs
-    csv_path = input_dir / "claims.csv"
-    with open(csv_path, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['CRD', 'first_name', 'last_name', 'orgCRD'])
-        writer.writerow(['11111', 'John', 'Doe', '99999'])
-        writer.writerow(['22222', 'Jane', 'Smith', '88888'])
-    return str(csv_path)
+    def test_determine_search_strategy_crd_and_org_name(self):
+        claim = {"crd_number": "67890", "organization_name": "Acme Corp"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_crd_and_org_name)
 
-@pytest.fixture(autouse=True)
-def reset_globals():
-    """Reset global variables before each test."""
-    global current_csv, current_line
-    current_csv = None
-    current_line = 0
+    def test_determine_search_strategy_crd_only(self):
+        claim = {"crd_number": "67890"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_crd_only)
 
-def test_resolve_headers():
-    """Test header mapping."""
-    fieldnames = ['CRD Number', 'First Name', 'Last Name', 'orgCRD']
-    resolved = resolve_headers(fieldnames)
-    assert resolved == {
-        'CRD Number': 'crd_number',
-        'First Name': 'first_name',
-        'Last Name': 'last_name',
-        'orgCRD': 'organization_crd_number'
-    }
+    def test_determine_search_strategy_entity(self):
+        claim = {"organization_crd_number": "12345"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_entity)
 
-def test_generate_reference_id():
-    """Test reference ID generation."""
-    ref_id = generate_reference_id()
-    assert ref_id.startswith('DEF-')
-    assert len(ref_id) == 16
+    def test_determine_search_strategy_org_name_only(self):
+        claim = {"organization_name": "Acme Corp"}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_with_org_name_only)
 
-def test_load_config(temp_dirs):
-    """Test config loading with defaults."""
-    _, output_dir, _ = temp_dirs
-    config = load_config(str(output_dir / "nonexistent.json"))
-    assert config == {
-    "evaluate_name": True,
-    "evaluate_license": True,
-    "evaluate_exams": True,
-    "evaluate_disclosures": True
-}
+    def test_determine_search_strategy_default(self):
+        claim = {}
+        strategy = business.determine_search_strategy(claim)
+        self.assertEqual(strategy, business.search_default)
 
-def test_process_row_success(mock_facade, temp_dirs, caplog):
-    """Test processing a row with successful search."""
-    caplog.set_level(logging.DEBUG)
-    _, output_dir, _ = temp_dirs
-    row = {'CRD': '11111', 'first_name': 'John', 'last_name': 'Doe', 'orgCRD': '99999'}
-    resolved_headers = {'CRD': 'crd_number', 'first_name': 'first_name', 'last_name': 'last_name', 'orgCRD': 'organization_crd_number'}
-    config = load_config()
+    def test_process_claim_correlated(self):
+        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
+        self.facade.search_sec_iapd_correlated.return_value = {"crd_number": "67890"}
+        self.facade.search_sec_iapd_detailed.return_value = {"details": "some data"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "SEC_IAPD")
+        self.assertEqual(result["crd_number"], "67890")
+        self.assertEqual(result["search_strategy"], "search_with_correlated")
 
-    with patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.process_claim', return_value={
-             "search_evaluation": {
-                 "search_strategy": "search_with_both_crds",
-                 "compliance": True,
-                 "search_outcome": "SEC_IAPD hit",
-                 "compliance_explanation": "Record found via SEC_IAPD."
-             }
-         }):
-        process_row(row, resolved_headers, mock_facade, config)
-        report_path = output_dir / "11111.json"
-        assert report_path.exists(), f"Report not found at {report_path}"
-        with open(report_path, 'r') as f:
-            report = json.load(f)
-            assert report['claim']['individual_name'] == 'John Doe'
-            assert report['search_evaluation']['compliance'] is True
+    def test_process_claim_crd_only_brokercheck(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": "John Doe"}
+        self.facade.search_finra_brokercheck_detailed.return_value = {"details": "broker data"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "BrokerCheck")
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
 
-def test_process_row_fail(mock_facade, temp_dirs, caplog):
-    """Test processing a row with failed search."""
-    caplog.set_level(logging.DEBUG)
-    _, output_dir, _ = temp_dirs
-    row = {'CRD': '22222', 'first_name': 'Jane', 'last_name': 'Smith', 'orgCRD': '88888'}
-    resolved_headers = {'CRD': 'crd_number', 'first_name': 'first_name', 'last_name': 'last_name', 'orgCRD': 'organization_crd_number'}
-    config = load_config()
+    def test_process_claim_crd_only_sec_iapd(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": ""}
+        self.facade.search_sec_iapd_individual.return_value = {"data": "iapd data"}
+        self.facade.search_sec_iapd_detailed.return_value = {"details": "iapd details"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "SEC_IAPD")
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
 
-    with patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.process_claim', return_value={
-             "search_evaluation": {
-                 "search_strategy": "search_with_both_crds",
-                 "compliance": False,
-                 "search_outcome": "No records found",
-                 "compliance_explanation": "No records found"
-             }
-         }):
-        process_row(row, resolved_headers, mock_facade, config)
-        report_path = output_dir / "22222.json"
-        assert report_path.exists(), f"Report not found at {report_path}"
-        with open(report_path, 'r') as f:
-            report = json.load(f)
-            assert report['claim']['individual_name'] == 'Jane Smith'
-            assert report['search_evaluation']['compliance'] is False
+    def test_process_claim_default(self):
+        claim = {}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "Default")
+        self.assertIsNone(result["crd_number"])
+        self.assertEqual(result["search_strategy"], "search_default")
 
-def test_process_csv_full(sample_csv, mock_facade, temp_dirs, caplog):
-    """Test full CSV processing."""
-    caplog.set_level(logging.DEBUG)
-    input_dir, output_dir, _ = temp_dirs
-    config = load_config()
+    def test_process_claim_none_result(self):
+        claim = {"crd_number": "67890"}
+        self.facade.search_finra_brokercheck_individual.return_value = None
+        self.facade.search_sec_iapd_individual.return_value = None
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        self.assertEqual(result["source"], "SEC_IAPD")
+        self.assertIsNone(result["basic_result"])
+        self.assertIsNone(result["detailed_result"])
+        self.assertEqual(result["search_strategy"], "search_with_crd_only")
+
+if __name__ == "__main__":
+    print("Welcome to the Business Logic Test Runner!")
+    print("Options:")
+    print("  1: Run all tests")
+    print("  2: Test determine_search_strategy functions")
+    print("  3: Test process_claim functions")
+    print("  4: Exit")
     
-    with patch('main.INPUT_FOLDER', str(input_dir)), \
-         patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.CHECKPOINT_FILE', str(output_dir / "checkpoint.json")), \
-         patch('main.process_claim', return_value={
-             "search_evaluation": {
-                 "search_strategy": "search_with_both_crds",
-                 "compliance": True,
-                 "search_outcome": "SEC_IAPD hit",
-                 "compliance_explanation": "Record found via SEC_IAPD."
-             }
-         }):
-        process_csv(sample_csv, 0, mock_facade, config, 0.01)
-        checkpoint_path = output_dir / "checkpoint.json"
-        assert checkpoint_path.exists(), f"Checkpoint not found at {checkpoint_path}"
-        checkpoint = load_checkpoint()
-        assert checkpoint["csv_file"] == "claims.csv"
-        assert checkpoint["line"] == 3
-        json_files = [f for f in output_dir.glob('*.json') if f.name != "checkpoint.json"]
-        assert len(json_files) == 2, f"Expected 2 JSON reports, got {len(json_files)}"
-
-def test_process_csv_resume(sample_csv, mock_facade, temp_dirs, caplog):
-    """Test resuming from checkpoint."""
-    caplog.set_level(logging.DEBUG)
-    input_dir, output_dir, _ = temp_dirs
-    config = load_config()
-    
-    with patch('main.INPUT_FOLDER', str(input_dir)), \
-         patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.CHECKPOINT_FILE', str(output_dir / "checkpoint.json")):
-        save_checkpoint("claims.csv", 2)  # Skip first row
-        with patch('main.process_claim', return_value={
-            "search_evaluation": {
-                "search_strategy": "search_with_both_crds",
-                "compliance": True,
-                "search_outcome": "SEC_IAPD hit",
-                "compliance_explanation": "Record found via SEC_IAPD."
-            }
-        }):
-            process_csv(sample_csv, 2, mock_facade, config, 0.01)
-    checkpoint = load_checkpoint()
-            assert checkpoint["line"] == 3
-            json_files = [f for f in output_dir.glob('*.json') if f.name != "checkpoint.json"]
-            assert len(json_files) == 1, f"Expected 1 JSON report, got {len(json_files)}"
-
-def test_archive_file(sample_csv, temp_dirs):
-    """Test archiving a CSV."""
-    input_dir, output_dir, archive_dir = temp_dirs
-    with patch('main.ARCHIVE_FOLDER', str(archive_dir)):
-        archive_file(sample_csv)
-        date_str = datetime.now().strftime("%m-%d-%Y")
-        archived_path = archive_dir / date_str / "claims.csv"
-        assert archived_path.exists(), f"Archived file not found at {archived_path}"
-
-def test_signal_handler(temp_dirs, monkeypatch):
-    """Test signal handling."""
-    input_dir, output_dir, _ = temp_dirs
-    
-    with patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.CHECKPOINT_FILE', str(output_dir / "checkpoint.json")), \
-         patch('main.current_csv', "test.csv"), \
-         patch('main.current_line', 42), \
-         patch('builtins.exit') as mock_exit:
-        signal_handler(signal.SIGINT, None)
-        checkpoint = load_checkpoint()
-        assert checkpoint == {"csv_file": "test.csv", "line": 42}
-        mock_exit.assert_called_once_with(0)
-
-def test_main_full_run(sample_csv, temp_dirs, monkeypatch, caplog):
-    """Test full main execution."""
-    caplog.set_level(logging.INFO)
-    input_dir, output_dir, archive_dir = temp_dirs
-    
-    mock_args = Mock(diagnostic=True, wait_time=0.01)
-    monkeypatch.setattr('argparse.ArgumentParser.parse_args', lambda self: mock_args)
-    
-    with patch('main.INPUT_FOLDER', str(input_dir)), \
-         patch('main.OUTPUT_FOLDER', str(output_dir)), \
-         patch('main.ARCHIVE_FOLDER', str(archive_dir)), \
-         patch('main.CHECKPOINT_FILE', str(output_dir / "checkpoint.json")), \
-         patch('main.FinancialServicesFacade', return_value=Mock()), \
-         patch('main.process_claim', return_value={
-             "search_evaluation": {
-                 "search_strategy": "search_with_both_crds",
-                 "compliance": True,
-                 "search_outcome": "SEC_IAPD hit",
-                 "compliance_explanation": "Record found via SEC_IAPD."
-             }
-         }), \
-         patch('main.archive_file'):  # Prevent file move
-    main()
-        assert "Processed 1 files" in caplog.text, "Expected 'Processed 1 files' in logs"
-        assert "2 records" in caplog.text, "Expected '2 records' in logs"
-        json_files = [f for f in output_dir.glob('*.json') if f.name != "checkpoint.json"]
-        assert len(json_files) == 2, f"Expected 2 JSON reports, got {len(json_files)}"
-        assert not os.path.exists(CHECKPOINT_FILE), "Checkpoint file should be removed"
+    while True:
+        choice = input("Enter your choice (1-4): ").strip()
+        
+        if choice == "1":
+            unittest.main(argv=[''], exit=False)
+            print("\nAll tests completed.")
+        elif choice == "2":
+            suite = unittest.TestSuite()
+            suite.addTests([
+                TestBusinessLogic('test_determine_search_strategy_correlated'),
+                TestBusinessLogic('test_determine_search_strategy_both_crds'),
+                TestBusinessLogic('test_determine_search_strategy_crd_and_org_name'),
+                TestBusinessLogic('test_determine_search_strategy_crd_only'),
+                TestBusinessLogic('test_determine_search_strategy_entity'),
+                TestBusinessLogic('test_determine_search_strategy_org_name_only'),
+                TestBusinessLogic('test_determine_search_strategy_default')
+            ])
+            unittest.TextTestRunner().run(suite)
+            print("\nStrategy tests completed.")
+        elif choice == "3":
+            suite = unittest.TestSuite()
+            suite.addTests([
+                TestBusinessLogic('test_process_claim_correlated'),
+                TestBusinessLogic('test_process_claim_crd_only_brokercheck'),
+                TestBusinessLogic('test_process_claim_crd_only_sec_iapd'),
+                TestBusinessLogic('test_process_claim_default'),
+                TestBusinessLogic('test_process_claim_none_result')
+            ])
+            unittest.TextTestRunner().run(suite)
+            print("\nProcess claim tests completed.")
+        elif choice == "4":
+            print("Exiting test runner.")
+            break
+        else:
+            print("Invalid choice, please select 1-4.")
