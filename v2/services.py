@@ -18,7 +18,7 @@ from marshaller import (
     fetch_agent_sec_disc_search,
     create_driver,
 )
-from normalizer import create_disciplinary_record, NormalizationError
+from normalizer import create_disciplinary_record, NormalizationError, create_individual_record
 
 # Setup logging with DEBUG level for detailed tracing
 logging.basicConfig(
@@ -59,86 +59,8 @@ class FinancialServicesFacade:
         basic_info: Optional[Dict[str, Any]],
         detailed_info: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
-        extracted_info = {
-            "crd_number": "",
-            "fetched_name": "",
-            "other_names": [],
-            "bc_scope": "",
-            "ia_scope": "",
-            "disclosures": [],
-            "arbitrations": [],
-            "exams": [],
-            "current_ia_employments": []
-        }
-
-        valid_sources = {"BrokerCheck", "IAPD"}
-        if data_source not in valid_sources:
-            logger.error(f"Invalid data_source '{data_source}'. Must be one of {valid_sources}.")
-            return extracted_info
-
-        if not basic_info:
-            logger.warning("No basic_info provided.")
-            return extracted_info
-
-        hits_list = basic_info.get("hits", {}).get("hits", [])
-        if not hits_list:
-            logger.warning(f"{data_source}: basic_info had no hits.")
-            return extracted_info
-
-        individual = hits_list[0].get("_source", {})
-        fetched_name = f"{individual.get('ind_firstname', '')} {individual.get('ind_middlename', '')} {individual.get('ind_lastname', '')}".strip()
-        
-        extracted_info["crd_number"] = individual.get("ind_source_id", individual.get("crd_number", ""))
-        extracted_info["fetched_name"] = fetched_name
-        extracted_info["other_names"] = individual.get("ind_other_names", [])
-        extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
-        extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
-
-        if detailed_info:
-            if "disclosures" in detailed_info or "stateExamCategory" in detailed_info:
-                extracted_info["disclosures"] = detailed_info.get("disclosures", [])
-                extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
-                extracted_info["exams"] = (
-                    detailed_info.get("stateExamCategory", []) +
-                    detailed_info.get("principalExamCategory", []) +
-                    detailed_info.get("productExamCategory", [])
-                )
-                extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", [])
-                logger.info(f"Normalized {data_source} data from flat JSON structure.")
-            elif "hits" in detailed_info and detailed_info["hits"].get("hits"):
-                content_str = detailed_info["hits"]["hits"][0]["_source"].get("content", "")
-                try:
-                    content_json = json.loads(content_str) if content_str else {}
-                    extracted_info["disclosures"] = content_json.get("disclosures", [])
-                    extracted_info["arbitrations"] = content_json.get("arbitrations", [])
-                    extracted_info["exams"] = (
-                        content_json.get("stateExamCategory", []) +
-                        content_json.get("principalExamCategory", []) +
-                        content_json.get("productExamCategory", [])
-                    )
-                    extracted_info["current_ia_employments"] = content_json.get("currentIAEmployments", [])
-                    logger.info(f"Normalized {data_source} data from Elasticsearch-style structure.")
-                except json.JSONDecodeError as e:
-                    logger.warning(f"Failed to parse {data_source} 'content' JSON: {e}")
-            elif data_source == "IAPD" and "iacontent" in individual:
-                try:
-                    iacontent_data = json.loads(individual.get("iacontent", "{}"))
-                    extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
-                    extracted_info["exams"] = (
-                        iacontent_data.get("stateExamCategory", []) +
-                        iacontent_data.get("principalExamCategory", []) +
-                        iacontent_data.get("productExamCategory", [])
-                    )
-                    extracted_info["current_ia_employments"] = iacontent_data.get("currentIAEmployments", individual.get("ind_ia_current_employments", []))
-                except json.JSONDecodeError as e:
-                    logger.warning(f"IAPD basic_info iacontent parse error: {e}")
-            else:
-                logger.info(f"No recognizable detailed_info structure for {data_source}.")
-        else:
-            logger.info(f"No detailed_info provided for {data_source}.")
-
-        return extracted_info
+        # Delegate to normalizer.py for consistent individual record normalization
+        return create_individual_record(data_source, basic_info, detailed_info)
 
     def get_organization_crd(self, organization_name: str) -> Optional[str]:
         orgs_data = self._load_organizations_cache()
@@ -307,18 +229,30 @@ class FinancialServicesFacade:
         if sec_result:
             logger.debug(f"SEC result received: {json.dumps(sec_result, indent=2)}")
             sec_actions = sec_result.get("disciplinary_actions", [])
-            raw_sec_actions = sec_result.get("raw_data", [])
-            raw_sec_actions = raw_sec_actions[0]["result"] if raw_sec_actions and isinstance(raw_sec_actions, list) else []
-            combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(raw_sec_actions)
-            combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(raw_sec_actions) - len(sec_actions)
+            raw_sec_data = sec_result.get("raw_data", [])
+            raw_sec_results = raw_sec_data[0]["result"] if raw_sec_data and isinstance(raw_sec_data, list) and "result" in raw_sec_data[0] else []
+            combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(raw_sec_results) if isinstance(raw_sec_results, list) else 0
+            combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = combined_review["due_diligence"]["sec_disciplinary"]["records_found"] - len(sec_actions)
             combined_review["due_diligence"]["sec_disciplinary"]["name_scores"] = sec_result.get("name_scores", {})
             if sec_actions:
                 combined_review["disciplinary_actions"].extend(sec_actions)
                 combined_review["due_diligence"]["sec_disciplinary"]["exact_match_found"] = True
                 combined_review["due_diligence"]["sec_disciplinary"]["status"] = "Exact matches found"
             else:
-                combined_review["due_diligence"]["sec_disciplinary"]["status"] = f"Records found but no matches for '{searched_name}'" if raw_sec_actions else "No records found"
-            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(set(action.get("Name", action.get("Firms/Individuals", "")) for action in raw_sec_actions))
+                combined_review["due_diligence"]["sec_disciplinary"]["status"] = (
+                    f"Records found but no matches for '{searched_name}'" if raw_sec_results else "No records found"
+                )
+            # Extract names from raw data for due diligence
+            names_found = []
+            if isinstance(raw_sec_results, list):
+                for result in raw_sec_results:
+                    if isinstance(result, dict):
+                        name = result.get("Name", result.get("Firms/Individuals", ""))
+                        if name:
+                            names_found.append(name)
+                            other_names = result.get("Also Known As", "").split("; ")
+                            names_found.extend([n for n in other_names if n])
+            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(set(names_found))
         else:
             logger.warning(f"SEC Disciplinary search failed for {first_name} {last_name}")
 
@@ -327,18 +261,28 @@ class FinancialServicesFacade:
         if finra_result:
             logger.debug(f"FINRA result received: {json.dumps(finra_result, indent=2)}")
             finra_actions = finra_result.get("disciplinary_actions", [])
-            raw_finra_actions = finra_result.get("raw_data", [])
-            raw_finra_actions = raw_finra_actions[0]["result"] if raw_finra_actions and isinstance(raw_finra_actions, list) else []
-            combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(raw_finra_actions)
-            combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(raw_finra_actions) - len(finra_actions)
+            raw_finra_data = finra_result.get("raw_data", [])
+            raw_finra_results = raw_finra_data[0]["result"] if raw_finra_data and isinstance(raw_finra_data, list) and "result" in raw_finra_data[0] else []
+            combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(raw_finra_results) if isinstance(raw_finra_results, list) else 0
+            combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = combined_review["due_diligence"]["finra_disciplinary"]["records_found"] - len(finra_actions)
             combined_review["due_diligence"]["finra_disciplinary"]["name_scores"] = finra_result.get("name_scores", {})
             if finra_actions:
                 combined_review["disciplinary_actions"].extend(finra_actions)
                 combined_review["due_diligence"]["finra_disciplinary"]["exact_match_found"] = True
                 combined_review["due_diligence"]["finra_disciplinary"]["status"] = "Exact matches found"
             else:
-                combined_review["due_diligence"]["finra_disciplinary"]["status"] = f"Records found but no matches for '{searched_name}'" if raw_finra_actions else "No records found"
-            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(set(action.get("Firms/Individuals", "") for action in raw_finra_actions))
+                combined_review["due_diligence"]["finra_disciplinary"]["status"] = (
+                    f"Records found but no matches for '{searched_name}'" if raw_finra_results else "No records found"
+                )
+            # Extract names from raw data for due diligence
+            names_found = []
+            if isinstance(raw_finra_results, list):
+                for result in raw_finra_results:
+                    if isinstance(result, dict):
+                        firms_individuals = result.get("Firms/Individuals", "")
+                        if firms_individuals:
+                            names_found.extend([name.strip() for name in firms_individuals.split(", ") if name.strip()])
+            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(set(names_found))
         else:
             logger.warning(f"FINRA Disciplinary search failed for {first_name} {last_name}")
 
@@ -389,70 +333,32 @@ def main():
         try:
             while True:
                 print("\nFinancial Services Facade Interactive Menu:")
-                print("1. Run local test with 'Mark Miller' (SEC Disciplinary)")
-                print("2. Perform custom search")
-                print("3. Run example searches from original main")
-                print("4. Perform combined disciplinary review for 'Mark Miller'")
-                print("5. Exit")
-                choice = input("Enter your choice (1-5): ").strip()
+                print("1. Perform combined disciplinary review for 'Matthew Vetto'")
+                print("2. Perform combined disciplinary review for 'Mark Miller'")
+                print("3. Perform custom disciplinary review")
+                print("4. Exit")
+                choice = input("Enter your choice (1-4): ").strip()
 
                 if choice == "1":
-                    print("\nRunning local test with 'Mark Miller'...")
-                    run_search(facade.search_sec_disciplinary, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
+                    print("\nPerforming combined disciplinary review for 'Matthew Vetto'...")
+                    run_search(facade.perform_disciplinary_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"}, driver)
                 elif choice == "2":
-                    employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP001"
-                    search_type = input("Enter search type (1 for CRD, 2 for name, 3 for disciplinary review): ").strip()
-                    if search_type == "1":
-                        crd_number = input("Enter CRD number: ").strip()
-                        if crd_number:
-                            run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": crd_number})
-                            run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": crd_number})
-                        else:
-                            print("CRD number is required for this search type.")
-                    elif search_type in ["2", "3"]:
-                        first_name = input("Enter first name (optional, press Enter to skip): ").strip()
-                        last_name = input("Enter last name (required): ").strip()
-                        if not last_name:
-                            print("Last name is required.")
-                            continue
-                        if search_type == "2":
-                            run_search(facade.search_sec_arbitration, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_finra_disciplinary, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_nfa_basic, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_finra_arbitration, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_sec_disciplinary, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                        else:  # search_type == "3"
-                            run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                    else:
-                        print("Invalid search type. Use 1 for CRD, 2 for name, or 3 for disciplinary review.")
-                elif choice == "3":
-                    print("\nRunning example searches from original main...")
-                    claims = [
-                        {"individual_name": "Matthew Vetto", "organization_crd": "282563"},
-                        {"crd_number": "2112848"},
-                        {"crd_number": "2722375"}
-                    ]
-                    for i, claim in enumerate(claims, 1):
-                        employee_number = f"EMP00{i}"
-                        logger.info(f"Testing claim {i}: {claim}")
-                        if "crd_number" in claim:
-                            if "organization_crd" in claim:
-                                run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": claim["crd_number"]})
-                            else:
-                                run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": claim["crd_number"]})
-                        else:
-                            run_search(facade.search_sec_iapd_correlated, employee_number, {
-                                "individual_name": claim["individual_name"],
-                                "organization_crd_number": claim["organization_crd"]
-                            })
-                elif choice == "4":
                     print("\nPerforming combined disciplinary review for 'Mark Miller'...")
                     run_search(facade.perform_disciplinary_review, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
-                elif choice == "5":
+                elif choice == "3":
+                    employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP_CUSTOM"
+                    first_name = input("Enter first name (optional, press Enter to skip): ").strip()
+                    last_name = input("Enter last name (required): ").strip()
+                    if not last_name:
+                        print("Last name is required.")
+                        continue
+                    print(f"\nPerforming combined disciplinary review for '{first_name} {last_name}'...")
+                    run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
+                elif choice == "4":
                     print("Exiting...")
                     break
                 else:
-                    print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+                    print("Invalid choice. Please enter 1, 2, 3, or 4.")
         finally:
             driver.quit()
             logger.info("WebDriver closed")

@@ -22,6 +22,7 @@ def create_individual_record(
     detailed_info: Optional[Dict[str, Any]]
 ) -> Dict[str, Any]:
     extracted_info = {
+        "crd_number": "",  # Added back
         "fetched_name": "",
         "other_names": [],
         "bc_scope": "",
@@ -48,6 +49,7 @@ def create_individual_record(
         individual.get('ind_middlename', ''),
         individual.get('ind_lastname', '')
     ])).strip()
+    extracted_info["crd_number"] = individual.get("ind_source_id", individual.get("crd_number", ""))  # Added back
     extracted_info["fetched_name"] = fetched_name
     extracted_info["other_names"] = individual.get("ind_other_names", [])
     extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
