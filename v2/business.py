@@ -5,14 +5,12 @@ from services import FinancialServicesFacade
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
 
-# Logger setup
 logger = logging.getLogger("business")
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
 handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(name)s | %(message)s'))
 logger.addHandler(handler)
 
-# Existing search strategy functions (unchanged)
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     individual_name = claim.get("individual_name", "")
     crd_number = claim.get("crd_number", "")
@@ -41,7 +39,6 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
         logger.info("Claim lacks sufficient fields, selecting default strategy")
         return search_default
 
-# Existing search functions (unchanged)
 def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     crd_number = claim.get("crd_number", "")
     logger.info(f"Searching SEC IAPD with crd_number='{crd_number}', Employee='{employee_number}'")
@@ -105,8 +102,17 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_crd_number='{organization_crd_number}', Employee='{employee_number}'")
     basic_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
+    logger.debug(f"Raw basic_result from SEC IAPD correlated search: {json.dumps(basic_result, indent=2)}")
     crd_number = basic_result.get("crd_number", None) if basic_result else None
+    if basic_result:
+        logger.info(f"Found basic_result with crd_number='{crd_number}'")
+    else:
+        logger.warning("No basic_result from SEC IAPD correlated search")
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
+    if detailed_result:
+        logger.debug(f"Detailed result from SEC IAPD detailed search: {json.dumps(detailed_result, indent=2)}")
+    elif crd_number:
+        logger.warning(f"Failed to fetch detailed_result for crd_number='{crd_number}'")
     return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_correlated", "crd_number": crd_number}
 
 def process_claim(
@@ -117,17 +123,14 @@ def process_claim(
     """Process a claim by collecting data and delegating report building to EvaluationReportDirector."""
     logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}'")
     
-    # Default employee_number if not provided in claim or args
     employee_number = claim.get("employee_number", employee_number or "EMP_DEFAULT")
     
-    # Step 1: Collect primary search data
     strategy_func = determine_search_strategy(claim)
     logger.debug(f"Selected primary strategy: {strategy_func.__name__}")
     search_evaluation = strategy_func(claim, facade, employee_number)
     if search_evaluation is None or (search_evaluation.get("basic_result") is None and search_evaluation.get("detailed_result") is None):
         logger.warning(f"Primary strategy {strategy_func.__name__} returned no usable data")
 
-    # Step 2: Perform disciplinary review
     first_name = claim.get("first_name", "")
     last_name = claim.get("last_name", "")
     individual_name = claim.get("individual_name", "")
@@ -145,7 +148,16 @@ def process_claim(
         }
     )
 
-    # Build extracted_info for the director
+    arbitration_evaluation = (
+        facade.perform_arbitration_review(first_name, last_name, employee_number)
+        if first_name and last_name
+        else {
+            "primary_name": individual_name or "Unknown",
+            "arbitration_actions": [],
+            "due_diligence": {"status": "No name provided for search"}
+        }
+    )
+
     extracted_info = {
         "search_evaluation": {
             "source": search_evaluation.get("source", "Unknown"),
@@ -159,13 +171,12 @@ def process_claim(
         "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
         "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", ""),
         "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", ""),
-        "exams": search_evaluation.get("detailed_result", {}).get("exams", []),
-        "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []),
-        "arbitrations": search_evaluation.get("detailed_result", {}).get("arbitrations", []),
-        "disciplinary_evaluation": disciplinary_evaluation  # Pass full disciplinary_evaluation
+        "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") is not None else [],
+        "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
+        "disciplinary_evaluation": disciplinary_evaluation,
+        "arbitration_evaluation": arbitration_evaluation
     }
 
-    # Delegate report building with reference_id
     reference_id = claim.get("reference_id", "UNKNOWN")
     builder = EvaluationReportBuilder(reference_id)
     director = EvaluationReportDirector(builder)

@@ -14,7 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from bs4 import BeautifulSoup
 
 """
-FINRA Arbitration Awards Search Tool with Robust Result Processing
+FINRA Arbitration Search Tool
 """
 
 # Constants

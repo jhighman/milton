@@ -470,43 +470,59 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
 # ----------------------------------------
 # Arbitration Evaluation
 # ----------------------------------------
-def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
     """
-    Evaluate arbitration records for pending or adverse outcomes.
-    Returns (compliance, explanation, [Alert objects]).
+    Evaluate arbitration records and due diligence. Returns (compliance, explanation, alerts).
+    Considers due diligence details (e.g., filtered records) in compliance assessment.
     """
-    if not arbitrations:
-        return True, f"No arbitrations found for {name}.", []
+    alerts = []
     
-    pending_cases = []
-    adverse_cases = []
-    for arb in arbitrations:
-        status = arb.get('status', '').lower()
-        outcome = arb.get('outcome', '').lower()
-        case_number = arb.get('case_number') or arb.get('Case ID') or 'Unknown'
-        if status == 'pending':
-            pending_cases.append(case_number)
-        if outcome in ['award against individual', 'adverse finding']:
-            adverse_cases.append(case_number)
-    if pending_cases or adverse_cases:
-        metadata = {}
-        if pending_cases:
-            metadata["pending_cases"] = pending_cases
-        if adverse_cases:
-            metadata["adverse_outcomes"] = adverse_cases
-        alert_description = f"{name} has arbitration issues: "
-        if pending_cases:
-            alert_description += f"Pending cases: {', '.join(pending_cases)}. "
-        if adverse_cases:
-            alert_description += f"Adverse outcomes: {', '.join(adverse_cases)}."
-        alert = Alert(
-            alert_type="Arbitration Alert",
-            severity=AlertSeverity.HIGH,
-            metadata=metadata,
-            description=alert_description.strip()
-        )
-        return False, f"Arbitration issues found for {name}.", [alert]
-    return True, f"{name} has arbitration history with no pending or adverse outcomes.", []
+    # Evaluate records
+    if arbitrations:
+        for arb in arbitrations:
+            status = arb.get('status', '').lower()
+            outcome = arb.get('outcome', '').lower()
+            case_number = arb.get('case_number') or arb.get('Case ID') or 'Unknown'
+            if status == 'pending' or outcome in ['award against individual', 'adverse finding']:
+                alerts.append(Alert(
+                    alert_type="Arbitration Alert",
+                    severity=AlertSeverity.HIGH,
+                    metadata={"arbitration": arb},
+                    description=f"Arbitration issue found: Case {case_number} for {name}, status: {status}, outcome: {outcome}."
+                ))
+        if alerts:
+            explanation = f"Arbitration issues found for {name}."
+            return False, explanation, alerts
+
+    # Evaluate due diligence if provided
+    if due_diligence:
+        sec_dd = due_diligence.get("sec_arbitration", {})
+        finra_dd = due_diligence.get("finra_arbitration", {})
+        total_records = sec_dd.get("records_found", 0) + finra_dd.get("records_found", 0)
+        total_filtered = sec_dd.get("records_filtered", 0) + finra_dd.get("records_filtered", 0)
+        
+        # Threshold: if >10 records found and all filtered, flag as a potential concern
+        if total_records > 10 and total_filtered == total_records:
+            alerts.append(Alert(
+                alert_type="Arbitration Search Alert",
+                severity=AlertSeverity.MEDIUM,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} arbitration records for {name}, all filtered out due to name mismatch. Potential review needed."
+            ))
+            explanation = f"No matching arbitration records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
+            return True, explanation, alerts
+        elif total_records > 0:
+            alerts.append(Alert(
+                alert_type="Arbitration Search Info",
+                severity=AlertSeverity.INFO,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} arbitration records for {name}, {total_filtered} filtered out."
+            ))
+            explanation = f"No matching arbitration records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
+            return True, explanation, alerts
+
+    explanation = f"No arbitration records found for {name}."
+    return True, explanation, alerts
 
 # ----------------------------------------
 # Disciplinary Evaluation
@@ -541,7 +557,7 @@ def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str,
         total_records = sec_dd.get("records_found", 0) + finra_dd.get("records_found", 0)
         total_filtered = sec_dd.get("records_filtered", 0) + finra_dd.get("records_filtered", 0)
         
-        # Threshold: if >10 records found and all filtered, flag as a potential compliance concern
+        # Threshold: if >10 records found and all filtered, flag as a potential concern
         if total_records > 10 and total_filtered == total_records:
             alerts.append(Alert(
                 alert_type="Disciplinary Search Alert",

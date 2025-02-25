@@ -134,12 +134,16 @@ class EvaluationReportDirector:
         self.builder.set_disciplinary_evaluation(disciplinary_eval)
 
         # Step 8: Arbitration Evaluation
-        arbitrations = extracted_info.get("arbitrations", [])
-        arbitration_compliant, arbitration_explanation, arbitration_alerts = evaluate_arbitration(arbitrations, expected_name)
+        arbitration_evaluation = extracted_info.get("arbitration_evaluation", {})
+        arbitrations = arbitration_evaluation.get("arbitration_actions", [])  # Aligned with disciplinary naming
+        arbitration_compliant, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
+            arbitrations, expected_name, arbitration_evaluation.get("due_diligence")
+        )
         arbitration_eval = {
             "compliance": arbitration_compliant,
             "compliance_explanation": arbitration_explanation,
-            "alerts": [alert.to_dict() for alert in arbitration_alerts]
+            "alerts": [alert.to_dict() for alert in arbitration_alerts],
+            "due_diligence": arbitration_evaluation.get("due_diligence", {})
         }
         self.builder.set_arbitration_review(arbitration_eval)
 

@@ -18,26 +18,33 @@ from marshaller import (
     fetch_agent_sec_disc_search,
     create_driver,
 )
-from normalizer import create_disciplinary_record, NormalizationError, create_individual_record
+from normalizer import create_disciplinary_record, create_arbitration_record, create_individual_record
 
-# Setup logging with DEBUG level for detailed tracing
 logging.basicConfig(
-    level=logging.DEBUG,  # Set to INFO later if too verbose
+    level=logging.DEBUG,
     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger("FinancialServicesFacade")
 
-RUN_HEADLESS = True  # Default to headless mode for browser automation
+RUN_HEADLESS = True
 
 class FinancialServicesFacade:
+    def __init__(self):
+        self.driver = create_driver(RUN_HEADLESS)
+        self._is_driver_managed = True
+
+    def __del__(self):
+        if self._is_driver_managed and hasattr(self, 'driver') and self.driver:
+            self.driver.quit()
+            logger.info("WebDriver closed")
+
     @staticmethod
     def _load_organizations_cache() -> Optional[List[Dict]]:
         cache_file = os.path.join("input", "organizationsCrd.jsonl")
         if not os.path.exists(cache_file):
             logger.error("Failed to load organizations cache.")
             return None
-
         try:
             organizations = []
             with open(cache_file, 'r') as f:
@@ -54,11 +61,7 @@ class FinancialServicesFacade:
         return name.lower().replace(" ", "")
 
     @staticmethod
-    def _normalize_individual_record(
-        data_source: str,
-        basic_info: Optional[Dict[str, Any]],
-        detailed_info: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+    def _normalize_individual_record(data_source: str, basic_info: Optional[Dict[str, Any]], detailed_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         return create_individual_record(data_source, basic_info, detailed_info)
 
     def get_organization_crd(self, organization_name: str) -> Optional[str]:
@@ -66,7 +69,6 @@ class FinancialServicesFacade:
         if not orgs_data:
             logger.error("Failed to load organizations cache.")
             return None
-
         normalized_search_name = self._normalize_organization_name(organization_name)
         for org in orgs_data:
             stored_name = self._normalize_organization_name(org.get("name", ""))
@@ -78,11 +80,9 @@ class FinancialServicesFacade:
                 else:
                     logger.warning(f"CRD not found for organization '{organization_name}'.")
                     return None
-        
         logger.warning(f"Organization '{organization_name}' not found in cache.")
         return "NOT_FOUND"
 
-    # SEC IAPD Agent Functions
     def search_sec_iapd_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching SEC IAPD basic info for CRD: {crd_number}, Employee: {employee_number}")
         basic_result = fetch_agent_sec_iapd_search(employee_number, {"crd_number": crd_number})
@@ -103,13 +103,15 @@ class FinancialServicesFacade:
             "individual_name": individual_name,
             "organization_crd_number": organization_crd_number
         })
+        logger.debug(f"Raw result from fetch_agent_sec_iapd_correlated: {json.dumps(result, indent=2)}")
         if result:
             logger.info(f"Successfully fetched SEC IAPD correlated data for {individual_name} at organization {organization_crd_number}")
-            return self._normalize_individual_record("IAPD", result)
+            normalized = self._normalize_individual_record("IAPD", result)
+            logger.debug(f"Normalized basic_result: {json.dumps(normalized, indent=2)}")
+            return normalized
         logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in SEC IAPD correlated search")
         return None
 
-    # FINRA BrokerCheck Agent Functions
     def search_finra_brokercheck_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching FINRA BrokerCheck basic info for CRD: {crd_number}, Employee: {employee_number}")
         basic_result = fetch_agent_finra_bc_search(employee_number, {"crd_number": crd_number})
@@ -124,79 +126,67 @@ class FinancialServicesFacade:
         logger.warning(f"Calling search_finra_brokercheck_detailed is deprecated; use search_finra_brokercheck_individual instead for CRD: {crd_number}")
         return self.search_finra_brokercheck_individual(crd_number, employee_number)
 
-    # SEC Arbitration Agent Functions
-    def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching SEC Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_sec_arb_search(employee_number, params, driver)
+        searched_name = f"{first_name} {last_name}"
+        result = fetch_agent_sec_arb_search(employee_number, params, self.driver)
         if result:
             logger.info(f"Successfully fetched SEC Arbitration data for {first_name} {last_name}")
-            return result[0] if isinstance(result, list) and result else result
+            normalized = create_arbitration_record("SEC_Arbitration", result, searched_name)
+            logger.debug(f"SEC Arbitration normalized result: {json.dumps(normalized, indent=2)}")
+            return normalized
         logger.warning(f"No data found for {first_name} {last_name} in SEC Arbitration search")
         return None
 
-    # FINRA Disciplinary Agent Functions
-    def search_finra_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    def search_finra_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching FINRA Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"
-        result = fetch_agent_finra_disc_search(employee_number, params, driver)
+        result = fetch_agent_finra_disc_search(employee_number, params, self.driver)
         if result:
-            logger.debug(f"FINRA raw result: {json.dumps(result, indent=2)}")
+            logger.debug(f"FINRA Disciplinary raw result: {json.dumps(result, indent=2)}")
             normalized = create_disciplinary_record("FINRA_Disciplinary", result, searched_name)
-            logger.debug(f"FINRA normalized result: {json.dumps(normalized, indent=2)}")
+            logger.debug(f"FINRA Disciplinary normalized result: {json.dumps(normalized, indent=2)}")
             logger.info(f"Successfully fetched FINRA Disciplinary data for {first_name} {last_name}")
             return normalized
         logger.warning(f"No data found for {first_name} {last_name} in FINRA Disciplinary search")
         return None
 
-    # NFA Basic Agent Functions
-    def search_nfa_basic(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Dict[str, Any]:
+    def search_nfa_basic(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
         logger.info(f"Fetching NFA Basic data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_nfa_search(employee_number, params, driver)
+        result = fetch_agent_nfa_search(employee_number, params, self.driver)
         return result[0] if isinstance(result, list) and result else result
 
-    # FINRA Arbitration Agent Functions
-    def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching FINRA Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_finra_arb_search(employee_number, params, driver)
+        searched_name = f"{first_name} {last_name}"
+        result = fetch_agent_finra_arb_search(employee_number, params, self.driver)
         if result:
             logger.info(f"Successfully fetched FINRA Arbitration data for {first_name} {last_name}")
-            return result[0] if isinstance(result, list) and result else result
+            normalized = create_arbitration_record("FINRA_Arbitration", result, searched_name)
+            logger.debug(f"FINRA Arbitration normalized result: {json.dumps(normalized, indent=2)}")
+            return normalized
         logger.warning(f"No data found for {first_name} {last_name} in FINRA Arbitration search")
         return None
 
-    # SEC Disciplinary Agent Functions
-    def search_sec_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    def search_sec_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching SEC Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"
-        result = fetch_agent_sec_disc_search(employee_number, params, driver)
+        result = fetch_agent_sec_disc_search(employee_number, params, self.driver)
         if result:
-            logger.debug(f"SEC raw result: {json.dumps(result, indent=2)}")
+            logger.debug(f"SEC Disciplinary raw result: {json.dumps(result, indent=2)}")
             normalized = create_disciplinary_record("SEC_Disciplinary", result, searched_name)
-            logger.debug(f"SEC normalized result: {json.dumps(normalized, indent=2)}")
+            logger.debug(f"SEC Disciplinary normalized result: {json.dumps(normalized, indent=2)}")
             logger.info(f"Successfully fetched SEC Disciplinary data for {first_name} {last_name}")
             return normalized
         logger.warning(f"No data found for {first_name} {last_name} in SEC Disciplinary search")
         return None
 
-    # Combined Disciplinary Review Function
-    def perform_disciplinary_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Dict[str, Any]:
-        """
-        Perform a combined disciplinary review by searching both SEC and FINRA disciplinary records.
-
-        Args:
-            first_name (str): First name to search.
-            last_name (str): Last name to search.
-            employee_number (Optional[str]): Employee number for caching/logging.
-            driver (Optional[webdriver.Chrome]): Selenium WebDriver instance.
-
-        Returns:
-            Dict[str, Any]: Combined disciplinary review with filtered actions and detailed due diligence.
-        """
+    def perform_disciplinary_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
         logger.info(f"Performing disciplinary review for {first_name} {last_name}, Employee: {employee_number}")
         searched_name = f"{first_name} {last_name}"
         combined_review = {
@@ -223,10 +213,9 @@ class FinancialServicesFacade:
             }
         }
 
-        # Search SEC Disciplinary
-        sec_result = self.search_sec_disciplinary(first_name, last_name, employee_number, driver)
+        sec_result = self.search_sec_disciplinary(first_name, last_name, employee_number)
         if sec_result:
-            logger.debug(f"SEC result received: {json.dumps(sec_result, indent=2)}")
+            logger.debug(f"SEC Disciplinary result received: {json.dumps(sec_result, indent=2)}")
             sec_actions = sec_result.get("disciplinary_actions", [])
             combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(sec_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(sec_result.get("raw_data", [{}])[0].get("result", [])) - len(sec_actions)
@@ -244,13 +233,10 @@ class FinancialServicesFacade:
                 for action in sec_result.get("raw_data", [{}])[0].get("result", [])
                 if isinstance(action, dict)
             ))
-        else:
-            logger.warning(f"SEC Disciplinary search failed for {first_name} {last_name}")
 
-        # Search FINRA Disciplinary
-        finra_result = self.search_finra_disciplinary(first_name, last_name, employee_number, driver)
+        finra_result = self.search_finra_disciplinary(first_name, last_name, employee_number)
         if finra_result:
-            logger.debug(f"FINRA result received: {json.dumps(finra_result, indent=2)}")
+            logger.debug(f"FINRA Disciplinary result received: {json.dumps(finra_result, indent=2)}")
             finra_actions = finra_result.get("disciplinary_actions", [])
             combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(finra_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(finra_result.get("raw_data", [{}])[0].get("result", [])) - len(finra_actions)
@@ -268,13 +254,87 @@ class FinancialServicesFacade:
                 for action in finra_result.get("raw_data", [{}])[0].get("result", [])
                 if isinstance(action, dict)
             ))
-        else:
-            logger.warning(f"FINRA Disciplinary search failed for {first_name} {last_name}")
 
         if combined_review["disciplinary_actions"]:
             logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['disciplinary_actions'])} matching actions")
         else:
             logger.info(f"No matching disciplinary actions found for {first_name} {last_name} across SEC and FINRA; due diligence: SEC found {combined_review['due_diligence']['sec_disciplinary']['records_found']}, FINRA found {combined_review['due_diligence']['finra_disciplinary']['records_found']}")
+
+        return combined_review
+
+    def perform_arbitration_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+        logger.info(f"Performing arbitration review for {first_name} {last_name}, Employee: {employee_number}")
+        searched_name = f"{first_name} {last_name}"
+        combined_review = {
+            "primary_name": searched_name,
+            "arbitration_actions": [],
+            "due_diligence": {
+                "searched_name": searched_name,
+                "sec_arbitration": {
+                    "records_found": 0,
+                    "records_filtered": 0,
+                    "names_found": [],
+                    "name_scores": {},
+                    "exact_match_found": False,
+                    "status": "No records fetched"
+                },
+                "finra_arbitration": {
+                    "records_found": 0,
+                    "records_filtered": 0,
+                    "names_found": [],
+                    "name_scores": {},
+                    "exact_match_found": False,
+                    "status": "No records fetched"
+                }
+            }
+        }
+
+        sec_result = self.search_sec_arbitration(first_name, last_name, employee_number)
+        if sec_result:
+            logger.debug(f"SEC Arbitration result received: {json.dumps(sec_result, indent=2)}")
+            sec_actions = sec_result.get("arbitration_actions", [])
+            combined_review["due_diligence"]["sec_arbitration"]["records_found"] = len(sec_result.get("raw_data", [{}])[0].get("result", []))
+            combined_review["due_diligence"]["sec_arbitration"]["records_filtered"] = len(sec_result.get("raw_data", [{}])[0].get("result", [])) - len(sec_actions)
+            combined_review["due_diligence"]["sec_arbitration"]["name_scores"] = sec_result.get("name_scores", {})
+            if sec_actions:
+                combined_review["arbitration_actions"].extend(sec_actions)
+                combined_review["due_diligence"]["sec_arbitration"]["exact_match_found"] = True
+                combined_review["due_diligence"]["sec_arbitration"]["status"] = "Exact matches found"
+            else:
+                combined_review["due_diligence"]["sec_arbitration"]["status"] = (
+                    f"Records found but no matches for '{searched_name}'" if sec_result.get("raw_data") else "No records found"
+                )
+            combined_review["due_diligence"]["sec_arbitration"]["names_found"] = list(set(
+                action.get("details", {}).get("enforcement_action", "Unknown") 
+                for action in sec_result.get("raw_data", [{}])[0].get("result", [])
+                if isinstance(action, dict)
+            ))
+
+        finra_result = self.search_finra_arbitration(first_name, last_name, employee_number)
+        if finra_result:
+            logger.debug(f"FINRA Arbitration result received: {json.dumps(finra_result, indent=2)}")
+            finra_actions = finra_result.get("arbitration_actions", [])
+            combined_review["due_diligence"]["finra_arbitration"]["records_found"] = len(finra_result.get("raw_data", [{}])[0].get("result", []))
+            combined_review["due_diligence"]["finra_arbitration"]["records_filtered"] = len(finra_result.get("raw_data", [{}])[0].get("result", [])) - len(finra_actions)
+            combined_review["due_diligence"]["finra_arbitration"]["name_scores"] = finra_result.get("name_scores", {})
+            if finra_actions:
+                combined_review["arbitration_actions"].extend(finra_actions)
+                combined_review["due_diligence"]["finra_arbitration"]["exact_match_found"] = True
+                combined_review["due_diligence"]["finra_arbitration"]["status"] = "Exact matches found"
+            else:
+                combined_review["due_diligence"]["finra_arbitration"]["status"] = (
+                    f"Records found but no matches for '{searched_name}'" if finra_result.get("raw_data") else "No records found"
+                )
+            combined_review["due_diligence"]["finra_arbitration"]["names_found"] = list(set(
+                action.get("details", {}).get("case_summary", {}).get("Respondent", "Unknown") 
+                for action in finra_result.get("raw_data", [{}])[0].get("result", [])
+                if isinstance(action, dict)
+            ))
+
+        if combined_review["arbitration_actions"]:
+            logger.info(f"Combined arbitration review completed for {combined_review['primary_name']} with {len(combined_review['arbitration_actions'])} matching actions")
+        else:
+            logger.info(f"No matching arbitration actions found for {first_name} {last_name} across SEC and FINRA; due diligence: SEC found {combined_review['due_diligence']['sec_arbitration']['records_found']}, FINRA found {combined_review['due_diligence']['finra_arbitration']['records_found']}")
 
         return combined_review
 
@@ -286,66 +346,63 @@ def main():
     parser.add_argument('--first-name', help='First name for custom search')
     parser.add_argument('--last-name', help='Last name for custom search')
     parser.add_argument('--crd-number', help='CRD number for custom search')
-    parser.add_argument('--headless', action='store_true', default=True, help='Run in headless mode')
     
     args = parser.parse_args()
 
-    def run_search(method: callable, employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None):
-        result = method(**params, employee_number=employee_number, driver=driver)
+    def run_search(method: callable, employee_number: str, params: Dict[str, Any]):
+        result = method(**params, employee_number=employee_number)
         method_name = method.__name__.replace('search_', '').replace('perform_', '')
         print(f"\n{method_name} Result for {employee_number}:")
         print(json.dumps(result, indent=2))
 
     if args.employee_number or args.first_name or args.last_name or args.crd_number:
         employee_number = args.employee_number or "EMP001"
-        driver = create_driver(args.headless)
-        try:
-            if args.crd_number:
-                run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": args.crd_number})
-                run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": args.crd_number})
-            if args.first_name and args.last_name:
-                run_search(facade.search_sec_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_finra_disciplinary, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_nfa_basic, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_finra_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.perform_disciplinary_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-        finally:
-            driver.quit()
-            logger.info("WebDriver closed")
+        if args.crd_number:
+            run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": args.crd_number})
+            run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": args.crd_number})
+        if args.first_name and args.last_name:
+            run_search(facade.search_sec_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.search_finra_disciplinary, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.search_nfa_basic, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.search_finra_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.perform_disciplinary_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.perform_arbitration_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
     else:
-        driver = create_driver(RUN_HEADLESS)
-        try:
-            while True:
-                print("\nFinancial Services Facade Interactive Menu:")
-                print("1. Perform combined disciplinary review for 'Matthew Vetto'")
-                print("2. Perform combined disciplinary review for 'Mark Miller'")
-                print("3. Perform custom disciplinary review")
-                print("4. Exit")
-                choice = input("Enter your choice (1-4): ").strip()
+        while True:
+            print("\nFinancial Services Facade Interactive Menu:")
+            print("1. Perform combined disciplinary review for 'Matthew Vetto'")
+            print("2. Perform combined arbitration review for 'Matthew Vetto'")
+            print("3. Perform custom disciplinary or arbitration review")
+            print("4. Exit")
+            choice = input("Enter your choice (1-4): ").strip()
 
-                if choice == "1":
-                    print("\nPerforming combined disciplinary review for 'Matthew Vetto'...")
-                    run_search(facade.perform_disciplinary_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"}, driver)
-                elif choice == "2":
-                    print("\nPerforming combined disciplinary review for 'Mark Miller'...")
-                    run_search(facade.perform_disciplinary_review, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
-                elif choice == "3":
-                    employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP_CUSTOM"
-                    first_name = input("Enter first name (optional, press Enter to skip): ").strip()
-                    last_name = input("Enter last name (required): ").strip()
-                    if not last_name:
-                        print("Last name is required.")
-                        continue
+            if choice == "1":
+                print("\nPerforming combined disciplinary review for 'Matthew Vetto'...")
+                run_search(facade.perform_disciplinary_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"})
+            elif choice == "2":
+                print("\nPerforming combined arbitration review for 'Matthew Vetto'...")
+                run_search(facade.perform_arbitration_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"})
+            elif choice == "3":
+                employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP_CUSTOM"
+                first_name = input("Enter first name (optional, press Enter to skip): ").strip()
+                last_name = input("Enter last name (required): ").strip()
+                if not last_name:
+                    print("Last name is required.")
+                    continue
+                review_type = input("Enter review type (1 for disciplinary, 2 for arbitration): ").strip()
+                if review_type == "1":
                     print(f"\nPerforming combined disciplinary review for '{first_name} {last_name}'...")
-                    run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                elif choice == "4":
-                    print("Exiting...")
-                    break
+                    run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name})
+                elif review_type == "2":
+                    print(f"\nPerforming combined arbitration review for '{first_name} {last_name}'...")
+                    run_search(facade.perform_arbitration_review, employee_number, {"first_name": first_name, "last_name": last_name})
                 else:
-                    print("Invalid choice. Please enter 1, 2, 3, or 4.")
-        finally:
-            driver.quit()
-            logger.info("WebDriver closed")
+                    print("Invalid review type. Use 1 for disciplinary or 2 for arbitration.")
+            elif choice == "4":
+                print("Exiting...")
+                break
+            else:
+                print("Invalid choice. Please enter 1, 2, 3, or 4.")
 
 if __name__ == "__main__":
     main()

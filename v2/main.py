@@ -13,7 +13,6 @@ import random
 
 from business import process_claim
 from services import FinancialServicesFacade
-from reporting import generate_evaluation_report
 
 # Setup logging
 os.makedirs('logs', exist_ok=True)
@@ -35,8 +34,6 @@ canonical_fields = {
     'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
     'organization_name': ['orgName', 'Organization Name', 'organization_name', 'firm_name', 'organizationname', 'OrganizationName', 'organization'],
     'organization_crd': ['orgCRD', 'Organization CRD', 'org_crd_number', 'firm_crd', 'organizationCRD', 'organization_crd_number', 'organization_crd'],
-
-    # Newly added fields
     'suffix': ['suffix', 'Suffix'],
     'ssn': ['ssn', 'SSN', 'Social Security Number', 'social_security_number'],
     'dob': ['dob', 'DOB', 'Date of Birth', 'date_of_birth', 'birthDate', 'birth_date'],
@@ -175,7 +172,7 @@ def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
             logger.warning(f"Unmapped CSV column: {header}")
     for canonical in canonical_fields:
         if canonical not in resolved_headers.values():
-            logger.warning(f"Canonical field '{canonical}' not found in CSV headers")
+            logger.debug(f"Canonical field '{canonical}' not found in CSV headers")
     return resolved_headers
 
 def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
@@ -204,7 +201,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
             time.sleep(wait_time)
 
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
-    """Process a single CSV row and generate an evaluation report with a 7-second delay."""
+    """Process a single CSV row and save the evaluation report from process_claim."""
     logger.debug(f"Processing row: {row}")
     reference_id_key = resolved_headers.get('reference_id', 'reference_id')
     reference_id = row.get(reference_id_key, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
@@ -227,20 +224,17 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     claim['employee_number'] = employee_number
     logger.debug(f"Claim built: {claim}")
 
-    # Process claim and generate report
+    # Process claim and save the report directly
     try:
-        search_result = process_claim(claim, facade, employee_number)
-        if search_result is None:
+        report = process_claim(claim, facade, employee_number)
+        logger.debug(f"Raw report from process_claim: {json.dumps(report, indent=2)}")
+        if report is None:
             logger.error(f"process_claim returned None for reference_id='{reference_id}'")
             return
-        logger.debug(f"Search result from process_claim: {search_result}")
-
-        evaluation_report = generate_evaluation_report(claim, search_result, reference_id)
-        save_evaluation_report(evaluation_report, employee_number, reference_id)
-
+        save_evaluation_report(report, employee_number, reference_id)
     except Exception as e:
         logger.error(f"Error processing claim for reference_id='{reference_id}': {str(e)}")
-        evaluation_report = OrderedDict([
+        report = OrderedDict([
             ("reference_id", reference_id),
             ("claim", claim),
             ("search_evaluation", {
@@ -251,7 +245,7 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
                 "source": "Unknown"
             })
         ])
-        save_evaluation_report(evaluation_report, employee_number, reference_id)
+        save_evaluation_report(report, employee_number, reference_id)
 
     # Throttle with a 7-second delay after processing each row
     time.sleep(7)
@@ -281,30 +275,41 @@ def main():
     config = load_config()
     facade = FinancialServicesFacade()
 
-    checkpoint = load_checkpoint()
-    csv_files = get_csv_files()
-    start_file = checkpoint["csv_file"] if checkpoint else None
-    start_line = checkpoint["line"] if checkpoint else 0
+    print("\nCompliance CSV Processor Menu:")
+    print("1. Run batch processing")
+    print("2. Exit")
+    choice = input("Enter your choice (1-2): ").strip()
 
-    processed_files = 0
-    processed_records = 0
+    if choice == "1":
+        print("\nRunning batch processing...")
+        checkpoint = load_checkpoint()
+        csv_files = get_csv_files()
+        start_file = checkpoint["csv_file"] if checkpoint else None
+        start_line = checkpoint["line"] if checkpoint else 0
 
-    for csv_file in csv_files:
-        csv_path = os.path.join(INPUT_FOLDER, csv_file)
-        if start_file and csv_file < start_file:
-            logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
-            continue
-        logger.info(f"Processing {csv_path} from line {start_line}")
-        process_csv(csv_path, start_line, facade, config, args.wait_time)
-        with open(csv_path, 'r') as f:
-            processed_records += sum(1 for _ in csv.reader(f)) - 1  # Minus header
-        archive_file(csv_path)
-        processed_files += 1
-        start_line = 0
+        processed_files = 0
+        processed_records = 0
 
-    logger.info(f"Processed {processed_files} files, {processed_records} records")
-    if os.path.exists(CHECKPOINT_FILE):
-        os.remove(CHECKPOINT_FILE)
+        for csv_file in csv_files:
+            csv_path = os.path.join(INPUT_FOLDER, csv_file)
+            if start_file and csv_file < start_file:
+                logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
+                continue
+            logger.info(f"Processing {csv_path} from line {start_line}")
+            process_csv(csv_path, start_line, facade, config, args.wait_time)
+            with open(csv_path, 'r') as f:
+                processed_records += sum(1 for _ in csv.reader(f)) - 1  # Minus header
+            archive_file(csv_path)
+            processed_files += 1
+            start_line = 0
+
+        logger.info(f"Processed {processed_files} files, {processed_records} records")
+        if os.path.exists(CHECKPOINT_FILE):
+            os.remove(CHECKPOINT_FILE)
+    elif choice == "2":
+        print("Exiting...")
+    else:
+        print("Invalid choice. Please enter 1 or 2.")
 
 if __name__ == "__main__":
     main()

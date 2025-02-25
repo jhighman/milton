@@ -91,8 +91,12 @@ def get_manifest_timestamp() -> str:
     return datetime.now().strftime(MANIFEST_DATE_FORMAT)
 
 def is_cache_valid(cached_date: str) -> bool:
-    cached_datetime = datetime.strptime(cached_date, DATE_FORMAT)
-    return (datetime.now() - cached_datetime) <= timedelta(days=CACHE_TTL_DAYS)
+    try:
+        cached_datetime = datetime.strptime(cached_date, DATE_FORMAT)
+        return (datetime.now() - cached_datetime) <= timedelta(days=CACHE_TTL_DAYS)
+    except ValueError:
+        logger.warning(f"Invalid date format in cache manifest: {cached_date}")
+        return False
 
 def build_cache_path(employee_number: str, agent_name: str, service: str) -> Path:
     return CACHE_FOLDER / employee_number / agent_name / service
@@ -123,18 +127,39 @@ def write_manifest(cache_path: Path, timestamp: str) -> None:
 
 def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optional[Dict], List[Dict]]:
     if not cache_path.exists():
+        logger.debug(f"Cache directory not found: {cache_path}")
         return None
-    if is_multiple:
-        results = []
-        for file_path in sorted(cache_path.glob("*.json")):
-            with file_path.open("r") as f:
-                results.append(json.load(f))
-        return results if results else None
-    else:
-        json_files = list(cache_path.glob("*.json"))
-        if json_files:
+    try:
+        if is_multiple:
+            results = []
+            json_files = sorted(cache_path.glob("*.json"))
+            if not json_files:
+                logger.debug(f"No JSON files in cache directory: {cache_path}")
+                return []
+            for file_path in json_files:
+                with file_path.open("r") as f:
+                    content = f.read().strip()
+                    if not content:
+                        logger.warning(f"Empty cache file: {file_path}")
+                        continue
+                    results.append(json.loads(content))
+            return results if results else []
+        else:
+            json_files = list(cache_path.glob("*.json"))
+            if not json_files:
+                logger.debug(f"No JSON files in cache directory: {cache_path}")
+                return None
             with json_files[0].open("r") as f:
-                return json.load(f)
+                content = f.read().strip()
+                if not content:
+                    logger.warning(f"Empty cache file: {json_files[0]}")
+                    return None
+                return json.loads(content)
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to decode JSON in cache file at {cache_path}: {e}")
+        return None
+    except Exception as e:
+        logger.error(f"Error reading cache file at {cache_path}: {e}")
         return None
 
 def save_cached_data(cache_path: Path, file_name: str, data: Dict) -> None:

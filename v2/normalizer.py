@@ -1,32 +1,36 @@
 """
 normalizer.py
 
-This module provides utilities to extract and normalize individual (person) records
-from two major data sources:
-   1) FINRA BrokerCheck (aka "BrokerCheck")
-   2) SEC IAPD (Investment Adviser Public Disclosure)
-   3) SEC Disciplinary (Enforcement Actions)
-   4) FINRA Disciplinary (Enforcement Actions)
+This module provides functions to normalize raw data from various financial service sources
+into consistent structures suitable for evaluation in the `evaluation_processor.py` module.
+It handles:
+- Individual records (e.g., IAPD, BrokerCheck)
+- Disciplinary records (e.g., SEC, FINRA)
+- Arbitration records (e.g., SEC, FINRA)
+
+Normalization ensures that downstream evaluation logic operates on abstract, uniform data,
+independent of the specifics of the originating service.
 """
 
 import json
 import logging
-from typing import Dict, Any, Optional, List, Union
-from name_matcher import evaluate_name
+from typing import Dict, Any, List, Optional
+from evaluation_processor import evaluate_name, parse_name
 
 logger = logging.getLogger(__name__)
 
-def create_individual_record(
-    data_source: str,
-    basic_info: Optional[Dict[str, Any]],
-    detailed_info: Optional[Dict[str, Any]]
-) -> Dict[str, Any]:
-    extracted_info = {
-        "crd_number": "",  # Added back
+class NormalizationError(Exception):
+    """Exception raised for errors during normalization."""
+    pass
+
+def create_individual_record(data_source: str, basic_info: Optional[Dict[str, Any]], detailed_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    logger.debug(f"Normalizing individual record from {data_source}")
+    record = {
+        "crd_number": None,
         "fetched_name": "",
         "other_names": [],
-        "bc_scope": "",
-        "ia_scope": "",
+        "bc_scope": "NotInScope",
+        "ia_scope": "NotInScope",
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
@@ -34,200 +38,168 @@ def create_individual_record(
     }
 
     if not basic_info:
-        logger.warning("No basic_info provided. Returning empty extracted_info.")
-        return extracted_info
+        logger.warning(f"No basic info provided for {data_source}")
+        return record
 
-    hits_list = basic_info.get("hits", {}).get("hits", [])
-    if hits_list:
-        individual = hits_list[0].get("_source", {})
+    basic = basic_info.copy()
+    detailed = detailed_info.copy() if detailed_info else {}
+
+    # Handle nested SEC IAPD data structure
+    if "hits" in basic and "hits" in basic["hits"] and basic["hits"]["hits"]:
+        source_data = basic["hits"]["hits"][0]["_source"]
     else:
-        logger.warning(f"{data_source}: basic_info had no hits. Returning mostly empty extracted_info.")
-        return extracted_info
+        source_data = basic
 
-    fetched_name = " ".join(filter(None, [
-        individual.get('ind_firstname', ''),
-        individual.get('ind_middlename', ''),
-        individual.get('ind_lastname', '')
-    ])).strip()
-    extracted_info["crd_number"] = individual.get("ind_source_id", individual.get("crd_number", ""))  # Added back
-    extracted_info["fetched_name"] = fetched_name
-    extracted_info["other_names"] = individual.get("ind_other_names", [])
-    extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
-    extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
+    # Extract crd_number from ind_source_id or other fields
+    record["crd_number"] = (source_data.get("ind_source_id") or 
+                           source_data.get("crd_number") or 
+                           source_data.get("CRD") or 
+                           detailed.get("crd_number"))
+    record["fetched_name"] = (source_data.get("ind_other_names", [source_data.get("ind_firstname", "") + " " + source_data.get("ind_lastname", "")])[0].strip() or 
+                             detailed.get("fetched_name", ""))
+    record["other_names"] = source_data.get("ind_other_names", detailed.get("other_names", []))
+    record["bc_scope"] = source_data.get("ind_bc_scope", detailed.get("bc_scope", "NotInScope")).capitalize()
+    record["ia_scope"] = source_data.get("ind_ia_scope", detailed.get("ia_scope", "NotInScope")).capitalize()
+    record["current_ia_employments"] = source_data.get("ind_ia_current_employments", detailed.get("current_ia_employments", []))
 
-    if detailed_info:
-        if "disclosures" in detailed_info or "stateExamCategory" in detailed_info:
-            extracted_info["disclosures"] = detailed_info.get("disclosures", [])
-            extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
-            extracted_info["exams"] = (
-                detailed_info.get("stateExamCategory", []) +
-                detailed_info.get("principalExamCategory", []) +
-                detailed_info.get("productExamCategory", [])
-            )
-            extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", [])
-            logger.info(f"Normalized {data_source} data from flat JSON structure.")
-        elif "hits" in detailed_info and detailed_info["hits"].get("hits"):
-            content_str = detailed_info["hits"]["hits"][0]["_source"].get("content", "")
-            try:
-                content_json = json.loads(content_str) if content_str else {}
-                extracted_info["disclosures"] = content_json.get("disclosures", [])
-                extracted_info["arbitrations"] = content_json.get("arbitrations", [])
-                extracted_info["exams"] = (
-                    content_json.get("stateExamCategory", []) +
-                    content_json.get("principalExamCategory", []) +
-                    content_json.get("productExamCategory", [])
-                )
-                extracted_info["current_ia_employments"] = content_json.get("currentIAEmployments", [])
-                logger.info(f"Normalized {data_source} data from Elasticsearch-style structure.")
-            except json.JSONDecodeError as e:
-                logger.warning(f"Failed to parse {data_source} 'content' JSON: {e}")
-        elif data_source == "IAPD" and "iacontent" in individual:
-            try:
-                iacontent_data = json.loads(individual.get("iacontent", "{}"))
-                extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
-                extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
-                extracted_info["exams"] = (
-                    iacontent_data.get("stateExamCategory", []) +
-                    iacontent_data.get("principalExamCategory", []) +
-                    iacontent_data.get("productExamCategory", [])
-                )
-                extracted_info["current_ia_employments"] = iacontent_data.get("currentIAEmployments", individual.get("ind_ia_current_employments", []))
-            except json.JSONDecodeError as e:
-                logger.warning(f"IAPD basic_info iacontent parse error: {e}")
-        else:
-            logger.info(f"No recognizable detailed_info structure for {data_source}.")
-    else:
-        logger.info(f"No detailed_info provided for {data_source}.")
+    if detailed:
+        record["disclosures"] = detailed.get("disclosures", [])
+        record["arbitrations"] = detailed.get("arbitrations", [])
+        record["exams"] = detailed.get("exams", [])
 
-    return extracted_info
+    logger.debug(f"Normalized individual record: {json.dumps(record, indent=2)}")
+    return record
 
-VALID_DISCIPLINARY_SOURCES = {"SEC_Disciplinary", "FINRA_Disciplinary"}
-
-class NormalizationError(Exception):
-    """Exception raised when normalization fails unexpectedly."""
-    pass
-
-def create_disciplinary_record(
-    source: str, 
-    data: Optional[Union[Dict[str, Any], List[Dict[str, Any]]]],
-    searched_name: Optional[str] = None
-) -> Dict[str, Any]:
+def create_disciplinary_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
     """
-    Normalize disciplinary records from SEC or FINRA into a unified structure, optionally filtering by name match.
+    Normalize disciplinary data from sources like SEC or FINRA into a common structure.
 
     Args:
-        source (str): The source of the data ("SEC_Disciplinary" or "FINRA_Disciplinary").
-        data (Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]): Raw data from the disciplinary agent.
-        searched_name (Optional[str]): The name to match against for filtering actions (e.g., "Mark Miller").
+        data_source (str): Source identifier (e.g., "SEC_Disciplinary", "FINRA_Disciplinary").
+        data (Any): Raw data from the source, can be a dict or list.
+        searched_name (str): Name searched for filtering.
 
     Returns:
-        Dict[str, Any]: Normalized disciplinary record with actions, name scores, and raw data.
+        Dict[str, Any]: Normalized disciplinary data with actions and due diligence details.
     """
-    normalized_record = {
-        "source": source,
-        "primary_name": "",
+    result = {
         "disciplinary_actions": [],
-        "name_scores": {},  # Added to store scores for all names
-        "raw_data": data  # Preserve raw data
+        "raw_data": [data] if not isinstance(data, list) else data,
+        "name_scores": {}
     }
+    logger.debug(f"Normalizing {data_source} disciplinary data for {searched_name}")
 
-    if source not in VALID_DISCIPLINARY_SOURCES:
-        logger.error(f"Invalid source '{source}'. Must be one of {VALID_DISCIPLINARY_SOURCES}.")
-        return normalized_record
+    if isinstance(data, dict) and "error" in data:
+        logger.warning(f"Error in {data_source} data: {data['error']}")
+        return result
 
-    if isinstance(data, list):
-        if not data:
-            logger.warning(f"Empty list provided for {source} data.")
-            return normalized_record
-        data = data[0]
-        logger.debug(f"Unwrapped list to first item for {source}: {json.dumps(data, indent=2)}")
+    # Handle both dict with "result" and direct list inputs
+    raw_results = data.get("result", []) if isinstance(data, dict) else data
+    if raw_results == "No Results Found" or not raw_results:
+        logger.info(f"No results found in {data_source} for {searched_name}")
+        return result
 
-    if not data or "result" not in data or data["result"] == "No Results Found":
-        logger.warning(f"No results found in {source} data.")
-        return normalized_record
+    if not isinstance(raw_results, list):
+        logger.warning(f"Unexpected result format in {data_source}: {raw_results}")
+        return result
 
-    results = data["result"] if isinstance(data["result"], list) else [data["result"]]
-    if not results:
-        logger.warning(f"Empty result list in {source} data.")
-        return normalized_record
+    searched_name_dict = parse_name(searched_name)
+    for record in raw_results:
+        if not isinstance(record, dict):
+            logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            continue
 
-    if results and not any(result.get("Name") or result.get("Firms/Individuals") for result in results):
-        logger.error(f"Normalization failed for {source}: data provided but no actionable records found: {json.dumps(results, indent=2)}")
-        raise NormalizationError(f"Normalization failed for {source}: data provided but no actionable records found")
-
-    if source == "SEC_Disciplinary":
-        first_result = results[0]
-        normalized_record["primary_name"] = first_result.get("Name", "")
-        for result in results:
-            if result.get("Name", "") != normalized_record["primary_name"]:
-                logger.warning(f"Inconsistent names in SEC Disciplinary results: {result.get('Name')} vs {normalized_record['primary_name']}")
-            
-            primary_name = result.get("Name", "")
-            other_names = result.get("Also Known As", "").split("; ") if result.get("Also Known As") else []
-            associated_names = [primary_name] + [name for name in other_names if name and name != primary_name]
-
-            action = {
-                "source": source,
-                "case_id": result.get("Enforcement Action", ""),
-                "description": result.get("Enforcement Action", ""),
-                "date": result.get("Date Filed", ""),
-                "documents": result.get("Documents", []),
-                "associated_names": associated_names,
-                "additional_info": {
-                    "state": result.get("State", ""),
-                    "current_age": result.get("Current Age", "")
-                }
+        normalized_record = {}
+        if data_source == "FINRA_Disciplinary":
+            normalized_record["case_id"] = record.get("Case ID", "Unknown")
+            normalized_record["date"] = record.get("Action Date", "Unknown")
+            normalized_record["details"] = {
+                "action_type": record.get("Action Type", ""),
+                "firms_individuals": record.get("Firms/Individuals", ""),
+                "description": record.get("Description", "")
             }
+            respondent_name = record.get("Firms/Individuals", searched_name)
 
-            # Apply name matching and store scores
-            if searched_name:
-                eval_details, score = evaluate_name(searched_name, primary_name, other_names, score_threshold=80.0)
-                logger.debug(f"SEC name evaluation for '{primary_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
-                normalized_record["name_scores"][primary_name] = score if score is not None else 0.0
-                if score and score >= 80.0:
-                    normalized_record["disciplinary_actions"].append(action)
-            else:
-                normalized_record["disciplinary_actions"].append(action)
-
-        logger.info(f"Normalized {source} data for {normalized_record['primary_name']}")
-
-    elif source == "FINRA_Disciplinary":
-        first_result = results[0]
-        normalized_record["primary_name"] = first_result.get("Firms/Individuals", "")
-        for result in results:
-            firms_individuals = result.get("Firms/Individuals", "").split(", ")
-            associated_names = [name.strip() for name in firms_individuals if name.strip()]
-
-            action = {
-                "source": source,
-                "case_id": result.get("Case ID", ""),
-                "description": result.get("Case Summary", ""),
-                "date": result.get("Action Date", ""),
-                "documents": [{"title": result.get("Document Type", ""), "link": "", "date": result.get("Action Date", "")}] if result.get("Document Type") else [],
-                "associated_names": associated_names,
-                "additional_info": {
-                    "document_type": result.get("Document Type", "")
-                }
+        elif data_source == "SEC_Disciplinary":
+            normalized_record["case_id"] = record.get("Case ID", "Unknown")
+            normalized_record["date"] = record.get("Action Date", "Unknown")
+            normalized_record["details"] = {
+                "name": record.get("Name", ""),
+                "description": record.get("Description", "")
             }
+            respondent_name = record.get("Name", searched_name)
 
-            # Apply name matching and store scores
-            if searched_name:
-                primary_name = associated_names[0] if associated_names else ""
-                other_names = associated_names[1:] if len(associated_names) > 1 else []
-                eval_details, score = evaluate_name(searched_name, primary_name, other_names, score_threshold=80.0)
-                logger.debug(f"FINRA name evaluation for '{primary_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
-                normalized_record["name_scores"][primary_name] = score if score is not None else 0.0
-                if score and score >= 80.0:
-                    normalized_record["disciplinary_actions"].append(action)
-            else:
-                normalized_record["disciplinary_actions"].append(action)
+        name_eval, _ = evaluate_name(searched_name, respondent_name, [])
+        score = name_eval["best_match"]["score"]
+        result["name_scores"][respondent_name] = score
+        if score >= 80.0:  # Consistent threshold
+            result["disciplinary_actions"].append(normalized_record)
 
-        logger.info(f"Normalized {source} data for {normalized_record['primary_name']}")
+    return result
 
-    # Final validation: warn if no actions matched searched_name, but don’t raise error to preserve data
-    if results and not normalized_record["disciplinary_actions"] and searched_name:
-        logger.warning(f"No actions matched searched name '{searched_name}' for {source}, but data preserved.")
-    elif results and not normalized_record["disciplinary_actions"]:
-        logger.warning(f"No actions normalized for {source}, but no searched_name provided to filter.")
+def create_arbitration_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
+    result = {
+        "arbitration_actions": [],
+        "raw_data": [data] if not isinstance(data, list) else data,
+        "name_scores": {}
+    }
+    logger.debug(f"Normalizing {data_source} arbitration data for {searched_name}")
 
-    return normalized_record
+    if isinstance(data, dict) and "error" in data:
+        logger.warning(f"Error in {data_source} data: {data['error']}")
+        return result
+
+    # Handle dict with "result" (FINRA/SEC) or direct list (cached SEC)
+    if isinstance(data, dict):
+        raw_results = data.get("result", [])
+    elif isinstance(data, list):
+        logger.debug(f"{data_source} data is a raw list, treating as results")
+        raw_results = data
+    else:
+        logger.warning(f"Unexpected {data_source} data format: {type(data)}")
+        return result
+
+    if raw_results == "No Results Found" or not raw_results:
+        logger.info(f"No results found in {data_source} for {searched_name}")
+        return result
+
+    if not isinstance(raw_results, list):
+        logger.warning(f"Unexpected {data_source} result format: {raw_results}")
+        return result
+
+    searched_name_dict = parse_name(searched_name)
+    for record in raw_results:
+        normalized_record = {}
+        respondent_name = None
+
+        if data_source == "FINRA_Arbitration":
+            normalized_record["case_id"] = record.get("Case Summary", {}).get("Case Number", record.get("Award Document", "Unknown"))
+            normalized_record["status"] = "closed"
+            normalized_record["outcome"] = "Award against individual" if "Award" in record.get("Document Type", "") else "Unknown"
+            normalized_record["date"] = record.get("Date of Award", "Unknown")
+            normalized_record["details"] = {
+                "award_document": record.get("Award Document"),
+                "pdf_url": record.get("PDF URL"),
+                "case_summary": record.get("Case Summary", {}),
+                "forum": record.get("Forum")
+            }
+            respondent_name = record.get("Case Summary", {}).get("Respondent", searched_name)
+        elif data_source == "SEC_Arbitration":
+            normalized_record["case_id"] = record.get("Enforcement Action", "Unknown")
+            normalized_record["status"] = "closed"
+            normalized_record["outcome"] = "Award against individual"
+            normalized_record["date"] = record.get("Date Filed", "Unknown")
+            normalized_record["details"] = {
+                "enforcement_action": record.get("Enforcement Action"),
+                "documents": record.get("Documents", [])
+            }
+            respondent_name = searched_name  # SEC doesn't list respondents explicitly
+
+        if respondent_name:
+            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
+            score = name_eval["best_match"]["score"]
+            result["name_scores"][respondent_name] = score
+            if score >= 80.0:
+                result["arbitration_actions"].append(normalized_record)
+
+    return result

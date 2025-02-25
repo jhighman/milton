@@ -15,7 +15,7 @@ import logging
 from logging import Logger
 
 """
-SEC Action Lookup Search Tool
+SEC Arbitration Search Tool
 
 This script processes JSON files to search for SEC actions.
 Each JSON file in the 'drop2' directory should have the following structure:
@@ -114,13 +114,10 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
         driver (webdriver.Chrome): Selenium WebDriver instance.
         first_name (str): First name to search.
         last_name (str): Last name to search.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
+        logger (Logger): Logger instance for structured logging.
 
     Returns:
-        Dict[str, Any]: Dictionary with one of three structures:
-            1. No Results: {"first_name": str, "last_name": str, "result": "No Results Found"}
-            2. Results: {"first_name": str, "last_name": str, "result": List[Dict], "total_actions": int}
-            3. Error: {"first_name": str, "last_name": str, "error": str}
+        Dict[str, Any]: Always returns {"result": [...] or "No Results Found", ...}
     """
     logger.info("Searching SEC actions", extra={"first_name": first_name, "last_name": last_name})
     search_url = generate_sec_search_url(first_name, last_name)
@@ -140,11 +137,7 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
         labels = soup.find_all("span", class_="views-label")
         if not labels:
             logger.info("No enforcement actions found")
-            return {
-                "first_name": first_name,
-                "last_name": last_name,
-                "result": "No Results Found"
-            }
+            return {"result": "No Results Found"}
 
         data: List[Dict[str, Any]] = []
         for label in labels:
@@ -178,15 +171,9 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
 
         if not data:
             logger.info("No valid enforcement actions found")
-            return {
-                "first_name": first_name,
-                "last_name": last_name,
-                "result": "No Results Found"
-            }
+            return {"result": "No Results Found"}
 
         result = {
-            "first_name": first_name,
-            "last_name": last_name,
             "result": data,
             "total_actions": len(data)
         }
@@ -195,11 +182,7 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
 
     except Exception as e:
         logger.error("Error during search", extra={"error": str(e)})
-        return {
-            "first_name": first_name,
-            "last_name": last_name,
-            "error": str(e)
-        }
+        return {"result": [], "error": str(e)}
 
 def validate_json_data(data: Any, file_path: str, logger: Logger = logger) -> Tuple[bool, str]:
     """
