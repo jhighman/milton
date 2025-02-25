@@ -7,38 +7,12 @@ from two major data sources:
    2) SEC IAPD (Investment Adviser Public Disclosure)
    3) SEC Disciplinary (Enforcement Actions)
    4) FINRA Disciplinary (Enforcement Actions)
-
-Why Separate Logic for Each Source?
------------------------------------
-- BrokerCheck and IAPD both contain similar information—names, disclosures, exams, etc.—
- but they present data in different JSON structures.
-- BrokerCheck often stores details within a key called "content" in the detailed results,
- while IAPD references "iacontent" for both basic and detailed info.
-- We combine "basic info" and "detailed info" responses into a single record here,
- ensuring downstream code can work with consistent keys like "fetched_name" and "disclosures".
-- We also normalize the disciplinary records from SEC and FINRA into a single structure,
-  ensuring that downstream code can work with consistent keys like "primary_name" and "disciplinary_actions".
-
-What This Module Does
----------------------
-- Defines a function `create_individual_record` that:
- 1) Accepts a data source (either "BrokerCheck" or "IAPD").
- 2) Accepts a "basic_info" structure and a "detailed_info" structure,
-    as returned by your fetching functions (e.g., `search_finra_brokercheck_individual`,
-    `search_finra_brokercheck_detailed`, `search_sec_iapd_individual`, etc.).
- 3) Extracts fields like first/last names, registration scopes, disclosures,
-    and exam data, placing them into a single dictionary ("extracted_info").
- 4) Ensures that for each data source, we parse the relevant JSON fields correctly.
- 5) Defines a function `create_disciplinary_record` that:
-    - Accepts a source (either "SEC_Disciplinary" or "FINRA_Disciplinary").
-    - Accepts a "data" structure and a "searched_name" for matching.
-    - Normalizes the disciplinary records, filtering by name match quality using name_matcher.
 """
 
 import json
 import logging
 from typing import Dict, Any, Optional, List, Union
-from name_matcher import evaluate_name  # Import name matching functionality
+from name_matcher import evaluate_name
 
 logger = logging.getLogger(__name__)
 
@@ -47,29 +21,6 @@ def create_individual_record(
     basic_info: Optional[Dict[str, Any]],
     detailed_info: Optional[Dict[str, Any]]
 ) -> Dict[str, Any]:
-    """
-    Creates a unified "individual record" from BrokerCheck or IAPD data.
-
-    :param data_source: A string indicating the source of data. Accepted values:
-        - "BrokerCheck": For FINRA BrokerCheck data
-        - "IAPD": For SEC IAPD data
-    :param basic_info: The JSON structure returned by your "basic" search function.
-                       Typically has partial fields (like name, CRD, etc.).
-    :param detailed_info: The JSON structure returned by your "detailed" search function.
-                          Typically holds disclosures, exam details, or other extended info.
-    :return: A dictionary (extracted_info) with normalized keys:
-        {
-          "fetched_name": str,
-          "other_names": list,
-          "bc_scope": str,
-          "ia_scope": str,
-          "disclosures": list,
-          "arbitrations": list,
-          "exams": list,
-          "current_ia_employments": list,
-          ...
-        }
-    """
     extracted_info = {
         "fetched_name": "",
         "other_names": [],
@@ -168,22 +119,20 @@ def create_disciplinary_record(
         searched_name (Optional[str]): The name to match against for filtering actions (e.g., "Mark Miller").
 
     Returns:
-        Dict[str, Any]: Normalized disciplinary record with source-specific details and associated names.
-
-    Raises:
-        NormalizationError: If data is provided but results in no actions unexpectedly.
+        Dict[str, Any]: Normalized disciplinary record with actions, name scores, and raw data.
     """
     normalized_record = {
         "source": source,
         "primary_name": "",
-        "disciplinary_actions": []
+        "disciplinary_actions": [],
+        "name_scores": {},  # Added to store scores for all names
+        "raw_data": data  # Preserve raw data
     }
 
     if source not in VALID_DISCIPLINARY_SOURCES:
         logger.error(f"Invalid source '{source}'. Must be one of {VALID_DISCIPLINARY_SOURCES}.")
         return normalized_record
 
-    # Handle case where data is a list (e.g., from marshaller wrapping)
     if isinstance(data, list):
         if not data:
             logger.warning(f"Empty list provided for {source} data.")
@@ -200,7 +149,6 @@ def create_disciplinary_record(
         logger.warning(f"Empty result list in {source} data.")
         return normalized_record
 
-    # Check if results should produce actions but don't
     if results and not any(result.get("Name") or result.get("Firms/Individuals") for result in results):
         logger.error(f"Normalization failed for {source}: data provided but no actionable records found: {json.dumps(results, indent=2)}")
         raise NormalizationError(f"Normalization failed for {source}: data provided but no actionable records found")
@@ -229,10 +177,11 @@ def create_disciplinary_record(
                 }
             }
 
-            # Apply name matching if searched_name is provided
+            # Apply name matching and store scores
             if searched_name:
                 eval_details, score = evaluate_name(searched_name, primary_name, other_names, score_threshold=80.0)
                 logger.debug(f"SEC name evaluation for '{primary_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
+                normalized_record["name_scores"][primary_name] = score if score is not None else 0.0
                 if score and score >= 80.0:
                     normalized_record["disciplinary_actions"].append(action)
             else:
@@ -259,12 +208,13 @@ def create_disciplinary_record(
                 }
             }
 
-            # Apply name matching if searched_name is provided
+            # Apply name matching and store scores
             if searched_name:
                 primary_name = associated_names[0] if associated_names else ""
                 other_names = associated_names[1:] if len(associated_names) > 1 else []
                 eval_details, score = evaluate_name(searched_name, primary_name, other_names, score_threshold=80.0)
                 logger.debug(f"FINRA name evaluation for '{primary_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
+                normalized_record["name_scores"][primary_name] = score if score is not None else 0.0
                 if score and score >= 80.0:
                     normalized_record["disciplinary_actions"].append(action)
             else:
@@ -272,10 +222,9 @@ def create_disciplinary_record(
 
         logger.info(f"Normalized {source} data for {normalized_record['primary_name']}")
 
-    # Final validation: if results were provided but no actions were created, raise an exception
+    # Final validation: warn if no actions matched searched_name, but don’t raise error to preserve data
     if results and not normalized_record["disciplinary_actions"] and searched_name:
-        logger.error(f"Normalization failed for {source}: data provided but no actions matched searched name '{searched_name}': {json.dumps(results, indent=2)}")
-        raise NormalizationError(f"Normalization failed for {source}: data provided but no actions matched searched name '{searched_name}'")
+        logger.warning(f"No actions matched searched name '{searched_name}' for {source}, but data preserved.")
     elif results and not normalized_record["disciplinary_actions"]:
         logger.warning(f"No actions normalized for {source}, but no searched_name provided to filter.")
 

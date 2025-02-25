@@ -219,23 +219,13 @@ class FinancialServicesFacade:
         logger.info(f"Fetching FINRA Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"
-        raw_result = fetch_agent_finra_disc_search(employee_number, params, driver)
-        if raw_result:
-            logger.debug(f"FINRA raw result: {json.dumps(raw_result, indent=2)}")
-            try:
-                normalized = create_disciplinary_record("FINRA_Disciplinary", raw_result, searched_name)
-                logger.debug(f"FINRA normalized result: {json.dumps(normalized, indent=2)}")
-                logger.info(f"Successfully fetched FINRA Disciplinary data for {first_name} {last_name}")
-                return normalized
-            except NormalizationError as e:
-                logger.warning(f"FINRA normalization filtered all actions: {str(e)}")
-                # Return a structure with raw data preserved
-                return {
-                    "source": "FINRA_Disciplinary",
-                    "primary_name": "",
-                    "disciplinary_actions": [],
-                    "raw_data": raw_result
-                }
+        result = fetch_agent_finra_disc_search(employee_number, params, driver)
+        if result:
+            logger.debug(f"FINRA raw result: {json.dumps(result, indent=2)}")
+            normalized = create_disciplinary_record("FINRA_Disciplinary", result, searched_name)
+            logger.debug(f"FINRA normalized result: {json.dumps(normalized, indent=2)}")
+            logger.info(f"Successfully fetched FINRA Disciplinary data for {first_name} {last_name}")
+            return normalized
         logger.warning(f"No data found for {first_name} {last_name} in FINRA Disciplinary search")
         return None
 
@@ -262,22 +252,13 @@ class FinancialServicesFacade:
         logger.info(f"Fetching SEC Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"
-        raw_result = fetch_agent_sec_disc_search(employee_number, params, driver)
-        if raw_result:
-            logger.debug(f"SEC raw result: {json.dumps(raw_result, indent=2)}")
-            try:
-                normalized = create_disciplinary_record("SEC_Disciplinary", raw_result, searched_name)
-                logger.debug(f"SEC normalized result: {json.dumps(normalized, indent=2)}")
-                logger.info(f"Successfully fetched SEC Disciplinary data for {first_name} {last_name}")
-                return normalized
-            except NormalizationError as e:
-                logger.warning(f"SEC normalization filtered all actions: {str(e)}")
-                return {
-                    "source": "SEC_Disciplinary",
-                    "primary_name": "",
-                    "disciplinary_actions": [],
-                    "raw_data": raw_result
-                }
+        result = fetch_agent_sec_disc_search(employee_number, params, driver)
+        if result:
+            logger.debug(f"SEC raw result: {json.dumps(result, indent=2)}")
+            normalized = create_disciplinary_record("SEC_Disciplinary", result, searched_name)
+            logger.debug(f"SEC normalized result: {json.dumps(normalized, indent=2)}")
+            logger.info(f"Successfully fetched SEC Disciplinary data for {first_name} {last_name}")
+            return normalized
         logger.warning(f"No data found for {first_name} {last_name} in SEC Disciplinary search")
         return None
 
@@ -306,6 +287,7 @@ class FinancialServicesFacade:
                     "records_found": 0,
                     "records_filtered": 0,
                     "names_found": [],
+                    "name_scores": {},  # Added to store name scores
                     "exact_match_found": False,
                     "status": "No records fetched"
                 },
@@ -313,6 +295,7 @@ class FinancialServicesFacade:
                     "records_found": 0,
                     "records_filtered": 0,
                     "names_found": [],
+                    "name_scores": {},  # Added to store name scores
                     "exact_match_found": False,
                     "status": "No records fetched"
                 }
@@ -324,10 +307,11 @@ class FinancialServicesFacade:
         if sec_result:
             logger.debug(f"SEC result received: {json.dumps(sec_result, indent=2)}")
             sec_actions = sec_result.get("disciplinary_actions", [])
-            raw_sec_actions = sec_result.get("raw_data", fetch_agent_sec_disc_search(employee_number, {"first_name": first_name, "last_name": last_name}, driver))
+            raw_sec_actions = sec_result.get("raw_data", [])
             raw_sec_actions = raw_sec_actions[0]["result"] if raw_sec_actions and isinstance(raw_sec_actions, list) else []
             combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(raw_sec_actions)
             combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(raw_sec_actions) - len(sec_actions)
+            combined_review["due_diligence"]["sec_disciplinary"]["name_scores"] = sec_result.get("name_scores", {})
             if sec_actions:
                 combined_review["disciplinary_actions"].extend(sec_actions)
                 combined_review["due_diligence"]["sec_disciplinary"]["exact_match_found"] = True
@@ -343,10 +327,11 @@ class FinancialServicesFacade:
         if finra_result:
             logger.debug(f"FINRA result received: {json.dumps(finra_result, indent=2)}")
             finra_actions = finra_result.get("disciplinary_actions", [])
-            raw_finra_actions = finra_result.get("raw_data", fetch_agent_finra_disc_search(employee_number, {"first_name": first_name, "last_name": last_name}, driver))
+            raw_finra_actions = finra_result.get("raw_data", [])
             raw_finra_actions = raw_finra_actions[0]["result"] if raw_finra_actions and isinstance(raw_finra_actions, list) else []
             combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(raw_finra_actions)
             combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(raw_finra_actions) - len(finra_actions)
+            combined_review["due_diligence"]["finra_disciplinary"]["name_scores"] = finra_result.get("name_scores", {})
             if finra_actions:
                 combined_review["disciplinary_actions"].extend(finra_actions)
                 combined_review["due_diligence"]["finra_disciplinary"]["exact_match_found"] = True
