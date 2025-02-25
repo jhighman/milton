@@ -52,13 +52,12 @@ class EvaluationReportDirector:
         :return: A complete evaluation report (as an OrderedDict) that includes individual section evaluations
                  and a final evaluation summarizing overall compliance and risk.
         """
-        # --- Step 1: Set basic claim and search evaluation ---
+        # Step 1: Set basic claim and search evaluation
         self.builder.set_claim(claim)
-        # Assume search evaluation was performed prior and stored in extracted_info
         search_evaluation = extracted_info.get("search_evaluation", {"compliance": False, "search_outcome": "No record found"})
         self.builder.set_search_evaluation(search_evaluation)
 
-        # --- Step 2: Registration Status Evaluation ---
+        # Step 2: Registration Status Evaluation
         individual = extracted_info.get("individual", {})
         status_compliant, status_alerts = evaluate_registration_status(individual)
         status_eval = {
@@ -68,7 +67,7 @@ class EvaluationReportDirector:
         }
         self.builder.set_status_evaluation(status_eval)
 
-        # --- Step 3: Name Evaluation ---
+        # Step 3: Name Evaluation
         expected_name = f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}"
         fetched_name = extracted_info.get("fetched_name", "")
         other_names = extracted_info.get("other_names", [])
@@ -83,7 +82,7 @@ class EvaluationReportDirector:
             name_eval["alert"] = name_alert.to_dict()
         self.builder.set_name_evaluation(name_eval)
 
-        # --- Step 4: License Evaluation ---
+        # Step 4: License Evaluation
         csv_license = claim.get("license_type", "")
         bc_scope = extracted_info.get("bc_scope", "")
         ia_scope = extracted_info.get("ia_scope", "")
@@ -97,7 +96,7 @@ class EvaluationReportDirector:
             license_eval["alert"] = license_alert.to_dict()
         self.builder.set_license_evaluation(license_eval)
 
-        # --- Step 5: Exam Evaluation ---
+        # Step 5: Exam Evaluation
         exams = extracted_info.get("exams", [])
         passed_exams = get_passed_exams(exams)
         exam_compliant, exam_alert = evaluate_exams(passed_exams, csv_license, expected_name)
@@ -110,7 +109,7 @@ class EvaluationReportDirector:
             exam_eval["alert"] = exam_alert.to_dict()
         self.builder.set_exam_evaluation(exam_eval)
 
-        # --- Step 6: Disclosure Review ---
+        # Step 6: Disclosure Review
         disclosures = extracted_info.get("disclosures", [])
         disclosure_compliant, disclosure_summary, disclosure_alerts = evaluate_disclosures(disclosures, expected_name)
         disclosure_eval = {
@@ -120,17 +119,19 @@ class EvaluationReportDirector:
         }
         self.builder.set_disclosure_review(disclosure_eval)
 
-        # --- Step 7: Disciplinary Evaluation ---
-        disciplinary_records = extracted_info.get("disciplinary_records", [])
+        # Step 7: Disciplinary Evaluation
+        disciplinary_evaluation = extracted_info.get("disciplinary_evaluation", {})
+        disciplinary_records = disciplinary_evaluation.get("disciplinary_actions", [])
         disciplinary_compliant, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(disciplinary_records, expected_name)
         disciplinary_eval = {
             "compliance": disciplinary_compliant,
             "compliance_explanation": disciplinary_explanation,
-            "alerts": [alert.to_dict() for alert in disciplinary_alerts]
+            "alerts": [alert.to_dict() for alert in disciplinary_alerts],
+            "due_diligence": disciplinary_evaluation.get("due_diligence", {})  # Pass through due diligence
         }
         self.builder.set_disciplinary_evaluation(disciplinary_eval)
 
-        # --- Step 8: Arbitration Evaluation ---
+        # Step 8: Arbitration Evaluation
         arbitrations = extracted_info.get("arbitrations", [])
         arbitration_compliant, arbitration_explanation, arbitration_alerts = evaluate_arbitration(arbitrations, expected_name)
         arbitration_eval = {
@@ -140,8 +141,7 @@ class EvaluationReportDirector:
         }
         self.builder.set_arbitration_review(arbitration_eval)
 
-        # --- Step 9: Final Evaluation ---
-        # Compute overall compliance by ensuring all individual sections are compliant.
+        # Step 9: Final Evaluation
         overall_compliance = (
             search_evaluation.get("compliance", False) and
             status_eval.get("compliance", True) and
@@ -152,12 +152,11 @@ class EvaluationReportDirector:
             disciplinary_eval.get("compliance", True) and
             arbitration_eval.get("compliance", True)
         )
-        # Aggregate alerts from all sections.
         all_alerts = (
             status_eval.get("alerts", []) +
-            (name_eval.get("alert") and [name_eval["alert"]] or []) +
-            (license_eval.get("alert") and [license_eval["alert"]] or []) +
-            (exam_eval.get("alert") and [exam_eval["alert"]] or []) +
+            ([name_eval["alert"]] if name_eval.get("alert") else []) +
+            ([license_eval["alert"]] if license_eval.get("alert") else []) +
+            ([exam_eval["alert"]] if exam_eval.get("alert") else []) +
             disclosure_eval.get("alerts", []) +
             disciplinary_eval.get("alerts", []) +
             arbitration_eval.get("alerts", [])
@@ -181,5 +180,5 @@ class EvaluationReportDirector:
         }
         self.builder.set_final_evaluation(final_eval)
 
-        # Build and return the final evaluation report.
+        # Build and return the final evaluation report
         return self.builder.build()

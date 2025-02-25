@@ -59,7 +59,6 @@ class FinancialServicesFacade:
         basic_info: Optional[Dict[str, Any]],
         detailed_info: Optional[Dict[str, Any]] = None
     ) -> Dict[str, Any]:
-        # Delegate to normalizer.py for consistent individual record normalization
         return create_individual_record(data_source, basic_info, detailed_info)
 
     def get_organization_crd(self, organization_name: str) -> Optional[str]:
@@ -209,7 +208,7 @@ class FinancialServicesFacade:
                     "records_found": 0,
                     "records_filtered": 0,
                     "names_found": [],
-                    "name_scores": {},  # Added to store name scores
+                    "name_scores": {},
                     "exact_match_found": False,
                     "status": "No records fetched"
                 },
@@ -217,7 +216,7 @@ class FinancialServicesFacade:
                     "records_found": 0,
                     "records_filtered": 0,
                     "names_found": [],
-                    "name_scores": {},  # Added to store name scores
+                    "name_scores": {},
                     "exact_match_found": False,
                     "status": "No records fetched"
                 }
@@ -229,10 +228,8 @@ class FinancialServicesFacade:
         if sec_result:
             logger.debug(f"SEC result received: {json.dumps(sec_result, indent=2)}")
             sec_actions = sec_result.get("disciplinary_actions", [])
-            raw_sec_data = sec_result.get("raw_data", [])
-            raw_sec_results = raw_sec_data[0]["result"] if raw_sec_data and isinstance(raw_sec_data, list) and "result" in raw_sec_data[0] else []
-            combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(raw_sec_results) if isinstance(raw_sec_results, list) else 0
-            combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = combined_review["due_diligence"]["sec_disciplinary"]["records_found"] - len(sec_actions)
+            combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(sec_result.get("raw_data", [{}])[0].get("result", []))
+            combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(sec_result.get("raw_data", [{}])[0].get("result", [])) - len(sec_actions)
             combined_review["due_diligence"]["sec_disciplinary"]["name_scores"] = sec_result.get("name_scores", {})
             if sec_actions:
                 combined_review["disciplinary_actions"].extend(sec_actions)
@@ -240,19 +237,13 @@ class FinancialServicesFacade:
                 combined_review["due_diligence"]["sec_disciplinary"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["sec_disciplinary"]["status"] = (
-                    f"Records found but no matches for '{searched_name}'" if raw_sec_results else "No records found"
+                    f"Records found but no matches for '{searched_name}'" if sec_result.get("raw_data") else "No records found"
                 )
-            # Extract names from raw data for due diligence
-            names_found = []
-            if isinstance(raw_sec_results, list):
-                for result in raw_sec_results:
-                    if isinstance(result, dict):
-                        name = result.get("Name", result.get("Firms/Individuals", ""))
-                        if name:
-                            names_found.append(name)
-                            other_names = result.get("Also Known As", "").split("; ")
-                            names_found.extend([n for n in other_names if n])
-            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(set(names_found))
+            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(set(
+                action.get("Name", action.get("Firms/Individuals", "")) 
+                for action in sec_result.get("raw_data", [{}])[0].get("result", [])
+                if isinstance(action, dict)
+            ))
         else:
             logger.warning(f"SEC Disciplinary search failed for {first_name} {last_name}")
 
@@ -261,10 +252,8 @@ class FinancialServicesFacade:
         if finra_result:
             logger.debug(f"FINRA result received: {json.dumps(finra_result, indent=2)}")
             finra_actions = finra_result.get("disciplinary_actions", [])
-            raw_finra_data = finra_result.get("raw_data", [])
-            raw_finra_results = raw_finra_data[0]["result"] if raw_finra_data and isinstance(raw_finra_data, list) and "result" in raw_finra_data[0] else []
-            combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(raw_finra_results) if isinstance(raw_finra_results, list) else 0
-            combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = combined_review["due_diligence"]["finra_disciplinary"]["records_found"] - len(finra_actions)
+            combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(finra_result.get("raw_data", [{}])[0].get("result", []))
+            combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(finra_result.get("raw_data", [{}])[0].get("result", [])) - len(finra_actions)
             combined_review["due_diligence"]["finra_disciplinary"]["name_scores"] = finra_result.get("name_scores", {})
             if finra_actions:
                 combined_review["disciplinary_actions"].extend(finra_actions)
@@ -272,21 +261,16 @@ class FinancialServicesFacade:
                 combined_review["due_diligence"]["finra_disciplinary"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["finra_disciplinary"]["status"] = (
-                    f"Records found but no matches for '{searched_name}'" if raw_finra_results else "No records found"
+                    f"Records found but no matches for '{searched_name}'" if finra_result.get("raw_data") else "No records found"
                 )
-            # Extract names from raw data for due diligence
-            names_found = []
-            if isinstance(raw_finra_results, list):
-                for result in raw_finra_results:
-                    if isinstance(result, dict):
-                        firms_individuals = result.get("Firms/Individuals", "")
-                        if firms_individuals:
-                            names_found.extend([name.strip() for name in firms_individuals.split(", ") if name.strip()])
-            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(set(names_found))
+            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(set(
+                action.get("Firms/Individuals", "") 
+                for action in finra_result.get("raw_data", [{}])[0].get("result", [])
+                if isinstance(action, dict)
+            ))
         else:
             logger.warning(f"FINRA Disciplinary search failed for {first_name} {last_name}")
 
-        # Log the combined result
         if combined_review["disciplinary_actions"]:
             logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['disciplinary_actions'])} matching actions")
         else:

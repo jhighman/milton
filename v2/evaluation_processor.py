@@ -1,488 +1,562 @@
-import logging
-import os
+"""
+evaluation_processor.py
+
+This module provides a cohesive set of functions for evaluating an individual's
+financial regulatory compliance. It is a rewritten version of the legacy evaluation
+library and is designed to integrate with a Builder/Director pattern.
+
+The module includes functions for:
+  - Parsing and comparing names
+  - Evaluating name match quality
+  - Evaluating license compliance
+  - Evaluating exam requirements
+  - Evaluating registration status
+  - Evaluating disclosures
+  - Evaluating arbitrations
+  - Evaluating disciplinary records
+  - Mapping alert types to standardized alert categories
+
+All functions return standardized data structures, and Alert objects are defined
+as dataclasses with a to_dict() method.
+"""
+
 import json
-from typing import Optional, Dict, Any, List
-from selenium import webdriver
-import argparse
+import re
+import logging
+from typing import Dict, Any, List, Set, Optional, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+import jellyfish
 
-from marshaller import (
-    fetch_agent_sec_iapd_search,
-    fetch_agent_sec_iapd_detailed,
-    fetch_agent_finra_bc_search,
-    fetch_agent_finra_bc_detailed,
-    fetch_agent_sec_arb_search,
-    fetch_agent_finra_disc_search,
-    fetch_agent_nfa_search,
-    fetch_agent_finra_arb_search,
-    fetch_agent_sec_iapd_correlated,
-    fetch_agent_sec_disc_search,
-    create_driver,
-)
-from normalizer import create_disciplinary_record, NormalizationError
-from name_matcher import evaluate_name  # Import the new module
+logger = logging.getLogger(__name__)
 
-# Setup logging with DEBUG level for detailed tracing
-logging.basicConfig(
-    level=logging.DEBUG,  # Set to INFO later if too verbose
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger("FinancialServicesFacade")
+# ----------------------------------------
+# Alert and Severity Definitions
+# ----------------------------------------
+class AlertSeverity(Enum):
+    LOW = "Low"
+    MEDIUM = "Medium"
+    HIGH = "High"
+    INFO = "INFO"
 
-RUN_HEADLESS = True  # Default to headless mode for browser automation
+@dataclass
+class Alert:
+    alert_type: str
+    severity: AlertSeverity
+    metadata: Dict[str, Any]
+    description: str
+    alert_category: Optional[str] = field(default=None)
 
-class FinancialServicesFacade:
-    @staticmethod
-    def _load_organizations_cache() -> Optional[List[Dict]]:
-        cache_file = os.path.join("input", "organizationsCrd.jsonl")
-        if not os.path.exists(cache_file):
-            logger.error("Failed to load organizations cache.")
-            return None
-
-        try:
-            organizations = []
-            with open(cache_file, 'r') as f:
-                for line in f:
-                    if line.strip():
-                        organizations.append(json.loads(line))
-            return organizations
-        except Exception as e:
-            logger.error(f"Error loading organizations cache: {e}")
-            return None
-
-    @staticmethod
-    def _normalize_organization_name(name: str) -> str:
-        return name.lower().replace(" ", "")
-
-    @staticmethod
-    def _normalize_individual_record(
-        data_source: str,
-        basic_info: Optional[Dict[str, Any]],
-        detailed_info: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
-        extracted_info = {
-            "crd_number": "",
-            "fetched_name": "",
-            "other_names": [],
-            "bc_scope": "",
-            "ia_scope": "",
-            "disclosures": [],
-            "arbitrations": [],
-            "exams": [],
-            "current_ia_employments": []
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "alert_type": self.alert_type,
+            "alert_category": self.alert_category,
+            "severity": self.severity.value,
+            "metadata": self.metadata,
+            "description": self.description
         }
 
-        valid_sources = {"BrokerCheck", "IAPD"}
-        if data_source not in valid_sources:
-            logger.error(f"Invalid data_source '{data_source}'. Must be one of {valid_sources}.")
-            return extracted_info
+# ----------------------------------------
+# Constants and Helpers for Name/Exam Evaluation
+# ----------------------------------------
+VALID_EXAM_PATTERNS = [
+    'Series 86/87', 'Series 9/10', 'Series 7TO', 'Series 99', 'Series 57',
+    'Series 66', 'Series 65', 'Series 63', 'Series 82', 'Series 52', 'Series 53',
+    'Series 51', 'Series 31', 'Series 28', 'Series 27', 'Series 26', 'Series 24',
+    'Series 22', 'Series 50', 'Series 4', 'Series 3', 'Series 7', 'Series 6', 'SIE'
+]
+VALID_EXAM_PATTERNS.sort(key=len, reverse=True)
 
-        if not basic_info:
-            logger.warning("No basic_info provided.")
-            return extracted_info
+nickname_dict = {
+    "john": {"jon", "johnny", "jack"},
+    "robert": {"bob", "rob", "bobby", "bert"},
+    "elizabeth": {"liz", "beth", "lizzy", "eliza"},
+}
+reverse_nickname_dict = {}
+for formal_name, nicknames in nickname_dict.items():
+    for nickname in nicknames:
+        reverse_nickname_dict.setdefault(nickname, set()).add(formal_name)
 
-        hits_list = basic_info.get("hits", {}).get("hits", [])
-        if not hits_list:
-            logger.warning(f"{data_source}: basic_info had no hits.")
-            return extracted_info
-
-        individual = hits_list[0].get("_source", {})
-        fetched_name = f"{individual.get('ind_firstname', '')} {individual.get('ind_middlename', '')} {individual.get('ind_lastname', '')}".strip()
-        
-        extracted_info["crd_number"] = individual.get("ind_source_id", individual.get("crd_number", ""))
-        extracted_info["fetched_name"] = fetched_name
-        extracted_info["other_names"] = individual.get("ind_other_names", [])
-        extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
-        extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
-
-        if detailed_info:
-            if "disclosures" in detailed_info or "stateExamCategory" in detailed_info:
-                extracted_info["disclosures"] = detailed_info.get("disclosures", [])
-                extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
-                extracted_info["exams"] = (
-                    detailed_info.get("stateExamCategory", []) +
-                    detailed_info.get("principalExamCategory", []) +
-                    detailed_info.get("productExamCategory", [])
-                )
-                extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", [])
-                logger.info(f"Normalized {data_source} data from flat JSON structure.")
-            elif "hits" in detailed_info and detailed_info["hits"].get("hits"):
-                content_str = detailed_info["hits"]["hits"][0]["_source"].get("content", "")
-                try:
-                    content_json = json.loads(content_str) if content_str else {}
-                    extracted_info["disclosures"] = content_json.get("disclosures", [])
-                    extracted_info["arbitrations"] = content_json.get("arbitrations", [])
-                    extracted_info["exams"] = (
-                        content_json.get("stateExamCategory", []) +
-                        content_json.get("principalExamCategory", []) +
-                        content_json.get("productExamCategory", [])
-                    )
-                    extracted_info["current_ia_employments"] = content_json.get("currentIAEmployments", [])
-                    logger.info(f"Normalized {data_source} data from Elasticsearch-style structure.")
-                except json.JSONDecodeError as e:
-                    logger.warning(f"Failed to parse {data_source} 'content' JSON: {e}")
-            elif data_source == "IAPD" and "iacontent" in individual:
-                try:
-                    iacontent_data = json.loads(individual.get("iacontent", "{}"))
-                    extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
-                    extracted_info["exams"] = (
-                        iacontent_data.get("stateExamCategory", []) +
-                        iacontent_data.get("principalExamCategory", []) +
-                        iacontent_data.get("productExamCategory", [])
-                    )
-                    extracted_info["current_ia_employments"] = iacontent_data.get("currentIAEmployments", individual.get("ind_ia_current_employments", []))
-                except json.JSONDecodeError as e:
-                    logger.warning(f"IAPD basic_info iacontent parse error: {e}")
-            else:
-                logger.info(f"No recognizable detailed_info structure for {data_source}.")
-        else:
-            logger.info(f"No detailed_info provided for {data_source}.")
-
-        return extracted_info
-
-    def get_organization_crd(self, organization_name: str) -> Optional[str]:
-        orgs_data = self._load_organizations_cache()
-        if not orgs_data:
-            logger.error("Failed to load organizations cache.")
-            return None
-
-        normalized_search_name = self._normalize_organization_name(organization_name)
-        for org in orgs_data:
-            stored_name = self._normalize_organization_name(org.get("name", ""))
-            if stored_name == normalized_search_name:
-                crd = org.get("organizationCRD")
-                if crd and crd != "N/A":
-                    logger.info(f"Found CRD {crd} for organization '{organization_name}'.")
-                    return crd
-                else:
-                    logger.warning(f"CRD not found for organization '{organization_name}'.")
-                    return None
-        
-        logger.warning(f"Organization '{organization_name}' not found in cache.")
-        return "NOT_FOUND"
-
-    # SEC IAPD Agent Functions
-    def search_sec_iapd_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
-        logger.info(f"Fetching SEC IAPD basic info for CRD: {crd_number}, Employee: {employee_number}")
-        basic_result = fetch_agent_sec_iapd_search(employee_number, {"crd_number": crd_number})
-        detailed_result = fetch_agent_sec_iapd_detailed(employee_number, {"crd_number": crd_number}) if basic_result else None
-        if basic_result:
-            logger.info(f"Successfully fetched SEC IAPD data for CRD: {crd_number}")
-            return self._normalize_individual_record("IAPD", basic_result, detailed_result)
-        logger.warning(f"No data found for CRD: {crd_number} in SEC IAPD search")
-        return None
-
-    def search_sec_iapd_detailed(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
-        logger.warning(f"Calling search_sec_iapd_detailed is deprecated; use search_sec_iapd_individual instead for CRD: {crd_number}")
-        return self.search_sec_iapd_individual(crd_number, employee_number)
-
-    def search_sec_iapd_correlated(self, individual_name: str, organization_crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
-        logger.info(f"Fetching SEC IAPD correlated info for {individual_name} at organization {organization_crd_number}, Employee: {employee_number}")
-        result = fetch_agent_sec_iapd_correlated(employee_number, {
-            "individual_name": individual_name,
-            "organization_crd_number": organization_crd_number
-        })
-        if result:
-            logger.info(f"Successfully fetched SEC IAPD correlated data for {individual_name} at organization {organization_crd_number}")
-            return self._normalize_individual_record("IAPD", result)
-        logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in SEC IAPD correlated search")
-        return None
-
-    # FINRA BrokerCheck Agent Functions
-    def search_finra_brokercheck_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
-        logger.info(f"Fetching FINRA BrokerCheck basic info for CRD: {crd_number}, Employee: {employee_number}")
-        basic_result = fetch_agent_finra_bc_search(employee_number, {"crd_number": crd_number})
-        detailed_result = fetch_agent_finra_bc_detailed(employee_number, {"crd_number": crd_number}) if basic_result else None
-        if basic_result:
-            logger.info(f"Successfully fetched FINRA BrokerCheck data for CRD: {crd_number}")
-            return self._normalize_individual_record("BrokerCheck", basic_result, detailed_result)
-        logger.warning(f"No data found for {crd_number} in FINRA BrokerCheck search")
-        return None
-
-    def search_finra_brokercheck_detailed(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
-        logger.warning(f"Calling search_finra_brokercheck_detailed is deprecated; use search_finra_brokercheck_individual instead for CRD: {crd_number}")
-        return self.search_finra_brokercheck_individual(crd_number, employee_number)
-
-    # SEC Arbitration Agent Functions
-    def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-        logger.info(f"Fetching SEC Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
-        params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_sec_arb_search(employee_number, params, driver)
-        if result:
-            logger.info(f"Successfully fetched SEC Arbitration data for {first_name} {last_name}")
-            return result[0] if isinstance(result, list) and result else result
-        logger.warning(f"No data found for {first_name} {last_name} in SEC Arbitration search")
-        return None
-
-    # FINRA Disciplinary Agent Functions
-    def search_finra_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-        logger.info(f"Fetching FINRA Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
-        params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_finra_disc_search(employee_number, params, driver)
-        if result:
-            logger.debug(f"FINRA raw result: {json.dumps(result, indent=2)}")
-            normalized = create_disciplinary_record("FINRA_Disciplinary", result)
-            logger.debug(f"FINRA normalized result: {json.dumps(normalized, indent=2)}")
-            logger.info(f"Successfully fetched FINRA Disciplinary data for {first_name} {last_name}")
-            return normalized
-        logger.warning(f"No data found for {first_name} {last_name} in FINRA Disciplinary search")
-        return None
-
-    # NFA Basic Agent Functions
-    def search_nfa_basic(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Dict[str, Any]:
-        logger.info(f"Fetching NFA Basic data for {first_name} {last_name}, Employee: {employee_number}")
-        params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_nfa_search(employee_number, params, driver)
-        return result[0] if isinstance(result, list) and result else result
-
-    # FINRA Arbitration Agent Functions
-    def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-        logger.info(f"Fetching FINRA Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
-        params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_finra_arb_search(employee_number, params, driver)
-        if result:
-            logger.info(f"Successfully fetched FINRA Arbitration data for {first_name} {last_name}")
-            return result[0] if isinstance(result, list) and result else result
-        logger.warning(f"No data found for {first_name} {last_name} in FINRA Arbitration search")
-        return None
-
-    # SEC Disciplinary Agent Functions
-    def search_sec_disciplinary(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-        logger.info(f"Fetching SEC Disciplinary data for {first_name} {last_name}, Employee: {employee_number}")
-        params = {"first_name": first_name, "last_name": last_name}
-        result = fetch_agent_sec_disc_search(employee_number, params, driver)
-        if result:
-            logger.debug(f"SEC raw result: {json.dumps(result, indent=2)}")
-            normalized = create_disciplinary_record("SEC_Disciplinary", result)
-            logger.debug(f"SEC normalized result: {json.dumps(normalized, indent=2)}")
-            logger.info(f"Successfully fetched SEC Disciplinary data for {first_name} {last_name}")
-            return normalized
-        logger.warning(f"No data found for {first_name} {last_name} in SEC Disciplinary search")
-        return None
-
-    # Combined Disciplinary Review Function
-    def perform_disciplinary_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None, driver: Optional[webdriver.Chrome] = None) -> Dict[str, Any]:
-        """
-        Perform a combined disciplinary review by searching both SEC and FINRA disciplinary records.
-
-        Args:
-            first_name (str): First name to search.
-            last_name (str): Last name to search.
-            employee_number (Optional[str]): Employee number for caching/logging.
-            driver (Optional[webdriver.Chrome]): Selenium WebDriver instance.
-
-        Returns:
-            Dict[str, Any]: Combined disciplinary review with filtered actions and detailed due diligence.
-        """
-        logger.info(f"Performing disciplinary review for {first_name} {last_name}, Employee: {employee_number}")
-        exact_name = f"{first_name} {last_name}"
-        combined_review = {
-            "primary_name": exact_name,
-            "disciplinary_actions": [],
-            "due_diligence": {
-                "searched_name": exact_name,
-                "sec_disciplinary": {
-                    "records_found": 0,
-                    "records_filtered": 0,
-                    "names_found": [],
-                    "exact_match_found": False,
-                    "status": "No records fetched"
-                },
-                "finra_disciplinary": {
-                    "records_found": 0,
-                    "records_filtered": 0,
-                    "names_found": [],
-                    "exact_match_found": False,
-                    "status": "No records fetched"
-                }
-            }
+# ----------------------------------------
+# Name Parsing and Matching Functions
+# ----------------------------------------
+def parse_name(name_input: Any) -> Dict[str, Optional[str]]:
+    """
+    Convert a name input (string or dict) into a standardized dict with keys:
+    'first', 'middle', 'last'.
+    """
+    if isinstance(name_input, dict):
+        return {
+            "first": name_input.get("first"),
+            "middle": name_input.get("middle"),
+            "last": name_input.get("last")
         }
-
-        # Search SEC Disciplinary
-        try:
-            sec_result = self.search_sec_disciplinary(first_name, last_name, employee_number, driver)
-            if sec_result:
-                logger.debug(f"SEC result received: {json.dumps(sec_result, indent=2)}")
-                if sec_result.get("disciplinary_actions"):
-                    sec_actions = sec_result["disciplinary_actions"]
-                    combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(sec_actions)
-                    sec_names = list(set(action["associated_names"][0] for action in sec_actions))
-                    combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = sec_names
-                    filtered_actions = []
-                    for action in sec_actions:
-                        primary_fetch_name = action["associated_names"][0]
-                        other_names = action["associated_names"][1:] if len(action["associated_names"]) > 1 else []
-                        eval_details, score = evaluate_name(exact_name, primary_fetch_name, other_names, score_threshold=80.0)
-                        logger.debug(f"SEC name evaluation for '{primary_fetch_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
-                        if score and score >= 80.0:  # Use similarity threshold from evaluate_name
-                            filtered_actions.append(action)
-                            logger.debug(f"SEC action included for '{exact_name}': {action['case_id']}, score={score}")
-                        else:
-                            logger.debug(f"SEC action filtered out for '{exact_name}'; found names: {action['associated_names']}, score={score}")
-                    combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(sec_actions) - len(filtered_actions)
-                    if filtered_actions:
-                        combined_review["disciplinary_actions"].extend(filtered_actions)
-                        combined_review["due_diligence"]["sec_disciplinary"]["exact_match_found"] = True
-                        combined_review["due_diligence"]["sec_disciplinary"]["status"] = "Exact matches found"
-                    else:
-                        combined_review["due_diligence"]["sec_disciplinary"]["status"] = f"Records found but no exact matches for '{exact_name}'"
-                else:
-                    combined_review["due_diligence"]["sec_disciplinary"]["status"] = "No records found"
-            else:
-                logger.warning(f"SEC Disciplinary search failed for {first_name} {last_name}")
-        except NormalizationError as e:
-            logger.error(f"SEC Disciplinary normalization error: {str(e)}")
-
-        # Search FINRA Disciplinary
-        try:
-            finra_result = self.search_finra_disciplinary(first_name, last_name, employee_number, driver)
-            if finra_result:
-                logger.debug(f"FINRA result received: {json.dumps(finra_result, indent=2)}")
-                if finra_result.get("disciplinary_actions"):
-                    finra_actions = finra_result["disciplinary_actions"]
-                    combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(finra_actions)
-                    finra_names = list(set(action["associated_names"][0] for action in finra_actions))
-                    combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = finra_names
-                    filtered_actions = []
-                    for action in finra_actions:
-                        primary_fetch_name = action["associated_names"][0]
-                        other_names = action["associated_names"][1:] if len(action["associated_names"]) > 1 else []
-                        eval_details, score = evaluate_name(exact_name, primary_fetch_name, other_names, score_threshold=80.0)
-                        logger.debug(f"FINRA name evaluation for '{primary_fetch_name}': score={score}, details={json.dumps(eval_details, indent=2)}")
-                        if score and score >= 80.0:  # Use similarity threshold from evaluate_name
-                            filtered_actions.append(action)
-                            logger.debug(f"FINRA action included for '{exact_name}': {action['case_id']}, score={score}")
-                        else:
-                            logger.debug(f"FINRA action filtered out for '{exact_name}'; found names: {action['associated_names']}, score={score}")
-                    combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(finra_actions) - len(filtered_actions)
-                    if filtered_actions:
-                        combined_review["disciplinary_actions"].extend(filtered_actions)
-                        combined_review["due_diligence"]["finra_disciplinary"]["exact_match_found"] = True
-                        combined_review["due_diligence"]["finra_disciplinary"]["status"] = "Exact matches found"
-                    else:
-                        combined_review["due_diligence"]["finra_disciplinary"]["status"] = f"Records found but no exact matches for '{exact_name}'"
-                else:
-                    combined_review["due_diligence"]["finra_disciplinary"]["status"] = "No records found"
-            else:
-                logger.warning(f"FINRA Disciplinary search failed for {first_name} {last_name}")
-        except NormalizationError as e:
-            logger.error(f"FINRA Disciplinary normalization error: {str(e)}")
-
-        # Log the combined result
-        if combined_review["disciplinary_actions"]:
-            logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['disciplinary_actions'])} matching actions")
+    if isinstance(name_input, str):
+        parts = name_input.strip().split()
+        if len(parts) == 0:
+            return {"first": None, "middle": None, "last": None}
+        elif len(parts) == 1:
+            return {"first": parts[0], "middle": None, "last": None}
+        elif len(parts) == 2:
+            return {"first": parts[0], "middle": None, "last": parts[1]}
         else:
-            logger.info(f"No matching disciplinary actions found for {first_name} {last_name} across SEC and FINRA; due diligence: SEC found {combined_review['due_diligence']['sec_disciplinary']['records_found']}, FINRA found {combined_review['due_diligence']['finra_disciplinary']['records_found']}")
+            return {"first": parts[0], "middle": " ".join(parts[1:-1]), "last": parts[-1]}
+    return {"first": None, "middle": None, "last": None}
 
-        return combined_review
+def get_passed_exams(exams: List[Dict[str, Any]]) -> Set[str]:
+    """
+    From a list of exam records, return a set of exam patterns that were passed.
+    """
+    passed_exams = set()
+    for exam in exams:
+        exam_category = exam.get('examCategory', '')
+        for pattern in VALID_EXAM_PATTERNS:
+            if re.search(pattern, exam_category, re.IGNORECASE):
+                passed_exams.add(pattern)
+                break
+    return passed_exams
 
-def main():
-    facade = FinancialServicesFacade()
-    
-    parser = argparse.ArgumentParser(description='Financial Services Facade Interactive Menu')
-    parser.add_argument('--employee-number', help='Employee number for the search')
-    parser.add_argument('--first-name', help='First name for custom search')
-    parser.add_argument('--last-name', help='Last name for custom search')
-    parser.add_argument('--crd-number', help='CRD number for custom search')
-    parser.add_argument('--headless', action='store_true', default=True, help='Run in headless mode')
-    
-    args = parser.parse_args()
+def get_name_variants(name: str) -> Set[str]:
+    """
+    Return a set of possible name variants, including nicknames.
+    """
+    variants = {name.lower()}
+    if name.lower() in nickname_dict:
+        variants.update({n.lower() for n in nickname_dict[name.lower()]})
+    if name.lower() in reverse_nickname_dict:
+        variants.update({n.lower() for n in reverse_nickname_dict[name.lower()]})
+    return variants
 
-    def run_search(method: callable, employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None):
-        result = method(**params, employee_number=employee_number, driver=driver)
-        method_name = method.__name__.replace('search_', '').replace('perform_', '')
-        print(f"\n{method_name} Result for {employee_number}:")
-        print(json.dumps(result, indent=2))
+def are_nicknames(name1: str, name2: str) -> bool:
+    """
+    Check if two names are nicknames of each other.
+    """
+    variants1 = get_name_variants(name1)
+    variants2 = get_name_variants(name2)
+    return not variants1.isdisjoint(variants2)
 
-    if args.employee_number or args.first_name or args.last_name or args.crd_number:
-        employee_number = args.employee_number or "EMP001"
-        driver = create_driver(args.headless)
-        try:
-            if args.crd_number:
-                run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": args.crd_number})
-                run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": args.crd_number})
-            if args.first_name and args.last_name:
-                run_search(facade.search_sec_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_finra_disciplinary, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_nfa_basic, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.search_finra_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-                run_search(facade.perform_disciplinary_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
-        finally:
-            driver.quit()
-            logger.info("WebDriver closed")
+def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name_type: str) -> float:
+    """
+    Compare a single name part (first, middle, or last) and return a similarity score between 0 and 1.
+    Uses exact match, nickname checks, or string distance measures.
+    """
+    if not claim_part and not fetched_part:
+        return 1.0
+    if not claim_part or not fetched_part:
+        return 0.5 if name_type == "middle" else 0.0
+
+    claim_part = claim_part.strip().lower()
+    fetched_part = fetched_part.strip().lower()
+
+    if claim_part == fetched_part:
+        return 1.0
+
+    if name_type == "first" and are_nicknames(claim_part, fetched_part):
+        return 1.0
+
+    if name_type in ("first", "middle"):
+        if len(claim_part) == 1 and len(fetched_part) == 1 and claim_part[0] == fetched_part[0]:
+            return 1.0
+
+    if name_type == "last":
+        distance = jellyfish.damerau_levenshtein_distance(claim_part, fetched_part)
+        max_len = max(len(claim_part), len(fetched_part))
+        similarity = 1.0 - (distance / max_len) if max_len else 0.0
+        return similarity if similarity >= 0.8 else 0.0
+    elif name_type == "first":
+        distance = jellyfish.levenshtein_distance(claim_part, fetched_part)
+        similarity = 1.0 - (distance / max(len(claim_part), len(fetched_part)))
+        return similarity if similarity >= 0.85 else 0.0
     else:
-        driver = create_driver(RUN_HEADLESS)
         try:
-            while True:
-                print("\nFinancial Services Facade Interactive Menu:")
-                print("1. Run local test with 'Mark Miller' (SEC Disciplinary)")
-                print("2. Perform custom search")
-                print("3. Run example searches from original main")
-                print("4. Perform combined disciplinary review for 'Mark Miller'")
-                print("5. Exit")
-                choice = input("Enter your choice (1-5): ").strip()
+            code1 = jellyfish.nysiis(claim_part)
+            code2 = jellyfish.nysiis(fetched_part)
+        except Exception:
+            code1 = code2 = ""
+        return 0.8 if code1 == code2 and code1 != "" else 0.0
 
-                if choice == "1":
-                    print("\nRunning local test with 'Mark Miller'...")
-                    run_search(facade.search_sec_disciplinary, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
-                elif choice == "2":
-                    employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP001"
-                    search_type = input("Enter search type (1 for CRD, 2 for name, 3 for disciplinary review): ").strip()
-                    if search_type == "1":
-                        crd_number = input("Enter CRD number: ").strip()
-                        if crd_number:
-                            run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": crd_number})
-                            run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": crd_number})
-                        else:
-                            print("CRD number is required for this search type.")
-                    elif search_type in ["2", "3"]:
-                        first_name = input("Enter first name (optional, press Enter to skip): ").strip()
-                        last_name = input("Enter last name (required): ").strip()
-                        if not last_name:
-                            print("Last name is required.")
-                            continue
-                        if search_type == "2":
-                            run_search(facade.search_sec_arbitration, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_finra_disciplinary, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_nfa_basic, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_finra_arbitration, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                            run_search(facade.search_sec_disciplinary, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                        else:  # search_type == "3"
-                            run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
-                    else:
-                        print("Invalid search type. Use 1 for CRD, 2 for name, or 3 for disciplinary review.")
-                elif choice == "3":
-                    print("\nRunning example searches from original main...")
-                    claims = [
-                        {"individual_name": "Matthew Vetto", "organization_crd": "282563"},
-                        {"crd_number": "2112848"},
-                        {"crd_number": "2722375"}
-                    ]
-                    for i, claim in enumerate(claims, 1):
-                        employee_number = f"EMP00{i}"
-                        logger.info(f"Testing claim {i}: {claim}")
-                        if "crd_number" in claim:
-                            if "organization_crd" in claim:
-                                run_search(facade.search_sec_iapd_individual, employee_number, {"crd_number": claim["crd_number"]})
-                            else:
-                                run_search(facade.search_finra_brokercheck_individual, employee_number, {"crd_number": claim["crd_number"]})
-                        else:
-                            run_search(facade.search_sec_iapd_correlated, employee_number, {
-                                "individual_name": claim["individual_name"],
-                                "organization_crd_number": claim["organization_crd"]
-                            })
-                elif choice == "4":
-                    print("\nPerforming combined disciplinary review for 'Mark Miller'...")
-                    run_search(facade.perform_disciplinary_review, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
-                elif choice == "5":
-                    print("Exiting...")
-                    break
-                else:
-                    print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
-        finally:
-            driver.quit()
-            logger.info("WebDriver closed")
+def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
+                  score_threshold: float = 80.0) -> Tuple[Dict[str, Any], Optional[Alert]]:
+    """
+    Evaluate name compliance by comparing the expected name to the fetched name and alternatives.
+    Returns evaluation details and an optional Alert if compliance is below threshold.
+    """
+    claim_name = parse_name(expected_name)
 
-if __name__ == "__main__":
-    main()
+    def score_single_name(claim: Dict[str, Any], fetched: Any) -> Dict[str, Any]:
+        fetched_parsed = parse_name(fetched)
+        weights = {"first": 40, "middle": 10, "last": 50}
+        if not claim["middle"] and not fetched_parsed["middle"]:
+            weights["middle"] = 0
+        first_score = match_name_part(claim["first"], fetched_parsed["first"], "first")
+        middle_score = match_name_part(claim["middle"], fetched_parsed["middle"], "middle") if weights["middle"] else 0.0
+        last_score = match_name_part(claim["last"], fetched_parsed["last"], "last")
+        total_weight = sum(weights.values())
+        total_score = (first_score * weights["first"] +
+                       middle_score * weights["middle"] +
+                       last_score * weights["last"])
+        normalized_score = (total_score / total_weight) * 100.0 if total_weight else 0.0
+        return {
+            "fetched_name": fetched_parsed,
+            "score": round(normalized_score, 2),
+            "first_score": round(first_score, 2),
+            "middle_score": round(middle_score, 2),
+            "last_score": round(last_score, 2),
+        }
+
+    matches = []
+    main_match = score_single_name(claim_name, fetched_name)
+    matches.append({"name_source": "main_fetched_name", **main_match})
+    for idx, alt in enumerate(other_names):
+        alt_match = score_single_name(claim_name, alt)
+        matches.append({"name_source": f"other_names[{idx}]", **alt_match})
+
+    best_match = max(matches, key=lambda x: x["score"])
+    best_score = best_match["score"]
+    compliance = best_score >= score_threshold
+
+    evaluation_details = {
+        "claimed_name": claim_name,
+        "all_matches": matches,
+        "best_match": best_match,
+        "compliance": compliance
+    }
+
+    alert = None
+    if not compliance:
+        alert = Alert(
+            alert_type="Name Mismatch",
+            severity=AlertSeverity.MEDIUM,
+            metadata={"expected_name": claim_name, "best_score": best_score, "best_match": best_match},
+            description=f"Name match score {best_score} is below threshold {score_threshold}."
+        )
+
+    return evaluation_details, alert
+
+# ----------------------------------------
+# License Evaluation Functions
+# ----------------------------------------
+def interpret_license_type(license_type: str) -> Tuple[bool, bool]:
+    """
+    Interpret CSV license type string into booleans for Broker and Investment Advisor.
+    """
+    license_type = license_type.upper() if license_type else ""
+    is_broker = 'B' in license_type
+    is_ia = 'IA' in license_type
+    return is_broker, is_ia
+
+def compare_license_types(csv_license: str, bc_scope: str, ia_scope: str) -> bool:
+    """
+    Compare CSV license types to the API scopes.
+    """
+    csv_broker, csv_ia = interpret_license_type(csv_license)
+    api_broker = bc_scope.lower() == 'active'
+    api_ia = ia_scope.lower() == 'active'
+    return (csv_broker == api_broker) and (csv_ia == api_ia)
+
+def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) -> Tuple[bool, Optional[Alert]]:
+    """
+    Evaluate license compliance. If CSV license is missing and both API scopes are inactive,
+    trigger an alert.
+    """
+    api_broker_active = bc_scope.lower() == 'active'
+    api_ia_active = ia_scope.lower() == 'active'
+    if not csv_license:
+        if not api_broker_active and not api_ia_active:
+            alert = Alert(
+                alert_type="No Active Licenses Found",
+                severity=AlertSeverity.HIGH,
+                metadata={"bc_scope": bc_scope, "ia_scope": ia_scope},
+                description=f"No active licenses found for {name}."
+            )
+            return False, alert
+        return True, None
+    else:
+        compliant = compare_license_types(csv_license, bc_scope, ia_scope)
+        if not compliant:
+            alert = Alert(
+                alert_type="License Compliance Alert",
+                severity=AlertSeverity.HIGH,
+                metadata={"csv_license": csv_license, "bc_scope": bc_scope, "ia_scope": ia_scope},
+                description=f"License compliance failed for {name}."
+            )
+            return False, alert
+        return True, None
+
+# ----------------------------------------
+# Exam Evaluation Functions
+# ----------------------------------------
+def check_exam_requirements(passed_exams: Set[str]) -> Dict[str, bool]:
+    """
+    Check whether the passed exams meet the requirements for Investment Advisor and Broker roles.
+    """
+    ia_requirement = ('Series 65' in passed_exams) or ('Series 66' in passed_exams)
+    broker_requirement = ('Series 7' in passed_exams) and (('Series 63' in passed_exams) or ('Series 66' in passed_exams))
+    return {"Investment Advisor": ia_requirement, "Broker": broker_requirement}
+
+def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tuple[bool, Optional[Alert]]:
+    """
+    Evaluate exam compliance. If the required exams are not passed, return an alert.
+    """
+    requirements = check_exam_requirements(passed_exams)
+    csv_broker, csv_ia = interpret_license_type(license_type)
+    exam_compliant = True
+    missing_roles = []
+    if csv_broker and not requirements.get("Broker", False):
+        exam_compliant = False
+        missing_roles.append("Broker")
+    if csv_ia and not requirements.get("Investment Advisor", False):
+        exam_compliant = False
+        missing_roles.append("Investment Advisor")
+    if not exam_compliant:
+        alert = Alert(
+            alert_type="Exam Requirement Alert",
+            severity=AlertSeverity.MEDIUM,
+            metadata={"passed_exams": list(passed_exams), "missing_roles": missing_roles},
+            description=f"{name} is missing required exams for: {', '.join(missing_roles)}."
+        )
+        return False, alert
+    return True, None
+
+# ----------------------------------------
+# Registration Status Evaluation
+# ----------------------------------------
+def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool, List[Alert]]:
+    """
+    Evaluate registration status using available fields from individual_info.
+    Checks the Broker and Investment Advisor scopes.
+    """
+    alerts = []
+    status_compliant = True
+
+    bc_status = (individual_info.get('ind_bc_scope') or individual_info.get('bcScope', '')).lower()
+    ia_status = (individual_info.get('ind_ia_scope') or individual_info.get('iaScope', '')).lower()
+
+    if not bc_status or not ia_status:
+        content = individual_info.get('content')
+        if content:
+            try:
+                content_data = json.loads(content)
+                basic_info = content_data.get('basicInformation', {})
+                bc_status = bc_status or basic_info.get('bcScope', '').lower()
+                ia_status = ia_status or basic_info.get('iaScope', '').lower()
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse content for registration status: {e}")
+
+    concerning_statuses = ['inactive', 'temp_wd', 'pending', 't_noreg', 'tempreg', 'restricted']
+
+    if bc_status in concerning_statuses:
+        alerts.append(Alert(
+            alert_type="Registration Status Alert",
+            severity=AlertSeverity.HIGH,
+            metadata={"bc_status": bc_status},
+            description=f"Broker registration status is {bc_status}."
+        ))
+        status_compliant = False
+
+    if ia_status in concerning_statuses:
+        alerts.append(Alert(
+            alert_type="Registration Status Alert",
+            severity=AlertSeverity.HIGH,
+            metadata={"ia_status": ia_status},
+            description=f"Investment Advisor registration status is {ia_status}."
+        ))
+        status_compliant = False
+
+    return status_compliant, alerts
+
+# ----------------------------------------
+# Disclosure Evaluation Functions
+# ----------------------------------------
+def generate_regulatory_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    """
+    Generate a description for a regulatory disclosure alert.
+    """
+    initiated_by = details.get('Initiated By', 'Unknown')
+    allegations = details.get('Allegations', 'Not specified')
+    sanctions_list = details.get('SanctionDetails', [])
+    sanctions = ', '.join([s.get('Sanctions', '') for s in sanctions_list])
+    return (f"Regulatory action on {event_date} initiated by {initiated_by}. "
+            f"Resolution: {resolution}. Allegations: {allegations}. Sanctions: {sanctions}")
+
+def generate_customer_dispute_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    """
+    Generate a description for a customer dispute alert.
+    """
+    allegations = details.get('Allegations', 'Not specified')
+    damage_requested = details.get('Damage Amount Requested', 'Not specified')
+    settlement_amount = details.get('Settlement Amount', 'Not specified')
+    return (f"Customer dispute on {event_date}. Resolution: {resolution}. Allegations: {allegations}. "
+            f"Damage requested: {damage_requested}. Settlement: {settlement_amount}")
+
+def generate_criminal_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    """
+    Generate a description for a criminal disclosure alert.
+    """
+    charges_list = details.get('criminalCharges', [])
+    charges = ', '.join([charge.get('Charges', '') for charge in charges_list])
+    disposition = ', '.join([charge.get('Disposition', '') for charge in charges_list])
+    return (f"Criminal disclosure on {event_date}. Resolution: {resolution}. Charges: {charges}. "
+            f"Disposition: {disposition}")
+
+def generate_civil_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    """
+    Generate a description for a civil disclosure alert.
+    """
+    allegations = details.get('Allegations', 'Not specified')
+    disposition = details.get('Disposition', 'Not specified')
+    return (f"Civil disclosure on {event_date}. Resolution: {resolution}. Allegations: {allegations}. "
+            f"Disposition: {disposition}")
+
+def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
+    """
+    Generate an Alert for a given disclosure, if applicable.
+    """
+    disclosure_type = disclosure.get('disclosureType', 'Unknown')
+    event_date = disclosure.get('eventDate', 'Unknown')
+    resolution = disclosure.get('disclosureResolution', 'Unknown')
+    details = disclosure.get('disclosureDetail', {})
+    description = ""
+    severity = AlertSeverity.HIGH  # Default severity
+
+    if disclosure_type == 'Regulatory':
+        description = generate_regulatory_alert_description(event_date, resolution, details)
+        sanctions_list = details.get('SanctionDetails', [])
+        combined_sanctions = " ".join([s.get('Sanctions', '') for s in sanctions_list]).lower()
+        if "civil" in combined_sanctions:
+            severity = AlertSeverity.HIGH
+            description += " [Civil penalty detected.]"
+    elif disclosure_type == 'Customer Dispute':
+        description = generate_customer_dispute_alert_description(event_date, resolution, details)
+    elif disclosure_type == 'Criminal':
+        description = generate_criminal_alert_description(event_date, resolution, details)
+    elif disclosure_type == 'Civil':
+        description = generate_civil_alert_description(event_date, resolution, details)
+    else:
+        description = f"Unknown disclosure type {disclosure_type} on {event_date}."
+    if description:
+        return Alert(
+            alert_type=f"{disclosure_type} Disclosure",
+            severity=severity,
+            metadata={"event_date": event_date, "resolution": resolution, "details": details},
+            description=description
+        )
+    return None
+
+def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Evaluate the disclosure records. If any disclosures are present, compliance is False.
+    Returns (compliance, summary, [Alert objects]).
+    """
+    alerts = []
+    disclosure_counts = {}
+    for disclosure in disclosures:
+        dtype = disclosure.get('disclosureType', 'Unknown')
+        disclosure_counts[dtype] = disclosure_counts.get(dtype, 0) + 1
+        alert = generate_disclosure_alert(disclosure)
+        if alert:
+            alerts.append(alert)
+    if disclosure_counts:
+        summary_parts = [
+            f"{count} {dtype.lower()} disclosure{'s' if count > 1 else ''}"
+            for dtype, count in disclosure_counts.items()
+        ]
+        summary = f"{name} has {', '.join(summary_parts)}."
+        return False, summary, alerts
+    else:
+        summary = f"No disclosures found for {name}."
+        return True, summary, alerts
+
+# ----------------------------------------
+# Arbitration Evaluation
+# ----------------------------------------
+def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Evaluate arbitration records for pending or adverse outcomes.
+    Returns (compliance, explanation, [Alert objects]).
+    """
+    if not arbitrations:
+        return True, f"No arbitrations found for {name}.", []
+    
+    pending_cases = []
+    adverse_cases = []
+    for arb in arbitrations:
+        status = arb.get('status', '').lower()
+        outcome = arb.get('outcome', '').lower()
+        case_number = arb.get('case_number') or arb.get('Case ID') or 'Unknown'
+        if status == 'pending':
+            pending_cases.append(case_number)
+        if outcome in ['award against individual', 'adverse finding']:
+            adverse_cases.append(case_number)
+    if pending_cases or adverse_cases:
+        metadata = {}
+        if pending_cases:
+            metadata["pending_cases"] = pending_cases
+        if adverse_cases:
+            metadata["adverse_outcomes"] = adverse_cases
+        alert_description = f"{name} has arbitration issues: "
+        if pending_cases:
+            alert_description += f"Pending cases: {', '.join(pending_cases)}. "
+        if adverse_cases:
+            alert_description += f"Adverse outcomes: {', '.join(adverse_cases)}."
+        alert = Alert(
+            alert_type="Arbitration Alert",
+            severity=AlertSeverity.HIGH,
+            metadata=metadata,
+            description=alert_description.strip()
+        )
+        return False, f"Arbitration issues found for {name}.", [alert]
+    return True, f"{name} has arbitration history with no pending or adverse outcomes.", []
+
+# ----------------------------------------
+# Disciplinary Evaluation
+# ----------------------------------------
+def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+    """
+    Evaluate disciplinary records. If any records with results exist, compliance is False.
+    Returns (compliance, explanation, [Alert objects]).
+    """
+    if not disciplinary_records:
+        return True, f"No disciplinary records found for {name}.", []
+    
+    alerts = []
+    has_records = False
+    for record in disciplinary_records:
+        results = record.get('result', []) or record.get('results', [])
+        if not results:
+            continue
+        has_records = True
+        case_id = results[0].get('Case ID', 'Unknown') if results else 'Unknown'
+        alert = Alert(
+            alert_type="Disciplinary Alert",
+            severity=AlertSeverity.HIGH,
+            metadata={"record": record},
+            description=f"Disciplinary record found: Case ID {case_id} for {name}."
+        )
+        alerts.append(alert)
+    if not has_records:
+        return True, f"No disciplinary records found for {name}.", []
+    return False, f"Disciplinary records found for {name}.", alerts
+
+# ----------------------------------------
+# Alert Category Mapping
+# ----------------------------------------
+def determine_alert_category(alert_type: str) -> str:
+    """
+    Map a given alert_type to a standardized alert_category.
+    """
+    alert_type_lower = alert_type.lower()
+    if 'exam' in alert_type_lower:
+        return "EXAM"
+    elif 'license' in alert_type_lower or 'registration' in alert_type_lower:
+        return "LICENSE"
+    elif 'disclosure' in alert_type_lower:
+        return "DISCLOSURE"
+    elif 'disciplinary' in alert_type_lower:
+        return "DISCIPLINARY"
+    elif 'arbitration' in alert_type_lower:
+        return "ARBITRATION"
+    elif 'name mismatch' in alert_type_lower:
+        return "STATUS"
+    else:
+        return "STATUS"

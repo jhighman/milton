@@ -2,6 +2,8 @@ from typing import Dict, Any, Callable
 import logging
 import json
 from services import FinancialServicesFacade
+from evaluation_report_builder import EvaluationReportBuilder
+from evaluation_report_director import EvaluationReportDirector
 
 # Logger setup
 logger = logging.getLogger("business")
@@ -39,7 +41,7 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
         logger.info("Claim lacks sufficient fields, selecting default strategy")
         return search_default
 
-# Existing search functions (unchanged, except for search_with_correlated)
+# Existing search functions (unchanged)
 def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     crd_number = claim.get("crd_number", "")
     logger.info(f"Searching SEC IAPD with crd_number='{crd_number}', Employee='{employee_number}'")
@@ -103,7 +105,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_crd_number='{organization_crd_number}', Employee='{employee_number}'")
     basic_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
-    crd_number = basic_result.get("crd_number", None) if basic_result else None  # Fixed to use normalized crd_number
+    crd_number = basic_result.get("crd_number", None) if basic_result else None
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
     return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_correlated", "crd_number": crd_number}
 
@@ -112,51 +114,67 @@ def process_claim(
     facade: FinancialServicesFacade,
     employee_number: str = None
 ) -> Dict[str, Any]:
-    """Process a claim by assembling report sections from FinancialServicesFacade methods."""
+    """Process a claim by collecting data and delegating report building to EvaluationReportDirector."""
     logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}'")
     
     # Default employee_number if not provided in claim or args
     employee_number = claim.get("employee_number", employee_number or "EMP_DEFAULT")
     
-    # Master report structure
-    report = {
-        "reference_id": claim.get("reference_id", "UNKNOWN"),
-        "claim": claim
-    }
-
-    # Section 1: Search Evaluation (primary search)
+    # Step 1: Collect primary search data
     strategy_func = determine_search_strategy(claim)
     logger.debug(f"Selected primary strategy: {strategy_func.__name__}")
     search_evaluation = strategy_func(claim, facade, employee_number)
     if search_evaluation is None or (search_evaluation.get("basic_result") is None and search_evaluation.get("detailed_result") is None):
         logger.warning(f"Primary strategy {strategy_func.__name__} returned no usable data")
-    report["search_evaluation"] = search_evaluation
 
-    # Section 2: Disciplinary Evaluation
+    # Step 2: Perform disciplinary review
     first_name = claim.get("first_name", "")
     last_name = claim.get("last_name", "")
     individual_name = claim.get("individual_name", "")
     if not (first_name and last_name) and individual_name:
         first_name, *last_name_parts = individual_name.split()
         last_name = " ".join(last_name_parts) if last_name_parts else ""
-
-    if first_name and last_name:
-        logger.info(f"Performing disciplinary review for {first_name} {last_name}")
-        disciplinary_evaluation = facade.perform_disciplinary_review(first_name, last_name, employee_number)
-    else:
-        logger.warning(f"No valid first and last name available for disciplinary review (individual_name='{individual_name}')")
-        disciplinary_evaluation = {
+    
+    disciplinary_evaluation = (
+        facade.perform_disciplinary_review(first_name, last_name, employee_number)
+        if first_name and last_name
+        else {
             "primary_name": individual_name or "Unknown",
             "disciplinary_actions": [],
             "due_diligence": {"status": "No name provided for search"}
         }
-    report["disciplinary_evaluation"] = disciplinary_evaluation
+    )
 
-    logger.info(f"Claim processing completed for {claim} with 2 report sections")
+    # Build extracted_info for the director
+    extracted_info = {
+        "search_evaluation": {
+            "source": search_evaluation.get("source", "Unknown"),
+            "search_strategy": search_evaluation.get("search_strategy", "Unknown"),
+            "crd_number": search_evaluation.get("crd_number"),
+            "basic_result": search_evaluation.get("basic_result", {}),
+            "detailed_result": search_evaluation.get("detailed_result")
+        },
+        "individual": search_evaluation.get("basic_result", {}),
+        "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
+        "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
+        "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", ""),
+        "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", ""),
+        "exams": search_evaluation.get("detailed_result", {}).get("exams", []),
+        "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []),
+        "arbitrations": search_evaluation.get("detailed_result", {}).get("arbitrations", []),
+        "disciplinary_evaluation": disciplinary_evaluation  # Pass full disciplinary_evaluation
+    }
+
+    # Delegate report building with reference_id
+    reference_id = claim.get("reference_id", "UNKNOWN")
+    builder = EvaluationReportBuilder(reference_id)
+    director = EvaluationReportDirector(builder)
+    report = director.construct_evaluation_report(claim, extracted_info)
+    
+    logger.info(f"Claim processing completed for {claim} with report built")
     return report
 
 if __name__ == "__main__":
-    from services import FinancialServicesFacade
     facade = FinancialServicesFacade()
 
     def run_process_claim(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str = None):
@@ -164,7 +182,6 @@ if __name__ == "__main__":
         print(f"\nResult for {claim.get('reference_id', 'Custom Claim')}:")
         print(json.dumps(result, indent=2, default=str))
 
-    # Interactive menu
     while True:
         print("\nBusiness Process Interactive Menu:")
         print("1. Process predefined Matthew Vetto claim")
