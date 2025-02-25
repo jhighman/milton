@@ -122,12 +122,14 @@ class EvaluationReportDirector:
         # Step 7: Disciplinary Evaluation
         disciplinary_evaluation = extracted_info.get("disciplinary_evaluation", {})
         disciplinary_records = disciplinary_evaluation.get("disciplinary_actions", [])
-        disciplinary_compliant, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(disciplinary_records, expected_name)
+        disciplinary_compliant, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(
+            disciplinary_records, expected_name, disciplinary_evaluation.get("due_diligence")
+        )
         disciplinary_eval = {
             "compliance": disciplinary_compliant,
             "compliance_explanation": disciplinary_explanation,
             "alerts": [alert.to_dict() for alert in disciplinary_alerts],
-            "due_diligence": disciplinary_evaluation.get("due_diligence", {})  # Pass through due diligence
+            "due_diligence": disciplinary_evaluation.get("due_diligence", {})
         }
         self.builder.set_disciplinary_evaluation(disciplinary_eval)
 

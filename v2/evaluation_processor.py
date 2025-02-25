@@ -511,32 +511,58 @@ def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str) -> Tuple
 # ----------------------------------------
 # Disciplinary Evaluation
 # ----------------------------------------
-def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
+def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
     """
-    Evaluate disciplinary records. If any records with results exist, compliance is False.
-    Returns (compliance, explanation, [Alert objects]).
+    Evaluate disciplinary records and due diligence. Returns (compliance, explanation, alerts).
+    Considers due diligence details (e.g., filtered records) in compliance assessment.
     """
-    if not disciplinary_records:
-        return True, f"No disciplinary records found for {name}.", []
-    
     alerts = []
-    has_records = False
-    for record in disciplinary_records:
-        results = record.get('result', []) or record.get('results', [])
-        if not results:
-            continue
-        has_records = True
-        case_id = results[0].get('Case ID', 'Unknown') if results else 'Unknown'
-        alert = Alert(
-            alert_type="Disciplinary Alert",
-            severity=AlertSeverity.HIGH,
-            metadata={"record": record},
-            description=f"Disciplinary record found: Case ID {case_id} for {name}."
-        )
-        alerts.append(alert)
-    if not has_records:
-        return True, f"No disciplinary records found for {name}.", []
-    return False, f"Disciplinary records found for {name}.", alerts
+    
+    # Evaluate records
+    if disciplinary_records:
+        for record in disciplinary_records:
+            results = record.get('result', []) or record.get('results', [])
+            if results:
+                case_id = results[0].get('Case ID', 'Unknown')
+                alerts.append(Alert(
+                    alert_type="Disciplinary Alert",
+                    severity=AlertSeverity.HIGH,
+                    metadata={"record": record},
+                    description=f"Disciplinary record found: Case ID {case_id} for {name}."
+                ))
+        if alerts:
+            explanation = f"Disciplinary records found for {name}."
+            return False, explanation, alerts
+
+    # Evaluate due diligence if provided
+    if due_diligence:
+        sec_dd = due_diligence.get("sec_disciplinary", {})
+        finra_dd = due_diligence.get("finra_disciplinary", {})
+        total_records = sec_dd.get("records_found", 0) + finra_dd.get("records_found", 0)
+        total_filtered = sec_dd.get("records_filtered", 0) + finra_dd.get("records_filtered", 0)
+        
+        # Threshold: if >10 records found and all filtered, flag as a potential compliance concern
+        if total_records > 10 and total_filtered == total_records:
+            alerts.append(Alert(
+                alert_type="Disciplinary Search Alert",
+                severity=AlertSeverity.MEDIUM,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} disciplinary records for {name}, all filtered out due to name mismatch. Potential review needed."
+            ))
+            explanation = f"No matching disciplinary records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
+            return True, explanation, alerts
+        elif total_records > 0:
+            alerts.append(Alert(
+                alert_type="Disciplinary Search Info",
+                severity=AlertSeverity.INFO,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} disciplinary records for {name}, {total_filtered} filtered out."
+            ))
+            explanation = f"No matching disciplinary records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
+            return True, explanation, alerts
+
+    explanation = f"No disciplinary records found for {name}."
+    return True, explanation, alerts
 
 # ----------------------------------------
 # Alert Category Mapping
