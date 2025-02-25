@@ -129,10 +129,11 @@
   "disciplinary_evaluation": {
     "compliance": true,
     "compliance_explanation": "No matching disciplinary records found for Matthew Vetto, but 31 records were reviewed and filtered, suggesting possible alias or data issues.",
+    "actions": [],
     "alerts": [
       {
-        "alert_type": "Disciplinary Search Alert",
-        "alert_category": null,
+        "alert_type": "Disciplinary Search Info",
+        "alert_category": "DISCIPLINARY",
         "severity": "Medium",
         "metadata": {
           "due_diligence": {
@@ -148,40 +149,8 @@
             "finra_disciplinary": {
               "records_found": 15,
               "records_filtered": 15,
-              "names_found": [
-                "Matthew J. Chimento",
-                "Matthew T. Chen",
-                "John Matthew Underation",
-                "Matthew T. Higgins",
-                "Matthew Robert Wilkow",
-                "Taulant Matthew Kodi",
-                "Matthew Platnico",
-                "Matthew Joseph Mathesen",
-                "Matthew J. Mangini",
-                "Matthew A. Sinclair",
-                "Matthew Mierzycki",
-                "Portsmouth Financial ServicesMatthew Jason Childs",
-                "Matthew I. Turner",
-                "Matthew G. Barks",
-                "Todd Matthew Themistocles"
-              ],
-              "name_scores": {
-                "Matthew I. Turner": 45.0,
-                "Matthew T. Higgins": 45.0,
-                "Taulant Matthew Kodi": 5.0,
-                "Portsmouth Financial ServicesMatthew Jason Childs": 5.0,
-                "Todd Matthew Themistocles": 5.0,
-                "Matthew T. Chen": 45.0,
-                "Matthew Joseph Mathesen": 45.0,
-                "Matthew J. Chimento": 45.0,
-                "Matthew A. Sinclair": 45.0,
-                "Matthew Robert Wilkow": 45.0,
-                "Matthew Mierzycki": 44.44,
-                "Matthew Platnico": 44.44,
-                "Matthew J. Mangini": 45.0,
-                "Matthew G. Barks": 45.0,
-                "John Matthew Underation": 5.0
-              },
+              "names_found": [],
+              "name_scores": {},
               "exact_match_found": false,
               "status": "Records found but no matches for 'Matthew Vetto'"
             }
@@ -203,438 +172,44 @@
       "finra_disciplinary": {
         "records_found": 15,
         "records_filtered": 15,
-        "names_found": [
-          "Matthew J. Chimento",
-          "Matthew T. Chen",
-          "John Matthew Underation",
-          "Matthew T. Higgins",
-          "Matthew Robert Wilkow",
-          "Taulant Matthew Kodi",
-          "Matthew Platnico",
-          "Matthew Joseph Mathesen",
-          "Matthew J. Mangini",
-          "Matthew A. Sinclair",
-          "Matthew Mierzycki",
-          "Portsmouth Financial ServicesMatthew Jason Childs",
-          "Matthew I. Turner",
-          "Matthew G. Barks",
-          "Todd Matthew Themistocles"
-        ],
-        "name_scores": {
-          "Matthew I. Turner": 45.0,
-          "Matthew T. Higgins": 45.0,
-          "Taulant Matthew Kodi": 5.0,
-          "Portsmouth Financial ServicesMatthew Jason Childs": 5.0,
-          "Todd Matthew Themistocles": 5.0,
-          "Matthew T. Chen": 45.0,
-          "Matthew Joseph Mathesen": 45.0,
-          "Matthew J. Chimento": 45.0,
-          "Matthew A. Sinclair": 45.0,
-          "Matthew Robert Wilkow": 45.0,
-          "Matthew Mierzycki": 44.44,
-          "Matthew Platnico": 44.44,
-          "Matthew J. Mangini": 45.0,
-          "Matthew G. Barks": 45.0,
-          "John Matthew Underation": 5.0
-        },
+        "names_found": [],
+        "name_scores": {},
         "exact_match_found": false,
         "status": "Records found but no matches for 'Matthew Vetto'"
       }
     }
   },
   "arbitration_review": {
-    "compliance": false,
-    "compliance_explanation": "Arbitration issues found for Matthew Vetto.",
+    "compliance": true,
+    "compliance_explanation": "No matching arbitration records found for Matthew Vetto, but 31 records were reviewed and filtered, suggesting possible alias or data issues.",
+    "actions": [],
     "alerts": [
       {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
+        "alert_type": "Arbitration Search Info",
+        "alert_category": "ARBITRATION",
+        "severity": "Medium",
         "metadata": {
-          "arbitration": {
-            "case_id": "12-04077",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "02/10/2014",
-            "details": {
-              "award_document": "12-04077",
-              "pdf_url": "/sites/default/files/aao_documents/12-04077-Award-FINRA-20140210.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Advisors Financial Network",
-                "Claimant Representative(s):": "Matthew Fischer",
-                "Respondent(s):": "Matthew Burke",
-                "Neutral(s):": "Robert M. Stein",
-                "Hearing Site:": "Seattle, WA"
-              },
-              "forum": "FINRA"
+          "due_diligence": {
+            "searched_name": "Matthew Vetto",
+            "sec_arbitration": {
+              "records_found": 16,
+              "records_filtered": 16,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Matthew Vetto'"
+            },
+            "finra_arbitration": {
+              "records_found": 15,
+              "records_filtered": 15,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Matthew Vetto'"
             }
           }
         },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "18-04311",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/31/2019",
-            "details": {
-              "award_document": "18-04311",
-              "pdf_url": "/sites/default/files/aao_documents/18-04311.pdf",
-              "case_summary": {
-                "Claimant(s):": "Spartan Capital Securities, Llc",
-                "Claimant Representative(s):": "Matthew Fiorovanti",
-                "Respondent(s):": "Matthew Siliato",
-                "Neutral(s):": "Karimu F. Hill-Harvey",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01716",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "03/25/2019",
-            "details": {
-              "award_document": "17-01716",
-              "pdf_url": "/sites/default/files/aao_documents/17-01716.pdf",
-              "case_summary": {
-                "Claimant(s):": "Windsor Street Capital, LP",
-                "Claimant Representative(s):": "David A. Schrader",
-                "Respondent(s):": "Barry Jin, Brent Porges, Charles Giaimo, David Sheppard, Joseph Valenti, Matthew Deblois, Matthew Siliato, Maxwell Delaney, Michael LaVolpe, William Leonard",
-                "Neutral(s):": "Ann C. Northern, Sanford S. Stevens, Donald Nevin Gershuny",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01378",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/14/2017",
-            "details": {
-              "award_document": "17-01378",
-              "pdf_url": "/sites/default/files/aao_documents/17-01378.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Clearing Services, LLC",
-                "Claimant Representative(s):": "Robert Christie",
-                "Respondent(s):": "Matthew Bailey",
-                "Neutral(s):": "Jeff Abrams",
-                "Hearing Site:": "Dallas, TX"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06998",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/18/2013",
-            "details": {
-              "award_document": "09-06998",
-              "pdf_url": "/sites/default/files/aao_documents/09-06998-Award-FINRA-20130618.pdf",
-              "case_summary": {
-                "Claimant(s):": "Burton Langer",
-                "Claimant Representative(s):": "Ross B. Intelisano",
-                "Respondent(s):": "Charles Schwab & Co., Inc., Matthew Weitzman",
-                "Neutral(s):": "Mark Mendley, Michael S. Lazan, Michael Peter Yahr",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06998",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/18/2013",
-            "details": {
-              "award_document": "09-06998",
-              "pdf_url": "/sites/default/files/aao_documents/09-06998-Award-FINRA-20130620.pdf",
-              "case_summary": {
-                "Claimant(s):": "Burton Langer",
-                "Claimant Representative(s):": "Ross B. Intelisano",
-                "Respondent(s):": "Charles Schwab & Co., Inc., Matthew Weitzman",
-                "Neutral(s):": "Mark Mendley, Michael S. Lazan, Michael Peter Yahr",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "22-01684",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/22/2023",
-            "details": {
-              "award_document": "22-01684",
-              "pdf_url": "/sites/default/files/aao_documents/22-01684.pdf",
-              "case_summary": {
-                "Claimant(s):": "J.P. Morgan Securities, LLC",
-                "Claimant Representative(s):": "Leonard Weintraub",
-                "Respondent(s):": "Matthew Reynolds",
-                "Neutral(s):": "Alexis Anne Washa, Matthew D Arbit, Matthew Lane",
-                "Hearing Site:": "Chicago, IL"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "13-02746",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "07/10/2014",
-            "details": {
-              "award_document": "13-02746",
-              "pdf_url": "/sites/default/files/aao_documents/13-02746-Award-FINRA-20140710.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wachovia Securities Financial Network",
-                "Claimant Representative(s):": "Jill Y. Coen",
-                "Respondent(s):": "Matthew Staten",
-                "Neutral(s):": "W. Sean Kelleher",
-                "Hearing Site:": "Columbus, OH"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "16-01204",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "10/21/2016",
-            "details": {
-              "award_document": "16-01204",
-              "pdf_url": "/sites/default/files/aao_documents/16-01204.pdf",
-              "case_summary": {
-                "Claimant(s):": "Orthotek Inc.",
-                "Claimant Representative(s):": "Bradley D. Schnur",
-                "Respondent(s):": "Anthony Minerva, Matthew DiGregorio, J.D. Nicholas & Associates, Inc.",
-                "Neutral(s):": "Richard Djokic",
-                "Hearing Site:": "Des Moines, IA"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "13-01535",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/22/2013",
-            "details": {
-              "award_document": "13-01535",
-              "pdf_url": "/sites/default/files/aao_documents/13-01535-Award-FINRA-20131122.pdf",
-              "case_summary": {
-                "Claimant(s):": "Ameriprise Financial Services, Inc.",
-                "Claimant Representative(s):": "Edward Walton",
-                "Respondent(s):": "Matthew Staten",
-                "Neutral(s):": "Gregory P. Szuter",
-                "Hearing Site:": "Columbus, OH"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "12-02506",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "04/19/2013",
-            "details": {
-              "award_document": "12-02506",
-              "pdf_url": "/sites/default/files/aao_documents/12-02506-Award-FINRA-20130419.pdf",
-              "case_summary": {
-                "Claimant(s):": "Morgan Stanley & Co., LLC",
-                "Claimant Representative(s):": "Renan I. Sugarman",
-                "Respondent(s):": "Matthew Burcar",
-                "Neutral(s):": "Jeff Abrams",
-                "Hearing Site:": "Dallas, TX"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01799",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "01/10/2018",
-            "details": {
-              "award_document": "17-01799",
-              "pdf_url": "/sites/default/files/aao_documents/17-01799.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Clearing Services, LLC",
-                "Claimant Representative(s):": "Renan I Sugarman",
-                "Respondent(s):": "Matthew Paparazzo",
-                "Neutral(s):": "Eugene G. P. Byrne",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06485",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/17/2011",
-            "details": {
-              "award_document": "09-06485",
-              "pdf_url": "/sites/default/files/aao_documents/09-06485-Award-FINRA-20110517.pdf",
-              "case_summary": {
-                "Claimant(s):": "Matthew Scoble",
-                "Claimant Representative(s):": "Matthew J. McDonald",
-                "Respondent(s):": "Blaylock & Partners, L.P.",
-                "Neutral(s):": "Romaine L. Gardner, Preston V. Pumphrey, Sheryl-Anne Sastow",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-05964",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/28/2010",
-            "details": {
-              "award_document": "09-05964",
-              "pdf_url": "/sites/default/files/aao_documents/09-05964-Award-FINRA-20100628.pdf",
-              "case_summary": {
-                "Claimant(s):": "Matthew Andrews",
-                "Claimant Representative(s):": "Matthew Bryan Andrews",
-                "Respondent(s):": "Mark Rizzieri",
-                "Neutral(s):": "Neil Harvey Smith",
-                "Hearing Site:": "Charlotte, NC"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "07-01899",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/07/2007",
-            "details": {
-              "award_document": "07-01899",
-              "pdf_url": "/sites/default/files/aao_documents/07-01899-Award-FINRA-20071107.pdf",
-              "case_summary": {
-                "Claimant(s):": "The Estate of Alastair John Stair",
-                "Claimant Representative(s):": "Peter Alpi",
-                "Respondent(s):": "Matthew Ryan, PMG Securities Corporation",
-                "Neutral(s):": "David I. Goldblatt",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
+        "description": "Found 31 arbitration records for Matthew Vetto, all filtered out due to name mismatch. Potential review needed."
       }
     ],
     "due_diligence": {
@@ -649,26 +224,22 @@
       },
       "finra_arbitration": {
         "records_found": 15,
-        "records_filtered": 0,
-        "names_found": [
-          "Unknown"
-        ],
-        "name_scores": {
-          "Matthew Vetto": 100.0
-        },
-        "exact_match_found": true,
-        "status": "Exact matches found"
+        "records_filtered": 15,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Matthew Vetto'"
       }
     }
   },
   "final_evaluation": {
-    "overall_compliance": false,
-    "overall_risk_level": "High",
-    "recommendations": "Immediate action required due to critical compliance issues.",
+    "overall_compliance": true,
+    "overall_risk_level": "Medium",
+    "recommendations": "No immediate action required.",
     "alerts": [
       {
-        "alert_type": "Disciplinary Search Alert",
-        "alert_category": null,
+        "alert_type": "Disciplinary Search Info",
+        "alert_category": "DISCIPLINARY",
         "severity": "Medium",
         "metadata": {
           "due_diligence": {
@@ -684,40 +255,8 @@
             "finra_disciplinary": {
               "records_found": 15,
               "records_filtered": 15,
-              "names_found": [
-                "Matthew J. Chimento",
-                "Matthew T. Chen",
-                "John Matthew Underation",
-                "Matthew T. Higgins",
-                "Matthew Robert Wilkow",
-                "Taulant Matthew Kodi",
-                "Matthew Platnico",
-                "Matthew Joseph Mathesen",
-                "Matthew J. Mangini",
-                "Matthew A. Sinclair",
-                "Matthew Mierzycki",
-                "Portsmouth Financial ServicesMatthew Jason Childs",
-                "Matthew I. Turner",
-                "Matthew G. Barks",
-                "Todd Matthew Themistocles"
-              ],
-              "name_scores": {
-                "Matthew I. Turner": 45.0,
-                "Matthew T. Higgins": 45.0,
-                "Taulant Matthew Kodi": 5.0,
-                "Portsmouth Financial ServicesMatthew Jason Childs": 5.0,
-                "Todd Matthew Themistocles": 5.0,
-                "Matthew T. Chen": 45.0,
-                "Matthew Joseph Mathesen": 45.0,
-                "Matthew J. Chimento": 45.0,
-                "Matthew A. Sinclair": 45.0,
-                "Matthew Robert Wilkow": 45.0,
-                "Matthew Mierzycki": 44.44,
-                "Matthew Platnico": 44.44,
-                "Matthew J. Mangini": 45.0,
-                "Matthew G. Barks": 45.0,
-                "John Matthew Underation": 5.0
-              },
+              "names_found": [],
+              "name_scores": {},
               "exact_match_found": false,
               "status": "Records found but no matches for 'Matthew Vetto'"
             }
@@ -726,394 +265,31 @@
         "description": "Found 31 disciplinary records for Matthew Vetto, all filtered out due to name mismatch. Potential review needed."
       },
       {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
+        "alert_type": "Arbitration Search Info",
+        "alert_category": "ARBITRATION",
+        "severity": "Medium",
         "metadata": {
-          "arbitration": {
-            "case_id": "12-04077",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "02/10/2014",
-            "details": {
-              "award_document": "12-04077",
-              "pdf_url": "/sites/default/files/aao_documents/12-04077-Award-FINRA-20140210.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Advisors Financial Network",
-                "Claimant Representative(s):": "Matthew Fischer",
-                "Respondent(s):": "Matthew Burke",
-                "Neutral(s):": "Robert M. Stein",
-                "Hearing Site:": "Seattle, WA"
-              },
-              "forum": "FINRA"
+          "due_diligence": {
+            "searched_name": "Matthew Vetto",
+            "sec_arbitration": {
+              "records_found": 16,
+              "records_filtered": 16,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Matthew Vetto'"
+            },
+            "finra_arbitration": {
+              "records_found": 15,
+              "records_filtered": 15,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Matthew Vetto'"
             }
           }
         },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "18-04311",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/31/2019",
-            "details": {
-              "award_document": "18-04311",
-              "pdf_url": "/sites/default/files/aao_documents/18-04311.pdf",
-              "case_summary": {
-                "Claimant(s):": "Spartan Capital Securities, Llc",
-                "Claimant Representative(s):": "Matthew Fiorovanti",
-                "Respondent(s):": "Matthew Siliato",
-                "Neutral(s):": "Karimu F. Hill-Harvey",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01716",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "03/25/2019",
-            "details": {
-              "award_document": "17-01716",
-              "pdf_url": "/sites/default/files/aao_documents/17-01716.pdf",
-              "case_summary": {
-                "Claimant(s):": "Windsor Street Capital, LP",
-                "Claimant Representative(s):": "David A. Schrader",
-                "Respondent(s):": "Barry Jin, Brent Porges, Charles Giaimo, David Sheppard, Joseph Valenti, Matthew Deblois, Matthew Siliato, Maxwell Delaney, Michael LaVolpe, William Leonard",
-                "Neutral(s):": "Ann C. Northern, Sanford S. Stevens, Donald Nevin Gershuny",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01378",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/14/2017",
-            "details": {
-              "award_document": "17-01378",
-              "pdf_url": "/sites/default/files/aao_documents/17-01378.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Clearing Services, LLC",
-                "Claimant Representative(s):": "Robert Christie",
-                "Respondent(s):": "Matthew Bailey",
-                "Neutral(s):": "Jeff Abrams",
-                "Hearing Site:": "Dallas, TX"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06998",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/18/2013",
-            "details": {
-              "award_document": "09-06998",
-              "pdf_url": "/sites/default/files/aao_documents/09-06998-Award-FINRA-20130618.pdf",
-              "case_summary": {
-                "Claimant(s):": "Burton Langer",
-                "Claimant Representative(s):": "Ross B. Intelisano",
-                "Respondent(s):": "Charles Schwab & Co., Inc., Matthew Weitzman",
-                "Neutral(s):": "Mark Mendley, Michael S. Lazan, Michael Peter Yahr",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06998",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/18/2013",
-            "details": {
-              "award_document": "09-06998",
-              "pdf_url": "/sites/default/files/aao_documents/09-06998-Award-FINRA-20130620.pdf",
-              "case_summary": {
-                "Claimant(s):": "Burton Langer",
-                "Claimant Representative(s):": "Ross B. Intelisano",
-                "Respondent(s):": "Charles Schwab & Co., Inc., Matthew Weitzman",
-                "Neutral(s):": "Mark Mendley, Michael S. Lazan, Michael Peter Yahr",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "22-01684",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/22/2023",
-            "details": {
-              "award_document": "22-01684",
-              "pdf_url": "/sites/default/files/aao_documents/22-01684.pdf",
-              "case_summary": {
-                "Claimant(s):": "J.P. Morgan Securities, LLC",
-                "Claimant Representative(s):": "Leonard Weintraub",
-                "Respondent(s):": "Matthew Reynolds",
-                "Neutral(s):": "Alexis Anne Washa, Matthew D Arbit, Matthew Lane",
-                "Hearing Site:": "Chicago, IL"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "13-02746",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "07/10/2014",
-            "details": {
-              "award_document": "13-02746",
-              "pdf_url": "/sites/default/files/aao_documents/13-02746-Award-FINRA-20140710.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wachovia Securities Financial Network",
-                "Claimant Representative(s):": "Jill Y. Coen",
-                "Respondent(s):": "Matthew Staten",
-                "Neutral(s):": "W. Sean Kelleher",
-                "Hearing Site:": "Columbus, OH"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "16-01204",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "10/21/2016",
-            "details": {
-              "award_document": "16-01204",
-              "pdf_url": "/sites/default/files/aao_documents/16-01204.pdf",
-              "case_summary": {
-                "Claimant(s):": "Orthotek Inc.",
-                "Claimant Representative(s):": "Bradley D. Schnur",
-                "Respondent(s):": "Anthony Minerva, Matthew DiGregorio, J.D. Nicholas & Associates, Inc.",
-                "Neutral(s):": "Richard Djokic",
-                "Hearing Site:": "Des Moines, IA"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "13-01535",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/22/2013",
-            "details": {
-              "award_document": "13-01535",
-              "pdf_url": "/sites/default/files/aao_documents/13-01535-Award-FINRA-20131122.pdf",
-              "case_summary": {
-                "Claimant(s):": "Ameriprise Financial Services, Inc.",
-                "Claimant Representative(s):": "Edward Walton",
-                "Respondent(s):": "Matthew Staten",
-                "Neutral(s):": "Gregory P. Szuter",
-                "Hearing Site:": "Columbus, OH"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "12-02506",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "04/19/2013",
-            "details": {
-              "award_document": "12-02506",
-              "pdf_url": "/sites/default/files/aao_documents/12-02506-Award-FINRA-20130419.pdf",
-              "case_summary": {
-                "Claimant(s):": "Morgan Stanley & Co., LLC",
-                "Claimant Representative(s):": "Renan I. Sugarman",
-                "Respondent(s):": "Matthew Burcar",
-                "Neutral(s):": "Jeff Abrams",
-                "Hearing Site:": "Dallas, TX"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "17-01799",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "01/10/2018",
-            "details": {
-              "award_document": "17-01799",
-              "pdf_url": "/sites/default/files/aao_documents/17-01799.pdf",
-              "case_summary": {
-                "Claimant(s):": "Wells Fargo Clearing Services, LLC",
-                "Claimant Representative(s):": "Renan I Sugarman",
-                "Respondent(s):": "Matthew Paparazzo",
-                "Neutral(s):": "Eugene G. P. Byrne",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-06485",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "05/17/2011",
-            "details": {
-              "award_document": "09-06485",
-              "pdf_url": "/sites/default/files/aao_documents/09-06485-Award-FINRA-20110517.pdf",
-              "case_summary": {
-                "Claimant(s):": "Matthew Scoble",
-                "Claimant Representative(s):": "Matthew J. McDonald",
-                "Respondent(s):": "Blaylock & Partners, L.P.",
-                "Neutral(s):": "Romaine L. Gardner, Preston V. Pumphrey, Sheryl-Anne Sastow",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "09-05964",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "06/28/2010",
-            "details": {
-              "award_document": "09-05964",
-              "pdf_url": "/sites/default/files/aao_documents/09-05964-Award-FINRA-20100628.pdf",
-              "case_summary": {
-                "Claimant(s):": "Matthew Andrews",
-                "Claimant Representative(s):": "Matthew Bryan Andrews",
-                "Respondent(s):": "Mark Rizzieri",
-                "Neutral(s):": "Neil Harvey Smith",
-                "Hearing Site:": "Charlotte, NC"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
-      },
-      {
-        "alert_type": "Arbitration Alert",
-        "alert_category": null,
-        "severity": "High",
-        "metadata": {
-          "arbitration": {
-            "case_id": "07-01899",
-            "status": "closed",
-            "outcome": "Award against individual",
-            "date": "11/07/2007",
-            "details": {
-              "award_document": "07-01899",
-              "pdf_url": "/sites/default/files/aao_documents/07-01899-Award-FINRA-20071107.pdf",
-              "case_summary": {
-                "Claimant(s):": "The Estate of Alastair John Stair",
-                "Claimant Representative(s):": "Peter Alpi",
-                "Respondent(s):": "Matthew Ryan, PMG Securities Corporation",
-                "Neutral(s):": "David I. Goldblatt",
-                "Hearing Site:": "New York, NY"
-              },
-              "forum": "FINRA"
-            }
-          }
-        },
-        "description": "Arbitration issue found: Case Unknown for Matthew Vetto, status: closed, outcome: award against individual."
+        "description": "Found 31 arbitration records for Matthew Vetto, all filtered out due to name mismatch. Potential review needed."
       }
     ]
   }

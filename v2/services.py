@@ -1,3 +1,13 @@
+"""
+services.py
+
+This module provides the FinancialServicesFacade class, which consolidates access to
+external financial regulatory services (e.g., SEC IAPD, FINRA BrokerCheck, disciplinary,
+and arbitration data). It abstracts away the complexity of interacting with multiple
+underlying services and provides a unified interface for business logic to retrieve
+normalized individual, disciplinary, and arbitration data.
+"""
+
 import logging
 import os
 import json
@@ -117,7 +127,7 @@ class FinancialServicesFacade:
         basic_result = fetch_agent_finra_bc_search(employee_number, {"crd_number": crd_number})
         detailed_result = fetch_agent_finra_bc_detailed(employee_number, {"crd_number": crd_number}) if basic_result else None
         if basic_result:
-            logger.info(f"Successfully fetched FINRA BrokerCheck data for CRD: {crd_number}")
+            logger.info(f"Successfully fetched FINRA BrokerCheck data for {crd_number}")
             return self._normalize_individual_record("BrokerCheck", basic_result, detailed_result)
         logger.warning(f"No data found for {crd_number} in FINRA BrokerCheck search")
         return None
@@ -191,7 +201,7 @@ class FinancialServicesFacade:
         searched_name = f"{first_name} {last_name}"
         combined_review = {
             "primary_name": searched_name,
-            "disciplinary_actions": [],
+            "actions": [],
             "due_diligence": {
                 "searched_name": searched_name,
                 "sec_disciplinary": {
@@ -216,47 +226,39 @@ class FinancialServicesFacade:
         sec_result = self.search_sec_disciplinary(first_name, last_name, employee_number)
         if sec_result:
             logger.debug(f"SEC Disciplinary result received: {json.dumps(sec_result, indent=2)}")
-            sec_actions = sec_result.get("disciplinary_actions", [])
+            sec_actions = sec_result.get("actions", [])
             combined_review["due_diligence"]["sec_disciplinary"]["records_found"] = len(sec_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["sec_disciplinary"]["records_filtered"] = len(sec_result.get("raw_data", [{}])[0].get("result", [])) - len(sec_actions)
             combined_review["due_diligence"]["sec_disciplinary"]["name_scores"] = sec_result.get("name_scores", {})
+            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(sec_result.get("name_scores", {}).keys())
             if sec_actions:
-                combined_review["disciplinary_actions"].extend(sec_actions)
+                combined_review["actions"].extend(sec_actions)
                 combined_review["due_diligence"]["sec_disciplinary"]["exact_match_found"] = True
                 combined_review["due_diligence"]["sec_disciplinary"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["sec_disciplinary"]["status"] = (
                     f"Records found but no matches for '{searched_name}'" if sec_result.get("raw_data") else "No records found"
                 )
-            combined_review["due_diligence"]["sec_disciplinary"]["names_found"] = list(set(
-                action.get("Name", action.get("Firms/Individuals", "")) 
-                for action in sec_result.get("raw_data", [{}])[0].get("result", [])
-                if isinstance(action, dict)
-            ))
 
         finra_result = self.search_finra_disciplinary(first_name, last_name, employee_number)
         if finra_result:
             logger.debug(f"FINRA Disciplinary result received: {json.dumps(finra_result, indent=2)}")
-            finra_actions = finra_result.get("disciplinary_actions", [])
+            finra_actions = finra_result.get("actions", [])
             combined_review["due_diligence"]["finra_disciplinary"]["records_found"] = len(finra_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["finra_disciplinary"]["records_filtered"] = len(finra_result.get("raw_data", [{}])[0].get("result", [])) - len(finra_actions)
             combined_review["due_diligence"]["finra_disciplinary"]["name_scores"] = finra_result.get("name_scores", {})
+            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(finra_result.get("name_scores", {}).keys())
             if finra_actions:
-                combined_review["disciplinary_actions"].extend(finra_actions)
+                combined_review["actions"].extend(finra_actions)
                 combined_review["due_diligence"]["finra_disciplinary"]["exact_match_found"] = True
                 combined_review["due_diligence"]["finra_disciplinary"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["finra_disciplinary"]["status"] = (
                     f"Records found but no matches for '{searched_name}'" if finra_result.get("raw_data") else "No records found"
                 )
-            combined_review["due_diligence"]["finra_disciplinary"]["names_found"] = list(set(
-                action.get("Firms/Individuals", "") 
-                for action in finra_result.get("raw_data", [{}])[0].get("result", [])
-                if isinstance(action, dict)
-            ))
 
-        if combined_review["disciplinary_actions"]:
-            logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['disciplinary_actions'])} matching actions")
+        if combined_review["actions"]:
+            logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
         else:
             logger.info(f"No matching disciplinary actions found for {first_name} {last_name} across SEC and FINRA; due diligence: SEC found {combined_review['due_diligence']['sec_disciplinary']['records_found']}, FINRA found {combined_review['due_diligence']['finra_disciplinary']['records_found']}")
 
@@ -267,7 +269,7 @@ class FinancialServicesFacade:
         searched_name = f"{first_name} {last_name}"
         combined_review = {
             "primary_name": searched_name,
-            "arbitration_actions": [],
+            "actions": [],
             "due_diligence": {
                 "searched_name": searched_name,
                 "sec_arbitration": {
@@ -292,47 +294,39 @@ class FinancialServicesFacade:
         sec_result = self.search_sec_arbitration(first_name, last_name, employee_number)
         if sec_result:
             logger.debug(f"SEC Arbitration result received: {json.dumps(sec_result, indent=2)}")
-            sec_actions = sec_result.get("arbitration_actions", [])
+            sec_actions = sec_result.get("actions", [])
             combined_review["due_diligence"]["sec_arbitration"]["records_found"] = len(sec_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["sec_arbitration"]["records_filtered"] = len(sec_result.get("raw_data", [{}])[0].get("result", [])) - len(sec_actions)
             combined_review["due_diligence"]["sec_arbitration"]["name_scores"] = sec_result.get("name_scores", {})
+            combined_review["due_diligence"]["sec_arbitration"]["names_found"] = list(sec_result.get("name_scores", {}).keys())
             if sec_actions:
-                combined_review["arbitration_actions"].extend(sec_actions)
+                combined_review["actions"].extend(sec_actions)
                 combined_review["due_diligence"]["sec_arbitration"]["exact_match_found"] = True
                 combined_review["due_diligence"]["sec_arbitration"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["sec_arbitration"]["status"] = (
                     f"Records found but no matches for '{searched_name}'" if sec_result.get("raw_data") else "No records found"
                 )
-            combined_review["due_diligence"]["sec_arbitration"]["names_found"] = list(set(
-                action.get("details", {}).get("enforcement_action", "Unknown") 
-                for action in sec_result.get("raw_data", [{}])[0].get("result", [])
-                if isinstance(action, dict)
-            ))
 
         finra_result = self.search_finra_arbitration(first_name, last_name, employee_number)
         if finra_result:
             logger.debug(f"FINRA Arbitration result received: {json.dumps(finra_result, indent=2)}")
-            finra_actions = finra_result.get("arbitration_actions", [])
+            finra_actions = finra_result.get("actions", [])
             combined_review["due_diligence"]["finra_arbitration"]["records_found"] = len(finra_result.get("raw_data", [{}])[0].get("result", []))
             combined_review["due_diligence"]["finra_arbitration"]["records_filtered"] = len(finra_result.get("raw_data", [{}])[0].get("result", [])) - len(finra_actions)
             combined_review["due_diligence"]["finra_arbitration"]["name_scores"] = finra_result.get("name_scores", {})
+            combined_review["due_diligence"]["finra_arbitration"]["names_found"] = list(finra_result.get("name_scores", {}).keys())
             if finra_actions:
-                combined_review["arbitration_actions"].extend(finra_actions)
+                combined_review["actions"].extend(finra_actions)
                 combined_review["due_diligence"]["finra_arbitration"]["exact_match_found"] = True
                 combined_review["due_diligence"]["finra_arbitration"]["status"] = "Exact matches found"
             else:
                 combined_review["due_diligence"]["finra_arbitration"]["status"] = (
                     f"Records found but no matches for '{searched_name}'" if finra_result.get("raw_data") else "No records found"
                 )
-            combined_review["due_diligence"]["finra_arbitration"]["names_found"] = list(set(
-                action.get("details", {}).get("case_summary", {}).get("Respondent", "Unknown") 
-                for action in finra_result.get("raw_data", [{}])[0].get("result", [])
-                if isinstance(action, dict)
-            ))
 
-        if combined_review["arbitration_actions"]:
-            logger.info(f"Combined arbitration review completed for {combined_review['primary_name']} with {len(combined_review['arbitration_actions'])} matching actions")
+        if combined_review["actions"]:
+            logger.info(f"Combined arbitration review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
         else:
             logger.info(f"No matching arbitration actions found for {first_name} {last_name} across SEC and FINRA; due diligence: SEC found {combined_review['due_diligence']['sec_arbitration']['records_found']}, FINRA found {combined_review['due_diligence']['finra_arbitration']['records_found']}")
 

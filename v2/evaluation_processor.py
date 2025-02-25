@@ -2,8 +2,7 @@
 evaluation_processor.py
 
 This module provides a cohesive set of functions for evaluating an individual's
-financial regulatory compliance. It is a rewritten version of the legacy evaluation
-library and is designed to integrate with a Builder/Director pattern.
+financial regulatory compliance. It is designed to integrate with a Builder/Director pattern.
 
 The module includes functions for:
   - Parsing and comparing names
@@ -30,9 +29,7 @@ import jellyfish
 
 logger = logging.getLogger(__name__)
 
-# ----------------------------------------
 # Alert and Severity Definitions
-# ----------------------------------------
 class AlertSeverity(Enum):
     LOW = "Low"
     MEDIUM = "Medium"
@@ -56,9 +53,7 @@ class Alert:
             "description": self.description
         }
 
-# ----------------------------------------
-# Constants and Helpers for Name/Exam Evaluation
-# ----------------------------------------
+# Constants and Helpers
 VALID_EXAM_PATTERNS = [
     'Series 86/87', 'Series 9/10', 'Series 7TO', 'Series 99', 'Series 57',
     'Series 66', 'Series 65', 'Series 63', 'Series 82', 'Series 52', 'Series 53',
@@ -77,14 +72,7 @@ for formal_name, nicknames in nickname_dict.items():
     for nickname in nicknames:
         reverse_nickname_dict.setdefault(nickname, set()).add(formal_name)
 
-# ----------------------------------------
-# Name Parsing and Matching Functions
-# ----------------------------------------
 def parse_name(name_input: Any) -> Dict[str, Optional[str]]:
-    """
-    Convert a name input (string or dict) into a standardized dict with keys:
-    'first', 'middle', 'last'.
-    """
     if isinstance(name_input, dict):
         return {
             "first": name_input.get("first"),
@@ -104,9 +92,6 @@ def parse_name(name_input: Any) -> Dict[str, Optional[str]]:
     return {"first": None, "middle": None, "last": None}
 
 def get_passed_exams(exams: List[Dict[str, Any]]) -> Set[str]:
-    """
-    From a list of exam records, return a set of exam patterns that were passed.
-    """
     passed_exams = set()
     for exam in exams:
         exam_category = exam.get('examCategory', '')
@@ -117,9 +102,6 @@ def get_passed_exams(exams: List[Dict[str, Any]]) -> Set[str]:
     return passed_exams
 
 def get_name_variants(name: str) -> Set[str]:
-    """
-    Return a set of possible name variants, including nicknames.
-    """
     variants = {name.lower()}
     if name.lower() in nickname_dict:
         variants.update({n.lower() for n in nickname_dict[name.lower()]})
@@ -128,18 +110,11 @@ def get_name_variants(name: str) -> Set[str]:
     return variants
 
 def are_nicknames(name1: str, name2: str) -> bool:
-    """
-    Check if two names are nicknames of each other.
-    """
     variants1 = get_name_variants(name1)
     variants2 = get_name_variants(name2)
     return not variants1.isdisjoint(variants2)
 
 def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name_type: str) -> float:
-    """
-    Compare a single name part (first, middle, or last) and return a similarity score between 0 and 1.
-    Uses exact match, nickname checks, or string distance measures.
-    """
     if not claim_part and not fetched_part:
         return 1.0
     if not claim_part or not fetched_part:
@@ -175,12 +150,7 @@ def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name
             code1 = code2 = ""
         return 0.8 if code1 == code2 and code1 != "" else 0.0
 
-def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
-                  score_threshold: float = 80.0) -> Tuple[Dict[str, Any], Optional[Alert]]:
-    """
-    Evaluate name compliance by comparing the expected name to the fetched name and alternatives.
-    Returns evaluation details and an optional Alert if compliance is below threshold.
-    """
+def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any], score_threshold: float = 80.0) -> Tuple[Dict[str, Any], Optional[Alert]]:
     claim_name = parse_name(expected_name)
 
     def score_single_name(claim: Dict[str, Any], fetched: Any) -> Dict[str, Any]:
@@ -233,32 +203,19 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
 
     return evaluation_details, alert
 
-# ----------------------------------------
-# License Evaluation Functions
-# ----------------------------------------
 def interpret_license_type(license_type: str) -> Tuple[bool, bool]:
-    """
-    Interpret CSV license type string into booleans for Broker and Investment Advisor.
-    """
     license_type = license_type.upper() if license_type else ""
     is_broker = 'B' in license_type
     is_ia = 'IA' in license_type
     return is_broker, is_ia
 
 def compare_license_types(csv_license: str, bc_scope: str, ia_scope: str) -> bool:
-    """
-    Compare CSV license types to the API scopes.
-    """
     csv_broker, csv_ia = interpret_license_type(csv_license)
     api_broker = bc_scope.lower() == 'active'
     api_ia = ia_scope.lower() == 'active'
     return (csv_broker == api_broker) and (csv_ia == api_ia)
 
 def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) -> Tuple[bool, Optional[Alert]]:
-    """
-    Evaluate license compliance. If CSV license is missing and both API scopes are inactive,
-    trigger an alert.
-    """
     api_broker_active = bc_scope.lower() == 'active'
     api_ia_active = ia_scope.lower() == 'active'
     if not csv_license:
@@ -283,21 +240,12 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
             return False, alert
         return True, None
 
-# ----------------------------------------
-# Exam Evaluation Functions
-# ----------------------------------------
 def check_exam_requirements(passed_exams: Set[str]) -> Dict[str, bool]:
-    """
-    Check whether the passed exams meet the requirements for Investment Advisor and Broker roles.
-    """
     ia_requirement = ('Series 65' in passed_exams) or ('Series 66' in passed_exams)
     broker_requirement = ('Series 7' in passed_exams) and (('Series 63' in passed_exams) or ('Series 66' in passed_exams))
     return {"Investment Advisor": ia_requirement, "Broker": broker_requirement}
 
 def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tuple[bool, Optional[Alert]]:
-    """
-    Evaluate exam compliance. If the required exams are not passed, return an alert.
-    """
     requirements = check_exam_requirements(passed_exams)
     csv_broker, csv_ia = interpret_license_type(license_type)
     exam_compliant = True
@@ -318,14 +266,7 @@ def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tupl
         return False, alert
     return True, None
 
-# ----------------------------------------
-# Registration Status Evaluation
-# ----------------------------------------
 def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool, List[Alert]]:
-    """
-    Evaluate registration status using available fields from individual_info.
-    Checks the Broker and Investment Advisor scopes.
-    """
     alerts = []
     status_compliant = True
 
@@ -365,13 +306,7 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
 
     return status_compliant, alerts
 
-# ----------------------------------------
-# Disclosure Evaluation Functions
-# ----------------------------------------
 def generate_regulatory_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """
-    Generate a description for a regulatory disclosure alert.
-    """
     initiated_by = details.get('Initiated By', 'Unknown')
     allegations = details.get('Allegations', 'Not specified')
     sanctions_list = details.get('SanctionDetails', [])
@@ -380,9 +315,6 @@ def generate_regulatory_alert_description(event_date: str, resolution: str, deta
             f"Resolution: {resolution}. Allegations: {allegations}. Sanctions: {sanctions}")
 
 def generate_customer_dispute_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """
-    Generate a description for a customer dispute alert.
-    """
     allegations = details.get('Allegations', 'Not specified')
     damage_requested = details.get('Damage Amount Requested', 'Not specified')
     settlement_amount = details.get('Settlement Amount', 'Not specified')
@@ -390,9 +322,6 @@ def generate_customer_dispute_alert_description(event_date: str, resolution: str
             f"Damage requested: {damage_requested}. Settlement: {settlement_amount}")
 
 def generate_criminal_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """
-    Generate a description for a criminal disclosure alert.
-    """
     charges_list = details.get('criminalCharges', [])
     charges = ', '.join([charge.get('Charges', '') for charge in charges_list])
     disposition = ', '.join([charge.get('Disposition', '') for charge in charges_list])
@@ -400,24 +329,18 @@ def generate_criminal_alert_description(event_date: str, resolution: str, detail
             f"Disposition: {disposition}")
 
 def generate_civil_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
-    """
-    Generate a description for a civil disclosure alert.
-    """
     allegations = details.get('Allegations', 'Not specified')
     disposition = details.get('Disposition', 'Not specified')
     return (f"Civil disclosure on {event_date}. Resolution: {resolution}. Allegations: {allegations}. "
             f"Disposition: {disposition}")
 
 def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
-    """
-    Generate an Alert for a given disclosure, if applicable.
-    """
     disclosure_type = disclosure.get('disclosureType', 'Unknown')
     event_date = disclosure.get('eventDate', 'Unknown')
     resolution = disclosure.get('disclosureResolution', 'Unknown')
     details = disclosure.get('disclosureDetail', {})
     description = ""
-    severity = AlertSeverity.HIGH  # Default severity
+    severity = AlertSeverity.HIGH
 
     if disclosure_type == 'Regulatory':
         description = generate_regulatory_alert_description(event_date, resolution, details)
@@ -444,10 +367,6 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
     return None
 
 def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[bool, Optional[str], List[Alert]]:
-    """
-    Evaluate the disclosure records. If any disclosures are present, compliance is False.
-    Returns (compliance, summary, [Alert objects]).
-    """
     alerts = []
     disclosure_counts = {}
     for disclosure in disclosures:
@@ -455,6 +374,7 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         disclosure_counts[dtype] = disclosure_counts.get(dtype, 0) + 1
         alert = generate_disclosure_alert(disclosure)
         if alert:
+            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
     if disclosure_counts:
         summary_parts = [
@@ -467,126 +387,110 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         summary = f"No disclosures found for {name}."
         return True, summary, alerts
 
-# ----------------------------------------
-# Arbitration Evaluation
-# ----------------------------------------
-def evaluate_arbitration(arbitrations: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
-    """
-    Evaluate arbitration records and due diligence. Returns (compliance, explanation, alerts).
-    Considers due diligence details (e.g., filtered records) in compliance assessment.
-    """
+def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
     alerts = []
     
-    # Evaluate records
-    if arbitrations:
-        for arb in arbitrations:
-            status = arb.get('status', '').lower()
-            outcome = arb.get('outcome', '').lower()
-            case_number = arb.get('case_number') or arb.get('Case ID') or 'Unknown'
-            if status == 'pending' or outcome in ['award against individual', 'adverse finding']:
-                alerts.append(Alert(
+    if actions:
+        for arb in actions:
+            case_id = arb.get('case_id', 'Unknown')
+            status = arb.get('details', {}).get('status', arb.get('status', 'Unknown')).lower()
+            outcome = arb.get('details', {}).get('action_type', arb.get('outcome', 'Unknown')).lower()
+            if status == 'pending' or 'award' in outcome or 'adverse' in outcome:
+                alert = Alert(
                     alert_type="Arbitration Alert",
                     severity=AlertSeverity.HIGH,
                     metadata={"arbitration": arb},
-                    description=f"Arbitration issue found: Case {case_number} for {name}, status: {status}, outcome: {outcome}."
-                ))
+                    description=f"Arbitration issue found: Case {case_id} for {name}, status: {status}, outcome: {outcome}."
+                )
+                alert.alert_category = determine_alert_category(alert.alert_type)
+                alerts.append(alert)
         if alerts:
             explanation = f"Arbitration issues found for {name}."
             return False, explanation, alerts
 
-    # Evaluate due diligence if provided
     if due_diligence:
         sec_dd = due_diligence.get("sec_arbitration", {})
         finra_dd = due_diligence.get("finra_arbitration", {})
         total_records = sec_dd.get("records_found", 0) + finra_dd.get("records_found", 0)
         total_filtered = sec_dd.get("records_filtered", 0) + finra_dd.get("records_filtered", 0)
         
-        # Threshold: if >10 records found and all filtered, flag as a potential concern
         if total_records > 10 and total_filtered == total_records:
-            alerts.append(Alert(
-                alert_type="Arbitration Search Alert",
+            alert = Alert(
+                alert_type="Arbitration Search Info",
                 severity=AlertSeverity.MEDIUM,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} arbitration records for {name}, all filtered out due to name mismatch. Potential review needed."
-            ))
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
             explanation = f"No matching arbitration records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
         elif total_records > 0:
-            alerts.append(Alert(
+            alert = Alert(
                 alert_type="Arbitration Search Info",
                 severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} arbitration records for {name}, {total_filtered} filtered out."
-            ))
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
             explanation = f"No matching arbitration records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
             return True, explanation, alerts
 
     explanation = f"No arbitration records found for {name}."
     return True, explanation, alerts
 
-# ----------------------------------------
-# Disciplinary Evaluation
-# ----------------------------------------
-def evaluate_disciplinary(disciplinary_records: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
-    """
-    Evaluate disciplinary records and due diligence. Returns (compliance, explanation, alerts).
-    Considers due diligence details (e.g., filtered records) in compliance assessment.
-    """
+def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
     alerts = []
     
-    # Evaluate records
-    if disciplinary_records:
-        for record in disciplinary_records:
-            results = record.get('result', []) or record.get('results', [])
-            if results:
-                case_id = results[0].get('Case ID', 'Unknown')
-                alerts.append(Alert(
-                    alert_type="Disciplinary Alert",
-                    severity=AlertSeverity.HIGH,
-                    metadata={"record": record},
-                    description=f"Disciplinary record found: Case ID {case_id} for {name}."
-                ))
+    if actions:
+        for record in actions:
+            case_id = record.get('case_id', 'Unknown')
+            alert = Alert(
+                alert_type="Disciplinary Alert",
+                severity=AlertSeverity.HIGH,
+                metadata={"record": record},
+                description=f"Disciplinary record found: Case ID {case_id} for {name}."
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
         if alerts:
             explanation = f"Disciplinary records found for {name}."
             return False, explanation, alerts
 
-    # Evaluate due diligence if provided
     if due_diligence:
         sec_dd = due_diligence.get("sec_disciplinary", {})
         finra_dd = due_diligence.get("finra_disciplinary", {})
         total_records = sec_dd.get("records_found", 0) + finra_dd.get("records_found", 0)
         total_filtered = sec_dd.get("records_filtered", 0) + finra_dd.get("records_filtered", 0)
         
-        # Threshold: if >10 records found and all filtered, flag as a potential concern
         if total_records > 10 and total_filtered == total_records:
-            alerts.append(Alert(
-                alert_type="Disciplinary Search Alert",
+            alert = Alert(
+                alert_type="Disciplinary Search Info",
                 severity=AlertSeverity.MEDIUM,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} disciplinary records for {name}, all filtered out due to name mismatch. Potential review needed."
-            ))
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
             explanation = f"No matching disciplinary records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
         elif total_records > 0:
-            alerts.append(Alert(
+            alert = Alert(
                 alert_type="Disciplinary Search Info",
                 severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} disciplinary records for {name}, {total_filtered} filtered out."
-            ))
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
             explanation = f"No matching disciplinary records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
             return True, explanation, alerts
 
     explanation = f"No disciplinary records found for {name}."
     return True, explanation, alerts
 
-# ----------------------------------------
-# Alert Category Mapping
-# ----------------------------------------
 def determine_alert_category(alert_type: str) -> str:
-    """
-    Map a given alert_type to a standardized alert_category.
-    """
     alert_type_lower = alert_type.lower()
     if 'exam' in alert_type_lower:
         return "EXAM"

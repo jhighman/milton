@@ -24,6 +24,17 @@ class NormalizationError(Exception):
     pass
 
 def create_individual_record(data_source: str, basic_info: Optional[Dict[str, Any]], detailed_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """
+    Normalize individual data from sources like SEC IAPD or FINRA BrokerCheck into a common structure.
+
+    Args:
+        data_source (str): Source identifier (e.g., "IAPD", "BrokerCheck").
+        basic_info (Optional[Dict[str, Any]]): Basic individual data from the source.
+        detailed_info (Optional[Dict[str, Any]]): Detailed individual data, if available.
+
+    Returns:
+        Dict[str, Any]: Normalized individual record.
+    """
     logger.debug(f"Normalizing individual record from {data_source}")
     record = {
         "crd_number": None,
@@ -71,19 +82,8 @@ def create_individual_record(data_source: str, basic_info: Optional[Dict[str, An
     return record
 
 def create_disciplinary_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
-    """
-    Normalize disciplinary data from sources like SEC or FINRA into a common structure.
-
-    Args:
-        data_source (str): Source identifier (e.g., "SEC_Disciplinary", "FINRA_Disciplinary").
-        data (Any): Raw data from the source, can be a dict or list.
-        searched_name (str): Name searched for filtering.
-
-    Returns:
-        Dict[str, Any]: Normalized disciplinary data with actions and due diligence details.
-    """
     result = {
-        "disciplinary_actions": [],
+        "actions": [],
         "raw_data": [data] if not isinstance(data, list) else data,
         "name_scores": {}
     }
@@ -93,7 +93,6 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
         logger.warning(f"Error in {data_source} data: {data['error']}")
         return result
 
-    # Handle both dict with "result" and direct list inputs
     raw_results = data.get("result", []) if isinstance(data, dict) else data
     if raw_results == "No Results Found" or not raw_results:
         logger.info(f"No results found in {data_source} for {searched_name}")
@@ -110,6 +109,7 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
             continue
 
         normalized_record = {}
+        respondent_name = None
         if data_source == "FINRA_Disciplinary":
             normalized_record["case_id"] = record.get("Case ID", "Unknown")
             normalized_record["date"] = record.get("Action Date", "Unknown")
@@ -118,28 +118,32 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
                 "firms_individuals": record.get("Firms/Individuals", ""),
                 "description": record.get("Description", "")
             }
-            respondent_name = record.get("Firms/Individuals", searched_name)
-
+            respondent_name = record.get("Firms/Individuals", "")
         elif data_source == "SEC_Disciplinary":
             normalized_record["case_id"] = record.get("Case ID", "Unknown")
             normalized_record["date"] = record.get("Action Date", "Unknown")
             normalized_record["details"] = {
-                "name": record.get("Name", ""),
+                "action_type": "Disciplinary",
+                "firms_individuals": record.get("Name", ""),
                 "description": record.get("Description", "")
             }
-            respondent_name = record.get("Name", searched_name)
+            respondent_name = record.get("Name", "")
 
-        name_eval, _ = evaluate_name(searched_name, respondent_name, [])
-        score = name_eval["best_match"]["score"]
-        result["name_scores"][respondent_name] = score
-        if score >= 80.0:  # Consistent threshold
-            result["disciplinary_actions"].append(normalized_record)
+        if respondent_name:  # Only process if respondent_name exists
+            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
+            score = name_eval["best_match"]["score"]
+            result["name_scores"][respondent_name] = score
+            if score >= 80.0:
+                result["actions"].append(normalized_record)
+                logger.debug(f"Matched disciplinary record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+        else:
+            logger.debug(f"Skipped disciplinary record {normalized_record['case_id']} - no respondent name")
 
     return result
 
 def create_arbitration_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
     result = {
-        "arbitration_actions": [],
+        "actions": [],
         "raw_data": [data] if not isinstance(data, list) else data,
         "name_scores": {}
     }
@@ -149,7 +153,6 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
         logger.warning(f"Error in {data_source} data: {data['error']}")
         return result
 
-    # Handle dict with "result" (FINRA/SEC) or direct list (cached SEC)
     if isinstance(data, dict):
         raw_results = data.get("result", [])
     elif isinstance(data, list):
@@ -169,37 +172,54 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
 
     searched_name_dict = parse_name(searched_name)
     for record in raw_results:
+        if not isinstance(record, dict):
+            logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            continue
+
         normalized_record = {}
-        respondent_name = None
+        respondent_names = []
 
         if data_source == "FINRA_Arbitration":
             normalized_record["case_id"] = record.get("Case Summary", {}).get("Case Number", record.get("Award Document", "Unknown"))
-            normalized_record["status"] = "closed"
-            normalized_record["outcome"] = "Award against individual" if "Award" in record.get("Document Type", "") else "Unknown"
             normalized_record["date"] = record.get("Date of Award", "Unknown")
             normalized_record["details"] = {
+                "action_type": "Award" if "Award" in record.get("Document Type", "") else "Unknown",
+                "firms_individuals": record.get("Case Summary", {}).get("Respondent(s):", ""),
+                "description": f"Case {normalized_record['case_id']} closed with outcome: {'Award against individual' if 'Award' in record.get('Document Type', '') else 'Unknown'}",
                 "award_document": record.get("Award Document"),
                 "pdf_url": record.get("PDF URL"),
                 "case_summary": record.get("Case Summary", {}),
                 "forum": record.get("Forum")
             }
-            respondent_name = record.get("Case Summary", {}).get("Respondent", searched_name)
+            respondents_str = record.get("Case Summary", {}).get("Respondent(s):", "")
+            if respondents_str:
+                respondent_names = [name.strip() for name in respondents_str.split(",") if name.strip()]
+            else:
+                logger.debug(f"No respondents found in {normalized_record['case_id']}, skipping match")
+                continue
         elif data_source == "SEC_Arbitration":
             normalized_record["case_id"] = record.get("Enforcement Action", "Unknown")
-            normalized_record["status"] = "closed"
-            normalized_record["outcome"] = "Award against individual"
             normalized_record["date"] = record.get("Date Filed", "Unknown")
             normalized_record["details"] = {
+                "action_type": "Award against individual",
+                "firms_individuals": searched_name,
+                "description": f"Case {normalized_record['case_id']} closed with outcome: Award against individual",
                 "enforcement_action": record.get("Enforcement Action"),
                 "documents": record.get("Documents", [])
             }
-            respondent_name = searched_name  # SEC doesn't list respondents explicitly
+            respondent_names = []
 
-        if respondent_name:
+        # Score all respondent names, even if no match
+        for respondent_name in respondent_names:
             name_eval, _ = evaluate_name(searched_name, respondent_name, [])
             score = name_eval["best_match"]["score"]
             result["name_scores"][respondent_name] = score
             if score >= 80.0:
-                result["arbitration_actions"].append(normalized_record)
+                normalized_record["matched_name"] = respondent_name
+                result["actions"].append(normalized_record)
+                logger.debug(f"Matched arbitration record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+                break
+        if respondent_names and not any(a["case_id"] == normalized_record["case_id"] for a in result["actions"]):
+            logger.debug(f"Filtered arbitration record {normalized_record['case_id']} - no respondent matched {searched_name} (best score: {max([result['name_scores'].get(r, 0) for r in respondent_names], default=0)})")
 
     return result

@@ -5,3 +5,38 @@
 [2025-02-25 15:49:49] FINRA_Disciplinary_Agent/search_individual - Fetched (fetch duration: 16.69s)
 [2025-02-25 15:49:51] SEC_Arbitration_Agent/search_individual - Fetched (fetch duration: 1.54s)
 [2025-02-25 15:50:26] FINRA_Arbitration_Agent/search_individual - Fetched (fetch duration: 35.23s)
+[2025-02-25 16:11:24] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-25 16:11:24] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-25 16:11:24] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-25 16:11:24] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:11:24] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:11:24] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-25 16:11:24] FINRA_Arbitration_Agent/search_individual - Cached
+[2025-02-25 16:22:26] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-25 16:22:26] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-25 16:22:26] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-25 16:22:26] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:22:26] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:22:26] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-25 16:22:26] FINRA_Arbitration_Agent/search_individual - Cached
+[2025-02-25 16:59:54] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-25 16:59:54] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-25 16:59:54] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-25 16:59:54] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:59:54] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 16:59:54] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-25 16:59:54] FINRA_Arbitration_Agent/search_individual - Cached
+[2025-02-25 17:12:56] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-25 17:12:56] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-25 17:12:56] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-25 17:12:56] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 17:12:56] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 17:12:56] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-25 17:12:56] FINRA_Arbitration_Agent/search_individual - Cached
+[2025-02-25 17:23:37] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-25 17:23:37] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-25 17:23:37] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-25 17:23:37] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 17:23:37] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-25 17:23:37] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-25 17:23:37] FINRA_Arbitration_Agent/search_individual - Cached
