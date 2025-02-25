@@ -15,7 +15,7 @@ Functions:
 
 import re
 import logging
-from typing import Dict, Any, Optional, Set, Tuple
+from typing import Dict, Any, Optional, Set, Tuple, List  # Added List import
 import jellyfish
 
 logger = logging.getLogger(__name__)
