@@ -1,2 +1,0 @@
-[2025-02-24 11:44:02] SEC_Disciplinary_Agent/search_individual - Fetched (fetch duration: 3.20s)
-[2025-02-24 11:45:34] SEC_Disciplinary_Agent/search_individual - Cached
