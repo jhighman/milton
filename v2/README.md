@@ -3,16 +3,37 @@
 
 ## Installation
 
-To install the package in development mode:
+To set up the project, simply run:
 
 ```bash
-pip install -e .
+python setup_project.py
 ```
 
 This will:
-1. Create necessary directories (drop, output, archive, cache, index)
-2. Generate a default config.json file
-3. Install all required dependencies
+1. Install the package in development mode
+2. Create necessary directories (drop, output, archive, cache, index)
+3. Generate a default config.json file
+4. Install all required dependencies
+5. Run initial setup verification
+
+Note: During development, some unit tests may fail - this is expected and won't prevent you from setting up the project for development.
+
+### Running Tests
+
+To run the tests separately:
+
+```bash
+# Run all tests
+pytest tests/
+
+# Run tests with progress visualization
+pytest tests/ --sugar -v
+
+# Run specific test file
+pytest tests/test_specific_file.py
+```
+
+The setup script will guide you through the process and show progress for each step.
 
 ## Project Structure
 
