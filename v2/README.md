@@ -16,6 +16,68 @@ This will:
 4. Install all required dependencies
 5. Run initial setup verification
 
+After the basic setup, you'll be presented with an interactive verification menu that allows you to:
+- Verify specific components individually
+- Run different types of tests
+- Check API connectivity
+- Generate test coverage reports
+
+### Interactive Verification Menu
+
+The menu provides the following options:
+
+Verification Options:
+1. Verify Directory Structure
+2. Verify Configuration
+3. Test API Access
+
+Test Options:
+4. Run Unit Tests
+5. Run Integration Tests
+6. Run All Tests
+7. Run Tests with Coverage
+8. Run Specific Test File
+
+You can access this menu anytime by running:
+```bash
+python setup_project.py
+```
+And selecting 'y' when asked about additional verifications.
+
+### Test Levels
+
+The project supports three levels of testing:
+
+1. Unit Tests (Level 1)
+   - Fast, isolated tests
+   - No external dependencies
+   - Run with: `python run_tests.py 1`
+
+2. Integration Tests (Level 2)
+   - Tests with external dependencies
+   - API integrations
+   - Run with: `python run_tests.py 2`
+
+3. All Tests (Level 3)
+   - Runs both unit and integration tests
+   - Complete test coverage
+   - Run with: `python run_tests.py 3`
+
+You can also run tests directly using pytest:
+```bash
+# Run unit tests only
+pytest tests/ -v -m "not integration"
+
+# Run integration tests only
+pytest tests/ -v -m "integration"
+
+# Run all tests
+pytest tests/ -v
+
+# Run with coverage
+pytest tests/ --cov=agents --cov-report=term-missing -v
+```
+
 Note: During development, some unit tests may fail - this is expected and won't prevent you from setting up the project for development.
 
 ### Running Tests
@@ -34,6 +96,34 @@ pytest tests/test_specific_file.py
 ```
 
 The setup script will guide you through the process and show progress for each step.
+
+### Test Reports
+
+After running tests, HTML reports are automatically generated in the `reports` directory:
+
+- Test Reports: `reports/test_report_*.html`
+  - Includes test results, durations, and failure details
+  - Generated for all test runs
+  - Timestamp-based naming for historical tracking
+
+- Coverage Reports: `reports/coverage/index.html`
+  - Detailed code coverage information
+  - Line-by-line coverage analysis
+  - Generated when running tests with coverage
+
+Example report paths:
+```bash
+# Unit test report
+reports/test_report_unit_20240225_123456.html
+
+# Integration test report
+reports/test_report_integration_20240225_123456.html
+
+# Coverage report
+reports/coverage/index.html
+```
+
+The reports are self-contained HTML files that can be opened in any web browser.
 
 ## Project Structure
 

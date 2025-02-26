@@ -38,7 +38,9 @@ setup(
         "pytest>=6.0.0",
         "pytest-mock>=3.6.0",
         "pytest-sugar>=0.9.7",
-        "pytest-instafail>=0.5.0"
+        "pytest-instafail>=0.5.0",
+        "pytest-html>=3.1.1",  # For HTML test reports
+        "pytest-cov>=2.12.0"   # For coverage reports
     ],
     python_requires=">=3.8",
 )

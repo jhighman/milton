@@ -3,6 +3,7 @@ import sys
 import json
 import logging
 import subprocess
+import argparse
 from pathlib import Path
 
 # Add parent directory to path if not already there
@@ -82,21 +83,24 @@ def verify_api_access():
         logger.error(f"API test failed: {str(e)}")
         return False
 
-def verify_unit_tests():
+def verify_unit_tests(with_coverage=False, test_file=None):
     """Verify unit tests can run and pass"""
     logger.info("Verifying unit tests...")
     
     try:
-        # Run all unit tests in the tests directory with progress visualization
-        result = subprocess.run([
-            "pytest",
-            "tests",
-            "-v",
-            "--ignore=tests/steps",  # Ignore BDD tests
-            "--sugar",  # Add nice progress bar and colors
-            "--instafail",  # Show failures instantly
-            "-p", "no:warnings"  # Suppress warnings for cleaner output
-        ], capture_output=True, text=True)
+        # Build pytest command
+        cmd = ["pytest", "-v", "--sugar", "--instafail", "-p", "no:warnings"]
+        
+        if with_coverage:
+            cmd.extend(["--cov=agents", "--cov-report=term-missing"])
+        
+        if test_file:
+            cmd.append(f"tests/{test_file}")
+        else:
+            cmd.extend(["tests", "--ignore=tests/steps"])
+        
+        # Run the tests
+        result = subprocess.run(cmd, capture_output=True, text=True)
         
         if result.returncode == 0:
             logger.info("Unit tests passed successfully")
@@ -110,15 +114,46 @@ def verify_unit_tests():
         logger.error(f"Error running unit tests: {str(e)}")
         return False
 
+def parse_args():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(description="Verify Milton V2 setup")
+    parser.add_argument("--quick", action="store_true", help="Run quick verification (dirs and config only)")
+    parser.add_argument("--directories-only", action="store_true", help="Only verify directory structure")
+    parser.add_argument("--config-only", action="store_true", help="Only verify configuration")
+    parser.add_argument("--api-only", action="store_true", help="Only verify API access")
+    parser.add_argument("--tests-only", action="store_true", help="Only run unit tests")
+    parser.add_argument("--with-coverage", action="store_true", help="Run tests with coverage report")
+    parser.add_argument("--test-file", help="Run specific test file")
+    return parser.parse_args()
+
 def main():
+    args = parse_args()
     logger.info("Starting setup verification...")
     
-    checks = [
-        ("Directory structure", verify_directories),
-        ("Configuration file", verify_config),
-        ("API access", verify_api_access),
-        ("Unit tests", verify_unit_tests)  # Changed from BDD to unit tests
-    ]
+    # Handle selective verification
+    if args.directories_only:
+        return 0 if verify_directories() else 1
+    elif args.config_only:
+        return 0 if verify_config() else 1
+    elif args.api_only:
+        return 0 if verify_api_access() else 1
+    elif args.tests_only:
+        return 0 if verify_unit_tests(args.with_coverage, args.test_file) else 1
+    
+    # Quick verification (dirs and config only)
+    if args.quick:
+        checks = [
+            ("Directory structure", verify_directories),
+            ("Configuration file", verify_config)
+        ]
+    else:
+        # Full verification
+        checks = [
+            ("Directory structure", verify_directories),
+            ("Configuration file", verify_config),
+            ("API access", verify_api_access),
+            ("Unit tests", lambda: verify_unit_tests(args.with_coverage, args.test_file))
+        ]
     
     all_passed = True
     for name, check in checks:

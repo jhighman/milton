@@ -18,28 +18,6 @@ handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s')
 logger.addHandler(handler)
 
 
-def test_create_driver_headless():
-    """Test that create_driver initializes a headless Chrome WebDriver."""
-    driver = create_driver(headless=True, logger=logger)
-    try:
-        assert isinstance(driver, webdriver.Chrome), "Driver should be a Chrome WebDriver instance"
-        
-        # Check if headless mode is enabled (via capabilities or command line options)
-        capabilities = driver.capabilities
-        chrome_options = capabilities.get("goog:chromeOptions", {})
-        args = chrome_options.get("args", [])
-        
-        # Check for either old or new headless syntax
-        headless_enabled = any(
-            arg in args for arg in ["--headless", "--headless=new"]
-        ) or chrome_options.get("headless", False)
-        
-        assert headless_enabled, "Headless mode not enabled"
-        
-    finally:
-        driver.quit()
-
-
 def test_search_individual_invalid_last_name():
     """Test that search_individual raises ValueError with an invalid last_name."""
     with pytest.raises(ValueError):

@@ -44,25 +44,19 @@ def create_driver(headless: bool = RUN_HEADLESS, logger: Logger = logger) -> web
    """
    logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
    options = Options()
-   if headless:
-       # Try both methods of enabling headless mode
-       options.add_argument("--headless=new")
-       options.headless = True  # This is the preferred way in newer versions
    
-   # Add other required options
+   if headless:
+       options.add_argument("--headless=new")
+   
+   # Required arguments for stable operation
+   options.add_argument("--disable-gpu")
    options.add_argument("--no-sandbox")
    options.add_argument("--disable-dev-shm-usage")
-   options.add_argument("--disable-gpu")
    options.add_argument("--window-size=1920,1080")
    options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36")
    
    service = ChromeService()
    driver = webdriver.Chrome(service=service, options=options)
-   
-   # Verify headless mode through JavaScript
-   if headless:
-       is_headless = driver.execute_script("return window.navigator.webdriver")
-       logger.debug(f"Headless mode verification: {is_headless}")
    
    return driver
 

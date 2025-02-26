@@ -40,3 +40,10 @@
 [2025-02-25 17:23:37] FINRA_Disciplinary_Agent/search_individual - Cached
 [2025-02-25 17:23:37] SEC_Arbitration_Agent/search_individual - Cached
 [2025-02-25 17:23:37] FINRA_Arbitration_Agent/search_individual - Cached
+[2025-02-26 07:30:30] SEC_IAPD_Agent/search_individual_by_firm - Cached
+[2025-02-26 07:30:30] SEC_IAPD_Agent/search_individual - Cached
+[2025-02-26 07:30:30] SEC_IAPD_Agent/search_individual_detailed_info - Cached
+[2025-02-26 07:30:30] SEC_Disciplinary_Agent/search_individual - Cached
+[2025-02-26 07:30:30] FINRA_Disciplinary_Agent/search_individual - Cached
+[2025-02-26 07:30:30] SEC_Arbitration_Agent/search_individual - Cached
+[2025-02-26 07:30:30] FINRA_Arbitration_Agent/search_individual - Cached
