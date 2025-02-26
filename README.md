@@ -30,6 +30,67 @@ This repository structure allows us to:
 4. Maintain backwards compatibility when needed
 5. Document the evolution of the product
 
+## Migration Progress Tracker
+
+### Timeline
+- **Current Focus**: Factory Qualification Testing (FQT)
+- **FMR Kick-off**: December 5th, 2023
+- **UAT**: Following FMR kick-off
+
+### Status Overview
+- [x] Planning Phase
+  - [x] Feature parity assessment
+  - [x] Client impact analysis
+  - [x] Migration timeline established
+- [ ] Implementation Phase
+  - [x] Core functionality migration
+  - [x] Data format adaptation
+  - [ ] FQT Sample Preparation
+    - Focus on small, diverse sample set
+    - Cover key compliance conditions
+    - Validate analysis accuracy
+- [ ] Testing Phase
+  - [ ] FQT (Current Priority)
+    - Targeted completion: Before Dec 5th
+    - Focus on compliance condition coverage
+    - Document test findings
+  - [ ] UAT Environment Setup
+    - Scheduled after FMR kick-off
+    - Will focus on source system validation
+    - Customer verification of analysis accuracy
+  - [ ] Performance validation
+- [ ] Production Phase
+  - [ ] Client readiness verification
+  - [ ] Production environment preparation
+  - [ ] Cutover planning
+
+### Testing Strategy
+1. **FQT (Current Phase)**
+   - Prepare concentrated sample set showcasing various compliance conditions
+   - Validate analysis accuracy against known scenarios
+   - Document and address any discovered issues
+   - Goal: Complete comprehensive testing before FMR kick-off
+
+2. **UAT (Post Dec 5th)**
+   - Customer-driven validation
+   - Focus on comparing analysis results with source systems
+   - Verify accuracy across different compliance scenarios
+   - Gather and incorporate customer feedback
+
+### Testing Progress Status
+| Component | Unit Testing | FQT | UAT | Production | Notes |
+|-----------|--------------|-----|-----|------------|-------|
+| Core Analysis | 🟡 | ⚪ | ⚪ | ⚪ | Unit testing in progress |
+| Data Extraction | 🟡 | ⚪ | ⚪ | ⚪ | Completing final unit tests |
+| Compliance Rules | 🟢 | ⚪ | ⚪ | ⚪ | Ready for FQT |
+| Integration Layer | 🟡 | ⚪ | ⚪ | ⚪ | API tests in progress |
+
+Legend:
+- ⚪ Not Started
+- 🟡 In Progress
+- 🟢 Completed
+- 🔴 Blocked
+
 ## Development
 
 Each version maintains its own documentation, dependencies, and build instructions within its respective directory. Please refer to the specific version's documentation for detailed information about setup and usage.
