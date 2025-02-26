@@ -1,0 +1,83 @@
+{
+  "hits": {
+    "total": 1,
+    "hits": [
+      {
+        "_type": "_doc",
+        "_source": {
+          "ind_source_id": "1555796",
+          "ind_firstname": "DEBRA",
+          "ind_middlename": "ANN",
+          "ind_lastname": "GRIEWAHN",
+          "ind_other_names": [
+            "DEBRA ANN COLLINS",
+            "DEBRA MAIRS COLLINS",
+            "DEBRA ANN MAIRS",
+            "DEBRA ANN MONTANARELLO",
+            "DEBRA MAIRS WOJCHIECHOWSKI",
+            "DEBRA MARIS WOJCIECHOWSKI"
+          ],
+          "ind_bc_scope": "Active",
+          "ind_ia_scope": "Active",
+          "ind_bc_disclosure_fl": "N",
+          "ind_approved_finra_registration_count": 1,
+          "ind_employments_count": 3,
+          "ind_industry_cal_date": "1993-03-14",
+          "ind_current_employments": [
+            {
+              "firm_id": "7927",
+              "firm_name": "NORTHERN TRUST SECURITIES, INC.",
+              "branch_city": "CHICAGO",
+              "branch_state": "IL",
+              "branch_zip": "60604",
+              "ia_only": "N",
+              "firm_bd_sec_number": "23689",
+              "firm_bd_full_sec_number": "8-23689",
+              "firm_ia_sec_number": "80781",
+              "firm_ia_full_sec_number": "801-80781"
+            },
+            {
+              "firm_id": "7927",
+              "firm_name": "NORTHERN TRUST SECURITIES, INC.",
+              "branch_city": "Linden",
+              "branch_state": "TN",
+              "ia_only": "N",
+              "firm_bd_sec_number": "23689",
+              "firm_bd_full_sec_number": "8-23689",
+              "firm_ia_sec_number": "80781",
+              "firm_ia_full_sec_number": "801-80781"
+            },
+            {
+              "firm_id": "7927",
+              "firm_name": "NORTHERN TRUST SECURITIES, INC",
+              "branch_city": "CHICAGO",
+              "branch_state": "IL",
+              "branch_zip": "60604",
+              "ia_only": "Y",
+              "firm_bd_sec_number": "23689",
+              "firm_bd_full_sec_number": "8-23689",
+              "firm_ia_sec_number": "80781",
+              "firm_ia_full_sec_number": "801-80781"
+            },
+            {
+              "firm_id": "7927",
+              "firm_name": "NORTHERN TRUST SECURITIES, INC",
+              "branch_city": "Linden",
+              "branch_state": "TN",
+              "ia_only": "Y",
+              "firm_bd_sec_number": "23689",
+              "firm_bd_full_sec_number": "8-23689",
+              "firm_ia_sec_number": "80781",
+              "firm_ia_full_sec_number": "801-80781"
+            }
+          ]
+        },
+        "highlight": {
+          "ind_source_id": [
+            "<em>1555796</em>"
+          ]
+        }
+      }
+    ]
+  }
+}

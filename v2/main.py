@@ -13,14 +13,9 @@ import random
 
 from business import process_claim
 from services import FinancialServicesFacade
+from logger_config import setup_logging
 
-# Setup logging
-os.makedirs('logs', exist_ok=True)
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.FileHandler('logs/app.log'), logging.StreamHandler()]
-)
+# At module level - this creates a logger but it's not configured yet
 logger = logging.getLogger('main')
 
 # Canonical field mappings (expanded with organization_crd)
@@ -223,6 +218,7 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     claim = {}
     for header, canonical in resolved_headers.items():
         claim[canonical] = row.get(header, '').strip()
+        logger.debug(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{claim[canonical]}'")
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
     claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
@@ -270,8 +266,14 @@ def main():
     parser.add_argument('--wait-time', type=float, default=7.0, help="Seconds to wait between API calls")
     args = parser.parse_args()
 
-    if args.diagnostic:
-        logger.setLevel(logging.DEBUG)
+    # This configures ALL loggers, including our module-level one
+    loggers = setup_logging(args.diagnostic)
+    global logger  # Tell Python we want to modify the module-level logger
+    logger = loggers['main']  # Get the properly configured logger
+
+    # Test logging
+    logger.info("=== Starting application ===")
+    logger.debug("Debug logging is enabled" if args.diagnostic else "Debug logging is disabled")
 
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)

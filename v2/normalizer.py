@@ -17,7 +17,7 @@ import logging
 from typing import Dict, Any, List, Optional
 from evaluation_processor import evaluate_name, parse_name
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("normalizer")
 
 class NormalizationError(Exception):
     """Exception raised for errors during normalization."""

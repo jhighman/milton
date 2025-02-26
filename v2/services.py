@@ -9,8 +9,8 @@ normalized individual, disciplinary, and arbitration data.
 """
 
 import logging
-import os
 import json
+import os
 from typing import Optional, Dict, Any, List
 from selenium import webdriver
 import argparse
@@ -30,12 +30,8 @@ from marshaller import (
 )
 from normalizer import create_disciplinary_record, create_arbitration_record, create_individual_record
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
 logger = logging.getLogger("FinancialServicesFacade")
+
 
 RUN_HEADLESS = True
 

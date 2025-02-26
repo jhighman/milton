@@ -17,6 +17,7 @@ The Director uses an instance of EvaluationReportBuilder to assemble the final r
 """
 
 from typing import Dict, Any, List
+import logging
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_processor import (
     evaluate_registration_status,
@@ -29,6 +30,8 @@ from evaluation_processor import (
     get_passed_exams,
     determine_alert_category,
 )
+
+logger = logging.getLogger("evaluation_report_director")
 
 class EvaluationReportDirector:
     def __init__(self, builder: EvaluationReportBuilder):

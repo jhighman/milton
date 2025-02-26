@@ -10,6 +10,9 @@ the fully constructed report (as an OrderedDict), which downstream code can cons
 
 from collections import OrderedDict
 from typing import Dict, Any, List
+import logging
+
+logger = logging.getLogger("evaluation_report_builder")
 
 class EvaluationReportBuilder:
     def __init__(self, reference_id: str):

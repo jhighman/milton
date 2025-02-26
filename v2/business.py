@@ -1,15 +1,11 @@
+import json
 from typing import Dict, Any, Callable
 import logging
-import json
 from services import FinancialServicesFacade
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
 
 logger = logging.getLogger("business")
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(name)s | %(message)s'))
-logger.addHandler(handler)
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     individual_name = claim.get("individual_name", "")

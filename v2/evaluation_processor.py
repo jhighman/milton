@@ -27,7 +27,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 import jellyfish
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("evaluation_processor")
 
 # Alert and Severity Definitions
 class AlertSeverity(Enum):
