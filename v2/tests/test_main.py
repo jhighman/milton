@@ -1,149 +1,154 @@
 import unittest
-from unittest.mock import Mock
-from typing import Dict, Any
+import os
+import json
+import csv
 import logging
-import business
+import shutil
+from datetime import datetime
+from unittest.mock import Mock, patch, mock_open, MagicMock
+from collections import OrderedDict
 
-# Note on Business Logic:
-# This test suite validates the business logic in business.py, which processes financial claims
-# to retrieve data from SEC IAPD and FINRA BrokerCheck. The logic:
-# 1. Uses determine_search_strategy() to select a search function based on claim fields:
-#    - individual_name + organization_crd_number -> search_with_correlated
-#    - crd_number + organization_crd_number -> search_with_both_crds
-#    - crd_number + organization_name -> search_with_crd_and_org_name
-#    - crd_number only -> search_with_crd_only
-#    - organization_crd_number only -> search_with_entity
-#    - organization_name only -> search_with_org_name_only
-#    - insufficient fields -> search_default
-# 2. Each search function queries the FinancialServicesFacade, prioritizing BrokerCheck where
-#    applicable, falling back to SEC IAPD, and handling unsupported cases (e.g., entity-only).
-# 3. process_claim() orchestrates the strategy selection and execution, handling None results.
+# Import main.py from the parent directory
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import main as cp
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(name)s | %(message)s')
+class TestComplianceProcessor(unittest.TestCase):
 
-class TestBusinessLogic(unittest.TestCase):
     def setUp(self):
-        self.facade = Mock(spec=business.FinancialServicesFacade)
-        self.employee_number = "EMP001"
+        # Just set up paths and reset globals, no directory creation
+        self.input_folder = "drop"
+        self.output_folder = "output"
+        self.archive_folder = "archive"
+        cp.current_csv = None
+        cp.current_line = 0
+        self.logger = logging.getLogger('main')
+        self.logger.handlers = []  # Clear handlers to avoid duplicate logging
+        self.logger.addHandler(logging.NullHandler())
 
-    def test_determine_search_strategy_correlated(self):
-        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_correlated)
+    def tearDown(self):
+        # No cleanup needed
+        pass
 
-    def test_determine_search_strategy_both_crds(self):
-        claim = {"crd_number": "67890", "organization_crd_number": "12345"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_both_crds)
+    @patch('builtins.open', new_callable=mock_open, read_data='{"evaluate_name": false}')
+    def test_load_config_file_exists(self, mock_file):
+        config = cp.load_config()
+        self.assertEqual(config, {**cp.DEFAULT_CONFIG, "evaluate_name": False})
 
-    def test_determine_search_strategy_crd_and_org_name(self):
-        claim = {"crd_number": "67890", "organization_name": "Acme Corp"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_crd_and_org_name)
+    @patch('builtins.open', side_effect=FileNotFoundError)
+    @patch('main.logger')
+    def test_load_config_file_not_found(self, mock_logger, mock_file):
+        config = cp.load_config()
+        self.assertEqual(config, cp.DEFAULT_CONFIG)
+        mock_logger.warning.assert_called_once_with("Config file not found, using defaults")
 
-    def test_determine_search_strategy_crd_only(self):
-        claim = {"crd_number": "67890"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_crd_only)
+    def test_generate_reference_id_with_crd(self):
+        ref_id = cp.generate_reference_id("12345")
+        self.assertEqual(ref_id, "12345")
 
-    def test_determine_search_strategy_entity(self):
-        claim = {"organization_crd_number": "12345"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_entity)
+    def test_generate_reference_id_no_crd(self):
+        ref_id = cp.generate_reference_id()
+        self.assertTrue(ref_id.startswith("DEF-"))
+        self.assertTrue(len(ref_id) >= 14)  # "DEF-" + 12 digits
 
-    def test_determine_search_strategy_org_name_only(self):
-        claim = {"organization_name": "Acme Corp"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_org_name_only)
+    @patch('builtins.open', new_callable=mock_open, read_data='{"csv_file": "test.csv", "line": 5}')
+    def test_load_checkpoint(self, mock_file):
+        checkpoint = cp.load_checkpoint()
+        self.assertEqual(checkpoint, {"csv_file": "test.csv", "line": 5})
 
-    def test_determine_search_strategy_default(self):
-        claim = {}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_default)
+    @patch('builtins.open', side_effect=FileNotFoundError)
+    def test_load_checkpoint_not_found(self, mock_file):
+        checkpoint = cp.load_checkpoint()
+        self.assertIsNone(checkpoint)
 
-    def test_process_claim_correlated(self):
-        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
-        self.facade.search_sec_iapd_correlated.return_value = {"crd_number": "67890"}
-        self.facade.search_sec_iapd_detailed.return_value = {"details": "some data"}
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD")
-        self.assertEqual(result["crd_number"], "67890")
-        self.assertEqual(result["search_strategy"], "search_with_correlated")
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('json.dump')
+    def test_save_checkpoint(self, mock_json_dump, mock_file):
+        cp.save_checkpoint("test.csv", 10)
+        mock_json_dump.assert_called_once_with({"csv_file": "test.csv", "line": 10}, mock_file())
 
-    def test_process_claim_crd_only_brokercheck(self):
-        claim = {"crd_number": "67890"}
-        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": "John Doe"}
-        self.facade.search_finra_brokercheck_detailed.return_value = {"details": "broker data"}
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "BrokerCheck")
-        self.assertEqual(result["search_strategy"], "search_with_crd_only")
+    @patch('main.logger')
+    def test_save_checkpoint_invalid(self, mock_logger):
+        cp.save_checkpoint(None, None)
+        mock_logger.error.assert_called_once_with("Cannot save checkpoint: csv_file=None, line_number=None")
 
-    def test_process_claim_crd_only_sec_iapd(self):
-        claim = {"crd_number": "67890"}
-        self.facade.search_finra_brokercheck_individual.return_value = {"fetched_name": ""}
-        self.facade.search_sec_iapd_individual.return_value = {"data": "iapd data"}
-        self.facade.search_sec_iapd_detailed.return_value = {"details": "iapd details"}
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD")
-        self.assertEqual(result["search_strategy"], "search_with_crd_only")
+    @patch('os.listdir', return_value=['file1.csv', 'file2.txt', 'file3.csv'])
+    def test_get_csv_files(self, mock_listdir):
+        files = cp.get_csv_files()
+        self.assertEqual(files, ['file1.csv', 'file3.csv'])
 
-    def test_process_claim_default(self):
-        claim = {}
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "Default")
-        self.assertIsNone(result["crd_number"])
-        self.assertEqual(result["search_strategy"], "search_default")
+    def test_resolve_headers(self):
+        fieldnames = ['First Name', 'CRD Number', 'unknown_field']
+        resolved = cp.resolve_headers(fieldnames)
+        self.assertEqual(resolved, {
+            'First Name': 'first_name',
+            'CRD Number': 'crd_number'
+        })
 
-    def test_process_claim_none_result(self):
-        claim = {"crd_number": "67890"}
-        self.facade.search_finra_brokercheck_individual.return_value = None
-        self.facade.search_sec_iapd_individual.return_value = None
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["source"], "SEC_IAPD")
-        self.assertIsNone(result["basic_result"])
-        self.assertIsNone(result["detailed_result"])
-        self.assertEqual(result["search_strategy"], "search_with_crd_only")
+    @patch('builtins.open')
+    @patch('main.process_row')
+    @patch('main.save_checkpoint')
+    def test_process_csv(self, mock_save, mock_process_row, mock_file):
+        mock_file.return_value.__enter__.return_value = mock_open(
+            read_data="first_name,crd_number\nJohn,12345").return_value
+        facade = Mock()
+        config = cp.DEFAULT_CONFIG
+        cp.process_csv("drop/test.csv", 0, facade, config, 0.1)
+        mock_process_row.assert_called_once()
+        mock_save.assert_called()
+
+    @patch('main.process_claim', return_value={"reference_id": "123"})
+    @patch('builtins.open', new_callable=mock_open)
+    def test_process_row_success(self, mock_file, mock_process_claim):
+        row = {"first_name": "John", "last_name": "Doe", "employee_number": "EMP123", "reference_id": "123"}
+        resolved_headers = {"first_name": "first_name", "last_name": "last_name", "employee_number": "employee_number", "reference_id": "reference_id"}
+        facade = Mock()
+        config = cp.DEFAULT_CONFIG
+        cp.process_row(row, resolved_headers, facade, config)
+        mock_process_claim.assert_called_once()
+        mock_file.assert_called_once_with(os.path.join(cp.OUTPUT_FOLDER, "123.json"), 'w')
+
+    @patch('main.process_claim', side_effect=Exception("Test error"))
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('main.logger')
+    def test_process_row_error(self, mock_logger, mock_file, mock_process_claim):
+        row = {"first_name": "John", "last_name": "Doe", "employee_number": "EMP123"}
+        resolved_headers = {"first_name": "first_name", "last_name": "last_name", "employee_number": "employee_number"}
+        facade = Mock()
+        config = cp.DEFAULT_CONFIG
+        cp.process_row(row, resolved_headers, facade, config)
+        mock_logger.error.assert_called()
+        mock_file.assert_called_once()
+
+    @patch('main.process_row')
+    @patch('main.get_csv_files', return_value=['test.csv'])
+    @patch('main.load_checkpoint', return_value=None)
+    @patch('main.archive_file')
+    @patch('main.load_config', return_value=cp.DEFAULT_CONFIG)
+    @patch('builtins.open')
+    def test_main_batch_processing(self, mock_file, mock_config, mock_archive, mock_checkpoint, mock_get_csv, mock_process_row):
+        # Mock the config file to return valid JSON
+        mock_config_file = mock_open(read_data='{"evaluate_name": false}').return_value
+        mock_csv_file = mock_open(read_data="first_name,last_name\nJohn,Doe").return_value
+        
+        def open_side_effect(filename, *args, **kwargs):
+            if filename == 'config.json':
+                return mock_config_file
+            return mock_csv_file
+            
+        mock_file.side_effect = open_side_effect
+            
+        with patch('builtins.input', return_value="1"):
+            with patch('main.FinancialServicesFacade', return_value=Mock()) as mock_facade:
+                cp.main()
+                mock_get_csv.assert_called_once()
+                mock_archive.assert_called_once_with(os.path.join(cp.INPUT_FOLDER, "test.csv"))
+
+    @patch('builtins.input', return_value="2")
+    def test_main_exit(self, mock_input):
+        with patch('builtins.print') as mock_print:
+            cp.main()
+            mock_print.assert_any_call("Exiting...")
 
 if __name__ == "__main__":
-    print("Welcome to the Business Logic Test Runner!")
-    print("Options:")
-    print("  1: Run all tests")
-    print("  2: Test determine_search_strategy functions")
-    print("  3: Test process_claim functions")
-    print("  4: Exit")
-    
-    while True:
-        choice = input("Enter your choice (1-4): ").strip()
-        
-        if choice == "1":
-            unittest.main(argv=[''], exit=False)
-            print("\nAll tests completed.")
-        elif choice == "2":
-            suite = unittest.TestSuite()
-            suite.addTests([
-                TestBusinessLogic('test_determine_search_strategy_correlated'),
-                TestBusinessLogic('test_determine_search_strategy_both_crds'),
-                TestBusinessLogic('test_determine_search_strategy_crd_and_org_name'),
-                TestBusinessLogic('test_determine_search_strategy_crd_only'),
-                TestBusinessLogic('test_determine_search_strategy_entity'),
-                TestBusinessLogic('test_determine_search_strategy_org_name_only'),
-                TestBusinessLogic('test_determine_search_strategy_default')
-            ])
-            unittest.TextTestRunner().run(suite)
-            print("\nStrategy tests completed.")
-        elif choice == "3":
-            suite = unittest.TestSuite()
-            suite.addTests([
-                TestBusinessLogic('test_process_claim_correlated'),
-                TestBusinessLogic('test_process_claim_crd_only_brokercheck'),
-                TestBusinessLogic('test_process_claim_crd_only_sec_iapd'),
-                TestBusinessLogic('test_process_claim_default'),
-                TestBusinessLogic('test_process_claim_none_result')
-            ])
-            unittest.TextTestRunner().run(suite)
-            print("\nProcess claim tests completed.")
-        elif choice == "4":
-            print("Exiting test runner.")
-            break
-        else:
-            print("Invalid choice, please select 1-4.")
+    unittest.main()
