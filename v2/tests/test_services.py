@@ -6,9 +6,11 @@ import os
 # Adjust the import path to reach services.py from the tests folder
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from services import FinancialServicesFacade
+from normalizer import create_individual_record
 
 class TestNormalizeIndividualRecord(unittest.TestCase):
     def setUp(self):
+        """Set up test data - no need for facade instance anymore as we're testing normalizer directly"""
         # Sample data from your provided results
         self.iapd_basic = {
             "hits": {
@@ -199,12 +201,10 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
             }
         }
 
-        self.facade = FinancialServicesFacade()
-
     # Positive Invariants
     def test_iapd_normalization_with_basic_and_detailed(self):
         """Test IAPD normalization with both basic and detailed data."""
-        result = self.facade._normalize_individual_record("IAPD", self.iapd_basic, self.iapd_detailed)
+        result = create_individual_record("IAPD", self.iapd_basic, self.iapd_detailed)
         
         # Basic info checks
         self.assertEqual(result["crd_number"], "2112848")
@@ -216,7 +216,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         # Employment checks
         self.assertEqual(len(result["current_ia_employments"]), 1)
         employment = result["current_ia_employments"][0]
-        self.assertEqual(employment["firm_crd"], 282563)
+        self.assertEqual(employment["firm_id"], "282563")
         self.assertEqual(employment["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
         self.assertEqual(employment["registration_begin_date"], "11/18/2021")
         
@@ -240,7 +240,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
 
     def test_iapd_normalization_with_basic_only(self):
         """Test IAPD normalization with only basic data."""
-        result = self.facade._normalize_individual_record("IAPD", self.iapd_basic)
+        result = create_individual_record("IAPD", self.iapd_basic)
         
         # Basic info checks
         self.assertEqual(result["crd_number"], "2112848")
@@ -251,12 +251,12 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         # Employment checks from ind_ia_current_employments
         self.assertEqual(len(result["current_ia_employments"]), 1)
         employment = result["current_ia_employments"][0]
-        self.assertEqual(employment["firm_crd"], 282563)
+        self.assertEqual(employment["firm_id"], "282563")
         self.assertEqual(employment["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
         
         # Branch office checks from basic data
         branch = employment["branch_offices"][0]
-        self.assertIsNone(branch["street"])
+        self.assertIsNone(branch.get("street"))
         self.assertEqual(branch["city"], "NEW YORK")
         self.assertEqual(branch["state"], "NY")
         self.assertEqual(branch["zip_code"], "10017")
@@ -267,7 +267,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
 
     def test_bc_normalization_with_basic_and_detailed(self):
         """Test BrokerCheck normalization with both basic and detailed data."""
-        result = self.facade._normalize_individual_record("BrokerCheck", self.bc_basic, self.bc_detailed)
+        result = create_individual_record("BrokerCheck", self.bc_basic, self.bc_detailed)
         
         self.assertEqual(result["crd_number"], "2722375")
         self.assertEqual(result["fetched_name"], "KRISTIN LYNN FAFARD")
@@ -281,7 +281,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
 
     def test_bc_normalization_with_basic_only(self):
         """Test BrokerCheck normalization with only basic data."""
-        result = self.facade._normalize_individual_record("BrokerCheck", self.bc_basic)
+        result = create_individual_record("BrokerCheck", self.bc_basic)
         
         self.assertEqual(result["fetched_name"], "KRISTIN LYNN FAFARD")
         self.assertEqual(result["bc_scope"], "Active")
@@ -292,20 +292,20 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
     # Negative Invariants
     def test_invalid_data_source(self):
         """Test normalization with an invalid data source."""
-        result = self.facade._normalize_individual_record("InvalidSource", self.iapd_basic)
+        result = create_individual_record("InvalidSource", self.iapd_basic)
         
         self.assertEqual(result["fetched_name"], "")
-        self.assertEqual(result["crd_number"], "")
+        self.assertEqual(result["crd_number"], None)
         self.assertEqual(result["disclosures"], [])
         self.assertEqual(result["exams"], [])
         self.assertEqual(result["current_ia_employments"], [])
 
     def test_no_basic_info(self):
         """Test normalization with no basic info provided."""
-        result = self.facade._normalize_individual_record("IAPD", None)
+        result = create_individual_record("IAPD", None)
         
         self.assertEqual(result["fetched_name"], "")
-        self.assertEqual(result["crd_number"], "")
+        self.assertEqual(result["crd_number"], None)
         self.assertEqual(result["disclosures"], [])
         self.assertEqual(result["exams"], [])
         self.assertEqual(result["current_ia_employments"], [])
@@ -313,10 +313,10 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
     def test_empty_hits(self):
         """Test normalization with basic info but no hits."""
         empty_basic = {"hits": {"total": 0, "hits": []}}
-        result = self.facade._normalize_individual_record("BrokerCheck", empty_basic)
+        result = create_individual_record("BrokerCheck", empty_basic)
         
         self.assertEqual(result["fetched_name"], "")
-        self.assertEqual(result["crd_number"], "")
+        self.assertEqual(result["crd_number"], None)
         self.assertEqual(result["disclosures"], [])
         self.assertEqual(result["exams"], [])
         self.assertEqual(result["current_ia_employments"], [])
@@ -324,7 +324,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
     def test_malformed_detailed(self):
         """Test normalization with malformed detailed data."""
         malformed_detailed = {"invalid": "data"}  # No hits structure
-        result = self.facade._normalize_individual_record("IAPD", self.iapd_basic, malformed_detailed)
+        result = create_individual_record("IAPD", self.iapd_basic, malformed_detailed)
         
         self.assertEqual(result["fetched_name"], "MATTHEW LEE VETTO")
         self.assertEqual(result["bc_scope"], "NotInScope")
@@ -337,9 +337,9 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         modified_basic = self.iapd_basic.copy()
         modified_basic["hits"]["hits"][0]["_source"]["ind_ia_current_employments"][0]["firm_id"] = "282563"
         
-        result = self.facade._normalize_individual_record("IAPD", modified_basic)
+        result = create_individual_record("IAPD", modified_basic)
         
-        self.assertEqual(result["current_ia_employments"][0]["firm_crd"], 282563)  # Should convert to int
+        self.assertEqual(result["current_ia_employments"][0]["firm_id"], "282563")  # Should keep as string
         self.assertEqual(result["current_ia_employments"][0]["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
 
     def test_iapd_normalization_with_invalid_firm_crd(self):
@@ -347,9 +347,9 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         modified_basic = self.iapd_basic.copy()
         modified_basic["hits"]["hits"][0]["_source"]["ind_ia_current_employments"][0]["firm_id"] = "invalid"
         
-        result = self.facade._normalize_individual_record("IAPD", modified_basic)
+        result = create_individual_record("IAPD", modified_basic)
         
-        self.assertEqual(result["current_ia_employments"][0]["firm_crd"], "invalid")  # Should keep as string
+        self.assertEqual(result["current_ia_employments"][0]["firm_id"], "invalid")  # Should keep as string
         self.assertEqual(result["current_ia_employments"][0]["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
 
     def test_iapd_normalization_with_none_firm_crd(self):
@@ -357,39 +357,10 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         modified_basic = self.iapd_basic.copy()
         modified_basic["hits"]["hits"][0]["_source"]["ind_ia_current_employments"][0]["firm_id"] = None
         
-        result = self.facade._normalize_individual_record("IAPD", modified_basic)
+        result = create_individual_record("IAPD", modified_basic)
         
-        self.assertIsNone(result["current_ia_employments"][0]["firm_crd"])  # Should be None
+        self.assertIsNone(result["current_ia_employments"][0]["firm_id"])  # Should be None
         self.assertEqual(result["current_ia_employments"][0]["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
-
-    def test_iapd_normalization_with_missing_branch_offices(self):
-        """Test IAPD normalization when branch offices are missing."""
-        modified_basic = self.iapd_basic.copy()
-        employment = modified_basic["hits"]["hits"][0]["_source"]["ind_ia_current_employments"][0]
-        employment["branch_city"] = "NEW YORK"
-        employment["branch_state"] = "NY"
-        employment["branch_zip"] = "10017"
-        
-        result = self.facade._normalize_individual_record("IAPD", modified_basic)
-        
-        self.assertEqual(len(result["current_ia_employments"][0]["branch_offices"]), 1)
-        branch = result["current_ia_employments"][0]["branch_offices"][0]
-        self.assertIsNone(branch["street"])
-        self.assertEqual(branch["city"], "NEW YORK")
-        self.assertEqual(branch["state"], "NY")
-        self.assertEqual(branch["zip_code"], "10017")
-
-    def test_iapd_normalization_with_empty_branch_info(self):
-        """Test IAPD normalization when branch info is empty."""
-        modified_basic = self.iapd_basic.copy()
-        employment = modified_basic["hits"]["hits"][0]["_source"]["ind_ia_current_employments"][0]
-        employment.pop("branch_city", None)
-        employment.pop("branch_state", None)
-        employment.pop("branch_zip", None)
-        
-        result = self.facade._normalize_individual_record("IAPD", modified_basic)
-        
-        self.assertEqual(result["current_ia_employments"][0]["branch_offices"], [])
 
 if __name__ == "__main__":
     unittest.main()

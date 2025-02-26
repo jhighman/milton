@@ -23,63 +23,155 @@ class NormalizationError(Exception):
     """Exception raised for errors during normalization."""
     pass
 
-def create_individual_record(data_source: str, basic_info: Optional[Dict[str, Any]], detailed_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def create_individual_record(
+    data_source: str,
+    basic_info: Optional[Dict[str, Any]],
+    detailed_info: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
     """
-    Normalize individual data from sources like SEC IAPD or FINRA BrokerCheck into a common structure.
+    Creates a unified "individual record" from BrokerCheck or IAPD data.
 
-    Args:
-        data_source (str): Source identifier (e.g., "IAPD", "BrokerCheck").
-        basic_info (Optional[Dict[str, Any]]): Basic individual data from the source.
-        detailed_info (Optional[Dict[str, Any]]): Detailed individual data, if available.
-
-    Returns:
-        Dict[str, Any]: Normalized individual record.
+    :param data_source: A string indicating the source of data. Accepted values:
+        - "BrokerCheck": For FINRA BrokerCheck data
+        - "IAPD": For SEC IAPD data
+    :param basic_info: The JSON structure returned by your "basic" search function.
+                       Typically has partial fields (like name, CRD, etc.).
+    :param detailed_info: The JSON structure returned by your "detailed" search function.
+                          Typically holds disclosures, exam details, or other extended info.
+                          Optional, defaults to None.
+    :return: A dictionary (extracted_info) with normalized keys:
+        {
+          "fetched_name": str,
+          "other_names": list,
+          "bc_scope": str,
+          "ia_scope": str,
+          "disclosures": list,
+          "arbitrations": list,
+          "exams": list,
+          "current_ia_employments": list,
+          ...
+        }
     """
-    logger.debug(f"Normalizing individual record from {data_source}")
-    record = {
-        "crd_number": None,
+    extracted_info = {
         "fetched_name": "",
         "other_names": [],
-        "bc_scope": "NotInScope",
-        "ia_scope": "NotInScope",
+        "bc_scope": "",
+        "ia_scope": "",
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "current_ia_employments": []
+        "current_ia_employments": [],
+        "crd_number": None
     }
 
+    # Return empty info for invalid data sources
+    if data_source not in ["BrokerCheck", "IAPD"]:
+        return extracted_info
+
     if not basic_info:
-        logger.warning(f"No basic info provided for {data_source}")
-        return record
+        logger.warning("No basic_info provided. Returning empty extracted_info.")
+        return extracted_info
 
-    basic = basic_info.copy()
-    detailed = detailed_info.copy() if detailed_info else {}
+    hits_list = basic_info.get("hits", {}).get("hits", [])
+    if not hits_list:
+        logger.warning(f"{data_source}: basic_info had no hits. Returning mostly empty extracted_info.")
+        return extracted_info
 
-    # Handle nested SEC IAPD data structure
-    if "hits" in basic and "hits" in basic["hits"] and basic["hits"]["hits"]:
-        source_data = basic["hits"]["hits"][0]["_source"]
-    else:
-        source_data = basic
+    individual = hits_list[0].get("_source", {})
 
-    # Extract crd_number from ind_source_id or other fields
-    record["crd_number"] = (source_data.get("ind_source_id") or 
-                           source_data.get("crd_number") or 
-                           source_data.get("CRD") or 
-                           detailed.get("crd_number"))
-    record["fetched_name"] = (source_data.get("ind_other_names", [source_data.get("ind_firstname", "") + " " + source_data.get("ind_lastname", "")])[0].strip() or 
-                             detailed.get("fetched_name", ""))
-    record["other_names"] = source_data.get("ind_other_names", detailed.get("other_names", []))
-    record["bc_scope"] = source_data.get("ind_bc_scope", detailed.get("bc_scope", "NotInScope")).capitalize()
-    record["ia_scope"] = source_data.get("ind_ia_scope", detailed.get("ia_scope", "NotInScope")).capitalize()
-    record["current_ia_employments"] = source_data.get("ind_ia_current_employments", detailed.get("current_ia_employments", []))
+    # Always convert names to uppercase
+    first_name = individual.get('ind_firstname', '').upper()
+    middle_name = individual.get('ind_middlename', '').upper()
+    last_name = individual.get('ind_lastname', '').upper()
+    fetched_name = " ".join(filter(None, [first_name, middle_name, last_name]))
+    extracted_info["fetched_name"] = fetched_name
+    extracted_info["other_names"] = individual.get("ind_other_names", [])
 
-    if detailed:
-        record["disclosures"] = detailed.get("disclosures", [])
-        record["arbitrations"] = detailed.get("arbitrations", [])
-        record["exams"] = detailed.get("exams", [])
+    extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
+    extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
+    extracted_info["crd_number"] = str(individual.get("ind_source_id", ""))
 
-    logger.debug(f"Normalized individual record: {json.dumps(record, indent=2)}")
-    return record
+    if data_source == "BrokerCheck":
+        # BrokerCheck data should never populate current_ia_employments
+        extracted_info["current_ia_employments"] = []
+        
+        if detailed_info and "hits" in detailed_info:
+            detailed_hits = detailed_info["hits"].get("hits", [])
+            if detailed_hits:
+                bc_content_str = detailed_hits[0]["_source"].get("content", "{}")
+                try:
+                    bc_content_data = json.loads(bc_content_str)
+                    extracted_info["disclosures"] = bc_content_data.get("disclosures", [])
+                    extracted_info["arbitrations"] = bc_content_data.get("arbitrations", [])
+
+                    # Combine exam categories
+                    state_exams = bc_content_data.get("stateExamCategory", [])
+                    principal_exams = bc_content_data.get("principalExamCategory", [])
+                    product_exams = bc_content_data.get("productExamCategory", [])
+                    extracted_info["exams"] = state_exams + principal_exams + product_exams
+
+                except json.JSONDecodeError as e:
+                    logger.warning(f"BrokerCheck detailed_info content parse error: {e}")
+
+    elif data_source == "IAPD":
+        # Extract current IA employments from basic info
+        current_employments = []
+        for emp in individual.get("ind_ia_current_employments", []):
+            firm_id = emp.get("firm_id")
+            # Keep firm_id as string if present
+            if firm_id is not None:
+                firm_id = str(firm_id)
+
+            current_employments.append({
+                "firm_id": firm_id,
+                "firm_name": emp.get("firm_name"),
+                "registration_begin_date": None,  # Will be updated from detailed info if available
+                "branch_offices": [{
+                    "street": None,  # Basic info doesn't have street
+                    "city": emp.get("branch_city"),
+                    "state": emp.get("branch_state"),
+                    "zip_code": emp.get("branch_zip")
+                }]
+            })
+
+        # Update with detailed info if available
+        if detailed_info and "hits" in detailed_info:
+            detailed_hits = detailed_info["hits"].get("hits", [])
+            if detailed_hits:
+                iapd_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
+                try:
+                    iapd_content_data = json.loads(iapd_content_str)
+                    
+                    # Update employments with detailed info
+                    for emp_idx, emp in enumerate(iapd_content_data.get("currentIAEmployments", [])):
+                        if emp_idx < len(current_employments):
+                            # Add registration begin date
+                            current_employments[emp_idx]["registration_begin_date"] = emp.get("registrationBeginDate")
+
+                            # Update branch offices
+                            branch_offices = emp.get("branchOfficeLocations", [])
+                            if branch_offices:
+                                current_employments[emp_idx]["branch_offices"] = [{
+                                    "street": office.get("street1"),
+                                    "city": office.get("city"),
+                                    "state": office.get("state"),
+                                    "zip_code": office.get("zipCode")
+                                } for office in branch_offices]
+
+                    # Combine exam categories
+                    state_exams = iapd_content_data.get("stateExamCategory", [])
+                    principal_exams = iapd_content_data.get("principalExamCategory", [])
+                    product_exams = iapd_content_data.get("productExamCategory", [])
+                    extracted_info["exams"] = state_exams + principal_exams + product_exams
+
+                    extracted_info["disclosures"] = iapd_content_data.get("disclosures", [])
+                    extracted_info["arbitrations"] = iapd_content_data.get("arbitrations", [])
+                except json.JSONDecodeError as e:
+                    logger.warning(f"IAPD detailed_info content parse error: {e}")
+
+        extracted_info["current_ia_employments"] = current_employments
+
+    return extracted_info
 
 def create_disciplinary_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
     result = {
