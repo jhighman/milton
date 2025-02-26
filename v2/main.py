@@ -15,10 +15,10 @@ from business import process_claim
 from services import FinancialServicesFacade
 from logger_config import setup_logging
 
-# At module level - this creates a logger but it's not configured yet
+# Module-level logger (will be configured in main)
 logger = logging.getLogger('main')
 
-# Canonical field mappings (expanded with organization_crd)
+# Canonical field mappings (case-insensitive matching handled in resolve_headers)
 canonical_fields = {
     'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],
     'crd_number': ['CRD', 'crd_number', 'crd', 'CRD Number', 'CRDNumber', 'crdnumber'],
@@ -112,7 +112,11 @@ def generate_reference_id(crd_number: str = None) -> str:
 def setup_folders():
     """Ensure all required folders exist."""
     for folder in [INPUT_FOLDER, OUTPUT_FOLDER, ARCHIVE_FOLDER]:
-        os.makedirs(folder, exist_ok=True)
+        try:
+            os.makedirs(folder, exist_ok=True)
+        except Exception as e:
+            logger.error(f"Failed to create folder {folder}: {str(e)}")
+            raise
 
 def load_checkpoint() -> Optional[Dict[str, Any]]:
     """Load the last processed file and line from checkpoint.json."""
@@ -121,38 +125,52 @@ def load_checkpoint() -> Optional[Dict[str, Any]]:
             return json.load(f)
     except FileNotFoundError:
         return None
+    except Exception as e:
+        logger.error(f"Error loading checkpoint: {str(e)}")
+        return None
 
 def save_checkpoint(csv_file: str, line_number: int):
     """Save the current file and line to checkpoint.json."""
-    if csv_file is None or line_number is None:
+    if not csv_file or line_number is None:
         logger.error(f"Cannot save checkpoint: csv_file={csv_file}, line_number={line_number}")
         return
-    checkpoint_path = str(CHECKPOINT_FILE)
-    with open(checkpoint_path, 'w') as f:
-        json.dump({"csv_file": csv_file, "line": line_number}, f)
-    logger.debug(f"Checkpoint saved: {csv_file}, line {line_number}")
+    try:
+        checkpoint_path = str(CHECKPOINT_FILE)
+        with open(checkpoint_path, 'w') as f:
+            json.dump({"csv_file": csv_file, "line": line_number}, f)
+        logger.debug(f"Checkpoint saved: {csv_file}, line {line_number}")
+    except Exception as e:
+        logger.error(f"Error saving checkpoint: {str(e)}")
 
 def signal_handler(sig, frame):
     """Handle SIGINT/SIGTERM by saving checkpoint and exiting."""
     if current_csv and current_line > 0:
-        logger.info(f"Signal received, saving checkpoint: {current_csv}, line {current_line}")
+        logger.info(f"Signal received ({signal.Signals(sig).name}), saving checkpoint: {current_csv}, line {current_line}")
         save_checkpoint(current_csv, current_line)
+    logger.info("Exiting due to signal")
     exit(0)
 
 def get_csv_files() -> list[str]:
     """List all CSV files in the drop folder."""
-    files = sorted([f for f in os.listdir(INPUT_FOLDER) if f.endswith('.csv')])
-    logger.debug(f"Found CSV files: {files}")
-    return files
+    try:
+        files = sorted([f for f in os.listdir(INPUT_FOLDER) if f.lower().endswith('.csv')])
+        logger.debug(f"Found CSV files: {files}")
+        return files
+    except Exception as e:
+        logger.error(f"Error listing CSV files in {INPUT_FOLDER}: {str(e)}")
+        return []
 
 def archive_file(csv_file_path: str):
     """Move processed CSV to archive with date-based subfolder."""
     date_str = datetime.now().strftime("%m-%d-%Y")
     archive_subfolder = os.path.join(ARCHIVE_FOLDER, date_str)
-    os.makedirs(archive_subfolder, exist_ok=True)
-    dest_path = os.path.join(archive_subfolder, os.path.basename(csv_file_path))
-    shutil.move(csv_file_path, dest_path)
-    logger.info(f"Archived {csv_file_path} to {dest_path}")
+    try:
+        os.makedirs(archive_subfolder, exist_ok=True)
+        dest_path = os.path.join(archive_subfolder, os.path.basename(csv_file_path))
+        shutil.move(csv_file_path, dest_path)
+        logger.info(f"Archived {csv_file_path} to {dest_path}")
+    except Exception as e:
+        logger.error(f"Error archiving {csv_file_path}: {str(e)}")
 
 def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
     """Map CSV headers to canonical fields with case-insensitive matching."""
@@ -161,17 +179,17 @@ def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
         if not header.strip():
             logger.warning("Empty header name encountered")
             continue
-        header_lower = header.lower()  # Convert header to lowercase for comparison
+        header_lower = header.lower()
         for canonical, variants in canonical_fields.items():
-            if header_lower in [variant.lower() for variant in variants]:  # Compare lowercase variants
-                resolved_headers[header] = canonical  # Store original header as key
+            if header_lower in [variant.lower() for variant in variants]:
+                resolved_headers[header] = canonical
                 logger.debug(f"Mapped header '{header}' to '{canonical}'")
                 break
         else:
             logger.warning(f"Unmapped CSV column: {header}")
-    for canonical in canonical_fields:
-        if canonical not in resolved_headers.values():
-            logger.debug(f"Canonical field '{canonical}' not found in CSV headers")
+    unmapped_canonicals = set(canonical_fields.keys()) - set(resolved_headers.values())
+    if unmapped_canonicals:
+        logger.debug(f"Canonical fields not found in CSV headers: {unmapped_canonicals}")
     return resolved_headers
 
 def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
@@ -181,23 +199,26 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
     current_line = 0
     logger.info(f"Starting to process {csv_file_path} from line {start_line}")
 
-    with open(csv_file_path, 'r', newline='') as f:
-        reader = csv.DictReader(f)
-        resolved_headers = resolve_headers(reader.fieldnames)
-        logger.debug(f"Resolved headers: {resolved_headers}")
+    try:
+        with open(csv_file_path, 'r', newline='') as f:
+            reader = csv.DictReader(f)
+            resolved_headers = resolve_headers(reader.fieldnames)
+            logger.debug(f"Resolved headers: {resolved_headers}")
 
-        for i, row in enumerate(reader, start=2):
-            if i <= start_line:
-                logger.debug(f"Skipping line {i} (before start_line {start_line})")
-                continue
-            logger.debug(f"Processing {current_csv}, line {i}, row: {dict(row)}")
-            current_line = i
-            try:
-                process_row(row, resolved_headers, facade, config)
-            except Exception as e:
-                logger.error(f"Error processing {current_csv}, line {i}: {str(e)}")
-            save_checkpoint(current_csv, current_line)
-            time.sleep(wait_time)
+            for i, row in enumerate(reader, start=2):
+                if i <= start_line:
+                    logger.debug(f"Skipping line {i} (before start_line {start_line})")
+                    continue
+                logger.debug(f"Processing {current_csv}, line {i}, row: {dict(row)}")
+                current_line = i
+                try:
+                    process_row(row, resolved_headers, facade, config)
+                except Exception as e:
+                    logger.error(f"Error processing {current_csv}, line {i}: {str(e)}", exc_info=True)
+                save_checkpoint(current_csv, current_line)
+                time.sleep(wait_time)
+    except Exception as e:
+        logger.error(f"Error reading {csv_file_path}: {str(e)}", exc_info=True)
 
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
     """Process a single CSV row and save the evaluation report from process_claim."""
@@ -217,8 +238,9 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     # Build claim dictionary with expanded fields
     claim = {}
     for header, canonical in resolved_headers.items():
-        claim[canonical] = row.get(header, '').strip()
-        logger.debug(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{claim[canonical]}'")
+        value = row.get(header, '').strip()
+        claim[canonical] = value
+        logger.debug(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
     claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
@@ -228,13 +250,13 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     # Process claim and save the report directly
     try:
         report = process_claim(claim, facade, employee_number)
-        logger.debug(f"Raw report from process_claim: {json.dumps(report, indent=2)}")
         if report is None:
             logger.error(f"process_claim returned None for reference_id='{reference_id}'")
             return
+        logger.debug(f"Raw report from process_claim: {json.dumps(report, indent=2)}")
         save_evaluation_report(report, employee_number, reference_id)
     except Exception as e:
-        logger.error(f"Error processing claim for reference_id='{reference_id}': {str(e)}")
+        logger.error(f"Error processing claim for reference_id='{reference_id}': {str(e)}", exc_info=True)
         report = OrderedDict([
             ("reference_id", reference_id),
             ("claim", claim),
@@ -255,10 +277,13 @@ def save_evaluation_report(report: Dict[str, Any], employee_number: str, referen
     """Save the evaluation report as a JSON file."""
     report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
     logger.debug(f"Saving report to {report_path}")
-    with open(report_path, 'w') as f:
-        json.dump(report, f, indent=2)
-    compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
-    logger.info(f"Processed {reference_id}, overall_compliance: {compliance}")
+    try:
+        with open(report_path, 'w') as f:
+            json.dump(report, f, indent=2)
+        compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
+        logger.info(f"Processed {reference_id}, overall_compliance: {compliance}")
+    except Exception as e:
+        logger.error(f"Error saving report to {report_path}: {str(e)}", exc_info=True)
 
 def main():
     parser = argparse.ArgumentParser(description="Compliance CSV Processor")
@@ -266,12 +291,11 @@ def main():
     parser.add_argument('--wait-time', type=float, default=7.0, help="Seconds to wait between API calls")
     args = parser.parse_args()
 
-    # This configures ALL loggers, including our module-level one
+    # Configure logging using logger_config
     loggers = setup_logging(args.diagnostic)
-    global logger  # Tell Python we want to modify the module-level logger
-    logger = loggers['main']  # Get the properly configured logger
+    global logger
+    logger = loggers['main']  # Update module-level logger with configured instance
 
-    # Test logging
     logger.info("=== Starting application ===")
     logger.debug("Debug logging is enabled" if args.diagnostic else "Debug logging is disabled")
 
@@ -280,7 +304,11 @@ def main():
 
     setup_folders()
     config = load_config()
-    facade = FinancialServicesFacade()
+    try:
+        facade = FinancialServicesFacade()
+    except Exception as e:
+        logger.error(f"Failed to initialize FinancialServicesFacade: {str(e)}", exc_info=True)
+        return
 
     print("\nCompliance CSV Processor Menu:")
     print("1. Run batch processing")
@@ -291,6 +319,11 @@ def main():
         print("\nRunning batch processing...")
         checkpoint = load_checkpoint()
         csv_files = get_csv_files()
+        if not csv_files:
+            logger.warning(f"No CSV files found in {INPUT_FOLDER}")
+            print(f"No CSV files found in {INPUT_FOLDER}")
+            return
+
         start_file = checkpoint["csv_file"] if checkpoint else None
         start_line = checkpoint["line"] if checkpoint else 0
 
@@ -304,18 +337,28 @@ def main():
                 continue
             logger.info(f"Processing {csv_path} from line {start_line}")
             process_csv(csv_path, start_line, facade, config, args.wait_time)
-            with open(csv_path, 'r') as f:
-                processed_records += sum(1 for _ in csv.reader(f)) - 1  # Minus header
+            try:
+                with open(csv_path, 'r') as f:
+                    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1  # Minus header, skip blank lines
+            except Exception as e:
+                logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
             archive_file(csv_path)
             processed_files += 1
             start_line = 0
 
         logger.info(f"Processed {processed_files} files, {processed_records} records")
         if os.path.exists(CHECKPOINT_FILE):
-            os.remove(CHECKPOINT_FILE)
+            try:
+                os.remove(CHECKPOINT_FILE)
+                logger.debug(f"Removed checkpoint file: {CHECKPOINT_FILE}")
+            except Exception as e:
+                logger.error(f"Error removing checkpoint file {CHECKPOINT_FILE}: {str(e)}")
+
     elif choice == "2":
+        logger.info("User chose to exit")
         print("Exiting...")
     else:
+        logger.warning(f"Invalid menu choice: {choice}")
         print("Invalid choice. Please enter 1 or 2.")
 
 if __name__ == "__main__":
