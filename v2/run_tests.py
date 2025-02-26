@@ -1,6 +1,18 @@
 import sys
 import subprocess
 from typing import List
+import os
+from datetime import datetime
+
+def ensure_reports_dir():
+    """Ensure the reports directory exists"""
+    if not os.path.exists('reports'):
+        os.makedirs('reports')
+
+def get_report_path(test_type: str) -> str:
+    """Generate a unique report path based on test type and timestamp"""
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    return f"reports/test_report_{test_type}_{timestamp}.html"
 
 def run_tests(test_level: int = 1) -> bool:
     """
@@ -9,24 +21,57 @@ def run_tests(test_level: int = 1) -> bool:
     2 = integration tests only
     3 = all tests
     """
+    ensure_reports_dir()
     test_commands: List[str] = []
+    test_type = ""
     
     if test_level == 1:
         print("\nRunning unit tests...")
-        test_commands = ["pytest", "tests/", "-v", "-m", "not integration"]
+        test_type = "unit"
+        test_commands = [
+            "pytest",
+            "-v",
+            "--color=yes",
+            "-m", "not integration",
+            "--html=" + get_report_path(test_type),
+            "--self-contained-html"
+        ]
     elif test_level == 2:
         print("\nRunning integration tests...")
-        test_commands = ["pytest", "tests/", "-v", "-m", "integration"]
+        test_type = "integration"
+        test_commands = [
+            "pytest",
+            "-v",
+            "--color=yes",
+            "-m", "integration",
+            "--html=" + get_report_path(test_type),
+            "--self-contained-html"
+        ]
     elif test_level == 3:
         print("\nRunning all tests...")
-        test_commands = ["pytest", "tests/", "-v"]
+        test_type = "all"
+        test_commands = [
+            "pytest",
+            "-v",
+            "--color=yes",
+            "--html=" + get_report_path(test_type),
+            "--self-contained-html"
+        ]
     else:
         print(f"Invalid test level: {test_level}")
         return False
 
     try:
-        result = subprocess.run(test_commands, check=True)
-        return result.returncode == 0
+        # Run tests without capturing output so we can see progress in real-time
+        result = subprocess.run(test_commands, capture_output=False, text=True)
+        success = result.returncode == 0
+        
+        if success:
+            print(f"\n✨ Test report generated: {get_report_path(test_type)}")
+        else:
+            print(f"\n❌ Tests failed. Check the report: {get_report_path(test_type)}")
+            
+        return success
     except subprocess.CalledProcessError:
         return False
     except Exception as e:
