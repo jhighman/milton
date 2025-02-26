@@ -30,7 +30,7 @@ This repository structure allows us to:
 4. Maintain backwards compatibility when needed
 5. Document the evolution of the product
 
-## Migration Progress Tracker
+## FMR Integration
 
 ### Timeline
 - **Current Focus**: Factory Qualification Testing (FQT)
@@ -91,16 +91,31 @@ Legend:
 - 🟢 Completed
 - 🔴 Blocked
 
-## Development
-
-Each version maintains its own documentation, dependencies, and build instructions within its respective directory. Please refer to the specific version's documentation for detailed information about setup and usage.
 
 ## Legacy Support
 
 While V2 is the current recommended version, the extractr codebase is maintained for reference and compatibility testing. This ensures a smooth transition for applications that may still depend on the original data format.
 
----
 
-For specific version documentation, please navigate to the respective version directories:
-- `/V2` - Current version
-- `/extractr` - Legacy version 
+## Issue Tracking
+
+This repository uses GitHub Issues as a supplemental tracking system specifically for long-lived technical issues. It is not intended to replace the development team's primary ticket tracking system.
+
+### When to Use GitHub Issues
+
+Use GitHub Issues for:
+- Long-term technical challenges that span multiple releases
+- Architectural decisions that require ongoing discussion
+- Technical debt items that need persistent tracking
+- Cross-cutting concerns affecting multiple components
+
+### When Not to Use GitHub Issues
+
+Do not use GitHub Issues for:
+- Regular sprint tasks and features
+- Bug fixes that can be resolved in current sprint
+- Team dependencies and assignments
+- Standard development workflow items
+
+The goal is to maintain clear separation between day-to-day development tracking and persistent technical challenges that require extended attention and documentation.
+
