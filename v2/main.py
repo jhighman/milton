@@ -160,12 +160,16 @@ def archive_file(csv_file_path: str):
     logger.info(f"Archived {csv_file_path} to {dest_path}")
 
 def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
-    """Map CSV headers to canonical fields."""
+    """Map CSV headers to canonical fields with case-insensitive matching."""
     resolved_headers = {}
     for header in fieldnames:
+        if not header.strip():
+            logger.warning("Empty header name encountered")
+            continue
+        header_lower = header.lower()  # Convert header to lowercase for comparison
         for canonical, variants in canonical_fields.items():
-            if header in variants:
-                resolved_headers[header] = canonical
+            if header_lower in [variant.lower() for variant in variants]:  # Compare lowercase variants
+                resolved_headers[header] = canonical  # Store original header as key
                 logger.debug(f"Mapped header '{header}' to '{canonical}'")
                 break
         else:
@@ -182,7 +186,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
     current_line = 0
     logger.info(f"Starting to process {csv_file_path} from line {start_line}")
 
-    with open(csv_file_path, 'r') as f:
+    with open(csv_file_path, 'r', newline='') as f:
         reader = csv.DictReader(f)
         resolved_headers = resolve_headers(reader.fieldnames)
         logger.debug(f"Resolved headers: {resolved_headers}")
@@ -191,7 +195,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
             if i <= start_line:
                 logger.debug(f"Skipping line {i} (before start_line {start_line})")
                 continue
-            logger.debug(f"Processing {current_csv}, line {i}, row: {row}")
+            logger.debug(f"Processing {current_csv}, line {i}, row: {dict(row)}")
             current_line = i
             try:
                 process_row(row, resolved_headers, facade, config)
@@ -202,12 +206,13 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
 
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
     """Process a single CSV row and save the evaluation report from process_claim."""
-    logger.debug(f"Processing row: {row}")
-    reference_id_key = resolved_headers.get('reference_id', 'reference_id')
-    reference_id = row.get(reference_id_key, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
+    reference_id_header = next((k for k, v in resolved_headers.items() if v == 'reference_id'), 'reference_id')
+    reference_id = row.get(reference_id_header, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
 
-    employee_number_key = resolved_headers.get('employee_number', 'employee_number')
-    employee_number = row.get(employee_number_key, '').strip()
+    employee_number_header = next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number')
+    employee_number = row.get(employee_number_header, '').strip()
+    logger.debug(f"Employee number header: '{employee_number_header}', value: '{employee_number}'")
+
     if not employee_number:
         logger.error(f"Skipping row - missing or blank employee_number for reference_id='{reference_id}'")
         return
