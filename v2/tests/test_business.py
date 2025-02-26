@@ -30,9 +30,15 @@ class TestBusinessLogic(unittest.TestCase):
         self.employee_number = "EMP001"
 
     def test_determine_search_strategy_correlated(self):
-        claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
-        strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_correlated)
+        # Test both organization_crd_number and organization_crd
+        claim1 = {"individual_name": "John Doe", "organization_crd_number": "12345"}
+        claim2 = {"individual_name": "John Doe", "organization_crd": "12345"}
+        
+        strategy1 = business.determine_search_strategy(claim1)
+        strategy2 = business.determine_search_strategy(claim2)
+        
+        self.assertEqual(strategy1, business.search_with_correlated)
+        self.assertEqual(strategy2, business.search_with_correlated)
 
     def test_determine_search_strategy_both_crds(self):
         claim = {"crd_number": "67890", "organization_crd_number": "12345"}
@@ -63,6 +69,81 @@ class TestBusinessLogic(unittest.TestCase):
         claim = {}
         strategy = business.determine_search_strategy(claim)
         self.assertEqual(strategy, business.search_default)
+
+    def test_process_claim_full_workflow(self):
+        """Test the complete claim processing workflow with all new features"""
+        claim = {
+            "individual_name": "John Doe",
+            "organization_crd": "12345",
+            "reference_id": "TEST-123"
+        }
+        
+        # Mock facade responses
+        self.facade.search_sec_iapd_correlated.return_value = {
+            "crd_number": "67890",
+            "fetched_name": "John Doe",
+            "other_names": ["Johnny Doe"],
+            "bc_scope": "Broker",
+            "ia_scope": "Investment Advisor"
+        }
+        
+        self.facade.search_sec_iapd_detailed.return_value = {
+            "exams": ["Series 7"],
+            "disclosures": ["None"]
+        }
+        
+        self.facade.perform_disciplinary_review.return_value = {
+            "primary_name": "John Doe",
+            "disciplinary_actions": [],
+            "due_diligence": {"status": "Complete"}
+        }
+        
+        self.facade.perform_arbitration_review.return_value = {
+            "primary_name": "John Doe",
+            "arbitration_actions": [],
+            "due_diligence": {"status": "Complete"}
+        }
+        
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        
+        # Verify the complete structure of the result
+        self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
+        self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_correlated")
+        self.assertEqual(result["search_evaluation"]["crd_number"], "67890")
+        self.assertEqual(result["individual"]["fetched_name"], "John Doe")
+        self.assertEqual(result["exams"], ["Series 7"])
+        self.assertEqual(result["disclosures"], ["None"])
+        
+        # Verify name parsing
+        self.facade.perform_disciplinary_review.assert_called_once_with("John", "Doe", self.employee_number)
+        self.facade.perform_arbitration_review.assert_called_once_with("John", "Doe", self.employee_number)
+
+    def test_process_claim_name_parsing(self):
+        """Test the name parsing logic in process_claim"""
+        claim = {
+            "individual_name": "John Middle Doe",
+            "organization_crd": "12345"
+        }
+        
+        self.facade.search_sec_iapd_correlated.return_value = {"crd_number": "67890"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        
+        # Verify that the name was correctly parsed
+        self.facade.perform_disciplinary_review.assert_called_once_with("John", "Middle Doe", self.employee_number)
+
+    def test_process_claim_separate_names(self):
+        """Test processing with separate first/last names"""
+        claim = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "organization_crd": "12345"
+        }
+        
+        self.facade.search_sec_iapd_correlated.return_value = {"crd_number": "67890"}
+        result = business.process_claim(claim, self.facade, self.employee_number)
+        
+        # Verify that the separate names were used directly
+        self.facade.perform_disciplinary_review.assert_called_once_with("John", "Doe", self.employee_number)
 
     def test_process_claim_correlated(self):
         claim = {"individual_name": "John Doe", "organization_crd_number": "12345"}
@@ -137,6 +218,9 @@ if __name__ == "__main__":
         elif choice == "3":
             suite = unittest.TestSuite()
             suite.addTests([
+                TestBusinessLogic('test_process_claim_full_workflow'),
+                TestBusinessLogic('test_process_claim_name_parsing'),
+                TestBusinessLogic('test_process_claim_separate_names'),
                 TestBusinessLogic('test_process_claim_correlated'),
                 TestBusinessLogic('test_process_claim_crd_only_brokercheck'),
                 TestBusinessLogic('test_process_claim_crd_only_sec_iapd'),
