@@ -69,7 +69,7 @@ def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.C
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36")
+    options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36")
     
     service = ChromeService()
     return webdriver.Chrome(service=service, options=options)
@@ -117,11 +117,16 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
         logger (Logger): Logger instance for structured logging.
 
     Returns:
-        Dict[str, Any]: Always returns {"result": [...] or "No Results Found", ...}
+        Dict[str, Any]: Dictionary containing search results and individual info
     """
     logger.info("Searching SEC actions", extra={"first_name": first_name, "last_name": last_name})
     search_url = generate_sec_search_url(first_name, last_name)
     logger.debug("Generated search URL", extra={"url": search_url})
+    
+    base_result = {
+        "first_name": first_name,
+        "last_name": last_name
+    }
     
     try:
         logger.debug("Loading search page")
@@ -137,7 +142,7 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
         labels = soup.find_all("span", class_="views-label")
         if not labels:
             logger.info("No enforcement actions found")
-            return {"result": "No Results Found"}
+            return {**base_result, "result": "No Results Found"}
 
         data: List[Dict[str, Any]] = []
         for label in labels:
@@ -171,9 +176,10 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
 
         if not data:
             logger.info("No valid enforcement actions found")
-            return {"result": "No Results Found"}
+            return {**base_result, "result": "No Results Found"}
 
         result = {
+            **base_result,
             "result": data,
             "total_actions": len(data)
         }
@@ -182,7 +188,7 @@ def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str,
 
     except Exception as e:
         logger.error("Error during search", extra={"error": str(e)})
-        return {"result": [], "error": str(e)}
+        return {**base_result, "result": [], "error": str(e)}
 
 def validate_json_data(data: Any, file_path: str, logger: Logger = logger) -> Tuple[bool, str]:
     """

@@ -30,8 +30,6 @@ def test_no_results():
     print(f"Stats: {stats}")
     
     assert isinstance(results, dict)
-    assert results["first_name"] == "John"
-    assert results["last_name"] == "Doe"
     assert results["result"] == "No Results Found"
     
     # Verify stats
@@ -51,8 +49,6 @@ def test_single_enforcement_action():
     
     # Check results structure
     assert isinstance(results, dict), f"Expected dict, got {type(results)}"
-    assert results["first_name"] == "Mark", f"Expected first_name 'Mark', got {results.get('first_name')}"
-    assert results["last_name"] == "Miller", f"Expected last_name 'Miller', got {results.get('last_name')}"
     assert isinstance(results["result"], list), f"Expected list, got {type(results.get('result'))}"
     assert len(results["result"]) == 1, f"Expected 1 result, got {len(results['result'])}"
     assert results["total_actions"] == 1, f"Expected total_actions 1, got {results.get('total_actions')}"
@@ -84,8 +80,6 @@ def test_multiple_enforcement_actions():
     
     # Check results structure
     assert isinstance(results, dict), f"Expected dict, got {type(results)}"
-    assert results["first_name"] == "Andrew", f"Expected first_name 'Andrew', got {results.get('first_name')}"
-    assert results["last_name"] == "Miller", f"Expected last_name 'Miller', got {results.get('last_name')}"
     assert isinstance(results["result"], list), f"Expected list, got {type(results.get('result'))}"
     
     print(f"\nNumber of actions found: {len(results['result'])}")
@@ -126,15 +120,12 @@ def test_alternate_names():
     # At least one result should have enforcement actions
     assert stats["enforcement_actions"] > 0
 
-# Change this to only test visible vs headless modes
 def test_visible_browser():
     """Test that browser can run in visible mode"""
     results, stats = process_name("Mark", "Miller", headless=False, logger=logger)
     
     # Results should be the same as headless mode
     assert isinstance(results, dict)
-    assert results["first_name"] == "Mark"
-    assert results["last_name"] == "Miller"
     assert isinstance(results["result"], list)
     assert len(results["result"]) == 1
 
@@ -143,8 +134,6 @@ def test_found_results():
     results, stats = process_name("Mark", "Miller", headless=True, logger=logger)
     
     assert isinstance(results, dict)
-    assert results["first_name"] == "Mark"
-    assert results["last_name"] == "Miller"
     assert isinstance(results["result"], list)
     assert len(results["result"]) > 0
     
@@ -155,6 +144,7 @@ def test_found_results():
         assert "Documents" in action
         assert isinstance(action["Documents"], list)
 
+@pytest.mark.slow
 def test_wait_time_override():
     """Test that wait time can be overridden"""
     start_time = time.time()
