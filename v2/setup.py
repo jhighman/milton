@@ -37,6 +37,8 @@ setup(
         "requests>=2.25.0",
         "pytest>=6.0.0",
         "pytest-mock>=3.6.0",
+        "pytest-sugar>=0.9.7",
+        "pytest-instafail>=0.5.0"
     ],
     python_requires=">=3.8",
 )

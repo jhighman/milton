@@ -82,29 +82,32 @@ def verify_api_access():
         logger.error(f"API test failed: {str(e)}")
         return False
 
-def verify_bdd_tests():
-    """Verify BDD tests can run and pass"""
-    logger.info("Verifying BDD tests...")
+def verify_unit_tests():
+    """Verify unit tests can run and pass"""
+    logger.info("Verifying unit tests...")
     
     try:
-        # Run just the BDD feature tests
+        # Run all unit tests in the tests directory with progress visualization
         result = subprocess.run([
             "pytest",
-            "tests/steps/test_due_diligence_steps.py",
+            "tests",
             "-v",
-            "--gherkin-terminal-reporter"
+            "--ignore=tests/steps",  # Ignore BDD tests
+            "--sugar",  # Add nice progress bar and colors
+            "--instafail",  # Show failures instantly
+            "-p", "no:warnings"  # Suppress warnings for cleaner output
         ], capture_output=True, text=True)
         
         if result.returncode == 0:
-            logger.info("BDD tests passed successfully")
+            logger.info("Unit tests passed successfully")
             return True
         else:
-            logger.error("BDD tests failed")
+            logger.error("Unit tests failed")
             logger.error(f"Test output:\n{result.stdout}\n{result.stderr}")
             return False
             
     except Exception as e:
-        logger.error(f"Error running BDD tests: {str(e)}")
+        logger.error(f"Error running unit tests: {str(e)}")
         return False
 
 def main():
@@ -114,7 +117,7 @@ def main():
         ("Directory structure", verify_directories),
         ("Configuration file", verify_config),
         ("API access", verify_api_access),
-        ("BDD tests", verify_bdd_tests)  # Added BDD test verification
+        ("Unit tests", verify_unit_tests)  # Changed from BDD to unit tests
     ]
     
     all_passed = True
