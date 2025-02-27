@@ -114,10 +114,13 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
 def process_claim(
     claim: Dict[str, Any],
     facade: FinancialServicesFacade,
-    employee_number: str = None
+    employee_number: str = None,
+    skip_disciplinary: bool = False,
+    skip_arbitration: bool = False,
+    skip_regulatory: bool = False  # New: Added skip_regulatory parameter
 ) -> Dict[str, Any]:
     """Process a claim by collecting data and delegating report building to EvaluationReportDirector."""
-    logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}'")
+    logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}', skip_disciplinary={skip_disciplinary}, skip_arbitration={skip_arbitration}, skip_regulatory={skip_regulatory}")
     
     employee_number = claim.get("employee_number", employee_number or "EMP_DEFAULT")
     
@@ -134,25 +137,60 @@ def process_claim(
         first_name, *last_name_parts = individual_name.split()
         last_name = " ".join(last_name_parts) if last_name_parts else ""
     
-    disciplinary_evaluation = (
-        facade.perform_disciplinary_review(first_name, last_name, employee_number)
-        if first_name and last_name
-        else {
+    if skip_disciplinary:
+        logger.info(f"Skipping disciplinary review for Employee='{employee_number}' as per configuration")
+        disciplinary_evaluation = {
             "primary_name": individual_name or "Unknown",
-            "disciplinary_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
+            "actions": [],
+            "due_diligence": {"status": "Skipped per configuration"}
         }
-    )
+    else:
+        disciplinary_evaluation = (
+            facade.perform_disciplinary_review(first_name, last_name, employee_number)
+            if first_name and last_name
+            else {
+                "primary_name": individual_name or "Unknown",
+                "actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+        )
 
-    arbitration_evaluation = (
-        facade.perform_arbitration_review(first_name, last_name, employee_number)
-        if first_name and last_name
-        else {
+    if skip_arbitration:
+        logger.info(f"Skipping arbitration review for Employee='{employee_number}' as per configuration")
+        arbitration_evaluation = {
             "primary_name": individual_name or "Unknown",
-            "arbitration_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
+            "actions": [],
+            "due_diligence": {"status": "Skipped per configuration"}
         }
-    )
+    else:
+        arbitration_evaluation = (
+            facade.perform_arbitration_review(first_name, last_name, employee_number)
+            if first_name and last_name
+            else {
+                "primary_name": individual_name or "Unknown",
+                "actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+        )
+
+    if skip_regulatory:
+        logger.info(f"Skipping regulatory review for Employee='{employee_number}' as per configuration")
+        regulatory_evaluation = {
+            "primary_name": individual_name or "Unknown",
+            "actions": [],
+            "due_diligence": {"status": "Skipped per configuration"}
+        }
+    else:
+        # Placeholder for regulatory review (not implemented yet)
+        regulatory_evaluation = (
+            facade.perform_regulatory_review(first_name, last_name, employee_number)
+            if first_name and last_name and hasattr(facade, 'perform_regulatory_review')
+            else {
+                "primary_name": individual_name or "Unknown",
+                "actions": [],
+                "due_diligence": {"status": "Regulatory review not implemented or no name provided"}
+            }
+        )
 
     extracted_info = {
         "search_evaluation": {
@@ -170,7 +208,8 @@ def process_claim(
         "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") is not None else [],
         "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
         "disciplinary_evaluation": disciplinary_evaluation,
-        "arbitration_evaluation": arbitration_evaluation
+        "arbitration_evaluation": arbitration_evaluation,
+        "regulatory_evaluation": regulatory_evaluation  # New: Added regulatory_evaluation
     }
 
     reference_id = claim.get("reference_id", "UNKNOWN")
@@ -184,8 +223,8 @@ def process_claim(
 if __name__ == "__main__":
     facade = FinancialServicesFacade()
 
-    def run_process_claim(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str = None):
-        result = process_claim(claim, facade, employee_number)
+    def run_process_claim(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str = None, skip_disciplinary: bool = False, skip_arbitration: bool = False, skip_regulatory: bool = False):
+        result = process_claim(claim, facade, employee_number, skip_disciplinary, skip_arbitration, skip_regulatory)
         print(f"\nResult for {claim.get('reference_id', 'Custom Claim')}:")
         print(json.dumps(result, indent=2, default=str))
 
@@ -228,6 +267,9 @@ if __name__ == "__main__":
             crd_number = input("CRD Number: ").strip()
             organization_crd = input("Organization CRD Number: ").strip()
             organization_name = input("Organization Name: ").strip()
+            skip_disc = input("Skip Disciplinary Review? (y/n): ").strip().lower() == 'y'
+            skip_arb = input("Skip Arbitration Review? (y/n): ").strip().lower() == 'y'
+            skip_reg = input("Skip Regulatory Review? (y/n): ").strip().lower() == 'y'
 
             claim = {
                 "reference_id": reference_id,
@@ -247,7 +289,7 @@ if __name__ == "__main__":
                 claim["organization_name"] = organization_name
 
             print("\nRunning custom claim...")
-            run_process_claim(claim, facade)
+            run_process_claim(claim, facade, skip_disciplinary=skip_disc, skip_arbitration=skip_arb, skip_regulatory=skip_reg)
         elif choice == "4":
             print("Exiting...")
             break

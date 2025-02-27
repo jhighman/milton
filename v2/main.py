@@ -15,10 +15,8 @@ from business import process_claim
 from services import FinancialServicesFacade
 from logger_config import setup_logging
 
-# Module-level logger (will be configured in main)
 logger = logging.getLogger('main')
 
-# Canonical field mappings (case-insensitive matching handled in resolve_headers)
 canonical_fields = {
     'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],
     'crd_number': ['CRD', 'crd_number', 'crd', 'CRD Number', 'CRDNumber', 'crdnumber'],
@@ -28,7 +26,7 @@ canonical_fields = {
     'employee_number': ['employeeNumber', 'Employee Number', 'employee_number', 'emp_id', 'employeenumber'],
     'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
     'organization_name': ['orgName', 'Organization Name', 'organization_name', 'firm_name', 'organizationname', 'OrganizationName', 'organization'],
-    'organization_crd': ['orgCRD', 'Organization CRD', 'org_crd_number', 'firm_crd', 'organizationCRD', 'organization_crd_number', 'organization_crd'],
+    'organization_crd': ['orgCRD', 'Organization CRD', 'org_crd_number', 'firm_crd', 'organizationCRD', 'organization_crd_number', 'organization_crd', 'organizationCrdNumber'],
     'suffix': ['suffix', 'Suffix'],
     'ssn': ['ssn', 'SSN', 'Social Security Number', 'social_security_number'],
     'dob': ['dob', 'DOB', 'Date of Birth', 'date_of_birth', 'birthDate', 'birth_date'],
@@ -72,45 +70,54 @@ canonical_fields = {
     'driving_license_restriction_code': ['drivingLicenseRestrictionCode', 'Driving License Restriction Code', 'driversLicenseRestrictionCode', 'driving_license_restriction_code']
 }
 
-# Configurable evaluation flags
 DEFAULT_CONFIG = {
     "evaluate_name": True,
     "evaluate_license": True,
     "evaluate_exams": True,
-    "evaluate_disclosures": True
+    "evaluate_disclosures": True,
+    "skip_disciplinary": True,  # Default: Skip disciplinary
+    "skip_arbitration": True,   # Default: Skip arbitration
+    "skip_regulatory": True     # Default: Skip regulatory
 }
 
-# Local flags for additional checks
 DISCIPLINARY_ENABLED = True
 ARBITRATION_ENABLED = True
 
-# Folder paths
 INPUT_FOLDER = "drop"
 OUTPUT_FOLDER = "output"
 ARCHIVE_FOLDER = "archive"
 CHECKPOINT_FILE = os.path.join(OUTPUT_FOLDER, "checkpoint.json")
+CONFIG_FILE = "config.json"  # Explicitly defined for clarity
 
-# Global state for signal handling
 current_csv = None
 current_line = 0
 
-def load_config(config_path: str = "config.json") -> Dict[str, bool]:
-    """Load configuration from config.json or use defaults."""
+def load_config(config_path: str = CONFIG_FILE) -> Dict[str, bool]:
     try:
         with open(config_path, 'r') as f:
-            return {**DEFAULT_CONFIG, **json.load(f)}
+            config = json.load(f)
+            return {**DEFAULT_CONFIG, **config}
     except FileNotFoundError:
         logger.warning("Config file not found, using defaults")
         return DEFAULT_CONFIG
+    except Exception as e:
+        logger.error(f"Error loading config file {config_path}: {str(e)}")
+        return DEFAULT_CONFIG
+
+def save_config(config: Dict[str, bool], config_path: str = CONFIG_FILE):
+    try:
+        with open(config_path, 'w') as f:
+            json.dump(config, f, indent=2)
+        logger.info(f"Saved settings to {config_path}: {config}")
+    except Exception as e:
+        logger.error(f"Error saving config to {config_path}: {str(e)}")
 
 def generate_reference_id(crd_number: str = None) -> str:
-    """Generate a unique reference ID, using CRD if provided."""
     if crd_number and crd_number.strip():
         return crd_number
     return f"DEF-{random.randint(100000000000, 999999999999)}"
 
 def setup_folders():
-    """Ensure all required folders exist."""
     for folder in [INPUT_FOLDER, OUTPUT_FOLDER, ARCHIVE_FOLDER]:
         try:
             os.makedirs(folder, exist_ok=True)
@@ -119,7 +126,6 @@ def setup_folders():
             raise
 
 def load_checkpoint() -> Optional[Dict[str, Any]]:
-    """Load the last processed file and line from checkpoint.json."""
     try:
         with open(CHECKPOINT_FILE, 'r') as f:
             return json.load(f)
@@ -130,7 +136,6 @@ def load_checkpoint() -> Optional[Dict[str, Any]]:
         return None
 
 def save_checkpoint(csv_file: str, line_number: int):
-    """Save the current file and line to checkpoint.json."""
     if not csv_file or line_number is None:
         logger.error(f"Cannot save checkpoint: csv_file={csv_file}, line_number={line_number}")
         return
@@ -143,7 +148,6 @@ def save_checkpoint(csv_file: str, line_number: int):
         logger.error(f"Error saving checkpoint: {str(e)}")
 
 def signal_handler(sig, frame):
-    """Handle SIGINT/SIGTERM by saving checkpoint and exiting."""
     if current_csv and current_line > 0:
         logger.info(f"Signal received ({signal.Signals(sig).name}), saving checkpoint: {current_csv}, line {current_line}")
         save_checkpoint(current_csv, current_line)
@@ -151,7 +155,6 @@ def signal_handler(sig, frame):
     exit(0)
 
 def get_csv_files() -> list[str]:
-    """List all CSV files in the drop folder."""
     try:
         files = sorted([f for f in os.listdir(INPUT_FOLDER) if f.lower().endswith('.csv')])
         logger.debug(f"Found CSV files: {files}")
@@ -161,7 +164,6 @@ def get_csv_files() -> list[str]:
         return []
 
 def archive_file(csv_file_path: str):
-    """Move processed CSV to archive with date-based subfolder."""
     date_str = datetime.now().strftime("%m-%d-%Y")
     archive_subfolder = os.path.join(ARCHIVE_FOLDER, date_str)
     try:
@@ -173,7 +175,6 @@ def archive_file(csv_file_path: str):
         logger.error(f"Error archiving {csv_file_path}: {str(e)}")
 
 def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
-    """Map CSV headers to canonical fields with case-insensitive matching."""
     resolved_headers = {}
     for header in fieldnames:
         if not header.strip():
@@ -193,7 +194,6 @@ def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
     return resolved_headers
 
 def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
-    """Process a CSV file starting from the given line."""
     global current_csv, current_line
     current_csv = os.path.basename(csv_file_path)
     current_line = 0
@@ -221,7 +221,6 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
         logger.error(f"Error reading {csv_file_path}: {str(e)}", exc_info=True)
 
 def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
-    """Process a single CSV row and save the evaluation report from process_claim."""
     reference_id_header = next((k for k, v in resolved_headers.items() if v == 'reference_id'), 'reference_id')
     reference_id = row.get(reference_id_header, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
 
@@ -235,25 +234,43 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
 
     logger.debug(f"Reference ID: {reference_id}, Employee Number: {employee_number}")
 
-    # Build claim dictionary with expanded fields
     claim = {}
     for header, canonical in resolved_headers.items():
         value = row.get(header, '').strip()
         claim[canonical] = value
         logger.debug(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
+    
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
     claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
     claim['employee_number'] = employee_number
+    
+    unmapped_fields = set(row.keys()) - set(resolved_headers.keys())
+    if unmapped_fields:
+        logger.warning(f"Unmapped fields in row for reference_id='{reference_id}': {unmapped_fields}")
+    
     logger.debug(f"Claim built: {claim}")
 
-    # Process claim and save the report directly
     try:
-        report = process_claim(claim, facade, employee_number)
+        report = process_claim(
+            claim,
+            facade,
+            employee_number,
+            skip_disciplinary=config.get('skip_disciplinary', False),
+            skip_arbitration=config.get('skip_arbitration', False),
+            skip_regulatory=config.get('skip_regulatory', False)
+        )
         if report is None:
             logger.error(f"process_claim returned None for reference_id='{reference_id}'")
             return
         logger.debug(f"Raw report from process_claim: {json.dumps(report, indent=2)}")
+        
+        if 'disclosure_review' in report and 'disclosure_evaluation' not in report:
+            report['disclosure_evaluation'] = {
+                "compliance": report['disclosure_review'].get('compliance', True),
+                "compliance_explanation": report['disclosure_review'].get('compliance_explanation', "No disclosures evaluated"),
+                "alerts": report['disclosure_review'].get('alerts', [])
+            }
         save_evaluation_report(report, employee_number, reference_id)
     except Exception as e:
         logger.error(f"Error processing claim for reference_id='{reference_id}': {str(e)}", exc_info=True)
@@ -270,11 +287,9 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
         ])
         save_evaluation_report(report, employee_number, reference_id)
 
-    # Throttle with a 7-second delay after processing each row
     time.sleep(7)
 
 def save_evaluation_report(report: Dict[str, Any], employee_number: str, reference_id: str):
-    """Save the evaluation report as a JSON file."""
     report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
     logger.debug(f"Saving report to {report_path}")
     try:
@@ -285,16 +300,58 @@ def save_evaluation_report(report: Dict[str, Any], employee_number: str, referen
     except Exception as e:
         logger.error(f"Error saving report to {report_path}: {str(e)}", exc_info=True)
 
+def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
+    print("\nRunning batch processing...")
+    checkpoint = load_checkpoint()
+    csv_files = get_csv_files()
+    if not csv_files:
+        logger.warning(f"No CSV files found in {INPUT_FOLDER}")
+        print(f"No CSV files found in {INPUT_FOLDER}")
+        return
+
+    start_file = checkpoint["csv_file"] if checkpoint else None
+    start_line = checkpoint["line"] if checkpoint else 0
+
+    processed_files = 0
+    processed_records = 0
+
+    for csv_file in csv_files:
+        csv_path = os.path.join(INPUT_FOLDER, csv_file)
+        if start_file and csv_file < start_file:
+            logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
+            continue
+        logger.info(f"Processing {csv_path} from line {start_line}")
+        process_csv(csv_path, start_line, facade, config, wait_time)
+        try:
+            with open(csv_path, 'r') as f:
+                processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+        except Exception as e:
+            logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
+        archive_file(csv_path)
+        processed_files += 1
+        start_line = 0
+
+    logger.info(f"Processed {processed_files} files, {processed_records} records")
+    if os.path.exists(CHECKPOINT_FILE):
+        try:
+            os.remove(CHECKPOINT_FILE)
+            logger.debug(f"Removed checkpoint file: {CHECKPOINT_FILE}")
+        except Exception as e:
+            logger.error(f"Error removing checkpoint file {CHECKPOINT_FILE}: {str(e)}")
+
 def main():
     parser = argparse.ArgumentParser(description="Compliance CSV Processor")
     parser.add_argument('--diagnostic', action='store_true', help="Enable verbose debug logging")
     parser.add_argument('--wait-time', type=float, default=7.0, help="Seconds to wait between API calls")
+    parser.add_argument('--skip-disciplinary', action='store_true', help="Skip disciplinary review for all claims")
+    parser.add_argument('--skip-arbitration', action='store_true', help="Skip arbitration review for all claims")
+    parser.add_argument('--skip-regulatory', action='store_true', help="Skip regulatory review for all claims")
+    parser.add_argument('--headless', action='store_true', help="Run in headless mode with specified settings")
     args = parser.parse_args()
 
-    # Configure logging using logger_config
     loggers = setup_logging(args.diagnostic)
     global logger
-    logger = loggers['main']  # Update module-level logger with configured instance
+    logger = loggers['main']
 
     logger.info("=== Starting application ===")
     logger.debug("Debug logging is enabled" if args.diagnostic else "Debug logging is disabled")
@@ -303,63 +360,85 @@ def main():
     signal.signal(signal.SIGTERM, signal_handler)
 
     setup_folders()
-    config = load_config()
+
     try:
         facade = FinancialServicesFacade()
     except Exception as e:
         logger.error(f"Failed to initialize FinancialServicesFacade: {str(e)}", exc_info=True)
         return
 
-    print("\nCompliance CSV Processor Menu:")
-    print("1. Run batch processing")
-    print("2. Exit")
-    choice = input("Enter your choice (1-2): ").strip()
+    if args.headless:
+        config = {
+            "evaluate_name": True,
+            "evaluate_license": True,
+            "evaluate_exams": True,
+            "evaluate_disclosures": True,
+            "skip_disciplinary": args.skip_disciplinary,
+            "skip_arbitration": args.skip_arbitration,
+            "skip_regulatory": args.skip_regulatory
+        }
+        if not (args.skip_disciplinary or args.skip_arbitration or args.skip_regulatory):
+            config.update(load_config())
+        run_batch_processing(facade, config, args.wait_time)
+        return
 
-    if choice == "1":
-        print("\nRunning batch processing...")
-        checkpoint = load_checkpoint()
-        csv_files = get_csv_files()
-        if not csv_files:
-            logger.warning(f"No CSV files found in {INPUT_FOLDER}")
-            print(f"No CSV files found in {INPUT_FOLDER}")
-            return
+    skip_disciplinary = True
+    skip_arbitration = True
+    skip_regulatory = True
 
-        start_file = checkpoint["csv_file"] if checkpoint else None
-        start_line = checkpoint["line"] if checkpoint else 0
+    while True:
+        print("\nCompliance CSV Processor Menu:")
+        print("1. Run batch processing")
+        print(f"2. Toggle disciplinary review (currently: {'skipped' if skip_disciplinary else 'enabled'})")
+        print(f"3. Toggle arbitration review (currently: {'skipped' if skip_arbitration else 'enabled'})")
+        print(f"4. Toggle regulatory review (currently: {'skipped' if skip_regulatory else 'enabled'})")
+        print("5. Save settings")
+        print("6. Exit")
+        choice = input("Enter your choice (1-6): ").strip()
 
-        processed_files = 0
-        processed_records = 0
-
-        for csv_file in csv_files:
-            csv_path = os.path.join(INPUT_FOLDER, csv_file)
-            if start_file and csv_file < start_file:
-                logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
-                continue
-            logger.info(f"Processing {csv_path} from line {start_line}")
-            process_csv(csv_path, start_line, facade, config, args.wait_time)
-            try:
-                with open(csv_path, 'r') as f:
-                    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1  # Minus header, skip blank lines
-            except Exception as e:
-                logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
-            archive_file(csv_path)
-            processed_files += 1
-            start_line = 0
-
-        logger.info(f"Processed {processed_files} files, {processed_records} records")
-        if os.path.exists(CHECKPOINT_FILE):
-            try:
-                os.remove(CHECKPOINT_FILE)
-                logger.debug(f"Removed checkpoint file: {CHECKPOINT_FILE}")
-            except Exception as e:
-                logger.error(f"Error removing checkpoint file {CHECKPOINT_FILE}: {str(e)}")
-
-    elif choice == "2":
-        logger.info("User chose to exit")
-        print("Exiting...")
-    else:
-        logger.warning(f"Invalid menu choice: {choice}")
-        print("Invalid choice. Please enter 1 or 2.")
+        if choice == "1":
+            config = {
+                "evaluate_name": True,
+                "evaluate_license": True,
+                "evaluate_exams": True,
+                "evaluate_disclosures": True,
+                "skip_disciplinary": skip_disciplinary,
+                "skip_arbitration": skip_arbitration,
+                "skip_regulatory": skip_regulatory
+            }
+            logger.info(f"Running batch with config: {config}")
+            run_batch_processing(facade, config, args.wait_time)
+        elif choice == "2":
+            skip_disciplinary = not skip_disciplinary
+            logger.info(f"Disciplinary review {'skipped' if skip_disciplinary else 'enabled'}")
+            print(f"Disciplinary review is now {'skipped' if skip_disciplinary else 'enabled'}")
+        elif choice == "3":
+            skip_arbitration = not skip_arbitration
+            logger.info(f"Arbitration review {'skipped' if skip_arbitration else 'enabled'}")
+            print(f"Arbitration review is now {'skipped' if skip_arbitration else 'enabled'}")
+        elif choice == "4":
+            skip_regulatory = not skip_regulatory
+            logger.info(f"Regulatory review {'skipped' if skip_regulatory else 'enabled'}")
+            print(f"Regulatory review is now {'skipped' if skip_regulatory else 'enabled'}")
+        elif choice == "5":
+            config = {
+                "evaluate_name": True,
+                "evaluate_license": True,
+                "evaluate_exams": True,
+                "evaluate_disclosures": True,
+                "skip_disciplinary": skip_disciplinary,
+                "skip_arbitration": skip_arbitration,
+                "skip_regulatory": skip_regulatory
+            }
+            save_config(config)
+            print(f"Settings saved to {CONFIG_FILE}")
+        elif choice == "6":
+            logger.info("User chose to exit")
+            print("Exiting...")
+            break
+        else:
+            logger.warning(f"Invalid menu choice: {choice}")
+            print("Invalid choice. Please enter 1-6.")
 
 if __name__ == "__main__":
     main()
