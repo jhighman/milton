@@ -195,4 +195,129 @@ Running tests with pytest-sugar ✨
  tests/test_example.py ✓✓✓✓✓                                              100% 
 INFO:root:Unit tests passed successfully
 INFO:root:All checks passed! Setup is complete.
+```
+
+## Main Menu Options
+
+The V2 Agent application provides an intuitive menu interface to control program execution. Here's a detailed breakdown of each option:
+
+1. **Run batch processing**: Processes all CSV files in the drop folder, generates compliance reports, and moves processed files to the archive folder. Use this for full compliance checks on multiple files.
+
+2. **Toggle Reviews**:
+   - Toggle disciplinary review
+   - Toggle arbitration review
+   - Toggle regulatory review
+   These options enable/disable specific compliance checks. Skipping checks improves performance but may miss certain compliance issues.
+
+3. **Save settings**: Persists your current configuration (review toggles, logging preferences) to `config.json`. Useful for maintaining settings across sessions, especially in headless mode.
+
+4. **Manage logging groups**: Controls logging verbosity for specific system components. Enables detailed debugging for targeted areas while keeping other logs concise.
+
+5. **Flush logs**: Clears existing log files. Use when logs become unwieldy or you need a clean slate for troubleshooting.
+
+6. **Set trace mode**: Enables comprehensive logging across all components. Ideal for deep debugging or complex issue investigation.
+
+7. **Set production mode**: Minimizes logging to essential information. Optimizes performance for production environments.
+
+8. **Exit**: Terminates the program.
+
+## Logging System
+
+### Logging Groups Overview
+
+The V2 Agent organizes logging into functional groups that mirror its architecture:
+
+- **services**: Data normalization, marshaling, and business logic
+- **agents**: Agent-specific operations (data retrieval, processing)
+- **evaluation**: Compliance decision logic and rule application
+- **core**: High-level operations (batch processing, system events)
+
+### Troubleshooting Scenarios
+
+#### Scenario 1: Debugging Agent Issues
+When an agent misbehaves (incorrect data retrieval/processing):
+
+```bash
+# Example logging output
+[DEBUG] agents: Fetching data from endpoint X
+[DEBUG] agents: Parsing response: {key: value}
+[DEBUG] agents: Processing rule Y failed due to null value
+```
+
+**Approach**:
+1. Enable agents group at DEBUG level
+2. Disable or set other groups to ERROR
+3. Use menu option 6 (Manage logging groups)
+4. Save configuration for future use
+
+#### Scenario 2: Evaluation Logic Issues
+For investigating compliance results or alert triggers:
+
+```bash
+# Example logging output
+[DEBUG] evaluation: Applying rule 'threshold > 10' to value 8
+[DEBUG] evaluation: Rule failed, marking as non-compliant
+[WARNING] services: Data normalization skipped due to missing field
+```
+
+**Approach**:
+1. Set evaluation group to DEBUG
+2. Set other groups to WARNING
+3. Focus on rule execution and decision paths
+
+#### Scenario 3: Data Flow Tracing
+When tracking data movement between components:
+
+```bash
+# Example logging output
+[DEBUG] agents: Retrieved data: {temp: 15}
+[INFO] services: Normalized data: {temp: 15}
+[DEBUG] evaluation: Rule 'temp < 20' passed
+```
+
+**Approach**:
+1. Enable agents and evaluation at DEBUG
+2. Set services to INFO
+3. Disable core logging
+4. Monitor data transformations and handoffs
+
+#### Scenario 4: Performance Analysis
+For identifying system bottlenecks:
+
+```bash
+# Example logging output
+[INFO] agents: API call took 2.3s
+[INFO] evaluation: Processed 100 records in 1.8s
+```
+
+**Approach**:
+1. Start with trace mode (option 8)
+2. Refine by setting specific groups to DEBUG
+3. Monitor timing and resource usage patterns
+
+### Logging Best Practices
+
+1. **Start Clean**: Use the flush logs option before troubleshooting
+2. **Progressive Detail**: Begin with trace mode, then narrow focus
+3. **Targeted Debugging**: Use DEBUG level selectively to avoid log pollution
+4. **Save Configurations**: Preserve useful logging setups for recurring issues
+
+### Logging Configuration
+
+You can configure logging through:
+- Interactive menu options
+- Command line arguments
+- Configuration file settings
+
+Example configuration in `config.json`:
+```json
+{
+    "enabled_logging_groups": ["core", "agents"],
+    "logging_levels": {
+        "core": "INFO",
+        "agents": "DEBUG",
+        "services": "WARNING",
+        "evaluation": "WARNING"
+    }
+}
 ``` 
