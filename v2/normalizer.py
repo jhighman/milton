@@ -7,9 +7,7 @@ It handles:
 - Individual records (e.g., IAPD, BrokerCheck)
 - Disciplinary records (e.g., SEC, FINRA)
 - Arbitration records (e.g., SEC, FINRA)
-
-Normalization ensures that downstream evaluation logic operates on abstract, uniform data,
-independent of the specifics of the originating service.
+- Regulatory records (e.g., NFA)
 """
 
 import json
@@ -28,30 +26,6 @@ def create_individual_record(
     basic_info: Optional[Dict[str, Any]],
     detailed_info: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
-    """
-    Creates a unified "individual record" from BrokerCheck or IAPD data.
-
-    :param data_source: A string indicating the source of data. Accepted values:
-        - "BrokerCheck": For FINRA BrokerCheck data
-        - "IAPD": For SEC IAPD data
-    :param basic_info: The JSON structure returned by your "basic" search function.
-                       Typically has partial fields (like name, CRD, etc.).
-    :param detailed_info: The JSON structure returned by your "detailed" search function.
-                          Typically holds disclosures, exam details, or other extended info.
-                          Optional, defaults to None.
-    :return: A dictionary (extracted_info) with normalized keys:
-        {
-          "fetched_name": str,
-          "other_names": list,
-          "bc_scope": str,
-          "ia_scope": str,
-          "disclosures": list,
-          "arbitrations": list,
-          "exams": list,
-          "current_ia_employments": list,
-          ...
-        }
-    """
     extracted_info = {
         "fetched_name": "",
         "other_names": [],
@@ -64,7 +38,6 @@ def create_individual_record(
         "crd_number": None
     }
 
-    # Return empty info for invalid data sources
     if data_source not in ["BrokerCheck", "IAPD"]:
         return extracted_info
 
@@ -79,7 +52,6 @@ def create_individual_record(
 
     individual = hits_list[0].get("_source", {})
 
-    # Always convert names to uppercase
     first_name = individual.get('ind_firstname', '').upper()
     middle_name = individual.get('ind_middlename', '').upper()
     last_name = individual.get('ind_lastname', '').upper()
@@ -92,9 +64,7 @@ def create_individual_record(
     extracted_info["crd_number"] = str(individual.get("ind_source_id", ""))
 
     if data_source == "BrokerCheck":
-        # BrokerCheck data should never populate current_ia_employments
         extracted_info["current_ia_employments"] = []
-        
         if detailed_info and "hits" in detailed_info:
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
@@ -103,52 +73,40 @@ def create_individual_record(
                     bc_content_data = json.loads(bc_content_str)
                     extracted_info["disclosures"] = bc_content_data.get("disclosures", [])
                     extracted_info["arbitrations"] = bc_content_data.get("arbitrations", [])
-
-                    # Combine exam categories
                     state_exams = bc_content_data.get("stateExamCategory", [])
                     principal_exams = bc_content_data.get("principalExamCategory", [])
                     product_exams = bc_content_data.get("productExamCategory", [])
                     extracted_info["exams"] = state_exams + principal_exams + product_exams
-
                 except json.JSONDecodeError as e:
                     logger.warning(f"BrokerCheck detailed_info content parse error: {e}")
 
     elif data_source == "IAPD":
-        # Extract current IA employments from basic info
         current_employments = []
         for emp in individual.get("ind_ia_current_employments", []):
             firm_id = emp.get("firm_id")
-            # Keep firm_id as string if present
             if firm_id is not None:
                 firm_id = str(firm_id)
-
             current_employments.append({
                 "firm_id": firm_id,
                 "firm_name": emp.get("firm_name"),
-                "registration_begin_date": None,  # Will be updated from detailed info if available
+                "registration_begin_date": None,
                 "branch_offices": [{
-                    "street": None,  # Basic info doesn't have street
+                    "street": None,
                     "city": emp.get("branch_city"),
                     "state": emp.get("branch_state"),
                     "zip_code": emp.get("branch_zip")
                 }]
             })
 
-        # Update with detailed info if available
         if detailed_info and "hits" in detailed_info:
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
                 iapd_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
                 try:
                     iapd_content_data = json.loads(iapd_content_str)
-                    
-                    # Update employments with detailed info
                     for emp_idx, emp in enumerate(iapd_content_data.get("currentIAEmployments", [])):
                         if emp_idx < len(current_employments):
-                            # Add registration begin date
                             current_employments[emp_idx]["registration_begin_date"] = emp.get("registrationBeginDate")
-
-                            # Update branch offices
                             branch_offices = emp.get("branchOfficeLocations", [])
                             if branch_offices:
                                 current_employments[emp_idx]["branch_offices"] = [{
@@ -157,13 +115,10 @@ def create_individual_record(
                                     "state": office.get("state"),
                                     "zip_code": office.get("zipCode")
                                 } for office in branch_offices]
-
-                    # Combine exam categories
                     state_exams = iapd_content_data.get("stateExamCategory", [])
                     principal_exams = iapd_content_data.get("principalExamCategory", [])
                     product_exams = iapd_content_data.get("productExamCategory", [])
                     extracted_info["exams"] = state_exams + principal_exams + product_exams
-
                     extracted_info["disclosures"] = iapd_content_data.get("disclosures", [])
                     extracted_info["arbitrations"] = iapd_content_data.get("arbitrations", [])
                 except json.JSONDecodeError as e:
@@ -221,7 +176,7 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
             }
             respondent_name = record.get("Name", "")
 
-        if respondent_name:  # Only process if respondent_name exists
+        if respondent_name:
             name_eval, _ = evaluate_name(searched_name, respondent_name, [])
             score = name_eval["best_match"]["score"]
             result["name_scores"][respondent_name] = score
@@ -301,7 +256,6 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
             }
             respondent_names = []
 
-        # Score all respondent names, even if no match
         for respondent_name in respondent_names:
             name_eval, _ = evaluate_name(searched_name, respondent_name, [])
             score = name_eval["best_match"]["score"]
@@ -313,5 +267,62 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
                 break
         if respondent_names and not any(a["case_id"] == normalized_record["case_id"] for a in result["actions"]):
             logger.debug(f"Filtered arbitration record {normalized_record['case_id']} - no respondent matched {searched_name} (best score: {max([result['name_scores'].get(r, 0) for r in respondent_names], default=0)})")
+
+    return result
+
+def create_regulatory_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
+    """Normalize NFA regulatory data into a consistent structure."""
+    result = {
+        "actions": [],
+        "raw_data": [data] if not isinstance(data, list) else data,
+        "name_scores": {}
+    }
+    logger.debug(f"Normalizing {data_source} regulatory data for {searched_name}")
+
+    if isinstance(data, dict) and "error" in data:
+        logger.warning(f"Error in {data_source} data: {data['error']}")
+        return result
+
+    raw_results = data.get("result", []) if isinstance(data, dict) else data
+    if raw_results == "No Results Found" or not raw_results:
+        logger.info(f"No results found in {data_source} for {searched_name}")
+        return result
+
+    if not isinstance(raw_results, list):
+        logger.warning(f"Unexpected {data_source} result format: {raw_results}")
+        return result
+
+    searched_name_dict = parse_name(searched_name)
+    for record in raw_results:
+        if not isinstance(record, dict):
+            logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            continue
+
+        normalized_record = {
+            "case_id": record.get("NFA ID", "Unknown"),
+            "date": "Unknown",  # NFA data lacks a specific date field
+            "details": {
+                "action_type": "Regulatory" if record.get("Regulatory Actions") == "Yes" else "Registration",
+                "firms_individuals": record.get("Name", ""),
+                "description": (
+                    f"NFA ID {record.get('NFA ID', 'Unknown')} status: {record.get('Current NFA Membership Status', 'Unknown')}, "
+                    f"Registration: {record.get('Current Registration Types', '-')}, "
+                    f"Regulatory Actions: {record.get('Regulatory Actions', 'No')}"
+                ),
+                "firm_name": record.get("Firm", ""),
+                "details_available": record.get("Details Available", "No")
+            }
+        }
+        respondent_name = record.get("Name", "").strip()
+
+        if respondent_name:
+            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
+            score = name_eval["best_match"]["score"]
+            result["name_scores"][respondent_name] = score
+            if score >= 80.0 and record.get("Regulatory Actions") == "Yes":
+                result["actions"].append(normalized_record)
+                logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+        else:
+            logger.debug(f"Skipped regulatory record {normalized_record['case_id']} - no respondent name")
 
     return result

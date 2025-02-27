@@ -3,9 +3,10 @@ evaluation_report_builder.py
 
 This module defines the EvaluationReportBuilder class. Its purpose is to
 incrementally assemble an evaluation report that collects various sub‐evaluations
-(such as registration status, name, license, exam, disclosure, disciplinary, and arbitration).
-Each setter method returns self to allow method chaining. Finally, build() returns
-the fully constructed report (as an OrderedDict), which downstream code can consume.
+(such as registration status, name, license, exam, disclosure, disciplinary,
+arbitration, and regulatory). Each setter method returns self to allow method
+chaining. Finally, build() returns the fully constructed report (as an OrderedDict),
+which downstream code can consume.
 """
 
 from collections import OrderedDict
@@ -25,6 +26,7 @@ class EvaluationReportBuilder:
         self.report["disclosure_review"] = {}
         self.report["disciplinary_evaluation"] = {}
         self.report["arbitration_review"] = {}
+        self.report["regulatory_evaluation"] = {}  # New: Added for NFA regulatory review
         self.report["final_evaluation"] = {}
 
     def set_claim(self, claim: Dict[str, Any]) -> "EvaluationReportBuilder":
@@ -61,6 +63,11 @@ class EvaluationReportBuilder:
 
     def set_arbitration_review(self, arbitration_review: Dict[str, Any]) -> "EvaluationReportBuilder":
         self.report["arbitration_review"] = arbitration_review
+        return self
+
+    def set_regulatory_evaluation(self, regulatory_evaluation: Dict[str, Any]) -> "EvaluationReportBuilder":
+        """Set the regulatory evaluation section of the report."""
+        self.report["regulatory_evaluation"] = regulatory_evaluation
         return self
 
     def set_final_evaluation(self, final_evaluation: Dict[str, Any]) -> "EvaluationReportBuilder":

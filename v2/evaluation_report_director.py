@@ -12,6 +12,7 @@ ensuring consistency across sections:
   - Disclosure Review
   - Disciplinary Evaluation
   - Arbitration Evaluation
+  - Regulatory Evaluation (e.g., NFA)
 
 The Director uses an instance of EvaluationReportBuilder to assemble the final report.
 """
@@ -27,6 +28,7 @@ from evaluation_processor import (
     evaluate_disclosures,
     evaluate_arbitration,
     evaluate_disciplinary,
+    evaluate_regulatory,  # New: Added for NFA evaluation
     get_passed_exams,
     determine_alert_category,
 )
@@ -43,14 +45,15 @@ class EvaluationReportDirector:
 
         :param claim: A dictionary containing claim data (e.g., from a CSV row).
         :param extracted_info: A dictionary of normalized data extracted from an external source
-                               (such as BrokerCheck or IAPD), including:
+                               (such as BrokerCheck, IAPD, or NFA), including:
                                - individual record,
                                - fetched_name,
                                - other_names,
                                - bc_scope and ia_scope,
                                - exams, disclosures,
                                - disciplinary_evaluation with actions and due_diligence,
-                               - arbitration_evaluation with actions and due_diligence.
+                               - arbitration_evaluation with actions and due_diligence,
+                               - regulatory_evaluation with actions and due_diligence.
         :return: A complete evaluation report as an OrderedDict.
         """
         # Step 1: Set basic claim and search evaluation
@@ -152,7 +155,22 @@ class EvaluationReportDirector:
         }
         self.builder.set_arbitration_review(arbitration_eval)
 
-        # Step 9: Final Evaluation
+        # Step 9: Regulatory Evaluation (New)
+        regulatory_evaluation = extracted_info.get("regulatory_evaluation", {})
+        regulatory_actions = regulatory_evaluation.get("actions", [])
+        regulatory_compliant, regulatory_explanation, regulatory_alerts = evaluate_regulatory(
+            regulatory_actions, expected_name, regulatory_evaluation.get("due_diligence")
+        )
+        regulatory_eval = {
+            "compliance": regulatory_compliant,
+            "compliance_explanation": regulatory_explanation,
+            "actions": regulatory_actions,
+            "alerts": [alert.to_dict() for alert in regulatory_alerts],
+            "due_diligence": regulatory_evaluation.get("due_diligence", {})
+        }
+        self.builder.set_regulatory_evaluation(regulatory_eval)
+
+        # Step 10: Final Evaluation
         overall_compliance = (
             status_eval.get("compliance", True) and
             name_eval.get("compliance", False) and
@@ -160,7 +178,8 @@ class EvaluationReportDirector:
             exam_eval.get("compliance", False) and
             disclosure_eval.get("compliance", True) and
             disciplinary_eval.get("compliance", True) and
-            arbitration_eval.get("compliance", True)
+            arbitration_eval.get("compliance", True) and
+            regulatory_eval.get("compliance", True)  # New: Added regulatory compliance
         )
         all_alerts = (
             status_eval.get("alerts", []) +
@@ -169,7 +188,8 @@ class EvaluationReportDirector:
             ([exam_eval["alert"]] if exam_eval.get("alert") else []) +
             disclosure_eval.get("alerts", []) +
             disciplinary_eval.get("alerts", []) +
-            arbitration_eval.get("alerts", [])
+            arbitration_eval.get("alerts", []) +
+            regulatory_eval.get("alerts", [])  # New: Added regulatory alerts
         )
         overall_risk_level = "Low"
         for alert in all_alerts:

@@ -117,7 +117,7 @@ def process_claim(
     employee_number: str = None,
     skip_disciplinary: bool = False,
     skip_arbitration: bool = False,
-    skip_regulatory: bool = False  # New: Added skip_regulatory parameter
+    skip_regulatory: bool = False
 ) -> Dict[str, Any]:
     """Process a claim by collecting data and delegating report building to EvaluationReportDirector."""
     logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}', skip_disciplinary={skip_disciplinary}, skip_arbitration={skip_arbitration}, skip_regulatory={skip_regulatory}")
@@ -181,14 +181,13 @@ def process_claim(
             "due_diligence": {"status": "Skipped per configuration"}
         }
     else:
-        # Placeholder for regulatory review (not implemented yet)
         regulatory_evaluation = (
             facade.perform_regulatory_review(first_name, last_name, employee_number)
-            if first_name and last_name and hasattr(facade, 'perform_regulatory_review')
+            if first_name and last_name
             else {
                 "primary_name": individual_name or "Unknown",
                 "actions": [],
-                "due_diligence": {"status": "Regulatory review not implemented or no name provided"}
+                "due_diligence": {"status": "No name provided for search"}
             }
         )
 
@@ -209,7 +208,7 @@ def process_claim(
         "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
         "disciplinary_evaluation": disciplinary_evaluation,
         "arbitration_evaluation": arbitration_evaluation,
-        "regulatory_evaluation": regulatory_evaluation  # New: Added regulatory_evaluation
+        "regulatory_evaluation": regulatory_evaluation
     }
 
     reference_id = claim.get("reference_id", "UNKNOWN")

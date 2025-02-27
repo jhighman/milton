@@ -2,10 +2,10 @@
 services.py
 
 This module provides the FinancialServicesFacade class, which consolidates access to
-external financial regulatory services (e.g., SEC IAPD, FINRA BrokerCheck, disciplinary,
+external financial regulatory services (e.g., SEC IAPD, FINRA BrokerCheck, NFA, disciplinary,
 and arbitration data). It abstracts away the complexity of interacting with multiple
 underlying services and provides a unified interface for business logic to retrieve
-normalized individual, disciplinary, and arbitration data.
+normalized individual, disciplinary, arbitration, and regulatory data.
 """
 
 import logging
@@ -28,10 +28,14 @@ from marshaller import (
     fetch_agent_sec_disc_search,
     create_driver,
 )
-from normalizer import create_disciplinary_record, create_arbitration_record, create_individual_record
+from normalizer import (
+    create_disciplinary_record,
+    create_arbitration_record,
+    create_individual_record,
+    create_regulatory_record,  # New function we'll refine
+)
 
 logger = logging.getLogger("FinancialServicesFacade")
-
 
 RUN_HEADLESS = True
 
@@ -159,11 +163,26 @@ class FinancialServicesFacade:
         logger.warning(f"No data found for {first_name} {last_name} in FINRA Disciplinary search")
         return None
 
-    def search_nfa_basic(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
-        logger.info(f"Fetching NFA Basic data for {first_name} {last_name}, Employee: {employee_number}")
+    def search_nfa_regulatory(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+        """Fetch and normalize NFA regulatory data."""
+        logger.info(f"Fetching NFA regulatory data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
+        searched_name = f"{first_name} {last_name}"
         result = fetch_agent_nfa_search(employee_number, params, self.driver)
-        return result[0] if isinstance(result, list) and result else result
+        if result:
+            logger.debug(f"NFA regulatory raw result: {json.dumps(result, indent=2)}")
+            # Ensure result is a single dict, not a list (nfa_basic_agent returns a list with one item)
+            result_dict = result[0] if isinstance(result, list) and result else result
+            normalized = create_regulatory_record("NFA_Regulatory", result_dict, searched_name)
+            logger.debug(f"NFA regulatory normalized result: {json.dumps(normalized, indent=2)}")
+            logger.info(f"Successfully fetched NFA regulatory data for {first_name} {last_name}")
+            return normalized
+        logger.warning(f"No data found for {first_name} {last_name} in NFA regulatory search")
+        return {
+            "actions": [],
+            "raw_data": [{"result": "No Results Found"}],
+            "name_scores": {}
+        }
 
     def search_finra_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching FINRA Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
@@ -328,6 +347,50 @@ class FinancialServicesFacade:
 
         return combined_review
 
+    def perform_regulatory_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
+        """Perform a regulatory review using NFA data."""
+        logger.info(f"Performing regulatory review for {first_name} {last_name}, Employee: {employee_number}")
+        searched_name = f"{first_name} {last_name}"
+        combined_review = {
+            "primary_name": searched_name,
+            "actions": [],
+            "due_diligence": {
+                "searched_name": searched_name,
+                "nfa_regulatory_actions": {
+                    "records_found": 0,
+                    "records_filtered": 0,
+                    "names_found": [],
+                    "name_scores": {},
+                    "exact_match_found": False,
+                    "status": "No records fetched"
+                }
+            }
+        }
+
+        nfa_result = self.search_nfa_regulatory(first_name, last_name, employee_number)
+        if nfa_result:
+            logger.debug(f"NFA Regulatory result received: {json.dumps(nfa_result, indent=2)}")
+            nfa_actions = nfa_result.get("actions", [])
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_found"] = len(nfa_result.get("raw_data", [{}])[0].get("result", []))
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_filtered"] = len(nfa_result.get("raw_data", [{}])[0].get("result", [])) - len(nfa_actions)
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["name_scores"] = nfa_result.get("name_scores", {})
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["names_found"] = list(nfa_result.get("name_scores", {}).keys())
+            if nfa_actions:
+                combined_review["actions"].extend(nfa_actions)
+                combined_review["due_diligence"]["nfa_regulatory_actions"]["exact_match_found"] = True
+                combined_review["due_diligence"]["nfa_regulatory_actions"]["status"] = "Exact matches found"
+            else:
+                combined_review["due_diligence"]["nfa_regulatory_actions"]["status"] = (
+                    f"Records found but no matches for '{searched_name}'" if nfa_result.get("raw_data") else "No records found"
+                )
+
+        if combined_review["actions"]:
+            logger.info(f"Combined regulatory review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
+        else:
+            logger.info(f"No matching regulatory actions found for {first_name} {last_name} in NFA; due diligence: NFA found {combined_review['due_diligence']['nfa_regulatory_actions']['records_found']}")
+
+        return combined_review
+
 def main():
     facade = FinancialServicesFacade()
     
@@ -353,18 +416,20 @@ def main():
         if args.first_name and args.last_name:
             run_search(facade.search_sec_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
             run_search(facade.search_finra_disciplinary, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
-            run_search(facade.search_nfa_basic, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.search_nfa_regulatory, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
             run_search(facade.search_finra_arbitration, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
             run_search(facade.perform_disciplinary_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
             run_search(facade.perform_arbitration_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
+            run_search(facade.perform_regulatory_review, employee_number, {"first_name": args.first_name, "last_name": args.last_name})
     else:
         while True:
             print("\nFinancial Services Facade Interactive Menu:")
             print("1. Perform combined disciplinary review for 'Matthew Vetto'")
             print("2. Perform combined arbitration review for 'Matthew Vetto'")
-            print("3. Perform custom disciplinary or arbitration review")
-            print("4. Exit")
-            choice = input("Enter your choice (1-4): ").strip()
+            print("3. Perform combined regulatory review for 'Matthew Vetto'")
+            print("4. Perform custom disciplinary, arbitration, or regulatory review")
+            print("5. Exit")
+            choice = input("Enter your choice (1-5): ").strip()
 
             if choice == "1":
                 print("\nPerforming combined disciplinary review for 'Matthew Vetto'...")
@@ -373,26 +438,32 @@ def main():
                 print("\nPerforming combined arbitration review for 'Matthew Vetto'...")
                 run_search(facade.perform_arbitration_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"})
             elif choice == "3":
+                print("\nPerforming combined regulatory review for 'Matthew Vetto'...")
+                run_search(facade.perform_regulatory_review, "FIRST_RUN", {"first_name": "Matthew", "last_name": "Vetto"})
+            elif choice == "4":
                 employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP_CUSTOM"
                 first_name = input("Enter first name (optional, press Enter to skip): ").strip()
                 last_name = input("Enter last name (required): ").strip()
                 if not last_name:
                     print("Last name is required.")
                     continue
-                review_type = input("Enter review type (1 for disciplinary, 2 for arbitration): ").strip()
+                review_type = input("Enter review type (1 for disciplinary, 2 for arbitration, 3 for regulatory): ").strip()
                 if review_type == "1":
                     print(f"\nPerforming combined disciplinary review for '{first_name} {last_name}'...")
                     run_search(facade.perform_disciplinary_review, employee_number, {"first_name": first_name, "last_name": last_name})
                 elif review_type == "2":
                     print(f"\nPerforming combined arbitration review for '{first_name} {last_name}'...")
                     run_search(facade.perform_arbitration_review, employee_number, {"first_name": first_name, "last_name": last_name})
+                elif review_type == "3":
+                    print(f"\nPerforming combined regulatory review for '{first_name} {last_name}'...")
+                    run_search(facade.perform_regulatory_review, employee_number, {"first_name": first_name, "last_name": last_name})
                 else:
-                    print("Invalid review type. Use 1 for disciplinary or 2 for arbitration.")
-            elif choice == "4":
+                    print("Invalid review type. Use 1 for disciplinary, 2 for arbitration, or 3 for regulatory.")
+            elif choice == "5":
                 print("Exiting...")
                 break
             else:
-                print("Invalid choice. Please enter 1, 2, 3, or 4.")
+                print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
 
 if __name__ == "__main__":
     main()

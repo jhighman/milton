@@ -13,6 +13,7 @@ The module includes functions for:
   - Evaluating disclosures
   - Evaluating arbitrations
   - Evaluating disciplinary records
+  - Evaluating regulatory records (e.g., NFA)
   - Mapping alert types to standardized alert categories
 
 All functions return standardized data structures, and Alert objects are defined
@@ -490,6 +491,58 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
     explanation = f"No disciplinary records found for {name}."
     return True, explanation, alerts
 
+def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
+    """Evaluate NFA regulatory actions for compliance."""
+    alerts = []
+    
+    if actions:
+        for record in actions:
+            case_id = record.get('case_id', 'Unknown')
+            action_type = record.get('details', {}).get('action_type', 'Unknown')
+            if action_type == "Regulatory":
+                alert = Alert(
+                    alert_type="Regulatory Alert",
+                    severity=AlertSeverity.HIGH,
+                    metadata={"record": record},
+                    description=f"Regulatory action found: NFA ID {case_id} for {name}."
+                )
+                alert.alert_category = determine_alert_category(alert.alert_type)
+                alerts.append(alert)
+        if alerts:
+            explanation = f"Regulatory actions found for {name}."
+            return False, explanation, alerts
+
+    if due_diligence:
+        nfa_dd = due_diligence.get("nfa_regulatory_actions", {})
+        total_records = nfa_dd.get("records_found", 0)
+        total_filtered = nfa_dd.get("records_filtered", 0)
+        
+        if total_records > 10 and total_filtered == total_records:
+            alert = Alert(
+                alert_type="Regulatory Search Info",
+                severity=AlertSeverity.MEDIUM,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} regulatory records for {name}, all filtered out due to name mismatch. Potential review needed."
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
+            explanation = f"No matching regulatory records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
+            return True, explanation, alerts
+        elif total_records > 0:
+            alert = Alert(
+                alert_type="Regulatory Search Info",
+                severity=AlertSeverity.INFO,
+                metadata={"due_diligence": due_diligence},
+                description=f"Found {total_records} regulatory records for {name}, {total_filtered} filtered out."
+            )
+            alert.alert_category = determine_alert_category(alert.alert_type)
+            alerts.append(alert)
+            explanation = f"No matching regulatory records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
+            return True, explanation, alerts
+
+    explanation = f"No regulatory records found for {name}."
+    return True, explanation, alerts
+
 def determine_alert_category(alert_type: str) -> str:
     alert_type_lower = alert_type.lower()
     if 'exam' in alert_type_lower:
@@ -502,6 +555,8 @@ def determine_alert_category(alert_type: str) -> str:
         return "DISCIPLINARY"
     elif 'arbitration' in alert_type_lower:
         return "ARBITRATION"
+    elif 'regulatory' in alert_type_lower:
+        return "REGULATORY"
     elif 'name mismatch' in alert_type_lower:
         return "STATUS"
     else:
