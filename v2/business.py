@@ -13,7 +13,7 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     organization_name = claim.get("organization_name", "")
 
-    if individual_name and organization_crd_number:
+    if individual_name and organization_crd_number and not crd_number:
         logger.info("Claim has individual_name and organization_crd_number, selecting search_with_correlated")
         return search_with_correlated
     elif crd_number and organization_crd_number:

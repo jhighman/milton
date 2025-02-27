@@ -326,7 +326,8 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any]
         process_csv(csv_path, start_line, facade, config, wait_time)
         try:
             with open(csv_path, 'r') as f:
-                processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+                # Count non-empty rows (excluding header)
+                processed_records += sum(1 for row in csv.reader(f) if any(field.strip() for field in row)) - 1
         except Exception as e:
             logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
         archive_file(csv_path)
