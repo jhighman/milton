@@ -34,18 +34,12 @@ Each JSON file in the 'drop2' directory should have the following structure:
 }
 """
 
-# Module-level logger configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
-
 # Constants and folder paths
 folder_path: str = './'
 input_folder: str = os.path.join(folder_path, 'drop2')
 output_folder: str = os.path.join(folder_path, 'output2')
+
+logger = logging.getLogger('sec_arbitration_agent')
 
 def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.Chrome:
     """

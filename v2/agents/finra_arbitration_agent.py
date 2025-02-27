@@ -24,11 +24,7 @@ output_folder = './output'
 cache_folder = './cache'
 
 # Set up module logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
-logger.addHandler(handler)
+logger = logging.getLogger('finra_arbitration_agent')
 
 def create_driver(headless=True):
     options = Options()

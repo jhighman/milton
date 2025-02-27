@@ -18,7 +18,7 @@ import logging
 from typing import Dict, Any, Optional, Set, Tuple, List  # Added List import
 import jellyfish
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('name_matcher')
 
 # Nickname mappings
 nickname_dict = {

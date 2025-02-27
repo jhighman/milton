@@ -31,7 +31,7 @@ from evaluation_processor import (
     determine_alert_category,
 )
 
-logger = logging.getLogger("evaluation_report_director")
+logger = logging.getLogger('evaluation_report_director')
 
 class EvaluationReportDirector:
     def __init__(self, builder: EvaluationReportBuilder):

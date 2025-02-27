@@ -33,14 +33,6 @@ JSON files from the 'drop' folder with the following structure:
 }
 """
 
-# Module-level logger configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
-
 # Constants
 RUN_HEADLESS: bool = True
 input_folder: str = './drop'

@@ -32,12 +32,7 @@ Terminology (from SEC IAPD):
 
 
 # Module-level logger configuration
-logging.basicConfig(
-   level=logging.INFO,
-   format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-   handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('sec_iapd_agent')
 
 
 # Configuration for SEC IAPD API

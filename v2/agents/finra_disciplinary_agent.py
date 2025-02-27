@@ -36,14 +36,6 @@ Required JSON fields:
 - alternate_names: (Optional) List of alternate name pairs to search
 """
 
-# Module-level logger configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
-
 # Constants
 RUN_HEADLESS = True  # Set to False to run with the browser visible
 
@@ -52,6 +44,8 @@ folder_path = './'
 input_folder = os.path.join(folder_path, 'drop')
 output_folder = os.path.join(folder_path, 'output')
 cache_folder = os.path.join(folder_path, 'cache')
+
+logger = logging.getLogger('finra_disciplinary_agent')
 
 def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.Chrome:
     """

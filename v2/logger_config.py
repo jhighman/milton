@@ -45,11 +45,18 @@ def setup_logging(diagnostic: bool = False):
         'normalizer': logging.getLogger('normalizer'),
         'marshaller': logging.getLogger('Marshaller'),
         'business': logging.getLogger('business'),
+        'name_matcher': logging.getLogger('name_matcher'),
         'finra_disciplinary': logging.getLogger('finra_disciplinary_agent'),
         'sec_disciplinary': logging.getLogger('sec_disciplinary_agent'),
+        'finra_arbitration': logging.getLogger('finra_arbitration_agent'),
+        'finra_brokercheck': logging.getLogger('finra_brokercheck_agent'),
+        'nfa_basic': logging.getLogger('nfa_basic_agent'),
+        'sec_arbitration': logging.getLogger('sec_arbitration_agent'),
+        'sec_iapd': logging.getLogger('sec_iapd_agent'),
         'evaluation': logging.getLogger('evaluation_processor'),
         'evaluation_builder': logging.getLogger('evaluation_report_builder'),
-        'evaluation_director': logging.getLogger('evaluation_report_director')
+        'evaluation_director': logging.getLogger('evaluation_report_director'),
+        'agent_manager': logging.getLogger('agent_manager')
     }
 
     # Set their levels

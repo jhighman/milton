@@ -1173,3 +1173,159 @@
 2025-02-26 17:37:12,221 | DEBUG | selenium.webdriver.remote.remote_connection | Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
 2025-02-26 17:37:12,221 | DEBUG | selenium.webdriver.remote.remote_connection | Finished Request
 2025-02-26 17:37:12,266 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-26 17:50:27,290 | INFO | main | === Starting application ===
+2025-02-26 17:50:34,088 | INFO | main | Processing drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 17:50:34,089 | INFO | main | Starting to process drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 17:50:34,090 | WARNING | main | Unmapped CSV column: workProductNumber
+2025-02-26 17:50:34,090 | WARNING | main | Unmapped CSV column: organizationCrdNumber
+2025-02-26 17:50:34,090 | WARNING | main | Empty header name encountered
+2025-02-26 17:50:34,090 | INFO | business | Starting claim processing for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'}, Employee='EMP-1234600'
+2025-02-26 17:50:34,090 | INFO | business | Claim has crd_number and organization_name, selecting search_with_crd_and_org_name
+2025-02-26 17:50:34,090 | INFO | business | Searching with crd_number='1555796', organization_name='Level Four Advisory Services', Employee='EMP-1234600'
+2025-02-26 17:50:34,090 | INFO | FinancialServicesFacade | Fetching FINRA BrokerCheck basic info for CRD: 1555796, Employee: EMP-1234600
+2025-02-26 17:50:34,093 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,095 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual_detailed_info/EMP-1234600
+2025-02-26 17:50:34,095 | INFO | FinancialServicesFacade | Successfully fetched FINRA BrokerCheck data for 1555796
+2025-02-26 17:50:34,095 | WARNING | FinancialServicesFacade | Calling search_finra_brokercheck_detailed is deprecated; use search_finra_brokercheck_individual instead for CRD: 1555796
+2025-02-26 17:50:34,095 | INFO | FinancialServicesFacade | Fetching FINRA BrokerCheck basic info for CRD: 1555796, Employee: EMP-1234600
+2025-02-26 17:50:34,096 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,096 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual_detailed_info/EMP-1234600
+2025-02-26 17:50:34,097 | INFO | FinancialServicesFacade | Successfully fetched FINRA BrokerCheck data for 1555796
+2025-02-26 17:50:34,097 | INFO | FinancialServicesFacade | Performing disciplinary review for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,097 | INFO | FinancialServicesFacade | Fetching SEC Disciplinary data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,098 | INFO | Marshaller | Cache hit for SEC_Disciplinary_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,099 | INFO | FinancialServicesFacade | Successfully fetched SEC Disciplinary data for Debra Griewahn
+2025-02-26 17:50:34,099 | INFO | FinancialServicesFacade | Fetching FINRA Disciplinary data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,100 | INFO | Marshaller | Cache hit for FINRA_Disciplinary_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,100 | INFO | FinancialServicesFacade | Successfully fetched FINRA Disciplinary data for Debra Griewahn
+2025-02-26 17:50:34,100 | INFO | FinancialServicesFacade | No matching disciplinary actions found for Debra Griewahn across SEC and FINRA; due diligence: SEC found 16, FINRA found 8
+2025-02-26 17:50:34,100 | INFO | FinancialServicesFacade | Performing arbitration review for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,100 | INFO | FinancialServicesFacade | Fetching SEC Arbitration data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,101 | INFO | Marshaller | Cache hit for SEC_Arbitration_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,101 | INFO | FinancialServicesFacade | Successfully fetched SEC Arbitration data for Debra Griewahn
+2025-02-26 17:50:34,101 | INFO | FinancialServicesFacade | Fetching FINRA Arbitration data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 17:50:34,103 | INFO | Marshaller | Cache hit for FINRA_Arbitration_Agent/search_individual/EMP-1234600
+2025-02-26 17:50:34,103 | INFO | FinancialServicesFacade | Successfully fetched FINRA Arbitration data for Debra Griewahn
+2025-02-26 17:50:34,103 | INFO | FinancialServicesFacade | No matching arbitration actions found for Debra Griewahn across SEC and FINRA; due diligence: SEC found 16, FINRA found 15
+2025-02-26 17:50:34,103 | INFO | business | Claim processing completed for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'} with report built
+2025-02-26 17:50:34,104 | INFO | main | Processed SP826561222312211_PBI-F45E514B08844DF, overall_compliance: True
+2025-02-26 17:50:48,114 | INFO | main | Archived drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv to archive/02-26-2025/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv
+2025-02-26 17:50:48,114 | INFO | main | Processed 1 files, 3 records
+2025-02-26 17:50:48,213 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-26 18:01:23,084 | INFO | main | === Starting application ===
+2025-02-26 18:01:30,301 | INFO | main | Processing drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 18:01:30,301 | INFO | main | Starting to process drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 18:01:30,302 | WARNING | main | Unmapped CSV column: workProductNumber
+2025-02-26 18:01:30,302 | WARNING | main | Unmapped CSV column: organizationCrdNumber
+2025-02-26 18:01:30,302 | WARNING | main | Empty header name encountered
+2025-02-26 18:01:30,303 | INFO | business | Starting claim processing for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'}, Employee='EMP-1234600'
+2025-02-26 18:01:30,303 | INFO | business | Claim has crd_number and organization_name, selecting search_with_crd_and_org_name
+2025-02-26 18:01:30,303 | INFO | business | Searching with crd_number='1555796', organization_name='Level Four Advisory Services', Employee='EMP-1234600'
+2025-02-26 18:01:30,303 | INFO | FinancialServicesFacade | Fetching FINRA BrokerCheck basic info for CRD: 1555796, Employee: EMP-1234600
+2025-02-26 18:01:30,307 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,309 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual_detailed_info/EMP-1234600
+2025-02-26 18:01:30,310 | INFO | FinancialServicesFacade | Successfully fetched FINRA BrokerCheck data for 1555796
+2025-02-26 18:01:30,310 | WARNING | FinancialServicesFacade | Calling search_finra_brokercheck_detailed is deprecated; use search_finra_brokercheck_individual instead for CRD: 1555796
+2025-02-26 18:01:30,310 | INFO | FinancialServicesFacade | Fetching FINRA BrokerCheck basic info for CRD: 1555796, Employee: EMP-1234600
+2025-02-26 18:01:30,310 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,311 | INFO | Marshaller | Cache hit for FINRA_BrokerCheck_Agent/search_individual_detailed_info/EMP-1234600
+2025-02-26 18:01:30,311 | INFO | FinancialServicesFacade | Successfully fetched FINRA BrokerCheck data for 1555796
+2025-02-26 18:01:30,311 | INFO | FinancialServicesFacade | Performing disciplinary review for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,311 | INFO | FinancialServicesFacade | Fetching SEC Disciplinary data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,313 | INFO | Marshaller | Cache hit for SEC_Disciplinary_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,313 | INFO | FinancialServicesFacade | Successfully fetched SEC Disciplinary data for Debra Griewahn
+2025-02-26 18:01:30,313 | INFO | FinancialServicesFacade | Fetching FINRA Disciplinary data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,314 | INFO | Marshaller | Cache hit for FINRA_Disciplinary_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,315 | INFO | FinancialServicesFacade | Successfully fetched FINRA Disciplinary data for Debra Griewahn
+2025-02-26 18:01:30,315 | INFO | FinancialServicesFacade | No matching disciplinary actions found for Debra Griewahn across SEC and FINRA; due diligence: SEC found 16, FINRA found 8
+2025-02-26 18:01:30,315 | INFO | FinancialServicesFacade | Performing arbitration review for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,315 | INFO | FinancialServicesFacade | Fetching SEC Arbitration data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,316 | INFO | Marshaller | Cache hit for SEC_Arbitration_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,316 | INFO | FinancialServicesFacade | Successfully fetched SEC Arbitration data for Debra Griewahn
+2025-02-26 18:01:30,317 | INFO | FinancialServicesFacade | Fetching FINRA Arbitration data for Debra Griewahn, Employee: EMP-1234600
+2025-02-26 18:01:30,318 | INFO | Marshaller | Cache hit for FINRA_Arbitration_Agent/search_individual/EMP-1234600
+2025-02-26 18:01:30,318 | INFO | FinancialServicesFacade | Successfully fetched FINRA Arbitration data for Debra Griewahn
+2025-02-26 18:01:30,319 | INFO | FinancialServicesFacade | No matching arbitration actions found for Debra Griewahn across SEC and FINRA; due diligence: SEC found 16, FINRA found 15
+2025-02-26 18:01:30,319 | INFO | business | Claim processing completed for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'} with report built
+2025-02-26 18:01:30,320 | INFO | main | Processed SP826561222312211_PBI-F45E514B08844DF, overall_compliance: True
+2025-02-26 18:01:44,328 | ERROR | main | Error counting records in drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv: 'list' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 342, in main
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1  # Minus header, skip blank lines
+                         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 342, in <genexpr>
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1  # Minus header, skip blank lines
+                                                         ^^^^^^^
+AttributeError: 'list' object has no attribute 'strip'
+2025-02-26 18:01:44,332 | INFO | main | Archived drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv to archive/02-26-2025/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv
+2025-02-26 18:01:44,332 | INFO | main | Processed 1 files, 0 records
+2025-02-26 18:01:44,433 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-26 19:11:15,294 | INFO | main | === Starting application ===
+2025-02-26 19:11:15,295 | INFO | main | Disciplinary review will be skipped due to --skip-disciplinary flag
+2025-02-26 19:11:15,295 | INFO | main | Arbitration review will be skipped due to --skip-arbitration flag
+2025-02-26 19:11:20,674 | INFO | main | Processing drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 19:11:20,675 | INFO | main | Starting to process drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-26 19:11:20,675 | WARNING | main | Unmapped CSV column: workProductNumber
+2025-02-26 19:11:20,675 | WARNING | main | Empty header name encountered
+2025-02-26 19:11:20,675 | WARNING | main | Unmapped fields in row for reference_id='SP826561222312211_PBI-F45E514B08844DF': {'', 'workProductNumber'}
+2025-02-26 19:11:20,676 | INFO | business | Starting claim processing for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_crd': '134086', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'}, Employee='EMP-1234600', skip_disciplinary=True, skip_arbitration=True
+2025-02-26 19:11:20,676 | INFO | business | Claim has individual_name and organization_crd_number, selecting search_with_correlated
+2025-02-26 19:11:20,676 | INFO | business | Searching SEC IAPD with individual_name='Debra Griewahn', organization_crd_number='134086', Employee='EMP-1234600'
+2025-02-26 19:11:20,676 | INFO | FinancialServicesFacade | Fetching SEC IAPD correlated info for Debra Griewahn at organization 134086, Employee: EMP-1234600
+2025-02-26 19:11:20,677 | INFO | Marshaller | Cache miss or stale for SEC_IAPD_Agent/search_individual_by_firm/EMP-1234600
+2025-02-26 19:11:20,677 | INFO | Marshaller | Starting SEC IAPD firm search
+2025-02-26 19:11:26,148 | INFO | FinancialServicesFacade | Successfully fetched SEC IAPD correlated data for Debra Griewahn at organization 134086
+2025-02-26 19:11:26,148 | WARNING | normalizer | IAPD: basic_info had no hits. Returning mostly empty extracted_info.
+2025-02-26 19:11:26,149 | INFO | business | Found basic_result with crd_number='None'
+2025-02-26 19:11:26,149 | INFO | business | Skipping disciplinary review for Employee='EMP-1234600' as per configuration
+2025-02-26 19:11:26,149 | INFO | business | Skipping arbitration review for Employee='EMP-1234600' as per configuration
+2025-02-26 19:11:26,149 | INFO | business | Claim processing completed for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_crd': '134086', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'} with report built
+2025-02-26 19:11:26,150 | INFO | main | Processed SP826561222312211_PBI-F45E514B08844DF, overall_compliance: False
+2025-02-26 19:11:40,161 | ERROR | main | Error counting records in drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv: 'list' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 356, in main
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+                         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 356, in <genexpr>
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+                                                         ^^^^^^^
+AttributeError: 'list' object has no attribute 'strip'
+2025-02-26 19:11:40,168 | INFO | main | Archived drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv to archive/02-26-2025/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv
+2025-02-26 19:11:40,168 | INFO | main | Processed 1 files, 0 records
+2025-02-26 19:11:40,269 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-27 06:23:54,632 | INFO | main | === Starting application ===
+2025-02-27 06:32:00,564 | WARNING | main | Invalid menu choice: /Users/jeffhighman/2025/milton/v2/.venv/bin/python /Users/jeffhighman/2025/milton/v2/main.py
+2025-02-27 06:32:00,742 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-27 06:38:47,327 | INFO | main | === Starting application ===
+2025-02-27 06:42:54,323 | INFO | main | Running batch with config: {'evaluate_name': True, 'evaluate_license': True, 'evaluate_exams': True, 'evaluate_disclosures': True, 'skip_disciplinary': True, 'skip_arbitration': True, 'skip_regulatory': True}
+2025-02-27 06:42:54,324 | INFO | main | Processing drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-27 06:42:54,324 | INFO | main | Starting to process drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv from line 0
+2025-02-27 06:42:54,326 | WARNING | main | Unmapped CSV column: workProductNumber
+2025-02-27 06:42:54,326 | WARNING | main | Empty header name encountered
+2025-02-27 06:42:54,326 | WARNING | main | Unmapped fields in row for reference_id='SP826561222312211_PBI-F45E514B08844DF': {'', 'workProductNumber'}
+2025-02-27 06:42:54,326 | INFO | business | Starting claim processing for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_crd': '134086', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'}, Employee='EMP-1234600', skip_disciplinary=True, skip_arbitration=True, skip_regulatory=True
+2025-02-27 06:42:54,326 | INFO | business | Claim has individual_name and organization_crd_number, selecting search_with_correlated
+2025-02-27 06:42:54,326 | INFO | business | Searching SEC IAPD with individual_name='Debra Griewahn', organization_crd_number='134086', Employee='EMP-1234600'
+2025-02-27 06:42:54,326 | INFO | FinancialServicesFacade | Fetching SEC IAPD correlated info for Debra Griewahn at organization 134086, Employee: EMP-1234600
+2025-02-27 06:42:54,333 | INFO | Marshaller | Cache hit for SEC_IAPD_Agent/search_individual_by_firm/EMP-1234600
+2025-02-27 06:42:54,334 | INFO | FinancialServicesFacade | Successfully fetched SEC IAPD correlated data for Debra Griewahn at organization 134086
+2025-02-27 06:42:54,334 | WARNING | normalizer | IAPD: basic_info had no hits. Returning mostly empty extracted_info.
+2025-02-27 06:42:54,334 | INFO | business | Found basic_result with crd_number='None'
+2025-02-27 06:42:54,334 | INFO | business | Skipping disciplinary review for Employee='EMP-1234600' as per configuration
+2025-02-27 06:42:54,334 | INFO | business | Skipping arbitration review for Employee='EMP-1234600' as per configuration
+2025-02-27 06:42:54,334 | INFO | business | Skipping regulatory review for Employee='EMP-1234600' as per configuration
+2025-02-27 06:42:54,335 | INFO | business | Claim processing completed for {'reference_id': 'SP826561222312211_PBI-F45E514B08844DF', 'first_name': 'Debra', 'middle_name': '', 'last_name': 'Griewahn', 'employee_number': 'EMP-1234600', 'crd_number': '1555796', 'address_line1': '', 'city': '', 'state': '', 'zip': '', 'county': '', 'organization_crd': '134086', 'organization_name': 'Level Four Advisory Services', 'individual_name': 'Debra Griewahn'} with report built
+2025-02-27 06:42:54,336 | INFO | main | Processed SP826561222312211_PBI-F45E514B08844DF, overall_compliance: False
+2025-02-27 06:43:08,344 | ERROR | main | Error counting records in drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv: 'list' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 318, in run_batch_processing
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+                         ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/jeffhighman/2025/milton/v2/main.py", line 318, in <genexpr>
+    processed_records += sum(1 for _ in csv.reader(f) if _.strip()) - 1
+                                                         ^^^^^^^
+AttributeError: 'list' object has no attribute 'strip'
+2025-02-27 06:43:08,349 | INFO | main | Archived drop/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv to archive/02-27-2025/SP826561222312211_PBI-F45E514B08844DF_20250213154419.csv
+2025-02-27 06:43:08,349 | INFO | main | Processed 1 files, 0 records
+2025-02-27 06:46:09,942 | INFO | main | User chose to exit
+2025-02-27 06:46:10,100 | INFO | FinancialServicesFacade | WebDriver closed

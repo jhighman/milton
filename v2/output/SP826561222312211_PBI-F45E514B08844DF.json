@@ -1,0 +1,194 @@
+{
+  "reference_id": "SP826561222312211_PBI-F45E514B08844DF",
+  "claim": {
+    "reference_id": "SP826561222312211_PBI-F45E514B08844DF",
+    "first_name": "Debra",
+    "middle_name": "",
+    "last_name": "Griewahn",
+    "employee_number": "EMP-1234600",
+    "crd_number": "1555796",
+    "address_line1": "",
+    "city": "",
+    "state": "",
+    "zip": "",
+    "county": "",
+    "organization_crd": "134086",
+    "organization_name": "Level Four Advisory Services",
+    "individual_name": "Debra Griewahn"
+  },
+  "search_evaluation": {
+    "source": "SEC_IAPD",
+    "search_strategy": "search_with_correlated",
+    "crd_number": null,
+    "basic_result": {
+      "fetched_name": "",
+      "other_names": [],
+      "bc_scope": "",
+      "ia_scope": "",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "current_ia_employments": [],
+      "crd_number": null
+    },
+    "detailed_result": null
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Registration status is valid.",
+    "alerts": []
+  },
+  "name_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "Name mismatch detected.",
+    "evaluation_details": {
+      "claimed_name": {
+        "first": "Debra",
+        "middle": null,
+        "last": "Griewahn"
+      },
+      "all_matches": [
+        {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": null,
+            "middle": null,
+            "last": null
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.0,
+          "last_score": 0.0
+        }
+      ],
+      "best_match": {
+        "name_source": "main_fetched_name",
+        "fetched_name": {
+          "first": null,
+          "middle": null,
+          "last": null
+        },
+        "score": 0.0,
+        "first_score": 0.0,
+        "middle_score": 0.0,
+        "last_score": 0.0
+      },
+      "compliance": false
+    },
+    "alert": {
+      "alert_type": "Name Mismatch",
+      "alert_category": "STATUS",
+      "severity": "Medium",
+      "metadata": {
+        "expected_name": {
+          "first": "Debra",
+          "middle": null,
+          "last": "Griewahn"
+        },
+        "best_score": 0.0,
+        "best_match": {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": null,
+            "middle": null,
+            "last": null
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.0,
+          "last_score": 0.0
+        }
+      },
+      "description": "Name match score 0.0 is below threshold 80.0."
+    }
+  },
+  "license_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "License compliance failed.",
+    "alert": {
+      "alert_type": "No Active Licenses Found",
+      "alert_category": "LICENSE",
+      "severity": "High",
+      "metadata": {
+        "bc_scope": "",
+        "ia_scope": ""
+      },
+      "description": "No active licenses found for Debra Griewahn."
+    }
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Required exams are passed."
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Debra Griewahn.",
+    "alerts": []
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No disciplinary records found for Debra Griewahn.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped per configuration"
+    }
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No arbitration records found for Debra Griewahn.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped per configuration"
+    }
+  },
+  "final_evaluation": {
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "Name Mismatch",
+        "alert_category": "STATUS",
+        "severity": "Medium",
+        "metadata": {
+          "expected_name": {
+            "first": "Debra",
+            "middle": null,
+            "last": "Griewahn"
+          },
+          "best_score": 0.0,
+          "best_match": {
+            "name_source": "main_fetched_name",
+            "fetched_name": {
+              "first": null,
+              "middle": null,
+              "last": null
+            },
+            "score": 0.0,
+            "first_score": 0.0,
+            "middle_score": 0.0,
+            "last_score": 0.0
+          }
+        },
+        "description": "Name match score 0.0 is below threshold 80.0."
+      },
+      {
+        "alert_type": "No Active Licenses Found",
+        "alert_category": "LICENSE",
+        "severity": "High",
+        "metadata": {
+          "bc_scope": "",
+          "ia_scope": ""
+        },
+        "description": "No active licenses found for Debra Griewahn."
+      }
+    ]
+  },
+  "disclosure_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Debra Griewahn.",
+    "alerts": []
+  }
+}
