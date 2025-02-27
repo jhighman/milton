@@ -44,13 +44,6 @@ cache_folder: str = './cache'
 def create_driver(headless: bool = True, logger: Logger = logger) -> webdriver.Chrome:
     """
     Create and configure a Chrome WebDriver.
-
-    Args:
-        headless (bool): Whether to run the browser in headless mode. Defaults to True.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
-
-    Returns:
-        webdriver.Chrome: Configured WebDriver instance.
     """
     logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
     options = Options()
@@ -66,29 +59,22 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
                      logger: Logger = logger) -> Dict[str, Any]:
     """
     Search for an individual's profile in NFA BASIC.
-
-    Args:
-        first_name (str): First name to search.
-        last_name (str): Last name to search.
-        driver (webdriver.Chrome): Selenium WebDriver instance.
-        employee_number (Optional[str]): Optional identifier for logging context.
-        logger (Logger): Logger instance for structured logging.
-
-    Returns:
-        Dict[str, Any]: Dictionary containing either:
-            - {"result": List[Dict]} for results found
-            - {"result": "No Results Found"} for no results 
-            - {"error": str} for errors
     """
     search_term = f"{first_name} {last_name}"
+    print(f"Step 1: Starting search for {search_term}")
     logger.info("Starting NFA profile search", extra={"search_term": search_term})
     
     try:
+        print("Step 2: Navigating to NFA BASIC search page")
         logger.debug("Navigating to NFA BASIC search page")
         driver.get("https://www.nfa.futures.org/BasicNet/#profile")
         
-        logger.debug("Waiting 2 seconds for page to load")
-        time.sleep(50)
+        print("Step 3: Waiting for page to load")
+        logger.debug("Waiting for page to load")
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.ID, "landing_search_tabs"))
+        )
+        print("Step 4: Page loaded, locating Individual tab")
 
         logger.debug("Locating Individual tab")
         individual_tab = WebDriverWait(driver, 10).until(
@@ -96,12 +82,15 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
         )
         parent_classes = individual_tab.find_element(By.XPATH, "..").get_attribute("class")
         if "active" not in parent_classes:
+            print("Step 5: Clicking Individual tab")
             driver.execute_script("arguments[0].click();", individual_tab)
             logger.debug("Clicked Individual tab")
             time.sleep(0.5)
         else:
+            print("Step 5: Individual tab already active")
             logger.debug("Individual tab already active")
 
+        print("Step 6: Entering first name")
         logger.debug("Entering first name")
         fname_input = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "fname_in_lsearch_tabs"))
@@ -110,6 +99,7 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
         fname_input.send_keys(first_name)
         logger.debug("First name entered", extra={"first_name": first_name})
 
+        print("Step 7: Entering last name")
         logger.debug("Entering last name")
         lname_input = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@id='individual']//input[@placeholder='Last Name (required)']"))
@@ -118,64 +108,85 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
         lname_input.send_keys(last_name)
         logger.debug("Last name entered", extra={"last_name": last_name})
 
+        print("Step 8: Submitting search form")
         logger.debug("Submitting search form")
         submit_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//div[@id='individual']//button[contains(text(), 'Search')]"))
         )
         driver.execute_script("arguments[0].click();", submit_button)
-        logger.debug("Waiting 5 seconds after submitting search")
-        time.sleep(5)
+        print("Step 9: Search submitted, starting result processing")
 
-        logger.debug("Processing search results")
-        try:
-            results_table = driver.find_element(By.ID, "table_individual_name_results")
-            logger.debug("Results table found")
-            time.sleep(1)
-            
-            soup = BeautifulSoup(driver.page_source, 'html.parser')
-            table = soup.find("table", id="table_individual_name_results")
-            
-            if not table or not table.find("tbody"):
-                logger.warning("No valid results table found", 
-                              extra={"table_found": bool(table), "tbody_found": bool(table and table.find("tbody"))})
-                driver.save_screenshot("debug_table_not_found.png")
-                return {"result": "No Results Found"}
+        # Retry loop for table rows
+        logger.debug("Processing search results with retry loop")
+        max_wait_time = 100  # Total time to wait in seconds
+        retry_interval = 10  # Wait time between retries in seconds
+        start_time = time.time()
 
-            logger.debug("Parsing results table")
-            headers = ["Individual Name", "Current NFA Membership Status", "Current Registration Types", "Regulatory Actions"]
-            result_rows = []
-            for tr in table.find("tbody").find_all("tr"):
-                row: Dict[str, str] = {}
-                cells = tr.find_all("td")
-                name_cell = cells[0]
-                name = name_cell.find("h4").get_text(strip=True) if name_cell.find("h4") else ""
-                small_text = name_cell.find("small").get_text(strip=True) if name_cell.find("small") else ""
-                nfa_id, firm = small_text.split(" | ", 1) if " | " in small_text else (small_text, "")
-                
-                row["Name"] = name
-                row["NFA ID"] = nfa_id
-                row["Firm"] = firm
-                
-                for header, td in zip(headers[1:], cells[1:4]):
-                    row[header] = td.find("span").get_text(strip=True) if td.find("span") else td.get_text(strip=True)
-                
-                row["Details Available"] = "Yes" if cells[-1].find("div", class_="btn") else "No"
-                result_rows.append(row)
-            
-            logger.info("Search completed", extra={"profile_count": len(result_rows)})
-            return {"result": result_rows} if result_rows else {"result": "No Results Found"}
+        while time.time() - start_time <= max_wait_time:
+            elapsed_time = time.time() - start_time
+            print(f"Step 10: Checking for results table with rows at {elapsed_time:.1f} seconds")
 
-        except:
             try:
-                no_results = driver.find_element(By.ID, "basic_search_no_results")
-                logger.info("No results found", extra={"message": no_results.text})
-                return {"result": "No Results Found"}
+                # Check for the table
+                results_table = driver.find_element(By.ID, "table_individual_name_results")
+                print(f"Step 11: Results table found after {elapsed_time:.1f} seconds")
+                logger.debug("Results table found")
+                time.sleep(1)  # Brief pause to ensure table is fully loaded
+                
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                table = soup.find("table", id="table_individual_name_results")
+                
+                if not table or not table.find("tbody"):
+                    print(f"Step 12: Table found but no tbody after {elapsed_time:.1f} seconds, retrying")
+                    logger.debug("Table found but no tbody, retrying", extra={"elapsed_time": elapsed_time})
+                else:
+                    # Check for rows
+                    rows = table.find("tbody").find_all("tr")
+                    if not rows:
+                        print(f"Step 12: Table found with tbody but no rows after {elapsed_time:.1f} seconds, retrying")
+                        logger.debug("Table found with tbody but no rows, retrying", extra={"elapsed_time": elapsed_time})
+                    else:
+                        print(f"Step 12: Parsing results table with {len(rows)} rows after {elapsed_time:.1f} seconds")
+                        logger.debug("Parsing results table")
+                        headers = ["Individual Name", "Current NFA Membership Status", "Current Registration Types", "Regulatory Actions"]
+                        result_rows = []
+                        for tr in rows:
+                            row: Dict[str, str] = {}
+                            cells = tr.find_all("td")
+                            name_cell = cells[0]
+                            name = name_cell.find("h4").get_text(strip=True) if name_cell.find("h4") else ""
+                            small_text = name_cell.find("small").get_text(strip=True) if name_cell.find("small") else ""
+                            nfa_id, firm = small_text.split(" | ", 1) if " | " in small_text else (small_text, "")
+                            
+                            row["Name"] = name
+                            row["NFA ID"] = nfa_id
+                            row["Firm"] = firm
+                            
+                            for header, td in zip(headers[1:], cells[1:4]):
+                                row[header] = td.find("span").get_text(strip=True) if td.find("span") else td.get_text(strip=True)
+                            
+                            row["Details Available"] = "Yes" if cells[-1].find("div", class_="btn") else "No"
+                            result_rows.append(row)
+                        
+                        print(f"Step 13: Search completed with {len(result_rows)} profiles after {elapsed_time:.1f} seconds")
+                        logger.info("Search completed", extra={"profile_count": len(result_rows)})
+                        return {"result": result_rows}
+
             except:
-                logger.error("Failed to detect results or no-results message")
-                driver.save_screenshot("debug_no_elements_found.png")
-                return {"error": "Could not detect results or no-results message"}
+                elapsed_time = time.time() - start_time
+                print(f"Step 11: Table not found yet after {elapsed_time:.1f} seconds, retrying in {retry_interval} seconds")
+                logger.debug(f"Table not found yet, retrying in {retry_interval} seconds", 
+                            extra={"elapsed_time": elapsed_time})
+
+            if elapsed_time + retry_interval > max_wait_time:
+                print(f"Step 14: Max wait time ({max_wait_time} seconds) exceeded, returning 'No Results Found'")
+                logger.error("Max wait time exceeded, no rows found")
+                driver.save_screenshot("debug_table_timeout.png")
+                return {"result": "No Results Found"}
+            time.sleep(retry_interval)
 
     except Exception as e:
+        print(f"Step 15: Unexpected error occurred: {str(e)}")
         logger.error("Search failed", extra={"error": str(e)})
         driver.save_screenshot("debug_error.png")
         return {"error": str(e)}
@@ -183,14 +194,6 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
 def validate_json_data(data: Any, file_path: str, logger: Logger = logger) -> Tuple[bool, str]:
     """
     Validate JSON data structure for required fields.
-
-    Args:
-        data (Any): JSON data to validate.
-        file_path (str): Path to the JSON file for error reporting.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
-
-    Returns:
-        Tuple[bool, str]: (is_valid, error_message)
     """
     logger.debug("Validating JSON data", extra={"file_path": file_path})
     if "claim" not in data or not all(k in data["claim"] for k in ["first_name", "last_name"]):
@@ -205,16 +208,6 @@ def search_with_alternates(driver: webdriver.Chrome, first_name: str, last_name:
                          logger: Logger = logger) -> List[Dict[str, Any]]:
     """
     Search for an individual including alternate names.
-
-    Args:
-        driver (webdriver.Chrome): Selenium WebDriver instance.
-        first_name (str): Primary first name.
-        last_name (str): Primary last name.
-        alternate_names (Optional[List[List[str]]]): List of [first_name, last_name] pairs.
-        logger (Logger): Logger instance for structured logging.
-
-    Returns:
-        List[Dict[str, Any]]: List of search results for all names.
     """
     all_names = [(first_name, last_name)] + (alternate_names or [])
     logger.debug("Searching with alternates", 
@@ -226,12 +219,6 @@ def search_with_alternates(driver: webdriver.Chrome, first_name: str, last_name:
 def batch_process_folder(logger: Logger = logger) -> Dict[str, int]:
     """
     Process all JSON files in the input folder.
-
-    Args:
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
-
-    Returns:
-        Dict[str, int]: Processing statistics.
     """
     os.makedirs(input_folder, exist_ok=True)
     os.makedirs(output_folder, exist_ok=True)
@@ -277,12 +264,6 @@ def handle_search_results(results: List[Dict[str, Any]], output_name: str,
                         stats: Dict[str, int], logger: Logger = logger) -> None:
     """
     Handle search results, update stats, and save to output.
-
-    Args:
-        results (List[Dict[str, Any]]): List of search results.
-        output_name (str): Name for the output file (typically first_last).
-        stats (Dict[str, int]): Dictionary to update with processing stats.
-        logger (Logger): Logger instance for structured logging. Defaults to module logger.
     """
     logger.debug("Handling search results", extra={"output_name": output_name, "result_count": len(results)})
     
