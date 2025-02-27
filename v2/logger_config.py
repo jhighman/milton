@@ -91,14 +91,23 @@ def reconfigure_logging(loggers: Dict[str, logging.Logger], enabled_groups: Set[
         enabled_groups (Set[str]): Set of logger group names to enable
         group_levels (Dict[str, str]): Dictionary mapping group names to their desired log levels
     """
-    for name, logger in loggers.items():
-        if name in enabled_groups:
-            level = group_levels.get(name, "INFO")
-            numeric_level = getattr(logging, level.upper(), logging.INFO)
-            logger.setLevel(numeric_level)
-            logger.disabled = False
+    groups = loggers.get('_groups', {})
+    
+    for group_name, group_loggers in groups.items():
+        # If group is enabled, set all its loggers to specified level
+        if group_name in enabled_groups:
+            level = group_levels.get(group_name, logging.INFO)
+            # If level is already numeric, use it directly
+            numeric_level = level if isinstance(level, int) else getattr(logging, str(level).upper(), logging.INFO)
+            for logger_name in group_loggers.values():
+                logger = logging.getLogger(logger_name)
+                logger.setLevel(numeric_level)
+                logger.disabled = False
+        # If group is disabled, disable all its loggers
         else:
-            logger.disabled = True
+            for logger_name in group_loggers.values():
+                logger = logging.getLogger(logger_name)
+                logger.disabled = True
 
 def flush_logs():
     """Flush all log handlers to ensure logs are written to disk."""
