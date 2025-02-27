@@ -1,66 +1,107 @@
 import logging
+import logging.handlers
 import os
 from pathlib import Path
+from typing import Dict, Set
 
-def setup_logging(diagnostic: bool = False):
+def setup_logging(debug: bool = False) -> Dict[str, logging.Logger]:
     """Configure logging for all modules"""
-    # Create logs directory
-    os.makedirs('logs', exist_ok=True)
-
-    # Set level based on --diagnostic flag
-    base_level = logging.DEBUG if diagnostic else logging.INFO
-
-    # Clear any existing handlers from the root logger
-    root = logging.getLogger()
-    if root.handlers:
-        for handler in root.handlers:
-            root.removeHandler(handler)
-
-    # Create handlers
-    file_handler = logging.FileHandler('logs/app.log')
-    file_handler.setLevel(base_level)
-    file_handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(name)s | %(message)s'))
-    
-    handlers = [
-        file_handler  # Always log to file
-    ]
-
-    # Add console handler only in diagnostic mode
-    if diagnostic:
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(base_level)
-        console_handler.setFormatter(logging.Formatter('%(asctime)s | %(levelname)s | %(name)s | %(message)s'))
-        handlers.append(console_handler)
-
-    # Configure the root logger - this affects ALL loggers
-    logging.basicConfig(
-        level=base_level,
-        handlers=handlers
-    )
-
-    # Get named loggers for each module
-    loggers = {
-        'main': logging.getLogger('main'),
-        'services': logging.getLogger('FinancialServicesFacade'),
-        'normalizer': logging.getLogger('normalizer'),
-        'marshaller': logging.getLogger('Marshaller'),
-        'business': logging.getLogger('business'),
-        'name_matcher': logging.getLogger('name_matcher'),
-        'finra_disciplinary': logging.getLogger('finra_disciplinary_agent'),
-        'sec_disciplinary': logging.getLogger('sec_disciplinary_agent'),
-        'finra_arbitration': logging.getLogger('finra_arbitration_agent'),
-        'finra_brokercheck': logging.getLogger('finra_brokercheck_agent'),
-        'nfa_basic': logging.getLogger('nfa_basic_agent'),
-        'sec_arbitration': logging.getLogger('sec_arbitration_agent'),
-        'sec_iapd': logging.getLogger('sec_iapd_agent'),
-        'evaluation': logging.getLogger('evaluation_processor'),
-        'evaluation_builder': logging.getLogger('evaluation_report_builder'),
-        'evaluation_director': logging.getLogger('evaluation_report_director'),
-        'agent_manager': logging.getLogger('agent_manager')
+    # Define logger groups
+    LOGGER_GROUPS = {
+        'services': {
+            'services': 'FinancialServicesFacade',
+            'normalizer': 'normalizer',
+            'marshaller': 'Marshaller',
+            'business': 'business',
+            'name_matcher': 'name_matcher'
+        },
+        'agents': {
+            'finra_disciplinary': 'finra_disciplinary_agent',
+            'sec_disciplinary': 'sec_disciplinary_agent',
+            'finra_arbitration': 'finra_arbitration_agent',
+            'finra_brokercheck': 'finra_brokercheck_agent',
+            'nfa_basic': 'nfa_basic_agent',
+            'sec_arbitration': 'sec_arbitration_agent',
+            'sec_iapd': 'sec_iapd_agent',
+            'agent_manager': 'agent_manager'
+        },
+        'evaluation': {
+            'evaluation': 'evaluation_processor',
+            'evaluation_builder': 'evaluation_report_builder',
+            'evaluation_director': 'evaluation_report_director'
+        },
+        'core': {
+            'main': 'main'
+        }
     }
 
-    # Set their levels
-    for logger in loggers.values():
-        logger.setLevel(base_level)
+    # Create logs directory
+    log_dir = "logs"
+    os.makedirs(log_dir, exist_ok=True)
 
-    return loggers 
+    # Set level based on --diagnostic flag
+    base_level = logging.DEBUG if debug else logging.INFO
+
+    # Clear any existing handlers from the root logger
+    root_logger = logging.getLogger()
+    if root_logger.handlers:
+        for handler in root_logger.handlers:
+            root_logger.removeHandler(handler)
+
+    # Create handlers
+    console_handler = logging.StreamHandler()
+    file_handler = logging.handlers.RotatingFileHandler(
+        os.path.join(log_dir, "app.log"),
+        maxBytes=10*1024*1024,  # 10MB
+        backupCount=5
+    )
+
+    # Set levels
+    console_handler.setLevel(base_level)
+    file_handler.setLevel(base_level)
+
+    # Create formatters and add it to handlers
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
+
+    # Add handlers to root logger
+    root_logger.addHandler(console_handler)
+    root_logger.addHandler(file_handler)
+
+    # Initialize all loggers from groups
+    loggers = {}
+    for group_name, group_loggers in LOGGER_GROUPS.items():
+        for logger_key, logger_name in group_loggers.items():
+            logger = logging.getLogger(logger_name)
+            logger.setLevel(base_level)
+            loggers[logger_key] = logger
+
+    # Add group information to the loggers dict
+    loggers['_groups'] = LOGGER_GROUPS
+
+    return loggers
+
+def reconfigure_logging(loggers: Dict[str, logging.Logger], enabled_groups: Set[str], group_levels: Dict[str, str]) -> None:
+    """
+    Reconfigure logging settings for specified logger groups.
+    
+    Args:
+        loggers (Dict[str, logging.Logger]): Dictionary of logger instances
+        enabled_groups (Set[str]): Set of logger group names to enable
+        group_levels (Dict[str, str]): Dictionary mapping group names to their desired log levels
+    """
+    for name, logger in loggers.items():
+        if name in enabled_groups:
+            level = group_levels.get(name, "INFO")
+            numeric_level = getattr(logging, level.upper(), logging.INFO)
+            logger.setLevel(numeric_level)
+            logger.disabled = False
+        else:
+            logger.disabled = True
+
+def flush_logs():
+    """Flush all log handlers to ensure logs are written to disk."""
+    root_logger = logging.getLogger()
+    for handler in root_logger.handlers:
+        handler.flush() 

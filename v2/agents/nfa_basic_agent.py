@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 import logging
 from logging import Logger
 
+logger = logging.getLogger(__name__)
+
 """
 NFA BASIC Search Tool Agent for Individuals
 

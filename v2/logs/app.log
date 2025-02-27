@@ -1329,3 +1329,6 @@ AttributeError: 'list' object has no attribute 'strip'
 2025-02-27 06:43:08,349 | INFO | main | Processed 1 files, 0 records
 2025-02-27 06:46:09,942 | INFO | main | User chose to exit
 2025-02-27 06:46:10,100 | INFO | FinancialServicesFacade | WebDriver closed
+2025-02-27 07:38:19,864 - main - INFO - === Starting application ===
+2025-02-27 07:40:04,200 - main - INFO - User chose to exit
+2025-02-27 07:40:04,340 - FinancialServicesFacade - INFO - WebDriver closed
