@@ -8,14 +8,21 @@ from evaluation_report_director import EvaluationReportDirector
 logger = logging.getLogger("business")
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
-    individual_name = claim.get("individual_name", "")
+    individual_name = claim.get("individual_name") or ""
     crd_number = claim.get("crd_number", "")
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     organization_name = claim.get("organization_name", "")
 
-    if individual_name and organization_crd_number and not crd_number:
+    # New condition: individual_name and organization_name present, crd_number and org_crd_number empty
+    if individual_name and organization_name and not crd_number and not organization_crd_number:
+        logger.info("Claim has individual_name and organization_name but no crd_number or organization_crd_number, selecting search_with_correlated")
+        return search_with_correlated
+    elif individual_name and organization_crd_number and not crd_number:
         logger.info("Claim has individual_name and organization_crd_number, selecting search_with_correlated")
         return search_with_correlated
+    elif not individual_name and not crd_number and not organization_crd_number and not organization_name:
+        logger.info("Claim has no individual_name, crd_number, organization_crd_number, or organization_name, selecting search_default")
+        return search_default
     elif crd_number and organization_crd_number:
         logger.info("Claim has both crd_number and organization_crd_number, selecting search_with_both_crds")
         return search_with_both_crds
@@ -94,7 +101,7 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
     return {"source": "Default", "basic_result": None, "detailed_result": None, "search_strategy": "search_default", "crd_number": None}
 
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
-    individual_name = claim.get("individual_name", "")
+    individual_name = claim.get("individual_name") or ""
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_crd_number='{organization_crd_number}', Employee='{employee_number}'")
     basic_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
