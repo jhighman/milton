@@ -7,15 +7,20 @@ import shutil
 import signal
 import time
 from datetime import datetime
-from typing import Dict, Optional, Any
-from collections import OrderedDict
+from typing import Dict, Optional, Any, Tuple, List
+from collections import OrderedDict, defaultdict
 import random
+from enum import Enum
 
+# Assuming these are external modules you'll need to implement or have available
 from business import process_claim
 from services import FinancialServicesFacade
 from logger_config import setup_logging, reconfigure_logging, flush_logs
 
 logger = logging.getLogger('main')
+
+# Default wait time between records (in seconds)
+DEFAULT_WAIT_TIME = 7.0
 
 canonical_fields = {
     'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],
@@ -78,21 +83,32 @@ DEFAULT_CONFIG = {
     "skip_disciplinary": True,
     "skip_arbitration": True,
     "skip_regulatory": True,
-    "enabled_logging_groups": ["core"],  # Default: minimal logging
-    "logging_levels": {"core": "INFO"}   # Default: INFO for core
+    "enabled_logging_groups": ["core"],
+    "logging_levels": {"core": "INFO"}
 }
 
 DISCIPLINARY_ENABLED = True
+
 ARBITRATION_ENABLED = True
 
 INPUT_FOLDER = "drop"
+
 OUTPUT_FOLDER = "output"
+
 ARCHIVE_FOLDER = "archive"
+
 CHECKPOINT_FILE = os.path.join(OUTPUT_FOLDER, "checkpoint.json")
+
 CONFIG_FILE = "config.json"
 
 current_csv = None
 current_line = 0
+skipped_records = defaultdict(list)
+
+class SkipScenario(Enum):
+    NO_NAME = "Missing both first and last names"
+    NO_EMPLOYEE_NUMBER = "Missing employee number"
+    NO_ORG_IDENTIFIERS = "Missing all organization identifiers (crd_number, organization_crd, organization_name)"
 
 def load_config(config_path: str = CONFIG_FILE) -> Dict[str, Any]:
     try:
@@ -195,7 +211,30 @@ def resolve_headers(fieldnames: list[str]) -> Dict[str, str]:
         logger.debug(f"Canonical fields not found in CSV headers: {unmapped_canonicals}")
     return resolved_headers
 
-def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
+def validate_row(row: Dict[str, str], resolved_headers: Dict[str, str]) -> Tuple[bool, List[str]]:
+    issues = []
+    
+    # Require both first and last names
+    first_name = row.get(next((k for k, v in resolved_headers.items() if v == 'first_name'), 'first_name'), '').strip()
+    last_name = row.get(next((k for k, v in resolved_headers.items() if v == 'last_name'), 'last_name'), '').strip()
+    if not (first_name and last_name):
+        issues.append(SkipScenario.NO_NAME.value)
+    
+    # Require employee number
+    employee_number = row.get(next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number'), '').strip()
+    if not employee_number:
+        issues.append(SkipScenario.NO_EMPLOYEE_NUMBER.value)
+    
+    # Check organization identifiers
+    crd_number = row.get(next((k for k, v in resolved_headers.items() if v == 'crd_number'), 'crd_number'), '').strip()
+    org_crd = row.get(next((k for k, v in resolved_headers.items() if v == 'organization_crd'), 'organization_crd'), '').strip()
+    org_name = row.get(next((k for k, v in resolved_headers.items() if v == 'organization_name'), 'organization_name'), '').strip()
+    if not (crd_number or org_crd or org_name):
+        issues.append(SkipScenario.NO_ORG_IDENTIFIERS.value)
+    
+    return (len(issues) == 0, issues)
+
+def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float = DEFAULT_WAIT_TIME):
     global current_csv, current_line
     current_csv = os.path.basename(csv_file_path)
     current_line = 0
@@ -214,7 +253,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
                 logger.debug(f"Processing {current_csv}, line {i}, row: {dict(row)}")
                 current_line = i
                 try:
-                    process_row(row, resolved_headers, facade, config)
+                    process_row(row, resolved_headers, facade, config, wait_time)
                 except Exception as e:
                     logger.error(f"Error processing {current_csv}, line {i}: {str(e)}", exc_info=True)
                 save_checkpoint(current_csv, current_line)
@@ -222,19 +261,38 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
     except Exception as e:
         logger.error(f"Error reading {csv_file_path}: {str(e)}", exc_info=True)
 
-def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool]):
+def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float = DEFAULT_WAIT_TIME):
+    global current_csv
     reference_id_header = next((k for k, v in resolved_headers.items() if v == 'reference_id'), 'reference_id')
     reference_id = row.get(reference_id_header, '').strip() or generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
+
+    is_valid, issues = validate_row(row, resolved_headers)
+    
+    if not is_valid:
+        for issue in issues:
+            logger.warning(f"Skipping row - {issue} for reference_id='{reference_id}'")
+        
+        skipped_records[current_csv].append({
+            'reference_id': reference_id,
+            'row_data': {header: row.get(header, '').strip() for header in row},
+            'skip_reasons': issues,
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        })
+        
+        report = OrderedDict([
+            ("reference_id", reference_id),
+            ("claim", {header: row.get(header, '').strip() for header in row}),
+            ("processing_status", "skipped"),
+            ("skip_reasons", issues),
+            ("timestamp", datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        ])
+        employee_number = row.get(next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number'), '').strip()
+        save_evaluation_report(report, employee_number or "unknown", reference_id)
+        return
 
     employee_number_header = next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number')
     employee_number = row.get(employee_number_header, '').strip()
     logger.debug(f"Employee number header: '{employee_number_header}', value: '{employee_number}'")
-
-    if not employee_number:
-        logger.error(f"Skipping row - missing or blank employee_number for reference_id='{reference_id}'")
-        return
-
-    logger.debug(f"Reference ID: {reference_id}, Employee Number: {employee_number}")
 
     claim = {}
     for header, canonical in resolved_headers.items():
@@ -244,7 +302,7 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
     
     first_name = claim.get('first_name', '')
     last_name = claim.get('last_name', '')
-    claim['individual_name'] = f"{first_name} {last_name}".strip() if first_name or last_name else ""
+    claim['individual_name'] = f"{first_name} {last_name}".strip()
     claim['employee_number'] = employee_number
     
     unmapped_fields = set(row.keys()) - set(resolved_headers.keys())
@@ -289,7 +347,7 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
         ])
         save_evaluation_report(report, employee_number, reference_id)
 
-    time.sleep(7)
+    time.sleep(wait_time)
 
 def save_evaluation_report(report: Dict[str, Any], employee_number: str, reference_id: str):
     report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
@@ -302,7 +360,37 @@ def save_evaluation_report(report: Dict[str, Any], employee_number: str, referen
     except Exception as e:
         logger.error(f"Error saving report to {report_path}: {str(e)}", exc_info=True)
 
-def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any], wait_time: float, loggers: dict):
+def write_skipped_records():
+    date_str = datetime.now().strftime("%m-%d-%Y")
+    archive_subfolder = os.path.join(ARCHIVE_FOLDER, date_str)
+    skipped_csv_path = os.path.join(archive_subfolder, "skipped.csv")
+    try:
+        os.makedirs(archive_subfolder, exist_ok=True)  # Ensure the subfolder exists
+        with open(skipped_csv_path, 'w', newline='') as f:
+            fieldnames = ['csv_file', 'reference_id', 'skip_reasons', 'timestamp', 'row_data']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            
+            total_skipped = 0
+            for csv_file, records in skipped_records.items():
+                for record in records:
+                    writer.writerow({
+                        'csv_file': csv_file,
+                        'reference_id': record['reference_id'],
+                        'skip_reasons': '; '.join(record['skip_reasons']),
+                        'timestamp': record['timestamp'],
+                        'row_data': json.dumps(record['row_data'])
+                    })
+                    total_skipped += 1
+            
+            logger.info(f"Wrote {total_skipped} skipped records to {skipped_csv_path}")
+    except Exception as e:
+        logger.error(f"Error writing skipped records to {skipped_csv_path}: {str(e)}", exc_info=True)
+
+def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any], wait_time: float = DEFAULT_WAIT_TIME, loggers: dict = None):
+    global skipped_records
+    skipped_records.clear()
+    
     print("\nRunning batch processing...")
     checkpoint = load_checkpoint()
     csv_files = get_csv_files()
@@ -316,6 +404,7 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any]
 
     processed_files = 0
     processed_records = 0
+    skipped_count = 0
 
     for csv_file in csv_files:
         csv_path = os.path.join(INPUT_FOLDER, csv_file)
@@ -326,15 +415,29 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any]
         process_csv(csv_path, start_line, facade, config, wait_time)
         try:
             with open(csv_path, 'r') as f:
-                # Count non-empty rows (excluding header)
-                processed_records += sum(1 for row in csv.reader(f) if any(field.strip() for field in row)) - 1
+                csv_reader = csv.reader(f)
+                next(csv_reader)  # Skip header
+                for row in csv_reader:
+                    if any(field.strip() for field in row):
+                        processed_records += 1
+                        ref_id = row[0] if row else generate_reference_id()
+                        report_path = os.path.join(OUTPUT_FOLDER, f"{ref_id}.json")
+                        if os.path.exists(report_path):
+                            with open(report_path, 'r') as rf:
+                                report = json.load(rf)
+                                if report.get("processing_status") == "skipped":
+                                    skipped_count += 1
         except Exception as e:
             logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
         archive_file(csv_path)
         processed_files += 1
         start_line = 0
 
-    logger.info(f"Processed {processed_files} files, {processed_records} records")
+    if skipped_records:
+        write_skipped_records()
+        skipped_count = sum(len(records) for records in skipped_records.values())
+    
+    logger.info(f"Processed {processed_files} files, {processed_records} records, {skipped_count} skipped")
     if os.path.exists(CHECKPOINT_FILE):
         try:
             os.remove(CHECKPOINT_FILE)
@@ -345,14 +448,13 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any]
 def main():
     parser = argparse.ArgumentParser(description="Compliance CSV Processor")
     parser.add_argument('--diagnostic', action='store_true', help="Enable verbose debug logging")
-    parser.add_argument('--wait-time', type=float, default=7.0, help="Seconds to wait between API calls")
+    parser.add_argument('--wait-time', type=float, default=DEFAULT_WAIT_TIME, help=f"Seconds to wait between records (default: {DEFAULT_WAIT_TIME})")
     parser.add_argument('--skip-disciplinary', action='store_true', help="Skip disciplinary review for all claims")
     parser.add_argument('--skip-arbitration', action='store_true', help="Skip arbitration review for all claims")
     parser.add_argument('--skip-regulatory', action='store_true', help="Skip regulatory review for all claims")
     parser.add_argument('--headless', action='store_true', help="Run in headless mode with specified settings")
     args = parser.parse_args()
 
-    # Initialize logging early
     loggers = setup_logging(args.diagnostic)
     global logger
     logger = loggers['main']
@@ -396,12 +498,12 @@ def main():
         run_batch_processing(facade, config, args.wait_time, loggers)
         return
 
-    # Interactive mode: Menu takes precedence
     skip_disciplinary = True
     skip_arbitration = True
     skip_regulatory = True
-    enabled_groups = {"core"}  # Initial state: only core enabled
-    group_levels = {"core": "INFO"}  # Initial levels
+    enabled_groups = {"core"}
+    group_levels = {"core": "INFO"}
+    wait_time = DEFAULT_WAIT_TIME  # Local variable for interactive mode
 
     LOG_LEVELS = {
         "1": ("DEBUG", logging.DEBUG),
@@ -422,8 +524,9 @@ def main():
         print("7. Flush logs")
         print("8. Set trace mode (all groups on, DEBUG level)")
         print("9. Set production mode (minimal logging)")
-        print("10. Exit")
-        choice = input("Enter your choice (1-10): ").strip()
+        print(f"10. Set wait time between records (currently: {wait_time} seconds)")
+        print("11. Exit")
+        choice = input("Enter your choice (1-11): ").strip()
 
         if choice == "1":
             config = {
@@ -437,9 +540,9 @@ def main():
                 "enabled_logging_groups": list(enabled_groups),
                 "logging_levels": dict(group_levels)
             }
-            logger.info(f"Running batch with config: {config}")
+            logger.info(f"Running batch with config: {config}, wait_time: {wait_time}")
             reconfigure_logging(loggers, enabled_groups, {k: LOG_LEVELS[v][1] if v in LOG_LEVELS else logging.INFO for k, v in group_levels.items()})
-            run_batch_processing(facade, config, args.wait_time, loggers)
+            run_batch_processing(facade, config, wait_time, loggers)
         elif choice == "2":
             skip_disciplinary = not skip_disciplinary
             logger.info(f"Disciplinary review {'skipped' if skip_disciplinary else 'enabled'}")
@@ -523,12 +626,23 @@ def main():
             logger.info("Production mode enabled: core INFO, others WARNING, only core active")
             print("Production mode enabled: minimal logging (core INFO, others OFF)")
         elif choice == "10":
+            try:
+                new_wait_time = float(input(f"Enter wait time in seconds (current: {wait_time}, default: {DEFAULT_WAIT_TIME}): ").strip())
+                if new_wait_time >= 0:
+                    wait_time = new_wait_time
+                    logger.info(f"Wait time set to {wait_time} seconds")
+                    print(f"Wait time set to {wait_time} seconds")
+                else:
+                    print("Wait time must be non-negative")
+            except ValueError:
+                print("Invalid input. Please enter a number")
+        elif choice == "11":
             logger.info("User chose to exit")
             print("Exiting...")
             break
         else:
             logger.warning(f"Invalid menu choice: {choice}")
-            print("Invalid choice. Please enter 1-10.")
+            print("Invalid choice. Please enter 1-11.")
 
 if __name__ == "__main__":
     main()
