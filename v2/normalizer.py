@@ -63,9 +63,29 @@ def create_individual_record(
     extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
     extracted_info["crd_number"] = str(individual.get("ind_source_id", ""))
 
+    if not detailed_info:
+        logger.warning(f"No detailed_info provided for {data_source}. Skipping detailed fields.")
+        return extracted_info
+
+    def extract_exams(detailed_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        state_exams = detailed_data.get("stateExamCategory", [])
+        principal_exams = detailed_data.get("principalExamCategory", [])
+        product_exams = detailed_data.get("productExamCategory", [])
+        return state_exams + principal_exams + product_exams
+
     if data_source == "BrokerCheck":
-        extracted_info["current_ia_employments"] = []
-        if detailed_info and "hits" in detailed_info:
+        extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", [])
+        
+        # Handle flat BrokerCheck structure
+        if "disclosures" in detailed_info:
+            logger.debug("Detected flat BrokerCheck structure in detailed_info")
+            extracted_info["disclosures"] = detailed_info.get("disclosures", [])
+            extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])  # Often empty, but included for consistency
+            extracted_info["exams"] = extract_exams(detailed_info)
+        
+        # Handle nested structure (fallback for compatibility)
+        elif "hits" in detailed_info:
+            logger.debug("Detected nested structure in BrokerCheck detailed_info")
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
                 bc_content_str = detailed_hits[0]["_source"].get("content", "{}")
@@ -73,10 +93,7 @@ def create_individual_record(
                     bc_content_data = json.loads(bc_content_str)
                     extracted_info["disclosures"] = bc_content_data.get("disclosures", [])
                     extracted_info["arbitrations"] = bc_content_data.get("arbitrations", [])
-                    state_exams = bc_content_data.get("stateExamCategory", [])
-                    principal_exams = bc_content_data.get("principalExamCategory", [])
-                    product_exams = bc_content_data.get("productExamCategory", [])
-                    extracted_info["exams"] = state_exams + principal_exams + product_exams
+                    extracted_info["exams"] = extract_exams(bc_content_data)
                 except json.JSONDecodeError as e:
                     logger.warning(f"BrokerCheck detailed_info content parse error: {e}")
 
@@ -98,7 +115,17 @@ def create_individual_record(
                 }]
             })
 
-        if detailed_info and "hits" in detailed_info:
+        # Handle flat IAPD structure (if applicable)
+        if "disclosures" in detailed_info:
+            logger.debug("Detected flat IAPD structure in detailed_info")
+            extracted_info["disclosures"] = detailed_info.get("disclosures", [])
+            extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
+            extracted_info["exams"] = extract_exams(detailed_info)
+            extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", current_employments)
+
+        # Handle nested IAPD structure (existing logic)
+        elif "hits" in detailed_info:
+            logger.debug("Detected nested structure in IAPD detailed_info")
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
                 iapd_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
@@ -115,10 +142,7 @@ def create_individual_record(
                                     "state": office.get("state"),
                                     "zip_code": office.get("zipCode")
                                 } for office in branch_offices]
-                    state_exams = iapd_content_data.get("stateExamCategory", [])
-                    principal_exams = iapd_content_data.get("principalExamCategory", [])
-                    product_exams = iapd_content_data.get("productExamCategory", [])
-                    extracted_info["exams"] = state_exams + principal_exams + product_exams
+                    extracted_info["exams"] = extract_exams(iapd_content_data)
                     extracted_info["disclosures"] = iapd_content_data.get("disclosures", [])
                     extracted_info["arbitrations"] = iapd_content_data.get("arbitrations", [])
                 except json.JSONDecodeError as e:
