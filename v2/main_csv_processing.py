@@ -9,7 +9,7 @@ from typing import Any, Dict, List, Tuple
 from collections import OrderedDict, defaultdict
 from enum import Enum
 from main_config import INPUT_FOLDER, OUTPUT_FOLDER, ARCHIVE_FOLDER, canonical_fields
-from main_file_utils import save_checkpoint  # Import save_checkpoint
+from main_file_utils import save_checkpoint
 from business import process_claim
 from services import FinancialServicesFacade
 
@@ -92,7 +92,7 @@ def process_csv(csv_file_path: str, start_line: int, facade: FinancialServicesFa
                     process_row(row, resolved_headers, facade, config, wait_time)
                 except Exception as e:
                     logger.error(f"Error processing {current_csv}, line {i}: {str(e)}", exc_info=True)
-                save_checkpoint(current_csv, current_line)  # Save checkpoint after each row
+                save_checkpoint(current_csv, current_line)
                 time.sleep(wait_time)
     except Exception as e:
         logger.error(f"Error reading {csv_file_path}: {str(e)}", exc_info=True)
@@ -210,23 +210,26 @@ def write_skipped_records():
     skipped_csv_path = os.path.join(archive_subfolder, "skipped.csv")
     try:
         os.makedirs(archive_subfolder, exist_ok=True)
-        with open(skipped_csv_path, 'w', newline='') as f:
-            fieldnames = ['csv_file', 'reference_id', 'skip_reasons', 'timestamp', 'row_data']
-            writer = csv.DictWriter(f, fieldnames=fieldnames)
-            writer.writeheader()
+        # Open in append mode to preserve existing rows
+        with open(skipped_csv_path, 'a', newline='') as f:
+            file_exists = os.path.exists(skipped_csv_path) and os.path.getsize(skipped_csv_path) > 0
+            writer = csv.DictWriter(f, fieldnames=None)  # We'll set fieldnames dynamically
             
             total_skipped = 0
             for csv_file, records in skipped_records.items():
                 for record in records:
-                    writer.writerow({
-                        'csv_file': csv_file,
-                        'reference_id': record['reference_id'],
-                        'skip_reasons': '; '.join(record['skip_reasons']),
-                        'timestamp': record['timestamp'],
-                        'row_data': json.dumps(record['row_data'])
-                    })
+                    raw_row = record['row_data']  # The original row as a dict
+                    if not file_exists:
+                        # Write headers from the first skipped row
+                        writer.fieldnames = raw_row.keys()
+                        writer.writeheader()
+                        file_exists = True
+                    writer.writerow(raw_row)  # Write the raw row as-is
                     total_skipped += 1
             
-            logger.info(f"Wrote {total_skipped} skipped records to {skipped_csv_path}")
+            logger.info(f"Appended {total_skipped} skipped records to {skipped_csv_path}")
     except Exception as e:
         logger.error(f"Error writing skipped records to {skipped_csv_path}: {str(e)}", exc_info=True)
+    finally:
+        # Clear skipped_records after writing
+        skipped_records.clear()
