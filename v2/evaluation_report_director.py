@@ -23,7 +23,7 @@ class EvaluationReportDirector:
     def construct_evaluation_report(self, claim: Dict[str, Any], extracted_info: Dict[str, Any]) -> Dict[str, Any]:
         """
         Constructs a full evaluation report by performing all evaluation steps via evaluation_processor.py,
-        short-circuiting if skip_reasons are present from upstream validation or processing failure.
+        applying skip logic where only search_evaluation is non-compliant if skip_reasons are present.
 
         :param claim: A dictionary containing claim data (e.g., from a CSV row).
         :param extracted_info: A dictionary of normalized data, potentially including skip_reasons.
@@ -41,54 +41,65 @@ class EvaluationReportDirector:
 
         # Step 2: Check for skip reasons from upstream validation or processing failure
         skip_reasons = extracted_info.get("skip_reasons", [])
+        due_diligence_alert = {
+            "alert_type": "DueDiligenceNotPerformed",
+            "severity": "High",
+            "description": "Due diligence not performed due to record skip.",
+            "alert_category": determine_alert_category("DueDiligenceNotPerformed")
+        } if skip_reasons else None
+        skip_explanation = f"Due diligence not performed: Record skipped due to {', '.join(skip_reasons)}"
+
         if skip_reasons:
-            explanation = f"Row skipped due to: {', '.join(skip_reasons)}"
+            # Only search_evaluation is non-compliant for skips; others are True with alerts
             status_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
-                "alerts": []
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
+                "alerts": [due_diligence_alert]
             }
             name_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
-                "evaluation_details": {}
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
+                "evaluation_details": {},
+                "alerts": [due_diligence_alert]
             }
             license_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
+                "alerts": [due_diligence_alert]
             }
             exam_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
+                "alerts": [due_diligence_alert]
             }
             disclosure_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
-                "alerts": []
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
+                "alerts": [due_diligence_alert]
             }
             disciplinary_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [],
+                "alerts": [due_diligence_alert],
                 "due_diligence": {}
             }
             arbitration_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [],
+                "alerts": [due_diligence_alert],
                 "due_diligence": {}
             }
             regulatory_eval = {
-                "compliance": False,
-                "compliance_explanation": explanation,
+                "compliance": True,
+                "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [],
+                "alerts": [due_diligence_alert],
                 "due_diligence": {}
             }
         else:
-            # Step 2: Registration Status Evaluation
+            # Full evaluation for non-skipped rows
             individual = extracted_info.get("individual", {})
             status_compliant, status_alerts = evaluate_registration_status(individual)
             for alert in status_alerts:
@@ -99,7 +110,6 @@ class EvaluationReportDirector:
                 "alerts": [alert.to_dict() for alert in status_alerts]
             }
 
-            # Step 3: Name Evaluation
             expected_name = f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}"
             fetched_name = extracted_info.get("fetched_name", "")
             other_names = extracted_info.get("other_names", [])
@@ -107,38 +117,29 @@ class EvaluationReportDirector:
             name_eval = {
                 "compliance": name_details.get("compliance", False),
                 "compliance_explanation": "Name matches fetched record." if name_details.get("compliance", False) else "Name mismatch detected.",
-                "evaluation_details": name_details
+                "evaluation_details": name_details,
+                "alerts": [name_alert.to_dict()] if name_alert else []
             }
-            if name_alert:
-                name_alert.alert_category = determine_alert_category(name_alert.alert_type)
-                name_eval["alert"] = name_alert.to_dict()
 
-            # Step 4: License Evaluation
             csv_license = claim.get("license_type", "")
             bc_scope = extracted_info.get("bc_scope", "NotInScope")
             ia_scope = extracted_info.get("ia_scope", "NotInScope")
             license_compliant, license_alert = evaluate_license(csv_license, bc_scope, ia_scope, expected_name)
             license_eval = {
                 "compliance": license_compliant,
-                "compliance_explanation": "License is active and compliant." if license_compliant else "License compliance failed."
+                "compliance_explanation": "License is active and compliant." if license_compliant else "License compliance failed.",
+                "alerts": [license_alert.to_dict()] if license_alert else []
             }
-            if license_alert:
-                license_alert.alert_category = determine_alert_category(license_alert.alert_type)
-                license_eval["alert"] = license_alert.to_dict()
 
-            # Step 5: Exam Evaluation
             exams = extracted_info.get("exams", [])
             passed_exams = get_passed_exams(exams)
             exam_compliant, exam_alert = evaluate_exams(passed_exams, csv_license, expected_name)
             exam_eval = {
                 "compliance": exam_compliant,
-                "compliance_explanation": "Required exams are passed." if exam_compliant else "Exam requirements not met."
+                "compliance_explanation": "Required exams are passed." if exam_compliant else "Exam requirements not met.",
+                "alerts": [exam_alert.to_dict()] if exam_alert else []
             }
-            if exam_alert:
-                exam_alert.alert_category = determine_alert_category(exam_alert.alert_type)
-                exam_eval["alert"] = exam_alert.to_dict()
 
-            # Step 6: Disclosure Review
             disclosures = extracted_info.get("disclosures", [])
             disclosure_compliant, disclosure_summary, disclosure_alerts = evaluate_disclosures(disclosures, expected_name)
             disclosure_eval = {
@@ -147,7 +148,6 @@ class EvaluationReportDirector:
                 "alerts": [alert.to_dict() for alert in disclosure_alerts]
             }
 
-            # Step 7: Disciplinary Evaluation
             disciplinary_evaluation = extracted_info.get("disciplinary_evaluation", {})
             disciplinary_actions = disciplinary_evaluation.get("actions", [])
             disciplinary_compliant, disciplinary_explanation, disciplinary_alerts = evaluate_disciplinary(
@@ -161,7 +161,6 @@ class EvaluationReportDirector:
                 "due_diligence": disciplinary_evaluation.get("due_diligence", {})
             }
 
-            # Step 8: Arbitration Evaluation
             arbitration_evaluation = extracted_info.get("arbitration_evaluation", {})
             arbitration_actions = arbitration_evaluation.get("actions", [])
             arbitration_compliant, arbitration_explanation, arbitration_alerts = evaluate_arbitration(
@@ -175,7 +174,6 @@ class EvaluationReportDirector:
                 "due_diligence": arbitration_evaluation.get("due_diligence", {})
             }
 
-            # Step 9: Regulatory Evaluation
             regulatory_evaluation = extracted_info.get("regulatory_evaluation", {})
             regulatory_actions = regulatory_evaluation.get("actions", [])
             regulatory_compliant, regulatory_explanation, regulatory_alerts = evaluate_regulatory(
@@ -199,7 +197,7 @@ class EvaluationReportDirector:
         self.builder.set_arbitration_review(arbitration_eval)
         self.builder.set_regulatory_evaluation(regulatory_eval)
 
-        # Step 10: Final Evaluation
+        # Step 3: Final Evaluation
         overall_compliance = (
             search_evaluation.get("compliance", False) and
             status_eval.get("compliance", True) and
@@ -213,9 +211,9 @@ class EvaluationReportDirector:
         )
         all_alerts = (
             status_eval.get("alerts", []) +
-            ([name_eval["alert"]] if name_eval.get("alert") else []) +
-            ([license_eval["alert"]] if license_eval.get("alert") else []) +
-            ([exam_eval["alert"]] if exam_eval.get("alert") else []) +
+            name_eval.get("alerts", []) +
+            license_eval.get("alerts", []) +
+            exam_eval.get("alerts", []) +
             disclosure_eval.get("alerts", []) +
             disciplinary_eval.get("alerts", []) +
             arbitration_eval.get("alerts", []) +
@@ -229,8 +227,16 @@ class EvaluationReportDirector:
                 break
             elif severity == "medium" and overall_risk_level != "High":
                 overall_risk_level = "Medium"
+        
+        # Cascade the skip reason or provide a default explanation
+        final_compliance_explanation = (
+            search_evaluation.get("compliance_explanation", "No search performed.") 
+            if skip_reasons 
+            else "All compliance checks completed successfully." if overall_compliance else "One or more compliance checks failed."
+        )
         final_eval = {
             "overall_compliance": overall_compliance,
+            "compliance_explanation": final_compliance_explanation,
             "overall_risk_level": overall_risk_level,
             "recommendations": (
                 "Immediate action required due to critical compliance issues."

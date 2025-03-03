@@ -13,7 +13,6 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     organization_name = claim.get("organization_name", "")
 
-    # New condition: individual_name and organization_name present, crd_number and org_crd_number empty
     if individual_name and organization_name and not crd_number and not organization_crd_number:
         logger.info("Claim has individual_name and organization_name but no crd_number or organization_crd_number, selecting search_with_correlated")
         return search_with_correlated
@@ -61,7 +60,16 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
         org_crd_number = facade.get_organization_crd(org_name)
         if org_crd_number is None or org_crd_number == "NOT_FOUND":
             logger.warning("Unknown organization by lookup")
-            return {"source": "Entity_Search", "basic_result": None, "detailed_result": None, "search_strategy": "search_with_crd_and_org_name", "crd_number": crd_number}
+            return {
+                "source": "Entity_Search",
+                "basic_result": None,
+                "detailed_result": None,
+                "search_strategy": "search_with_crd_and_org_name",
+                "crd_number": crd_number,
+                "compliance": False,
+                "compliance_explanation": "Unable to resolve organization CRD from name",
+                "skip_reasons": ["Unable to resolve organization CRD from name"]
+            }
         logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
         detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
@@ -134,89 +142,112 @@ def process_claim(
     strategy_func = determine_search_strategy(claim)
     logger.debug(f"Selected primary strategy: {strategy_func.__name__}")
     search_evaluation = strategy_func(claim, facade, employee_number)
-    if search_evaluation is None or (search_evaluation.get("basic_result") is None and search_evaluation.get("detailed_result") is None):
-        logger.warning(f"Primary strategy {strategy_func.__name__} returned no usable data")
-
-    first_name = claim.get("first_name", "")
-    last_name = claim.get("last_name", "")
-    individual_name = claim.get("individual_name", "")
-    if not (first_name and last_name) and individual_name:
-        first_name, *last_name_parts = individual_name.split()
-        last_name = " ".join(last_name_parts) if last_name_parts else ""
-    
-    if skip_disciplinary:
-        logger.info(f"Skipping disciplinary review for Employee='{employee_number}' as per configuration")
-        disciplinary_evaluation = {
-            "primary_name": individual_name or "Unknown",
-            "actions": [],
-            "due_diligence": {"status": "Skipped per configuration"}
+    if search_evaluation is None or "skip_reasons" in search_evaluation:
+        logger.warning(f"Primary strategy {strategy_func.__name__} failed or skipped: {search_evaluation.get('compliance_explanation', 'Unknown issue') if search_evaluation else 'Returned None'}")
+        extracted_info = {
+            "search_evaluation": search_evaluation or {
+                "source": "Unknown",
+                "search_strategy": strategy_func.__name__,
+                "crd_number": None,
+                "basic_result": None,
+                "detailed_result": None,
+                "compliance": False,
+                "compliance_explanation": "Search strategy returned None",
+                "skip_reasons": ["Search strategy failure"]
+            },
+            "skip_reasons": search_evaluation.get("skip_reasons", ["Search strategy failure"]) if search_evaluation else ["Search strategy returned None"],
+            "individual": {},
+            "fetched_name": "",
+            "other_names": [],
+            "bc_scope": "NotInScope",
+            "ia_scope": "NotInScope",
+            "exams": [],
+            "disclosures": [],
+            "disciplinary_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}},
+            "arbitration_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}},
+            "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}}
         }
     else:
-        disciplinary_evaluation = (
-            facade.perform_disciplinary_review(first_name, last_name, employee_number)
-            if first_name and last_name
-            else {
+        first_name = claim.get("first_name", "")
+        last_name = claim.get("last_name", "")
+        individual_name = claim.get("individual_name", "")
+        if not (first_name and last_name) and individual_name:
+            first_name, *last_name_parts = individual_name.split()
+            last_name = " ".join(last_name_parts) if last_name_parts else ""
+        
+        if skip_disciplinary:
+            logger.info(f"Skipping disciplinary review for Employee='{employee_number}' as per configuration")
+            disciplinary_evaluation = {
                 "primary_name": individual_name or "Unknown",
                 "actions": [],
-                "due_diligence": {"status": "No name provided for search"}
+                "due_diligence": {"status": "Skipped per configuration"}
             }
-        )
+        else:
+            disciplinary_evaluation = (
+                facade.perform_disciplinary_review(first_name, last_name, employee_number)
+                if first_name and last_name
+                else {
+                    "primary_name": individual_name or "Unknown",
+                    "actions": [],
+                    "due_diligence": {"status": "No name provided for search"}
+                }
+            )
 
-    if skip_arbitration:
-        logger.info(f"Skipping arbitration review for Employee='{employee_number}' as per configuration")
-        arbitration_evaluation = {
-            "primary_name": individual_name or "Unknown",
-            "actions": [],
-            "due_diligence": {"status": "Skipped per configuration"}
+        if skip_arbitration:
+            logger.info(f"Skipping arbitration review for Employee='{employee_number}' as per configuration")
+            arbitration_evaluation = {
+                "primary_name": individual_name or "Unknown",
+                "actions": [],
+                "due_diligence": {"status": "Skipped per configuration"}
+            }
+        else:
+            arbitration_evaluation = (
+                facade.perform_arbitration_review(first_name, last_name, employee_number)
+                if first_name and last_name
+                else {
+                    "primary_name": individual_name or "Unknown",
+                    "actions": [],
+                    "due_diligence": {"status": "No name provided for search"}
+                }
+            )
+
+        if skip_regulatory:
+            logger.info(f"Skipping regulatory review for Employee='{employee_number}' as per configuration")
+            regulatory_evaluation = {
+                "primary_name": individual_name or "Unknown",
+                "actions": [],
+                "due_diligence": {"status": "Skipped per configuration"}
+            }
+        else:
+            regulatory_evaluation = (
+                facade.perform_regulatory_review(first_name, last_name, employee_number)
+                if first_name and last_name
+                else {
+                    "primary_name": individual_name or "Unknown",
+                    "actions": [],
+                    "due_diligence": {"status": "No name provided for search"}
+                }
+            )
+
+        extracted_info = {
+            "search_evaluation": {
+                "source": search_evaluation.get("source", "Unknown"),
+                "search_strategy": search_evaluation.get("search_strategy", "Unknown"),
+                "crd_number": search_evaluation.get("crd_number"),
+                "basic_result": search_evaluation.get("basic_result", {}),
+                "detailed_result": search_evaluation.get("detailed_result")
+            },
+            "individual": search_evaluation.get("basic_result", {}),
+            "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
+            "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
+            "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", ""),
+            "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", ""),
+            "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") is not None else [],
+            "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
+            "disciplinary_evaluation": disciplinary_evaluation,
+            "arbitration_evaluation": arbitration_evaluation,
+            "regulatory_evaluation": regulatory_evaluation
         }
-    else:
-        arbitration_evaluation = (
-            facade.perform_arbitration_review(first_name, last_name, employee_number)
-            if first_name and last_name
-            else {
-                "primary_name": individual_name or "Unknown",
-                "actions": [],
-                "due_diligence": {"status": "No name provided for search"}
-            }
-        )
-
-    if skip_regulatory:
-        logger.info(f"Skipping regulatory review for Employee='{employee_number}' as per configuration")
-        regulatory_evaluation = {
-            "primary_name": individual_name or "Unknown",
-            "actions": [],
-            "due_diligence": {"status": "Skipped per configuration"}
-        }
-    else:
-        regulatory_evaluation = (
-            facade.perform_regulatory_review(first_name, last_name, employee_number)
-            if first_name and last_name
-            else {
-                "primary_name": individual_name or "Unknown",
-                "actions": [],
-                "due_diligence": {"status": "No name provided for search"}
-            }
-        )
-
-    extracted_info = {
-        "search_evaluation": {
-            "source": search_evaluation.get("source", "Unknown"),
-            "search_strategy": search_evaluation.get("search_strategy", "Unknown"),
-            "crd_number": search_evaluation.get("crd_number"),
-            "basic_result": search_evaluation.get("basic_result", {}),
-            "detailed_result": search_evaluation.get("detailed_result")
-        },
-        "individual": search_evaluation.get("basic_result", {}),
-        "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
-        "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
-        "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", ""),
-        "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", ""),
-        "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") is not None else [],
-        "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
-        "disciplinary_evaluation": disciplinary_evaluation,
-        "arbitration_evaluation": arbitration_evaluation,
-        "regulatory_evaluation": regulatory_evaluation
-    }
 
     reference_id = claim.get("reference_id", "UNKNOWN")
     builder = EvaluationReportBuilder(reference_id)
