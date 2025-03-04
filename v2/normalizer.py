@@ -34,7 +34,7 @@ def create_individual_record(
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "current_ia_employments": [],
+        "current_employments": [],  # Changed from current_ia_employments
         "crd_number": None
     }
 
@@ -74,7 +74,7 @@ def create_individual_record(
         return state_exams + principal_exams + product_exams
 
     if data_source == "BrokerCheck":
-        extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", [])
+        extracted_info["current_employments"] = detailed_info.get("currentIAEmployments", [])  # Changed from current_ia_employments
         
         # Handle flat BrokerCheck structure
         if "disclosures" in detailed_info:
@@ -121,7 +121,7 @@ def create_individual_record(
             extracted_info["disclosures"] = detailed_info.get("disclosures", [])
             extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
             extracted_info["exams"] = extract_exams(detailed_info)
-            extracted_info["current_ia_employments"] = detailed_info.get("currentIAEmployments", current_employments)
+            extracted_info["current_employments"] = detailed_info.get("currentIAEmployments", current_employments)  # Changed from current_ia_employments
 
         # Handle nested IAPD structure (existing logic)
         elif "hits" in detailed_info:
@@ -148,7 +148,7 @@ def create_individual_record(
                 except json.JSONDecodeError as e:
                     logger.warning(f"IAPD detailed_info content parse error: {e}")
 
-        extracted_info["current_ia_employments"] = current_employments
+        extracted_info["current_employments"] = current_employments  # Changed from current_ia_employments
 
     return extracted_info
 

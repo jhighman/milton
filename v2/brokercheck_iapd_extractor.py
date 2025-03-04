@@ -68,7 +68,7 @@ def create_individual_record(
           "disclosures": list,
           "arbitrations": list,
           "exams": list,
-          "current_ia_employments": list,
+          "current_employments": list,
           ...
         }
 
@@ -96,7 +96,7 @@ def create_individual_record(
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "current_ia_employments": []
+        "current_employments": []  # Changed from current_ia_employments
     }
 
     # If we have no basic_info, we can't parse anything. Return an empty structure.
@@ -151,7 +151,7 @@ def create_individual_record(
             logger.warning(f"IAPD basic_info iacontent parse error: {e}")
             iacontent_data = {}
 
-        # Extract current IA employments
+        # Extract current employments (changed from current_ia_employments)
         current_employments = []
         for emp in iacontent_data.get("currentIAEmployments", []):
             current_employments.append({
@@ -168,7 +168,7 @@ def create_individual_record(
                     for office in emp.get("branchOfficeLocations", [])
                 ]
             })
-        extracted_info["current_ia_employments"] = current_employments
+        extracted_info["current_employments"] = current_employments  # Changed from current_ia_employments
 
         # Now parse the 'detailed_info' to get full disclosures, exams, arbitrations, etc.
         if detailed_info and "hits" in detailed_info:
