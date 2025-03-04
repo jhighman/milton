@@ -261,13 +261,21 @@ class EvaluationReportDirector:
                 break
             elif severity == "medium" and overall_risk_level != "High":
                 overall_risk_level = "Medium"
-        
-        # Cascade the skip reason or provide a default explanation
-        final_compliance_explanation = (
-            search_evaluation.get("compliance_explanation", "No search performed.") 
-            if skip_reasons 
-            else "All compliance checks completed successfully." if overall_compliance else "One or more compliance checks failed."
-        )
+
+        # Custom compliance explanation
+        if skip_reasons:
+            final_compliance_explanation = search_evaluation.get("compliance_explanation", "No search performed.")
+        else:
+            # Check for specific failure conditions
+            name_mismatch = not name_eval.get("compliance", False)
+            no_active_licenses = not license_eval.get("compliance", False) and not extracted_info.get("bc_scope", "").lower() == "active" and not extracted_info.get("ia_scope", "").lower() == "active"
+            if name_mismatch and no_active_licenses:
+                final_compliance_explanation = "No match in name and no active license."
+            elif overall_compliance:
+                final_compliance_explanation = "All compliance checks completed successfully."
+            else:
+                final_compliance_explanation = "One or more compliance checks failed."
+
         final_eval = {
             "overall_compliance": overall_compliance,
             "compliance_explanation": final_compliance_explanation,
