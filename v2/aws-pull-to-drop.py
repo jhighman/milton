@@ -2,6 +2,15 @@ import boto3
 import os
 from datetime import datetime
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+from dotenv import load_dotenv
+
+load_dotenv()
+
+S3_INPUT_BUCKET = os.environ.get('S3_INPUT_BUCKET')
+S3_INPUT_FOLDER = os.environ.get('S3_INPUT_FOLDER')
+LOCAL_INPUT_FOLDER = os.environ.get('LOCAL_INPUT_FOLDER')
+S3_INPUT_ARCHIVE_FOLDER = os.environ.get('S3_INPUT_ARCHIVE_FOLDER')
+
 
 def download_and_archive_csv_files(bucket_name, prefix, local_dir, archive_subfolder):
     """
@@ -103,9 +112,9 @@ def download_and_archive_csv_files(bucket_name, prefix, local_dir, archive_subfo
 
 if __name__ == "__main__":
     # Update these variables as needed
-    bucket_name = "cenxtgen-dev-brokersearch"
-    prefix = "fmrdb/input/"
-    local_dir = "./drop"
-    archive_subfolder = "fmrdb/input_archive"  # Updated to correct archive location
+    #bucket_name = "cenxtgen-dev-brokersearch"
+    #prefix = "fmrdb/input/"
+    #local_dir = "./drop"
+    #archive_subfolder = "fmrdb/input_archive"  # Updated to correct archive location
 
-    download_and_archive_csv_files(bucket_name, prefix, local_dir, archive_subfolder)
+    download_and_archive_csv_files(S3_INPUT_BUCKET, S3_INPUT_FOLDER, LOCAL_INPUT_FOLDER, S3_INPUT_ARCHIVE_FOLDER)
