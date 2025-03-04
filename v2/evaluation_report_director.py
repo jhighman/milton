@@ -41,61 +41,95 @@ class EvaluationReportDirector:
 
         # Step 2: Check for skip reasons from upstream validation or processing failure
         skip_reasons = extracted_info.get("skip_reasons", [])
-        due_diligence_alert = {
-            "alert_type": "DueDiligenceNotPerformed",
-            "severity": "High",
-            "description": "Due diligence not performed due to record skip.",
-            "alert_category": determine_alert_category("DueDiligenceNotPerformed")
-        } if skip_reasons else None
         skip_explanation = f"Due diligence not performed: Record skipped due to {', '.join(skip_reasons)}"
 
         if skip_reasons:
-            # Only search_evaluation is non-compliant for skips; others are True with alerts
+            # Define subsection-specific alerts with alert_category as the subsection name
             status_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [due_diligence_alert]
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "status_evaluation"
+                }]
             }
             name_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "evaluation_details": {},
-                "alerts": [due_diligence_alert]
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "name_evaluation"
+                }]
             }
             license_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [due_diligence_alert]
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "license_evaluation"
+                }]
             }
             exam_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [due_diligence_alert]
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "exam_evaluation"
+                }]
             }
             disclosure_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [due_diligence_alert]
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "disclosure_review"
+                }]
             }
             disciplinary_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [due_diligence_alert],
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "disciplinary_evaluation"
+                }],
                 "due_diligence": {}
             }
             arbitration_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [due_diligence_alert],
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "arbitration_review"
+                }],
                 "due_diligence": {}
             }
             regulatory_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [due_diligence_alert],
+                "alerts": [{
+                    "alert_type": "DueDiligenceNotPerformed",
+                    "severity": "High",
+                    "description": "Due diligence not performed due to record skip.",
+                    "alert_category": "regulatory_evaluation"
+                }],
                 "due_diligence": {}
             }
         else:
