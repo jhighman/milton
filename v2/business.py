@@ -46,7 +46,17 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
     logger.info(f"Searching SEC IAPD with crd_number='{crd_number}', Employee='{employee_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-    return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_both_crds", "crd_number": crd_number}
+    compliance = bool(basic_result)
+    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+    return {
+        "source": "SEC_IAPD",
+        "basic_result": basic_result,
+        "detailed_result": detailed_result,
+        "search_strategy": "search_with_both_crds",
+        "crd_number": crd_number,
+        "compliance": compliance,
+        "compliance_explanation": explanation
+    }
 
 def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     crd_number = claim.get("crd_number", "")
@@ -55,7 +65,15 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
     if broker_result and broker_result.get("fetched_name") != "":
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
-        return {"source": "BrokerCheck", "basic_result": broker_result, "detailed_result": detailed_result, "search_strategy": "search_with_crd_and_org_name", "crd_number": crd_number}
+        return {
+            "source": "BrokerCheck",
+            "basic_result": broker_result,
+            "detailed_result": detailed_result,
+            "search_strategy": "search_with_crd_and_org_name",
+            "crd_number": crd_number,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully with BrokerCheck data."
+        }
     if org_name.strip():
         org_crd_number = facade.get_organization_crd(org_name)
         if org_crd_number is None or org_crd_number == "NOT_FOUND":
@@ -73,11 +91,31 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
         logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
         detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-        return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_crd_and_org_name", "crd_number": crd_number}
+        compliance = bool(basic_result)
+        explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+        return {
+            "source": "SEC_IAPD",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result,
+            "search_strategy": "search_with_crd_and_org_name",
+            "crd_number": crd_number,
+            "compliance": compliance,
+            "compliance_explanation": explanation
+        }
     logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-    return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_crd_and_org_name", "crd_number": crd_number}
+    compliance = bool(basic_result)
+    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+    return {
+        "source": "SEC_IAPD",
+        "basic_result": basic_result,
+        "detailed_result": detailed_result,
+        "search_strategy": "search_with_crd_and_org_name",
+        "crd_number": crd_number,
+        "compliance": compliance,
+        "compliance_explanation": explanation
+    }
 
 def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     crd_number = claim.get("crd_number", "")
@@ -85,28 +123,70 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
     if broker_result and broker_result.get("fetched_name") != "":
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
-        return {"source": "BrokerCheck", "basic_result": broker_result, "detailed_result": detailed_result, "search_strategy": "search_with_crd_only", "crd_number": crd_number}
+        return {
+            "source": "BrokerCheck",
+            "basic_result": broker_result,
+            "detailed_result": detailed_result,
+            "search_strategy": "search_with_crd_only",
+            "crd_number": crd_number,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully with BrokerCheck data."
+        }
     logger.info(f"No BrokerCheck hits => searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-    return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_crd_only", "crd_number": crd_number}
+    compliance = bool(basic_result)
+    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+    return {
+        "source": "SEC_IAPD",
+        "basic_result": basic_result,
+        "detailed_result": detailed_result,
+        "search_strategy": "search_with_crd_only",
+        "crd_number": crd_number,
+        "compliance": compliance,
+        "compliance_explanation": explanation
+    }
 
 def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     logger.info(f"Detected entity search with organization_crd_number='{organization_crd_number}', Employee='{employee_number}'")
     logger.warning("Entity search using organization_crd_number is not supported at this time.")
-    return {"source": "Entity_Search", "basic_result": None, "detailed_result": None, "search_strategy": "search_with_entity", "crd_number": None}
+    return {
+        "source": "Entity_Search",
+        "basic_result": None,
+        "detailed_result": None,
+        "search_strategy": "search_with_entity",
+        "crd_number": None,
+        "compliance": False,
+        "compliance_explanation": "Entity search using organization_crd_number is not supported."
+    }
 
 def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     organization_name = claim.get("organization_name", "")
     logger.info(f"Detected org_name-only search with organization_name='{organization_name}', Employee='{employee_number}'")
     logger.warning("Entity search using organization_name is not supported at this time.")
-    return {"source": "Entity_Search", "basic_result": None, "detailed_result": None, "search_strategy": "search_with_org_name_only", "crd_number": None}
+    return {
+        "source": "Entity_Search",
+        "basic_result": None,
+        "detailed_result": None,
+        "search_strategy": "search_with_org_name_only",
+        "crd_number": None,
+        "compliance": False,
+        "compliance_explanation": "Entity search using organization_name is not supported."
+    }
 
 def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     logger.info(f"No usable fields => defaulting, Employee='{employee_number}'")
     logger.warning("Insufficient identifiers to perform search")
-    return {"source": "Default", "basic_result": None, "detailed_result": None, "search_strategy": "search_default", "crd_number": None}
+    return {
+        "source": "Default",
+        "basic_result": None,
+        "detailed_result": None,
+        "search_strategy": "search_default",
+        "crd_number": None,
+        "compliance": False,
+        "compliance_explanation": "Insufficient identifiers to perform search."
+    }
 
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     individual_name = claim.get("individual_name") or ""
@@ -124,7 +204,17 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
         logger.debug(f"Detailed result from SEC IAPD detailed search: {json.dumps(detailed_result, indent=2)}")
     elif crd_number:
         logger.warning(f"Failed to fetch detailed_result for crd_number='{crd_number}'")
-    return {"source": "SEC_IAPD", "basic_result": basic_result, "detailed_result": detailed_result, "search_strategy": "search_with_correlated", "crd_number": crd_number}
+    compliance = bool(basic_result)
+    explanation = "Search completed successfully with SEC IAPD correlated data." if compliance else "Search failed to retrieve correlated data from SEC IAPD."
+    return {
+        "source": "SEC_IAPD",
+        "basic_result": basic_result,
+        "detailed_result": detailed_result,
+        "search_strategy": "search_with_correlated",
+        "crd_number": crd_number,
+        "compliance": compliance,
+        "compliance_explanation": explanation
+    }
 
 def process_claim(
     claim: Dict[str, Any],
@@ -235,7 +325,9 @@ def process_claim(
                 "search_strategy": search_evaluation.get("search_strategy", "Unknown"),
                 "crd_number": search_evaluation.get("crd_number"),
                 "basic_result": search_evaluation.get("basic_result", {}),
-                "detailed_result": search_evaluation.get("detailed_result")
+                "detailed_result": search_evaluation.get("detailed_result"),
+                "compliance": search_evaluation.get("compliance", False),
+                "compliance_explanation": search_evaluation.get("compliance_explanation", "No compliance status provided.")
             },
             "individual": search_evaluation.get("basic_result", {}),
             "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
