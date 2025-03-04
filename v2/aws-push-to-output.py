@@ -2,17 +2,27 @@ import os
 import boto3
 import logging
 import shutil
+
 from datetime import datetime
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Access environment variables
+S3_OUTPUT_BUCKET = os.environ.get('S3_OUTPUT_BUCKET')
+S3_OUTPUT_FOLDER = os.environ.get('S3_OUTPUT_FOLDER')
+LOCAL_OUTPUT_FOLDER = os.environ.get('LOCAL_OUTPUT_FOLDER')
+LOCAL_ARCHIVE_SUBFOLDER = os.environ.get('LOCAL_ARCHIVE_SUBFOLDER')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # S3 bucket details
-S3_BUCKET = "cenxtgen-dev-brokersearch-response"
-S3_FOLDER = "fmrdb/output/"
-LOCAL_OUTPUT_FOLDER = "./output"
-LOCAL_ARCHIVE_SUBFOLDER = "archive"  # Local archive subfolder name
+#S3_BUCKET = "cenxtgen-dev-brokersearch-response"            
+#S3_FOLDER = "fmrdb/output/"
+#LOCAL_OUTPUT_FOLDER = "./output"
+#LOCAL_ARCHIVE_SUBFOLDER = "archive"  # Local archive subfolder name
 
 def upload_json_files_to_s3_with_local_archive(manifest_filename="manifest.txt"):
     """
@@ -59,11 +69,11 @@ def upload_json_files_to_s3_with_local_archive(manifest_filename="manifest.txt")
         # Iterate over all .json files
         for file_name in json_files:
             local_file_path = os.path.join(LOCAL_OUTPUT_FOLDER, file_name)
-            s3_key = os.path.join(S3_FOLDER, file_name).replace("\\", "/")  # Ensure S3 key uses forward slashes
+            s3_key = os.path.join(S3_OUTPUT_FOLDER, file_name).replace("\\", "/")  # Ensure S3 key uses forward slashes
 
             # Check if the file already exists in S3
             try:
-                s3_client.head_object(Bucket=S3_BUCKET, Key=s3_key)
+                s3_client.head_object(Bucket=S3_OUTPUT_BUCKET, Key=s3_key)
                 file_exists = True
                 logging.info(f"File already exists in S3: {s3_key}. Skipping upload.")
             except s3_client.exceptions.ClientError as e:
@@ -79,8 +89,8 @@ def upload_json_files_to_s3_with_local_archive(manifest_filename="manifest.txt")
             else:
                 # Upload the file to S3
                 try:
-                    s3_client.upload_file(local_file_path, S3_BUCKET, s3_key)
-                    logging.info(f"Uploaded {file_name} to s3://{S3_BUCKET}/{s3_key}")
+                    s3_client.upload_file(local_file_path, S3_OUTPUT_BUCKET, s3_key)
+                    logging.info(f"Uploaded {file_name} to s3://{S3_OUTPUT_BUCKET}/{s3_key}")
                     uploaded_count += 1
                     uploaded_files.append(file_name)
                 except Exception as e:
@@ -123,10 +133,10 @@ def upload_json_files_to_s3_with_local_archive(manifest_filename="manifest.txt")
 
         # 5) Upload the manifest to the S3 destination folder
         # Since S3 archiving is handled upstream, we'll upload the manifest directly to the S3_FOLDER
-        s3_manifest_key = os.path.join(S3_FOLDER, manifest_filename).replace("\\", "/")
+        s3_manifest_key = os.path.join(S3_OUTPUT_FOLDER, manifest_filename).replace("\\", "/")
         try:
-            s3_client.upload_file(manifest_path_local, S3_BUCKET, s3_manifest_key)
-            logging.info(f"Uploaded manifest to s3://{S3_BUCKET}/{s3_manifest_key}")
+            s3_client.upload_file(manifest_path_local, S3_OUTPUT_BUCKET, s3_manifest_key)
+            logging.info(f"Uploaded manifest to s3://{S3_OUTPUT_BUCKET}/{s3_manifest_key}")
         except Exception as e:
             logging.error(f"Failed to upload manifest to S3: {e}")
 
