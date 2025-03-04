@@ -199,7 +199,8 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
             alert_type="Name Mismatch",
             severity=AlertSeverity.MEDIUM,
             metadata={"expected_name": claim_name, "best_score": best_score, "best_match": best_match},
-            description=f"Name match score {best_score} is below threshold {score_threshold}."
+            description=f"Name match score {best_score} is below threshold {score_threshold}.",
+            alert_category=determine_alert_category("Name Mismatch")
         )
 
     return evaluation_details, alert
@@ -225,7 +226,8 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
                 alert_type="No Active Licenses Found",
                 severity=AlertSeverity.HIGH,
                 metadata={"bc_scope": bc_scope, "ia_scope": ia_scope},
-                description=f"No active licenses found for {name}."
+                description=f"No active licenses found for {name}.",
+                alert_category=determine_alert_category("No Active Licenses Found")
             )
             return False, alert
         return True, None
@@ -236,7 +238,8 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
                 alert_type="License Compliance Alert",
                 severity=AlertSeverity.HIGH,
                 metadata={"csv_license": csv_license, "bc_scope": bc_scope, "ia_scope": ia_scope},
-                description=f"License compliance failed for {name}."
+                description=f"License compliance failed for {name}.",
+                alert_category=determine_alert_category("License Compliance Alert")
             )
             return False, alert
         return True, None
@@ -262,7 +265,8 @@ def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tupl
             alert_type="Exam Requirement Alert",
             severity=AlertSeverity.MEDIUM,
             metadata={"passed_exams": list(passed_exams), "missing_roles": missing_roles},
-            description=f"{name} is missing required exams for: {', '.join(missing_roles)}."
+            description=f"{name} is missing required exams for: {', '.join(missing_roles)}.",
+            alert_category=determine_alert_category("Exam Requirement Alert")
         )
         return False, alert
     return True, None
@@ -292,7 +296,8 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
             alert_type="Registration Status Alert",
             severity=AlertSeverity.HIGH,
             metadata={"bc_status": bc_status},
-            description=f"Broker registration status is {bc_status}."
+            description=f"Broker registration status is {bc_status}.",
+            alert_category=determine_alert_category("Registration Status Alert")
         ))
         status_compliant = False
 
@@ -301,7 +306,8 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
             alert_type="Registration Status Alert",
             severity=AlertSeverity.HIGH,
             metadata={"ia_status": ia_status},
-            description=f"Investment Advisor registration status is {ia_status}."
+            description=f"Investment Advisor registration status is {ia_status}.",
+            alert_category=determine_alert_category("Registration Status Alert")
         ))
         status_compliant = False
 
@@ -363,7 +369,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             alert_type=f"{disclosure_type} Disclosure",
             severity=severity,
             metadata={"event_date": event_date, "resolution": resolution, "details": details},
-            description=description
+            description=description,
+            alert_category=determine_alert_category(f"{disclosure_type} Disclosure")
         )
     return None
 
@@ -375,8 +382,7 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         disclosure_counts[dtype] = disclosure_counts.get(dtype, 0) + 1
         alert = generate_disclosure_alert(disclosure)
         if alert:
-            alert.alert_category = determine_alert_category(alert.alert_type)
-            alerts.append(alert)
+            alerts.append(alert)  # alert_category already set in generate_disclosure_alert
     if disclosure_counts:
         summary_parts = [
             f"{count} {dtype.lower()} disclosure{'s' if count > 1 else ''}"
@@ -401,9 +407,9 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
                     alert_type="Arbitration Alert",
                     severity=AlertSeverity.HIGH,
                     metadata={"arbitration": arb},
-                    description=f"Arbitration issue found: Case {case_id} for {name}, status: {status}, outcome: {outcome}."
+                    description=f"Arbitration issue found: Case {case_id} for {name}, status: {status}, outcome: {outcome}.",
+                    alert_category=determine_alert_category("Arbitration Alert")
                 )
-                alert.alert_category = determine_alert_category(alert.alert_type)
                 alerts.append(alert)
         if alerts:
             explanation = f"Arbitration issues found for {name}."
@@ -420,9 +426,9 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
                 alert_type="Arbitration Search Info",
                 severity=AlertSeverity.MEDIUM,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} arbitration records for {name}, all filtered out due to name mismatch. Potential review needed."
+                description=f"Found {total_records} arbitration records for {name}, all filtered out due to name mismatch. Potential review needed.",
+                alert_category=determine_alert_category("Arbitration Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching arbitration records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
@@ -431,9 +437,9 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
                 alert_type="Arbitration Search Info",
                 severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} arbitration records for {name}, {total_filtered} filtered out."
+                description=f"Found {total_records} arbitration records for {name}, {total_filtered} filtered out.",
+                alert_category=determine_alert_category("Arbitration Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching arbitration records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
             return True, explanation, alerts
@@ -451,9 +457,9 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
                 alert_type="Disciplinary Alert",
                 severity=AlertSeverity.HIGH,
                 metadata={"record": record},
-                description=f"Disciplinary record found: Case ID {case_id} for {name}."
+                description=f"Disciplinary record found: Case ID {case_id} for {name}.",
+                alert_category=determine_alert_category("Disciplinary Alert")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
         if alerts:
             explanation = f"Disciplinary records found for {name}."
@@ -470,9 +476,9 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
                 alert_type="Disciplinary Search Info",
                 severity=AlertSeverity.MEDIUM,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} disciplinary records for {name}, all filtered out due to name mismatch. Potential review needed."
+                description=f"Found {total_records} disciplinary records for {name}, all filtered out due to name mismatch. Potential review needed.",
+                alert_category=determine_alert_category("Disciplinary Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching disciplinary records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
@@ -481,9 +487,9 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
                 alert_type="Disciplinary Search Info",
                 severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} disciplinary records for {name}, {total_filtered} filtered out."
+                description=f"Found {total_records} disciplinary records for {name}, {total_filtered} filtered out.",
+                alert_category=determine_alert_category("Disciplinary Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching disciplinary records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
             return True, explanation, alerts
@@ -504,9 +510,9 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
                     alert_type="Regulatory Alert",
                     severity=AlertSeverity.HIGH,
                     metadata={"record": record},
-                    description=f"Regulatory action found: NFA ID {case_id} for {name}."
+                    description=f"Regulatory action found: NFA ID {case_id} for {name}.",
+                    alert_category=determine_alert_category("Regulatory Alert")
                 )
-                alert.alert_category = determine_alert_category(alert.alert_type)
                 alerts.append(alert)
         if alerts:
             explanation = f"Regulatory actions found for {name}."
@@ -522,9 +528,9 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
                 alert_type="Regulatory Search Info",
                 severity=AlertSeverity.MEDIUM,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} regulatory records for {name}, all filtered out due to name mismatch. Potential review needed."
+                description=f"Found {total_records} regulatory records for {name}, all filtered out due to name mismatch. Potential review needed.",
+                alert_category=determine_alert_category("Regulatory Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching regulatory records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
@@ -533,9 +539,9 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
                 alert_type="Regulatory Search Info",
                 severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
-                description=f"Found {total_records} regulatory records for {name}, {total_filtered} filtered out."
+                description=f"Found {total_records} regulatory records for {name}, {total_filtered} filtered out.",
+                alert_category=determine_alert_category("Regulatory Search Info")
             )
-            alert.alert_category = determine_alert_category(alert.alert_type)
             alerts.append(alert)
             explanation = f"No matching regulatory records found for {name}, {total_records} records reviewed with {total_filtered} filtered."
             return True, explanation, alerts
