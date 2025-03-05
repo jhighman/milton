@@ -23,7 +23,7 @@ class EvaluationReportDirector:
     def construct_evaluation_report(self, claim: Dict[str, Any], extracted_info: Dict[str, Any]) -> Dict[str, Any]:
         """
         Constructs a full evaluation report by performing all evaluation steps via evaluation_processor.py,
-        applying skip logic where only search_evaluation is non-compliant if skip_reasons are present.
+        applying skip logic or search failure logic as needed.
 
         :param claim: A dictionary containing claim data (e.g., from a CSV row).
         :param extracted_info: A dictionary of normalized data, potentially including skip_reasons.
@@ -32,19 +32,20 @@ class EvaluationReportDirector:
         # Step 1: Set basic claim and search evaluation
         self.builder.set_claim(claim)
         search_evaluation = extracted_info.get("search_evaluation", {
-            "source": "Unknown", 
-            "search_strategy": "unknown", 
-            "compliance": False, 
+            "source": "Unknown",
+            "search_strategy": "unknown",
+            "compliance": False,
             "compliance_explanation": "No search performed."
         })
         self.builder.set_search_evaluation(search_evaluation)
 
-        # Step 2: Check for skip reasons from upstream validation or processing failure
+        # Step 2: Check for skip reasons or search failure
         skip_reasons = extracted_info.get("skip_reasons", [])
         skip_explanation = f"Due diligence not performed: Record skipped due to {', '.join(skip_reasons)}"
+        search_failed = not search_evaluation.get("compliance", False) and not extracted_info.get("fetched_name", "")
 
         if skip_reasons:
-            # Define subsection-specific alerts with alert_category as the subsection name
+            # Skipped due to validation or upstream failure
             status_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
@@ -132,8 +133,63 @@ class EvaluationReportDirector:
                 }],
                 "due_diligence": {}
             }
+        elif search_failed:
+            # Handle case where search failed and no individual was found
+            failure_explanation = search_evaluation.get("compliance_explanation", "Individual not found in search.")
+            status_eval = {
+                "compliance": False,
+                "compliance_explanation": f"Individual not found: {failure_explanation}",
+                "alerts": [{
+                    "alert_type": "IndividualNotFound",
+                    "severity": "High",
+                    "description": f"Registration status could not be verified due to search failure: {failure_explanation}",
+                    "alert_category": "status_evaluation"
+                }]
+            }
+            name_eval = {
+                "compliance": False,
+                "compliance_explanation": f"Name evaluation skipped due to search failure: {failure_explanation}",
+                "evaluation_details": {"expected_name": f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}", "fetched_name": "", "match_score": 0.0},
+                "alerts": []  # No alerts to avoid spurious "Name Mismatch"
+            }
+            license_eval = {
+                "compliance": False,
+                "compliance_explanation": f"License evaluation skipped due to search failure: {failure_explanation}",
+                "alerts": []  # No "No Active Licenses Found" alert since no individual was found
+            }
+            exam_eval = {
+                "compliance": False,
+                "compliance_explanation": f"Exam evaluation skipped due to search failure: {failure_explanation}",
+                "alerts": []
+            }
+            disclosure_eval = {
+                "compliance": True,
+                "compliance_explanation": f"No disclosures evaluated due to search failure: {failure_explanation}",
+                "alerts": []
+            }
+            disciplinary_eval = {
+                "compliance": True,
+                "compliance_explanation": f"No disciplinary actions evaluated due to search failure: {failure_explanation}",
+                "actions": [],
+                "alerts": [],
+                "due_diligence": extracted_info.get("disciplinary_evaluation", {}).get("due_diligence", {})
+            }
+            arbitration_eval = {
+                "compliance": True,
+                "compliance_explanation": f"No arbitration actions evaluated due to search failure: {failure_explanation}",
+                "actions": [],
+                "alerts": [],
+                "due_diligence": extracted_info.get("arbitration_evaluation", {}).get("due_diligence", {})
+            }
+            regulatory_eval = {
+                "compliance": True,
+                "compliance_explanation": f"No regulatory actions evaluated due to search failure: {failure_explanation}",
+                "actions": [],
+                "alerts": [],
+                "due_diligence": extracted_info.get("regulatory_evaluation", {}).get("due_diligence", {})
+            }
         else:
-            # Full evaluation for non-skipped rows
+            # Full evaluation for successful searches
             individual = extracted_info.get("individual", {})
             status_compliant, status_alerts = evaluate_registration_status(individual)
             for alert in status_alerts:
@@ -265,8 +321,9 @@ class EvaluationReportDirector:
         # Custom compliance explanation
         if skip_reasons:
             final_compliance_explanation = search_evaluation.get("compliance_explanation", "No search performed.")
+        elif search_failed:
+            final_compliance_explanation = f"Individual not found: {search_evaluation.get('compliance_explanation', 'Search failed.')}"
         else:
-            # Check for specific failure conditions
             name_mismatch = not name_eval.get("compliance", False)
             no_active_licenses = not license_eval.get("compliance", False) and not extracted_info.get("bc_scope", "").lower() == "active" and not extracted_info.get("ia_scope", "").lower() == "active"
             if name_mismatch and no_active_licenses:

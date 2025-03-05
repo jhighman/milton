@@ -46,8 +46,12 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
     logger.info(f"Searching SEC IAPD with crd_number='{crd_number}', Employee='{employee_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
+    if not basic_result:
+        explanation = f"Search failed: No data retrieved from SEC IAPD using crd_number='{crd_number}'."
+        logger.warning(explanation)
+    else:
+        explanation = "Search completed successfully with SEC IAPD data."
     compliance = bool(basic_result)
-    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
     return {
         "source": "SEC_IAPD",
         "basic_result": basic_result,
@@ -63,7 +67,8 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
     org_name = claim.get("organization_name", "")
     logger.info(f"Searching with crd_number='{crd_number}', organization_name='{org_name}', Employee='{employee_number}'")
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
-    if broker_result and broker_result.get("fetched_name") != "":
+    
+    if broker_result and broker_result.get("fetched_name", "") != "":
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
         return {
             "source": "BrokerCheck",
@@ -74,39 +79,26 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
             "compliance": True,
             "compliance_explanation": "Search completed successfully with BrokerCheck data."
         }
-    if org_name.strip():
-        org_crd_number = facade.get_organization_crd(org_name)
-        if org_crd_number is None or org_crd_number == "NOT_FOUND":
-            logger.warning("Unknown organization by lookup")
-            return {
-                "source": "Entity_Search",
-                "basic_result": None,
-                "detailed_result": None,
-                "search_strategy": "search_with_crd_and_org_name",
-                "crd_number": crd_number,
-                "compliance": False,
-                "compliance_explanation": "Unable to resolve organization CRD from name",
-                "skip_reasons": ["Unable to resolve organization CRD from name"]
-            }
-        logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
-        basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
-        detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-        compliance = bool(basic_result)
-        explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
-        return {
-            "source": "SEC_IAPD",
-            "basic_result": basic_result,
-            "detailed_result": detailed_result,
-            "search_strategy": "search_with_crd_and_org_name",
-            "crd_number": crd_number,
-            "compliance": compliance,
-            "compliance_explanation": explanation
-        }
-    logger.info(f"No BrokerCheck hits, searching SEC IAPD with crd_number='{crd_number}'")
+    
+    logger.info(f"No BrokerCheck hits (result: {broker_result}), searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-    compliance = bool(basic_result)
-    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+    
+    if not basic_result:
+        explanation = (
+            f"Search failed: No data retrieved. "
+            f"BrokerCheck search with crd_number='{crd_number}' returned no usable results. "
+            f"SEC IAPD search with crd_number='{crd_number}' also returned no data."
+        )
+        logger.warning(explanation)
+        compliance = False
+    else:
+        explanation = (
+            f"Search completed successfully with SEC IAPD data after BrokerCheck failed. "
+            f"BrokerCheck search with crd_number='{crd_number}' returned no usable results."
+        )
+        compliance = True
+    
     return {
         "source": "SEC_IAPD",
         "basic_result": basic_result,
@@ -121,7 +113,8 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
     crd_number = claim.get("crd_number", "")
     logger.info(f"Searching with crd_number only='{crd_number}', Employee='{employee_number}'")
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
-    if broker_result and broker_result.get("fetched_name") != "":
+    
+    if broker_result and broker_result.get("fetched_name", "") != "":
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
         return {
             "source": "BrokerCheck",
@@ -132,11 +125,26 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
             "compliance": True,
             "compliance_explanation": "Search completed successfully with BrokerCheck data."
         }
-    logger.info(f"No BrokerCheck hits => searching SEC IAPD with crd_number='{crd_number}'")
+    
+    logger.info(f"No BrokerCheck hits (result: {broker_result}), searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
-    compliance = bool(basic_result)
-    explanation = "Search completed successfully with SEC IAPD data." if compliance else "Search failed to retrieve data from SEC IAPD."
+    
+    if not basic_result:
+        explanation = (
+            f"Search failed: No data retrieved. "
+            f"BrokerCheck search with crd_number='{crd_number}' returned no usable results. "
+            f"SEC IAPD search with crd_number='{crd_number}' also returned no data."
+        )
+        logger.warning(explanation)
+        compliance = False
+    else:
+        explanation = (
+            f"Search completed successfully with SEC IAPD data after BrokerCheck failed. "
+            f"BrokerCheck search with crd_number='{crd_number}' returned no usable results."
+        )
+        compliance = True
+    
     return {
         "source": "SEC_IAPD",
         "basic_result": basic_result,
@@ -195,17 +203,26 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     basic_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
     logger.debug(f"Raw basic_result from SEC IAPD correlated search: {json.dumps(basic_result, indent=2)}")
     crd_number = basic_result.get("crd_number", None) if basic_result else None
-    if basic_result:
+    
+    # Check if basic_result contains meaningful data
+    if basic_result and basic_result.get("fetched_name", ""):
         logger.info(f"Found basic_result with crd_number='{crd_number}'")
+        detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
+        if detailed_result:
+            logger.debug(f"Detailed result from SEC IAPD detailed search: {json.dumps(detailed_result, indent=2)}")
+        elif crd_number:
+            logger.warning(f"Failed to fetch detailed_result for crd_number='{crd_number}'")
+        compliance = True
+        explanation = "Search completed successfully with SEC IAPD correlated data."
     else:
-        logger.warning("No basic_result from SEC IAPD correlated search")
-    detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
-    if detailed_result:
-        logger.debug(f"Detailed result from SEC IAPD detailed search: {json.dumps(detailed_result, indent=2)}")
-    elif crd_number:
-        logger.warning(f"Failed to fetch detailed_result for crd_number='{crd_number}'")
-    compliance = bool(basic_result)
-    explanation = "Search completed successfully with SEC IAPD correlated data." if compliance else "Search failed to retrieve correlated data from SEC IAPD."
+        logger.warning(f"No meaningful data retrieved from SEC IAPD correlated search with individual_name='{individual_name}', organization_crd_number='{organization_crd_number}'")
+        detailed_result = None
+        compliance = False
+        explanation = (
+            f"Search failed: No individual found in SEC IAPD using correlated search with "
+            f"individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'."
+        )
+    
     return {
         "source": "SEC_IAPD",
         "basic_result": basic_result,
