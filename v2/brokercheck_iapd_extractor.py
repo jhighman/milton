@@ -23,7 +23,7 @@ What This Module Does
      as returned by your fetching functions (e.g., `search_finra_brokercheck_individual`, 
      `search_finra_brokercheck_detailed`, `search_sec_iapd_individual`, etc.).
   3) Extracts fields like first/last names, registration scopes, disclosures, 
-     and exam data, placing them into a single dictionary ("extracted_info").
+     exams, and employments, placing them into a single dictionary ("extracted_info").
   4) Ensures that for each data source, we parse the relevant JSON fields correctly.
 
 Why This Is Done
@@ -75,18 +75,13 @@ def create_individual_record(
     For BrokerCheck:
     - 'basic_info' usually contains a "hits" -> "hits"[0] -> "_source" with fields like
       ind_firstname, ind_middlename, ind_lastname, ind_other_names, ind_bc_scope, ind_ia_scope.
-    - 'detailed_info' typically contains a "content" JSON that includes 'disclosures'.
-      We parse it and store it under "disclosures" in the final dictionary.
+    - 'detailed_info' typically contains a "content" JSON that includes 'disclosures' and 'currentEmployments'.
 
     For IAPD:
     - 'basic_info' also has a "hits" -> "hits"[0] -> "_source" structure, with the relevant
       fields plus an 'iacontent' key containing partial detail (like "currentIAEmployments").
     - 'detailed_info' typically references 'iacontent' again to retrieve disclosures, arbitrations,
       and exam categories ("stateExamCategory", "principalExamCategory", "productExamCategory").
-    - We combine those lists into a single "exams" list.
-
-    The goal is to produce a single "extracted_info" record that downstream logic can consume
-    without worrying about the data source.
     """
     extracted_info = {
         "fetched_name": "",
@@ -96,7 +91,7 @@ def create_individual_record(
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "current_employments": []  # Changed from current_ia_employments
+        "current_employments": []  # Normalized for both sources
     }
 
     # If we have no basic_info, we can't parse anything. Return an empty structure.
@@ -121,9 +116,26 @@ def create_individual_record(
     extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
     extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
 
+    # Helper function to normalize employments
+    def normalize_employment(emp: Dict[str, Any]) -> Dict[str, Any]:
+        return {
+            "firm_id": emp.get("firmId"),
+            "firm_name": emp.get("firmName"),
+            "registration_begin_date": emp.get("registrationBeginDate"),
+            "branch_offices": [
+                {
+                    "street": office.get("street1"),
+                    "city": office.get("city"),
+                    "state": office.get("state"),
+                    "zip_code": office.get("zipCode")
+                }
+                for office in emp.get("branchOfficeLocations", [])
+            ]
+        }
+
     # Different parsing logic depending on source
     if data_source == "BrokerCheck":
-        # For BrokerCheck, we typically rely on 'detailed_info' to get disclosures
+        # For BrokerCheck, we typically rely on 'detailed_info' to get disclosures and employments
         if detailed_info and "hits" in detailed_info:
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
@@ -135,8 +147,11 @@ def create_individual_record(
                     content_json = {}
 
                 extracted_info["disclosures"] = content_json.get("disclosures", [])
-                # BrokerCheck usually doesn't store "arbitrations" the same way,
-                # so we leave "arbitrations" empty unless you find them.
+                # Parse and normalize BrokerCheck employments
+                current_employments = []
+                for emp in content_json.get("currentEmployments", []):
+                    current_employments.append(normalize_employment(emp))
+                extracted_info["current_employments"] = current_employments
             else:
                 logger.info("BrokerCheck detailed_info had no hits. No disclosures extracted.")
         else:
@@ -151,24 +166,11 @@ def create_individual_record(
             logger.warning(f"IAPD basic_info iacontent parse error: {e}")
             iacontent_data = {}
 
-        # Extract current employments (changed from current_ia_employments)
+        # Extract and normalize current employments
         current_employments = []
         for emp in iacontent_data.get("currentIAEmployments", []):
-            current_employments.append({
-                "firm_id": emp.get("firmId"),
-                "firm_name": emp.get("firmName"),
-                "registration_begin_date": emp.get("registrationBeginDate"),
-                "branch_offices": [
-                    {
-                        "street": office.get("street1"),
-                        "city": office.get("city"),
-                        "state": office.get("state"),
-                        "zip_code": office.get("zipCode")
-                    }
-                    for office in emp.get("branchOfficeLocations", [])
-                ]
-            })
-        extracted_info["current_employments"] = current_employments  # Changed from current_ia_employments
+            current_employments.append(normalize_employment(emp))
+        extracted_info["current_employments"] = current_employments
 
         # Now parse the 'detailed_info' to get full disclosures, exams, arbitrations, etc.
         if detailed_info and "hits" in detailed_info:

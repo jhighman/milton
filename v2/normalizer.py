@@ -14,6 +14,7 @@ import json
 import logging
 from typing import Dict, Any, List, Optional
 from evaluation_processor import evaluate_name, parse_name
+from datetime import datetime
 
 logger = logging.getLogger("normalizer")
 
@@ -26,6 +27,25 @@ def create_individual_record(
     basic_info: Optional[Dict[str, Any]],
     detailed_info: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
+    """
+    Creates a unified "individual record" from BrokerCheck or IAPD data, handling both flat and nested structures.
+
+    :param data_source: Either "BrokerCheck" or "IAPD".
+    :param basic_info: JSON structure from basic search (e.g., name, scopes).
+    :param detailed_info: JSON structure from detailed search (e.g., disclosures, employments).
+    :return: A normalized dictionary with keys like:
+        {
+          "fetched_name": str,
+          "other_names": list,
+          "bc_scope": str,
+          "ia_scope": str,
+          "disclosures": list,
+          "arbitrations": list,
+          "exams": list,
+          "employments": list,  # Consolidated employment section
+          "crd_number": str
+        }
+    """
     extracted_info = {
         "fetched_name": "",
         "other_names": [],
@@ -34,11 +54,12 @@ def create_individual_record(
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "current_employments": [],  # Changed from current_ia_employments
+        "employments": [],  # Single section for all employments
         "crd_number": None
     }
 
     if data_source not in ["BrokerCheck", "IAPD"]:
+        logger.error(f"Unknown data source '{data_source}'. Returning minimal extracted_info.")
         return extracted_info
 
     if not basic_info:
@@ -52,6 +73,7 @@ def create_individual_record(
 
     individual = hits_list[0].get("_source", {})
 
+    # Name fields
     first_name = individual.get('ind_firstname', '').upper()
     middle_name = individual.get('ind_middlename', '').upper()
     last_name = individual.get('ind_lastname', '').upper()
@@ -59,96 +81,172 @@ def create_individual_record(
     extracted_info["fetched_name"] = fetched_name
     extracted_info["other_names"] = individual.get("ind_other_names", [])
 
+    # Scopes and CRD
     extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
     extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
-    extracted_info["crd_number"] = str(individual.get("ind_source_id", ""))
+    extracted_info["crd_number"] = str(individual.get("ind_source_id", "")) if individual.get("ind_source_id") else None
 
     if not detailed_info:
         logger.warning(f"No detailed_info provided for {data_source}. Skipping detailed fields.")
         return extracted_info
 
-    def extract_exams(detailed_data: Dict[str, Any]) -> List[Dict[str, Any]]:
-        state_exams = detailed_data.get("stateExamCategory", [])
-        principal_exams = detailed_data.get("principalExamCategory", [])
-        product_exams = detailed_data.get("productExamCategory", [])
-        return state_exams + principal_exams + product_exams
+    # Helper function to normalize employments
+    def normalize_employment(emp: Dict[str, Any], status: str, emp_type: str) -> Dict[str, Any]:
+        normalized = {
+            "firm_id": emp.get("firmId"),
+            "firm_name": emp.get("firmName"),
+            "registration_begin_date": emp.get("registrationBeginDate"),
+            "branch_offices": [
+                {
+                    "street": office.get("street1"),
+                    "city": office.get("city"),
+                    "state": office.get("state"),
+                    "zip_code": office.get("zipCode")
+                }
+                for office in emp.get("branchOfficeLocations", [])
+            ],
+            "status": status,  # "current" or "previous"
+            "type": emp_type   # "registered_firm" or "employment_history"
+        }
+        if status == "previous":
+            normalized["registration_end_date"] = emp.get("registrationEndDate")
+        return normalized
 
+    # 10-year cutoff for IAPD employment history
+    current_date = datetime(2025, 3, 5)  # Current date per system info
+    ten_years_ago = current_date.replace(year=current_date.year - 10)
+
+    # Source-specific parsing
     if data_source == "BrokerCheck":
-        extracted_info["current_employments"] = detailed_info.get("currentIAEmployments", [])  # Changed from current_ia_employments
-        
-        # Handle flat BrokerCheck structure
+        # Handle flat structure
         if "disclosures" in detailed_info:
             logger.debug("Detected flat BrokerCheck structure in detailed_info")
             extracted_info["disclosures"] = detailed_info.get("disclosures", [])
-            extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])  # Often empty, but included for consistency
-            extracted_info["exams"] = extract_exams(detailed_info)
-        
-        # Handle nested structure (fallback for compatibility)
+            extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
+            extracted_info["exams"] = (
+                detailed_info.get("stateExamCategory", []) +
+                detailed_info.get("principalExamCategory", []) +
+                detailed_info.get("productExamCategory", [])
+            )
+            employments = []
+            for emp in detailed_info.get("currentEmployments", []):
+                employments.append(normalize_employment(emp, "current", "registered_firm"))
+            for emp in detailed_info.get("previousEmployments", []):
+                employments.append(normalize_employment(emp, "previous", "registered_firm"))
+            extracted_info["employments"] = employments
+
+        # Handle nested structure
         elif "hits" in detailed_info:
             logger.debug("Detected nested structure in BrokerCheck detailed_info")
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
-                bc_content_str = detailed_hits[0]["_source"].get("content", "{}")
+                content_str = detailed_hits[0]["_source"].get("content", "")
                 try:
-                    bc_content_data = json.loads(bc_content_str)
-                    extracted_info["disclosures"] = bc_content_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = bc_content_data.get("arbitrations", [])
-                    extracted_info["exams"] = extract_exams(bc_content_data)
+                    content_json = json.loads(content_str)
                 except json.JSONDecodeError as e:
-                    logger.warning(f"BrokerCheck detailed_info content parse error: {e}")
+                    logger.warning(f"Failed to parse BrokerCheck 'content' JSON: {e}")
+                    content_json = {}
+                extracted_info["disclosures"] = content_json.get("disclosures", [])
+                employments = []
+                for emp in content_json.get("currentEmployments", []):
+                    employments.append(normalize_employment(emp, "current", "registered_firm"))
+                for emp in content_json.get("previousEmployments", []):
+                    employments.append(normalize_employment(emp, "previous", "registered_firm"))
+                extracted_info["employments"] = employments
+            else:
+                logger.info("BrokerCheck detailed_info had no hits. No employments extracted.")
+        else:
+            logger.info("No valid BrokerCheck detailed_info provided, skipping employments.")
 
     elif data_source == "IAPD":
-        current_employments = []
-        for emp in individual.get("ind_ia_current_employments", []):
-            firm_id = emp.get("firm_id")
-            if firm_id is not None:
-                firm_id = str(firm_id)
-            current_employments.append({
-                "firm_id": firm_id,
-                "firm_name": emp.get("firm_name"),
-                "registration_begin_date": None,
-                "branch_offices": [{
-                    "street": None,
-                    "city": emp.get("branch_city"),
-                    "state": emp.get("branch_state"),
-                    "zip_code": emp.get("branch_zip")
-                }]
-            })
+        # Parse employments from basic_info iacontent (if nested)
+        iacontent_str = individual.get("iacontent", "{}")
+        try:
+            iacontent_data = json.loads(iacontent_str)
+        except json.JSONDecodeError as e:
+            logger.warning(f"IAPD basic_info iacontent parse error: {e}")
+            iacontent_data = {}
 
-        # Handle flat IAPD structure (if applicable)
+        employments = []
+        for emp in iacontent_data.get("currentIAEmployments", []):
+            employments.append(normalize_employment(emp, "current", "registered_firm"))
+
+        # Handle flat structure
         if "disclosures" in detailed_info:
             logger.debug("Detected flat IAPD structure in detailed_info")
             extracted_info["disclosures"] = detailed_info.get("disclosures", [])
             extracted_info["arbitrations"] = detailed_info.get("arbitrations", [])
-            extracted_info["exams"] = extract_exams(detailed_info)
-            extracted_info["current_employments"] = detailed_info.get("currentIAEmployments", current_employments)  # Changed from current_ia_employments
+            extracted_info["exams"] = (
+                detailed_info.get("stateExamCategory", []) +
+                detailed_info.get("principalExamCategory", []) +
+                detailed_info.get("productExamCategory", [])
+            )
+            employments = []
+            for emp in detailed_info.get("currentIAEmployments", []):
+                employments.append(normalize_employment(emp, "current", "registered_firm"))
+            for emp in detailed_info.get("previousIAEmployments", []):
+                employments.append(normalize_employment(emp, "previous", "registered_firm"))
+            for emp in detailed_info.get("previousEmployments", []):
+                normalized_emp = normalize_employment(emp, "previous", "employment_history")
+                end_date_str = emp.get("registrationEndDate")
+                if end_date_str:
+                    try:
+                        end_date = datetime.strptime(end_date_str, "%m/%d/%Y")
+                        if end_date >= ten_years_ago:
+                            employments.append(normalized_emp)
+                    except ValueError:
+                        logger.warning(f"Invalid registrationEndDate format: {end_date_str}")
+                        employments.append(normalized_emp)  # Include if parsing fails
+                else:
+                    employments.append(normalized_emp)  # Include if no end date
+            extracted_info["employments"] = employments
 
-        # Handle nested IAPD structure (existing logic)
+        # Handle nested structure
         elif "hits" in detailed_info:
             logger.debug("Detected nested structure in IAPD detailed_info")
             detailed_hits = detailed_info["hits"].get("hits", [])
             if detailed_hits:
-                iapd_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
+                iapd_detailed_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
                 try:
-                    iapd_content_data = json.loads(iapd_content_str)
-                    for emp_idx, emp in enumerate(iapd_content_data.get("currentIAEmployments", [])):
-                        if emp_idx < len(current_employments):
-                            current_employments[emp_idx]["registration_begin_date"] = emp.get("registrationBeginDate")
-                            branch_offices = emp.get("branchOfficeLocations", [])
-                            if branch_offices:
-                                current_employments[emp_idx]["branch_offices"] = [{
-                                    "street": office.get("street1"),
-                                    "city": office.get("city"),
-                                    "state": office.get("state"),
-                                    "zip_code": office.get("zipCode")
-                                } for office in branch_offices]
-                    extracted_info["exams"] = extract_exams(iapd_content_data)
-                    extracted_info["disclosures"] = iapd_content_data.get("disclosures", [])
-                    extracted_info["arbitrations"] = iapd_content_data.get("arbitrations", [])
+                    iapd_detailed_content_data = json.loads(iapd_detailed_content_str)
                 except json.JSONDecodeError as e:
-                    logger.warning(f"IAPD detailed_info content parse error: {e}")
-
-        extracted_info["current_employments"] = current_employments  # Changed from current_ia_employments
+                    logger.warning(f"IAPD detailed_info iacontent parse error: {e}")
+                    iapd_detailed_content_data = {}
+                extracted_info["exams"] = (
+                    iapd_detailed_content_data.get("stateExamCategory", []) +
+                    iapd_detailed_content_data.get("principalExamCategory", []) +
+                    iapd_detailed_content_data.get("productExamCategory", [])
+                )
+                extracted_info["disclosures"] = iapd_detailed_content_data.get("disclosures", [])
+                extracted_info["arbitrations"] = iapd_detailed_content_data.get("arbitrations", [])
+                employments = []
+                for emp in iapd_detailed_content_data.get("currentIAEmployments", []):
+                    employments.append(normalize_employment(emp, "current", "registered_firm"))
+                for emp in iapd_detailed_content_data.get("previousIAEmployments", []):
+                    employments.append(normalize_employment(emp, "previous", "registered_firm"))
+                for emp in iapd_detailed_content_data.get("previousEmployments", []):
+                    normalized_emp = normalize_employment(emp, "previous", "employment_history")
+                    end_date_str = emp.get("registrationEndDate")
+                    if end_date_str:
+                        try:
+                            end_date = datetime.strptime(end_date_str, "%m/%d/%Y")
+                            if end_date >= ten_years_ago:
+                                employments.append(normalized_emp)
+                        except ValueError:
+                            logger.warning(f"Invalid registrationEndDate format: {end_date_str}")
+                            employments.append(normalized_emp)
+                    else:
+                        employments.append(normalized_emp)
+                extracted_info["employments"] = employments
+            else:
+                logger.info("IAPD detailed_info had no hits. Using basic_info's iacontent.")
+                extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
+                extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
+                extracted_info["employments"] = employments
+        else:
+            extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
+            extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
+            extracted_info["employments"] = employments
 
     return extracted_info
 
