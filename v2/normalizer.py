@@ -90,10 +90,11 @@ def create_individual_record(
         logger.warning(f"No detailed_info provided for {data_source}. Skipping detailed fields.")
         return extracted_info
 
-    # Helper function to normalize employments
+    # Helper function to normalize employments with firm_id as string
     def normalize_employment(emp: Dict[str, Any], status: str, emp_type: str) -> Dict[str, Any]:
+        firm_id = emp.get("firmId")
         normalized = {
-            "firm_id": emp.get("firmId"),
+            "firm_id": str(firm_id) if firm_id is not None else None,  # Convert firm_id to string if present
             "firm_name": emp.get("firmName"),
             "registration_begin_date": emp.get("registrationBeginDate"),
             "branch_offices": [
