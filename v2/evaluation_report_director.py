@@ -12,6 +12,8 @@ from evaluation_processor import (
     evaluate_regulatory,
     get_passed_exams,
     determine_alert_category,
+    AlertSeverity,  # Import AlertSeverity for direct use
+    Alert  # Import Alert for direct instantiation
 )
 
 logger = logging.getLogger('evaluation_report_director')
@@ -49,88 +51,96 @@ class EvaluationReportDirector:
             status_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "status_evaluation"
-                }]
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()]
             }
             name_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "evaluation_details": {},
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "name_evaluation"
-                }]
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()]
             }
             license_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "license_evaluation"
-                }]
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()]
             }
             exam_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "exam_evaluation"
-                }]
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()]
             }
             disclosure_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "disclosure_review"
-                }]
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()]
             }
             disciplinary_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "disciplinary_evaluation"
-                }],
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()],
                 "due_diligence": {}
             }
             arbitration_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "arbitration_review"
-                }],
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()],
                 "due_diligence": {}
             }
             regulatory_eval = {
                 "compliance": True,
                 "compliance_explanation": skip_explanation,
                 "actions": [],
-                "alerts": [{
-                    "alert_type": "DueDiligenceNotPerformed",
-                    "severity": "High",
-                    "description": "Due diligence not performed due to record skip.",
-                    "alert_category": "regulatory_evaluation"
-                }],
+                "alerts": [Alert(
+                    alert_type="DueDiligenceNotPerformed",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description="Due diligence not performed due to record skip.",
+                    alert_category=determine_alert_category("DueDiligenceNotPerformed")
+                ).to_dict()],
                 "due_diligence": {}
             }
         elif search_failed:
@@ -139,23 +149,24 @@ class EvaluationReportDirector:
             status_eval = {
                 "compliance": False,
                 "compliance_explanation": f"Individual not found: {failure_explanation}",
-                "alerts": [{
-                    "alert_type": "IndividualNotFound",
-                    "severity": "High",
-                    "description": f"Registration status could not be verified due to search failure: {failure_explanation}",
-                    "alert_category": "status_evaluation"
-                }]
+                "alerts": [Alert(
+                    alert_type="IndividualNotFound",
+                    severity=AlertSeverity.HIGH,
+                    metadata={},
+                    description=f"Registration status could not be verified due to search failure: {failure_explanation}",
+                    alert_category=determine_alert_category("IndividualNotFound")
+                ).to_dict()]
             }
             name_eval = {
                 "compliance": False,
                 "compliance_explanation": f"Name evaluation skipped due to search failure: {failure_explanation}",
                 "evaluation_details": {"expected_name": f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}", "fetched_name": "", "match_score": 0.0},
-                "alerts": []  # No alerts to avoid spurious "Name Mismatch"
+                "alerts": []
             }
             license_eval = {
                 "compliance": False,
                 "compliance_explanation": f"License evaluation skipped due to search failure: {failure_explanation}",
-                "alerts": []  # No "No Active Licenses Found" alert since no individual was found
+                "alerts": []
             }
             exam_eval = {
                 "compliance": False,

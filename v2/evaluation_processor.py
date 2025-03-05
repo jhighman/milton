@@ -223,11 +223,11 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
     if not csv_license:
         if not api_broker_active and not api_ia_active:
             alert = Alert(
-                alert_type="No Active Licenses Found",
+                alert_type="License Compliance",
                 severity=AlertSeverity.HIGH,
-                metadata={"bc_scope": bc_scope, "ia_scope": ia_scope},
+                metadata={"bc_scope": bc_scope, "csv_license": csv_license, "ia_scope": ia_scope},
                 description=f"No active licenses found for {name}.",
-                alert_category=determine_alert_category("No Active Licenses Found")
+                alert_category=determine_alert_category("License Compliance")
             )
             return False, alert
         return True, None
@@ -235,11 +235,11 @@ def evaluate_license(csv_license: str, bc_scope: str, ia_scope: str, name: str) 
         compliant = compare_license_types(csv_license, bc_scope, ia_scope)
         if not compliant:
             alert = Alert(
-                alert_type="License Compliance Alert",
+                alert_type="License Compliance",
                 severity=AlertSeverity.HIGH,
-                metadata={"csv_license": csv_license, "bc_scope": bc_scope, "ia_scope": ia_scope},
+                metadata={"bc_scope": bc_scope, "csv_license": csv_license, "ia_scope": ia_scope},
                 description=f"License compliance failed for {name}.",
-                alert_category=determine_alert_category("License Compliance Alert")
+                alert_category=determine_alert_category("License Compliance")
             )
             return False, alert
         return True, None
@@ -262,11 +262,11 @@ def evaluate_exams(passed_exams: Set[str], license_type: str, name: str) -> Tupl
         missing_roles.append("Investment Advisor")
     if not exam_compliant:
         alert = Alert(
-            alert_type="Exam Requirement Alert",
+            alert_type="Exam Requirement",
             severity=AlertSeverity.MEDIUM,
             metadata={"passed_exams": list(passed_exams), "missing_roles": missing_roles},
             description=f"{name} is missing required exams for: {', '.join(missing_roles)}.",
-            alert_category=determine_alert_category("Exam Requirement Alert")
+            alert_category=determine_alert_category("Exam Requirement")
         )
         return False, alert
     return True, None
@@ -293,21 +293,21 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
 
     if bc_status in concerning_statuses:
         alerts.append(Alert(
-            alert_type="Registration Status Alert",
+            alert_type="Registration Status",
             severity=AlertSeverity.HIGH,
-            metadata={"bc_status": bc_status},
+            metadata={"bc_status": bc_status, "ia_status": ia_status},
             description=f"Broker registration status is {bc_status}.",
-            alert_category=determine_alert_category("Registration Status Alert")
+            alert_category=determine_alert_category("Registration Status")
         ))
         status_compliant = False
 
     if ia_status in concerning_statuses:
         alerts.append(Alert(
-            alert_type="Registration Status Alert",
+            alert_type="Registration Status",
             severity=AlertSeverity.HIGH,
-            metadata={"ia_status": ia_status},
+            metadata={"bc_status": bc_status, "ia_status": ia_status},
             description=f"Investment Advisor registration status is {ia_status}.",
-            alert_category=determine_alert_category("Registration Status Alert")
+            alert_category=determine_alert_category("Registration Status")
         ))
         status_compliant = False
 
@@ -341,6 +341,18 @@ def generate_civil_alert_description(event_date: str, resolution: str, details: 
     return (f"Civil disclosure on {event_date}. Resolution: {resolution}. Allegations: {allegations}. "
             f"Disposition: {disposition}")
 
+def generate_judgment_lien_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    amount = details.get('Judgment/Lien Amount', 'Not specified')
+    lien_type = details.get('Judgment/Lien Type', 'Not specified')
+    return (f"Judgment/Lien disclosure on {event_date}. Resolution: {resolution}. "
+            f"Amount: {amount}. Type: {lien_type}")
+
+def generate_financial_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
+    disposition = details.get('Disposition', 'Not specified')
+    fin_type = details.get('Type', 'Not specified')
+    return (f"Financial disclosure on {event_date}. Resolution: {resolution}. "
+            f"Disposition: {disposition}. Type: {fin_type}")
+
 def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
     disclosure_type = disclosure.get('disclosureType', 'Unknown')
     event_date = disclosure.get('eventDate', 'Unknown')
@@ -354,23 +366,99 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
         sanctions_list = details.get('SanctionDetails', [])
         combined_sanctions = " ".join([s.get('Sanctions', '') for s in sanctions_list]).lower()
         if "civil" in combined_sanctions:
-            severity = AlertSeverity.HIGH
             description += " [Civil penalty detected.]"
+        return Alert(
+            alert_type="Regulatory Disclosure",
+            severity=severity,
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Allegations": details.get("Allegations"),
+                "details.Broker Comment": details.get("Broker Comment"),
+                "details.DocketNumberAAO": details.get("DocketNumberAAO"),
+                "details.DocketNumberFDA": details.get("DocketNumberFDA"),
+                "details.Initiated By": details.get("Initiated By"),
+                "details.Regulator Statement": details.get("Regulator Statement"),
+                "details.Resolution": details.get("Resolution"),
+                "details.Sanction Details": details.get("SanctionDetails")
+            },
+            description=description,
+            alert_category=determine_alert_category("Regulatory Disclosure")
+        )
     elif disclosure_type == 'Customer Dispute':
         description = generate_customer_dispute_alert_description(event_date, resolution, details)
+        return Alert(
+            alert_type="Customer Dispute Disclosure",
+            severity=severity,
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Allegations": details.get("Allegations"),
+                "details.Broker Comment": details.get("Broker Comment"),
+                "details.Damage Amount Requested": details.get("Damage Amount Requested"),
+                "details.Damages Granted": details.get("Damages Granted"),
+                "details.DisplayAAOLinkIfExists": details.get("DisplayAAOLinkIfExists"),
+                "details.Regulator Statement": details.get("Regulator Statement"),
+                "details.Settlement Amount": details.get("Settlement Amount"),
+                "details.arbitrationClaimFiledDetail": details.get("arbitrationClaimFiledDetail"),
+                "details.arbitrationDocketNumber": details.get("arbitrationDocketNumber")
+            },
+            description=description,
+            alert_category=determine_alert_category("Customer Dispute Disclosure")
+        )
     elif disclosure_type == 'Criminal':
         description = generate_criminal_alert_description(event_date, resolution, details)
+        return Alert(
+            alert_type="Criminal Disclosure",
+            severity=severity,
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Broker Comment": details.get("Broker Comment"),
+                "details.criminalCharges": details.get("criminalCharges"),
+                "details.criminalCharges.Charges": [c.get("Charges") for c in details.get("criminalCharges", [])],
+                "details.criminalCharges.Disposition": [c.get("Disposition") for c in details.get("criminalCharges", [])]
+            },
+            description=description,
+            alert_category=determine_alert_category("Criminal Disclosure")
+        )
     elif disclosure_type == 'Civil':
         description = generate_civil_alert_description(event_date, resolution, details)
-    else:
-        description = f"Unknown disclosure type {disclosure_type} on {event_date}."
-    if description:
         return Alert(
-            alert_type=f"{disclosure_type} Disclosure",
+            alert_type="Civil Disclosure",
             severity=severity,
-            metadata={"event_date": event_date, "resolution": resolution, "details": details},
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Allegations": details.get("Allegations"),
+                "details.Initiated By": details.get("Initiated By"),
+                "details.SanctionDetails": details.get("SanctionDetails")
+            },
             description=description,
-            alert_category=determine_alert_category(f"{disclosure_type} Disclosure")
+            alert_category=determine_alert_category("Civil Disclosure")
+        )
+    elif disclosure_type == 'Judgment / Lien':
+        description = generate_judgment_lien_alert_description(event_date, resolution, details)
+        return Alert(
+            alert_type="Judgment / Lien Disclosure",
+            severity=severity,
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Broker Comment": details.get("Broker Comment"),
+                "details.Judgment/Lien Amount": details.get("Judgment/Lien Amount"),
+                "details.Judgment/Lien Type": details.get("Judgment/Lien Type")
+            },
+            description=description,
+            alert_category=determine_alert_category("Judgment / Lien Disclosure")
+        )
+    elif disclosure_type == 'Financial':
+        description = generate_financial_alert_description(event_date, resolution, details)
+        return Alert(
+            alert_type="Financial Disclosure",
+            severity=severity,
+            metadata={
+                "details": details, "event_date": event_date, "resolution": resolution,
+                "details.Disposition": details.get("Disposition"),
+                "details.Type": details.get("Type")
+            },
+            description=description,
+            alert_category=determine_alert_category("Financial Disclosure")
         )
     return None
 
@@ -382,7 +470,7 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         disclosure_counts[dtype] = disclosure_counts.get(dtype, 0) + 1
         alert = generate_disclosure_alert(disclosure)
         if alert:
-            alerts.append(alert)  # alert_category already set in generate_disclosure_alert
+            alerts.append(alert)
     if disclosure_counts:
         summary_parts = [
             f"{count} {dtype.lower()} disclosure{'s' if count > 1 else ''}"
@@ -404,11 +492,11 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
             outcome = arb.get('details', {}).get('action_type', arb.get('outcome', 'Unknown')).lower()
             if status == 'pending' or 'award' in outcome or 'adverse' in outcome:
                 alert = Alert(
-                    alert_type="Arbitration Alert",
+                    alert_type="Arbitration Compliance",
                     severity=AlertSeverity.HIGH,
                     metadata={"arbitration": arb},
                     description=f"Arbitration issue found: Case {case_id} for {name}, status: {status}, outcome: {outcome}.",
-                    alert_category=determine_alert_category("Arbitration Alert")
+                    alert_category=determine_alert_category("Arbitration Compliance")
                 )
                 alerts.append(alert)
         if alerts:
@@ -454,11 +542,11 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
         for record in actions:
             case_id = record.get('case_id', 'Unknown')
             alert = Alert(
-                alert_type="Disciplinary Alert",
+                alert_type="Disciplinary Proceeding",
                 severity=AlertSeverity.HIGH,
                 metadata={"record": record},
                 description=f"Disciplinary record found: Case ID {case_id} for {name}.",
-                alert_category=determine_alert_category("Disciplinary Alert")
+                alert_category=determine_alert_category("Disciplinary Proceeding")
             )
             alerts.append(alert)
         if alerts:
@@ -507,11 +595,11 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
             action_type = record.get('details', {}).get('action_type', 'Unknown')
             if action_type == "Regulatory":
                 alert = Alert(
-                    alert_type="Regulatory Alert",
+                    alert_type="Regulatory Disclosure",  # Aligned with DISCLOSURE category
                     severity=AlertSeverity.HIGH,
                     metadata={"record": record},
                     description=f"Regulatory action found: NFA ID {case_id} for {name}.",
-                    alert_category=determine_alert_category("Regulatory Alert")
+                    alert_category=determine_alert_category("Regulatory Disclosure")
                 )
                 alerts.append(alert)
         if alerts:
@@ -550,20 +638,24 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
     return True, explanation, alerts
 
 def determine_alert_category(alert_type: str) -> str:
-    alert_type_lower = alert_type.lower()
-    if 'exam' in alert_type_lower:
-        return "EXAM"
-    elif 'license' in alert_type_lower or 'registration' in alert_type_lower:
-        return "LICENSE"
-    elif 'disclosure' in alert_type_lower:
-        return "DISCLOSURE"
-    elif 'disciplinary' in alert_type_lower:
-        return "DISCIPLINARY"
-    elif 'arbitration' in alert_type_lower:
-        return "ARBITRATION"
-    elif 'regulatory' in alert_type_lower:
-        return "REGULATORY"
-    elif 'name mismatch' in alert_type_lower:
-        return "STATUS"
-    else:
-        return "STATUS"
+    """Map alert_type to the taxonomy-defined alert_category."""
+    alert_type_to_category = {
+        "Exam Requirement": "EXAM",
+        "Registration Status": "REGISTRATION",
+        "Criminal Disclosure": "DISCLOSURE",
+        "Customer Dispute Disclosure": "DISCLOSURE",
+        "Regulatory Disclosure": "DISCLOSURE",
+        "Judgment / Lien Disclosure": "DISCLOSURE",
+        "Financial Disclosure": "DISCLOSURE",
+        "Civil Disclosure": "DISCLOSURE",
+        "License Compliance": "LICENSE",
+        "Disciplinary Proceeding": "DISCIPLINARY",
+        "Arbitration Compliance": "ARBITRATION",
+        "DueDiligenceNotPerformed": "status_evaluation",
+        "IndividualNotFound": "status_evaluation",
+        "Arbitration Search Info": "ARBITRATION",
+        "Disciplinary Search Info": "DISCIPLINARY",
+        "Regulatory Search Info": "REGULATORY",
+        "Name Mismatch": "status_evaluation"  # Not in taxonomy, aligned with STATUS-like alerts
+    }
+    return alert_type_to_category.get(alert_type, "status_evaluation")  # Default to status_evaluation
