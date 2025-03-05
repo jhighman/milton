@@ -129,7 +129,16 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
             claim[canonical] = value
             logger.info(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
 
-        claim['individual_name'] = f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}"
+        # Enhanced individual_name construction with middle_name and suffix
+        claim['individual_name'] = " ".join(
+            filter(None, [
+                claim.get('first_name', '').strip(),
+                claim.get('middle_name', '').strip(),
+                claim.get('last_name', '').strip(),
+                claim.get('suffix', '').strip()
+            ])
+        )
+
         employee_number_header = next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number')
         employee_number = raw_row.get(employee_number_header, '').strip()
         claim['employee_number'] = employee_number
@@ -282,3 +291,7 @@ def write_error_records():
         logger.error(f"Error writing error records to {errors_csv_path}: {str(e)}", exc_info=True)
     finally:
         error_records.clear()  # Clear after writing, even if writing fails
+
+if __name__ == "__main__":
+    # Optional: Add test code or main execution logic here if desired
+    pass

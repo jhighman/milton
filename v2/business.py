@@ -277,10 +277,25 @@ def process_claim(
     else:
         first_name = claim.get("first_name", "")
         last_name = claim.get("last_name", "")
+        middle_name = claim.get("middle_name", "")  # Added for splitting
+        suffix = claim.get("suffix", "")  # Added for splitting
         individual_name = claim.get("individual_name", "")
         if not (first_name and last_name) and individual_name:
-            first_name, *last_name_parts = individual_name.split()
-            last_name = " ".join(last_name_parts) if last_name_parts else ""
+            parts = individual_name.split()
+            if len(parts) >= 3:  # Assume at least first, middle+, last
+                first_name = parts[0]
+                middle_name = " ".join(parts[1:-1])  # Middle could be multiple words
+                last_name = parts[-1]
+                # Handle common suffixes
+                common_suffixes = {"Jr.", "Sr.", "II", "III", "IV"}
+                if last_name in common_suffixes and len(parts) > 1:
+                    suffix = last_name
+                    last_name = parts[-2]
+                    middle_name = " ".join(parts[1:-2]) if len(parts) > 2 else ""
+            elif len(parts) == 2:  # First and last only
+                first_name, last_name = parts
+            elif len(parts) == 1:  # Only one part
+                last_name = parts[0]
         
         if skip_disciplinary:
             logger.info(f"Skipping disciplinary review for Employee='{employee_number}' as per configuration")
