@@ -17,6 +17,7 @@ canonical_fields = {
     'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
     'organization_name': ['orgName', 'Organization Name', 'organization_name', 'firm_name', 'organizationname', 'OrganizationName', 'organization'],
     'organization_crd': ['orgCRD', 'Organization CRD', 'org_crd_number', 'firm_crd', 'organizationCRD', 'organization_crd_number', 'organization_crd', 'organizationCrdNumber'],
+    'crd_number': ['individualCRDNumber', 'CRD', 'crd_number',  'CrdNumber'],
     'suffix': ['suffix', 'Suffix'],
     'ssn': ['ssn', 'SSN', 'Social Security Number', 'social_security_number'],
     'dob': ['dob', 'DOB', 'Date of Birth', 'date_of_birth', 'birthDate', 'birth_date'],
