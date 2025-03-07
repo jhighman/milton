@@ -173,7 +173,7 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
                 "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to insufficient data"}}
             }
             report = director.construct_evaluation_report(claim, extracted_info)
-            # Save via process_claim
+            # Save via process_claim (to cache/)
             process_claim(
                 claim,
                 facade,
@@ -182,6 +182,8 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
                 skip_arbitration=config.get('skip_arbitration', False),
                 skip_regulatory=config.get('skip_regulatory', False)
             )
+            # Additional save to output/
+            save_evaluation_report(report, employee_number, reference_id)
         else:
             unmapped_fields = set(row.keys()) - set(resolved_headers.keys())
             if unmapped_fields:
@@ -222,10 +224,13 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
                     "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to processing failure"}}
                 }
                 report = director.construct_evaluation_report(claim, extracted_info)
-                # Save the failure report
+                # Save failure report to cache/
                 facade.save_compliance_report(report, employee_number)
+                # Additional save to output/
+                save_evaluation_report(report, employee_number, reference_id)
 
-        # No need to call save_evaluation_report here; process_claim handles it
+            # Save to output/ after process_claim has saved to cache/
+            save_evaluation_report(report, employee_number, reference_id)
 
     except AttributeError as e:
         logger.warning(f"Skipping row due to invalid data type: {str(e)}. Row: {dict(row)}")
@@ -235,10 +240,19 @@ def process_row(row: Dict[str, str], resolved_headers: Dict[str, str], facade: F
         error_records[current_csv].append({"row_data": dict(row)})
 
 def save_evaluation_report(report: Dict[str, Any], employee_number: str, reference_id: str):
-    # Log only, as saving is handled by ComplianceReportAgent in process_claim
-    logger.info(f"Report for reference_id='{reference_id}' saved by ComplianceReportAgent to cache/{employee_number}/")
-    compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
-    logger.info(f"Processed {reference_id}, overall_compliance: {compliance}")
+    # Save to output/ folder
+    report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
+    logger.info(f"Saving report to {report_path} (output folder)")
+    try:
+        with open(report_path, 'w') as f:
+            json.dump(report, f, indent=2)
+        compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
+        logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
+    except Exception as e:
+        logger.error(f"Error saving report to {report_path}: {str(e)}", exc_info=True)
+
+    # Note: Report is also saved to cache/<employee_number>/ by process_claim
+    logger.info(f"Report for reference_id='{reference_id}' also saved to cache/{employee_number}/ by ComplianceReportAgent")
 
 def write_skipped_records():
     date_str = datetime.now().strftime("%m-%d-%Y")
