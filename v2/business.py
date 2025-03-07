@@ -253,7 +253,7 @@ def process_claim(
     skip_arbitration: bool = False,
     skip_regulatory: bool = False
 ) -> Dict[str, Any]:
-    """Process a claim by collecting data and delegating report building to EvaluationReportDirector."""
+    """Process a claim by collecting data and building a report."""
     logger.info(f"Starting claim processing for {claim}, Employee='{employee_number}', skip_disciplinary={skip_disciplinary}, skip_arbitration={skip_arbitration}, skip_regulatory={skip_regulatory}")
     
     employee_number = claim.get("employee_number", employee_number or "EMP_DEFAULT")
@@ -261,6 +261,7 @@ def process_claim(
     strategy_func = determine_search_strategy(claim)
     logger.debug(f"Selected primary strategy: {strategy_func.__name__}")
     search_evaluation = strategy_func(claim, facade, employee_number)
+    
     if search_evaluation is None or "skip_reasons" in search_evaluation:
         logger.warning(f"Primary strategy {strategy_func.__name__} failed or skipped: {search_evaluation.get('compliance_explanation', 'Unknown issue') if search_evaluation else 'Returned None'}")
         extracted_info = {
@@ -374,6 +375,10 @@ def process_claim(
     builder = EvaluationReportBuilder(reference_id)
     director = EvaluationReportDirector(builder)
     report = director.construct_evaluation_report(claim, extracted_info)
+    
+    # Serialize the report to the cache
+    if not facade.save_compliance_report(report, employee_number):
+        logger.error(f"Failed to serialize report for employee_number={employee_number}")
     
     logger.info(f"Claim processing completed for {claim} with report built")
     return report

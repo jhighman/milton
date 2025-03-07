@@ -128,7 +128,7 @@ def write_manifest(cache_path: Path, timestamp: str) -> None:
 def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optional[Dict], List[Dict]]:
     if not cache_path.exists():
         logger.debug(f"Cache directory not found: {cache_path}")
-        return None
+        return None if not is_multiple else []
     try:
         if is_multiple:
             results = []
@@ -157,10 +157,10 @@ def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optio
                 return json.loads(content)
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode JSON in cache file at {cache_path}: {e}")
-        return None
+        return None if not is_multiple else []
     except Exception as e:
         logger.error(f"Error reading cache file at {cache_path}: {e}")
-        return None
+        return None if not is_multiple else []
 
 def save_cached_data(cache_path: Path, file_name: str, data: Dict) -> None:
     cache_path.mkdir(parents=True, exist_ok=True)

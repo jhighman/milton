@@ -3,9 +3,9 @@ services.py
 
 This module provides the FinancialServicesFacade class, which consolidates access to
 external financial regulatory services (e.g., SEC IAPD, FINRA BrokerCheck, NFA, disciplinary,
-and arbitration data). It abstracts away the complexity of interacting with multiple
-underlying services and provides a unified interface for business logic to retrieve
-normalized individual, disciplinary, arbitration, and regulatory data.
+and arbitration data) and internal agents for saving data (e.g., compliance reports).
+It abstracts away the complexity of interacting with multiple underlying services and
+provides a unified interface for business logic to retrieve and store normalized data.
 """
 
 import logging
@@ -32,8 +32,9 @@ from normalizer import (
     create_disciplinary_record,
     create_arbitration_record,
     create_individual_record,
-    create_regulatory_record,  # New function we'll refine
+    create_regulatory_record,
 )
+from agents.compliance_report_agent import save_compliance_report  # Direct import
 
 logger = logging.getLogger("FinancialServicesFacade")
 
@@ -171,7 +172,6 @@ class FinancialServicesFacade:
         result = fetch_agent_nfa_search(employee_number, params, self.driver)
         if result:
             logger.debug(f"NFA regulatory raw result: {json.dumps(result, indent=2)}")
-            # Ensure result is a single dict, not a list (nfa_basic_agent returns a list with one item)
             result_dict = result[0] if isinstance(result, list) and result else result
             normalized = create_regulatory_record("NFA_Regulatory", result_dict, searched_name)
             logger.debug(f"NFA regulatory normalized result: {json.dumps(normalized, indent=2)}")
@@ -210,6 +210,20 @@ class FinancialServicesFacade:
             return normalized
         logger.warning(f"No data found for {first_name} {last_name} in SEC Disciplinary search")
         return None
+
+    def save_compliance_report(self, report: Dict[str, Any], employee_number: Optional[str] = None) -> bool:
+        """
+        Saves a compliance report directly via the ComplianceReportAgent.
+
+        Args:
+            report (Dict[str, Any]): The compliance report to save.
+            employee_number (Optional[str]): Identifier for the cache subfolder. Defaults to None.
+
+        Returns:
+            bool: True if saved successfully, False otherwise.
+        """
+        logger.info(f"Saving compliance report for employee_number={employee_number}")
+        return save_compliance_report(report, employee_number)
 
     def perform_disciplinary_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
         logger.info(f"Performing disciplinary review for {first_name} {last_name}, Employee: {employee_number}")
