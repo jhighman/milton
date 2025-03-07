@@ -195,10 +195,27 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     individual_name = claim.get("individual_name") or ""
     organization_name = claim.get("organization_name", "")
-    logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_name='{organization_name}', Employee='{employee_number}'")
+    organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
+    logger.info(f"Searching SEC IAPD with individual_name='{individual_name}', organization_name='{organization_name}', organization_crd_number='{organization_crd_number}', Employee='{employee_number}'")
     
-    if not organization_name.strip():
-        logger.warning("No organization_name provided for correlated search")
+    if organization_crd_number.strip():
+        org_crd_number = organization_crd_number
+    elif organization_name.strip():
+        org_crd_number = facade.get_organization_crd(organization_name)
+        if org_crd_number is None or org_crd_number == "NOT_FOUND":
+            logger.warning(f"Failed to resolve CRD for organization '{organization_name}'")
+            return {
+                "source": "SEC_IAPD",
+                "basic_result": None,
+                "detailed_result": None,
+                "search_strategy": "search_with_correlated",
+                "crd_number": None,
+                "compliance": False,
+                "compliance_explanation": "Unable to resolve organization CRD from name",
+                "skip_reasons": ["Unable to resolve organization CRD from name"]
+            }
+    else:
+        logger.warning("No organization_name or organization_crd_number provided for correlated search")
         return {
             "source": "SEC_IAPD",
             "basic_result": None,
@@ -206,25 +223,11 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
             "search_strategy": "search_with_correlated",
             "crd_number": None,
             "compliance": False,
-            "compliance_explanation": "No organization name provided for correlated search",
-            "skip_reasons": ["No organization name provided"]
+            "compliance_explanation": "No organization name or CRD provided for correlated search",
+            "skip_reasons": ["No organization name or CRD provided"]
         }
     
-    org_crd_number = facade.get_organization_crd(organization_name)
-    if org_crd_number is None or org_crd_number == "NOT_FOUND":
-        logger.warning(f"Failed to resolve CRD for organization '{organization_name}'")
-        return {
-            "source": "SEC_IAPD",
-            "basic_result": None,
-            "detailed_result": None,
-            "search_strategy": "search_with_correlated",
-            "crd_number": None,
-            "compliance": False,
-            "compliance_explanation": "Unable to resolve organization CRD from name",
-            "skip_reasons": ["Unable to resolve organization CRD from name"]
-        }
-    
-    logger.info(f"Resolved organization CRD '{org_crd_number}' for '{organization_name}', proceeding with correlated search")
+    logger.info(f"Resolved organization CRD '{org_crd_number}' for correlated search")
     basic_result = facade.search_sec_iapd_correlated(individual_name, org_crd_number, employee_number)
     logger.debug(f"Raw basic_result from SEC IAPD correlated search: {json.dumps(basic_result, indent=2)}")
     crd_number = basic_result.get("crd_number", None) if basic_result else None
@@ -366,6 +369,7 @@ def process_claim(
             "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", ""),
             "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") is not None else [],
             "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") is not None else [],
+            "disciplinary intrinsicly": search_evaluation.get("detailed_result", {}).get("intrinsicly", []),
             "disciplinary_evaluation": disciplinary_evaluation,
             "arbitration_evaluation": arbitration_evaluation,
             "regulatory_evaluation": regulatory_evaluation
@@ -376,11 +380,13 @@ def process_claim(
     director = EvaluationReportDirector(builder)
     report = director.construct_evaluation_report(claim, extracted_info)
     
-    # Serialize the report to the cache
+    # Save the report via the facade (to cache/<employee_number>/)
     if not facade.save_compliance_report(report, employee_number):
-        logger.error(f"Failed to serialize report for employee_number={employee_number}")
+        logger.error(f"Failed to save compliance report for reference_id={reference_id}, employee_number={employee_number}")
+    else:
+        logger.info(f"Compliance report saved for reference_id={reference_id}, employee_number={employee_number}")
     
-    logger.info(f"Claim processing completed for {claim} with report built")
+    logger.info(f"Claim processing completed for {claim}")
     return report
 
 if __name__ == "__main__":
