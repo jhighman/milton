@@ -13,28 +13,25 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
     organization_name = claim.get("organization_name", "")
 
-    if individual_name and organization_name and not crd_number and not organization_crd_number:
-        logger.info("Claim has individual_name and organization_name but no crd_number or organization_crd_number, selecting search_with_correlated")
+    # First order of precedence: if crd_number is present, use search_with_crd_only
+    if crd_number:
+        logger.info(f"Claim has crd_number='{crd_number}', selecting search_with_crd_only as highest priority")
+        return search_with_crd_only
+
+    # Subsequent conditions for cases without crd_number
+    if individual_name and organization_name and not organization_crd_number:
+        logger.info("Claim has individual_name and organization_name but no organization_crd_number, selecting search_with_correlated")
         return search_with_correlated
-    elif individual_name and organization_crd_number and not crd_number:
+    elif individual_name and organization_crd_number:
         logger.info("Claim has individual_name and organization_crd_number, selecting search_with_correlated")
         return search_with_correlated
-    elif not individual_name and not crd_number and not organization_crd_number and not organization_name:
-        logger.info("Claim has no individual_name, crd_number, organization_crd_number, or organization_name, selecting search_default")
+    elif not individual_name and not organization_crd_number and not organization_name:
+        logger.info("Claim has no individual_name, organization_crd_number, or organization_name, selecting search_default")
         return search_default
-    elif crd_number and organization_crd_number:
-        logger.info("Claim has both crd_number and organization_crd_number, selecting search_with_both_crds")
-        return search_with_both_crds
-    elif crd_number and organization_name and not organization_crd_number:
-        logger.info("Claim has crd_number and organization_name, selecting search_with_crd_and_org_name")
-        return search_with_crd_and_org_name
-    elif crd_number and not organization_crd_number and not organization_name:
-        logger.info("Claim has only crd_number, selecting search_with_crd_only")
-        return search_with_crd_only
-    elif organization_crd_number and not crd_number:
+    elif organization_crd_number:
         logger.info("Claim has only organization_crd_number, selecting search_with_entity")
         return search_with_entity
-    elif organization_name and not crd_number and not organization_crd_number:
+    elif organization_name:
         logger.info("Claim has only organization_name, selecting search_with_org_name_only")
         return search_with_org_name_only
     else:
@@ -121,18 +118,25 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
     crd_number = claim.get("crd_number", "")
     logger.info(f"Searching with crd_number only='{crd_number}', Employee='{employee_number}'")
     broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
-    if broker_result and broker_result.get("fetched_name") != "":
+    
+    if broker_result and broker_result.get("fetched_name", "").strip():
         detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
-        return {
-            "source": "BrokerCheck",
-            "basic_result": broker_result,
-            "detailed_result": detailed_result,
-            "search_strategy": "search_with_crd_only",
-            "crd_number": crd_number,
-            "compliance": True,
-            "compliance_explanation": "Search completed successfully with BrokerCheck data."
-        }
-    logger.info(f"No BrokerCheck hits => searching SEC IAPD with crd_number='{crd_number}'")
+        # Check if detailed_result exists and employments is not empty
+        if detailed_result and detailed_result.get("employments", []):
+            logger.info(f"BrokerCheck returned valid data with employments for CRD='{crd_number}'")
+            return {
+                "source": "BrokerCheck",
+                "basic_result": broker_result,
+                "detailed_result": detailed_result,
+                "search_strategy": "search_with_crd_only",
+                "crd_number": crd_number,
+                "compliance": True,
+                "compliance_explanation": "Search completed successfully with BrokerCheck data."
+            }
+        else:
+            logger.info(f"BrokerCheck hit but no employments found for CRD='{crd_number}', falling back to SEC IAPD")
+    
+    logger.info(f"No valid BrokerCheck hits (either no result, no name, or no employments) => searching SEC IAPD with crd_number='{crd_number}'")
     basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
     detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if basic_result else None
     compliance = bool(basic_result)
