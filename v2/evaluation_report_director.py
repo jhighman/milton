@@ -12,8 +12,8 @@ from evaluation_processor import (
     evaluate_regulatory,
     get_passed_exams,
     determine_alert_category,
-    AlertSeverity,  # Import AlertSeverity for direct use
-    Alert  # Import Alert for direct instantiation
+    AlertSeverity,
+    Alert
 )
 
 logger = logging.getLogger('evaluation_report_director')
@@ -25,7 +25,8 @@ class EvaluationReportDirector:
     def construct_evaluation_report(self, claim: Dict[str, Any], extracted_info: Dict[str, Any]) -> Dict[str, Any]:
         """
         Constructs a full evaluation report by performing all evaluation steps via evaluation_processor.py,
-        applying skip logic or search failure logic as needed.
+        applying skip logic, search failure logic, or full evaluation as needed. Handles the case where
+        fetched_name is empty/null by treating it as a search failure.
 
         :param claim: A dictionary containing claim data (e.g., from a CSV row).
         :param extracted_info: A dictionary of normalized data, potentially including skip_reasons.
@@ -44,7 +45,12 @@ class EvaluationReportDirector:
         # Step 2: Check for skip reasons or search failure
         skip_reasons = extracted_info.get("skip_reasons", [])
         skip_explanation = f"Due diligence not performed: Record skipped due to {', '.join(skip_reasons)}"
-        search_failed = not search_evaluation.get("compliance", False) and not extracted_info.get("fetched_name", "")
+        fetched_name = extracted_info.get("fetched_name", "")
+        # Enhanced search failure check: consider fetched_name being empty/null as a failure
+        search_failed = (
+            not search_evaluation.get("compliance", False) or
+            not fetched_name.strip()  # Treat empty or whitespace-only fetched_name as search failure
+        )
 
         if skip_reasons:
             # Skipped due to validation or upstream failure
@@ -144,15 +150,22 @@ class EvaluationReportDirector:
                 "due_diligence": {}
             }
         elif search_failed:
-            # Handle case where search failed and no individual was found
-            failure_explanation = search_evaluation.get("compliance_explanation", "Individual not found in search.")
+            # Handle case where search failed or no name was fetched
+            failure_explanation = (
+                search_evaluation.get("compliance_explanation", "Individual not found in search.")
+                if search_evaluation.get("compliance", False)
+                else "Individual not found: Search failed."
+            )
+            if not fetched_name.strip():
+                failure_explanation = "Individual not found: No name data retrieved from search."
+
             status_eval = {
                 "compliance": False,
                 "compliance_explanation": f"Individual not found: {failure_explanation}",
                 "alerts": [Alert(
                     alert_type="IndividualNotFound",
                     severity=AlertSeverity.HIGH,
-                    metadata={},
+                    metadata={"search_evaluation": search_evaluation},
                     description=f"Registration status could not be verified due to search failure: {failure_explanation}",
                     alert_category=determine_alert_category("IndividualNotFound")
                 ).to_dict()]
@@ -160,7 +173,11 @@ class EvaluationReportDirector:
             name_eval = {
                 "compliance": False,
                 "compliance_explanation": f"Name evaluation skipped due to search failure: {failure_explanation}",
-                "evaluation_details": {"expected_name": f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}", "fetched_name": "", "match_score": 0.0},
+                "evaluation_details": {
+                    "expected_name": f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}",
+                    "fetched_name": "",
+                    "match_score": 0.0
+                },
                 "alerts": []
             }
             license_eval = {
@@ -333,10 +350,14 @@ class EvaluationReportDirector:
         if skip_reasons:
             final_compliance_explanation = search_evaluation.get("compliance_explanation", "No search performed.")
         elif search_failed:
-            final_compliance_explanation = f"Individual not found: {search_evaluation.get('compliance_explanation', 'Search failed.')}"
+            final_compliance_explanation = f"Individual not found: {failure_explanation}"
         else:
             name_mismatch = not name_eval.get("compliance", False)
-            no_active_licenses = not license_eval.get("compliance", False) and not extracted_info.get("bc_scope", "").lower() == "active" and not extracted_info.get("ia_scope", "").lower() == "active"
+            no_active_licenses = (
+                not license_eval.get("compliance", False) and
+                not extracted_info.get("bc_scope", "").lower() == "active" and
+                not extracted_info.get("ia_scope", "").lower() == "active"
+            )
             if name_mismatch and no_active_licenses:
                 final_compliance_explanation = "No match in name and no active license."
             elif overall_compliance:
