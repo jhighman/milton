@@ -8,16 +8,15 @@ logger = logging.getLogger('main_config')
 DEFAULT_WAIT_TIME = 7.0
 
 canonical_fields = {
-    'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],
-    'crd_number': ['CRD', 'crd_number', 'crd', 'CRD Number', 'CRDNumber', 'crdnumber'],
+    'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID', 'workProductNumber'],
+    'crd_number': ['CRD', 'crd_number', 'crd', 'CRD Number', 'CRDNumber', 'crdnumber', 'individualCRDNumber'],
     'first_name': ['firstName', 'First Name', 'first_name', 'fname', 'FirstName', 'first'],
     'middle_name': ['middle_name', 'Middle Name', 'middlename', 'MiddleName', 'middle', 'middleName'],
     'last_name': ['lastName', 'Last Name', 'last_name', 'lname', 'LastName', 'last'],
     'employee_number': ['employeeNumber', 'Employee Number', 'employee_number', 'emp_id', 'employeenumber'],
     'license_type': ['license_type', 'License Type', 'licensetype', 'LicenseType', 'license'],
-    'organization_name': ['orgName', 'Organization Name', 'organization_name', 'firm_name', 'organizationname', 'OrganizationName', 'organization'],
+    'organization_name': ['orgName', 'Organization Name', 'organization_name', 'firm_name', 'organizationname', 'OrganizationName', 'organization', 'organizationName'],
     'organization_crd': ['orgCRD', 'Organization CRD', 'org_crd_number', 'firm_crd', 'organizationCRD', 'organization_crd_number', 'organization_crd', 'organizationCrdNumber'],
-    'crd_number': ['individualCRDNumber', 'CRD', 'crd_number',  'CrdNumber'],
     'suffix': ['suffix', 'Suffix'],
     'ssn': ['ssn', 'SSN', 'Social Security Number', 'social_security_number'],
     'dob': ['dob', 'DOB', 'Date of Birth', 'date_of_birth', 'birthDate', 'birth_date'],
