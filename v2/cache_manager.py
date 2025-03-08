@@ -58,9 +58,9 @@ CACHE_TTL_DAYS = 90  # Cache expiration in days
 DATE_FORMAT = "%Y%m%d"  # Standardized date format for filenames
 MANIFEST_FILE = "manifest.txt"  # File tracking last cache update per agent
 
-# Logging Setup (for debugging; results are JSON)
+# Logging Setup (disabled for clean CLI output, only warnings/errors remain)
 import logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
+logging.basicConfig(level=logging.WARNING, format="%(asctime)s | %(levelname)s | %(message)s")
 logger = logging.getLogger("CacheManager")
 
 class AgentName:
@@ -118,7 +118,6 @@ class CacheManager:
         """
         self.cache_folder = cache_folder
         self.ttl_days = ttl_days
-        logger.info(f"Initialized CacheManager with cache_folder: {self.cache_folder}")
         if not self.cache_folder.exists():
             logger.warning(f"Cache folder does not exist: {self.cache_folder}")
         elif not self.cache_folder.is_dir():
@@ -126,7 +125,6 @@ class CacheManager:
         else:
             try:
                 os.access(self.cache_folder, os.R_OK)
-                logger.info(f"Cache folder is readable: {self.cache_folder}")
             except Exception as e:
                 logger.warning(f"Cache folder is not readable: {self.cache_folder}, error: {str(e)}")
 
@@ -161,7 +159,6 @@ class CacheManager:
             if agent_folder.is_dir() and agent_folder.name != AgentName.COMPLIANCE_REPORT:
                 shutil.rmtree(agent_folder)
                 result["cleared_agents"].append(agent_folder.name)
-                logger.info(f"Cleared cache for agent {agent_folder.name} under {employee_number}")
         result["message"] = f"Cleared cache for {len(result['cleared_agents'])} agents"
         return json.dumps(result, indent=2)
 
@@ -197,7 +194,6 @@ class CacheManager:
             for file in compliance_files:
                 try:
                     file.unlink()
-                    logger.info(f"Deleted compliance file: {file}")
                 except Exception as e:
                     logger.warning(f"Failed to delete {file}: {str(e)}")
             result["message"] = f"Cleared ComplianceReportAgent cache for {employee_number}"
@@ -232,7 +228,6 @@ class CacheManager:
         if agent_path.exists():
             shutil.rmtree(agent_path)
             result["message"] = f"Cleared cache for agent {agent_name} under {employee_number}"
-            logger.info(result["message"])
         else:
             result["status"] = "warning"
             result["message"] = f"No cache found for {agent_name} under {employee_number} at {agent_path}"
@@ -286,13 +281,9 @@ class CacheManager:
             
             try:
                 emp_dirs = list(self.cache_folder.iterdir())
-                logger.info(f"Found {len(emp_dirs)} items in cache folder with iterdir: {emp_dirs}")
                 for emp_path in sorted(emp_dirs):
                     if emp_path.is_dir():
                         result["cache"]["employees"].append(emp_path.name)
-                        logger.info(f"Found employee folder: {emp_path.name}")
-                    else:
-                        logger.info(f"Skipping non-directory: {emp_path.name}")
             except Exception as e:
                 result["status"] = "error"
                 result["message"] = f"Failed to list cache folder contents: {str(e)}"
@@ -318,7 +309,6 @@ class CacheManager:
                         try:
                             last_modified = datetime.fromtimestamp(file.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
                             files.append({"file_name": file.name, "last_modified": last_modified})
-                            logger.info(f"Found file: {file}")
                         except Exception as e:
                             logger.warning(f"Failed to read file {file}: {str(e)}")
                             continue
@@ -328,7 +318,6 @@ class CacheManager:
                     try:
                         last_modified = datetime.fromtimestamp(item.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
                         files.append({"file_name": item.name, "last_modified": last_modified})
-                        logger.info(f"Found compliance file: {item}")
                     except Exception as e:
                         logger.warning(f"Failed to read file {item}: {str(e)}")
                         continue
@@ -382,7 +371,6 @@ class CacheManager:
                                 if datetime.fromtimestamp(file.stat().st_mtime) < cutoff_date:
                                     file.unlink()
                                     result["deleted_files"].append(str(file))
-                                    logger.info(f"Deleted stale file: {file}")
                             except Exception as e:
                                 logger.warning(f"Failed to process file {file}: {str(e)}")
                                 continue
@@ -392,7 +380,6 @@ class CacheManager:
                             if datetime.fromtimestamp(file.stat().st_mtime) < cutoff_date:
                                 file.unlink()
                                 result["deleted_files"].append(str(file))
-                                logger.info(f"Deleted stale compliance file: {file}")
                         except Exception as e:
                             logger.warning(f"Failed to process file {file}: {str(e)}")
                             continue
@@ -451,7 +438,6 @@ class CacheManager:
             with latest_file.open("r") as f:
                 result["report"] = json.load(f)
             result["message"] = f"Retrieved latest compliance report: {latest_file.name}"
-            logger.info(result["message"])
         except Exception as e:
             result["status"] = "error"
             result["message"] = f"Failed to retrieve latest compliance report: {str(e)}"
@@ -503,7 +489,6 @@ class CacheManager:
             with latest_file.open("r") as f:
                 result["report"] = json.load(f)
             result["message"] = f"Retrieved compliance report: {latest_file.name}"
-            logger.info(result["message"])
         except Exception as e:
             result["status"] = "error"
             result["message"] = f"Failed to retrieve compliance report: {str(e)}"
@@ -552,46 +537,34 @@ class CacheManager:
         """
         result = {"status": "success", "message": "", "reports": {} if employee_number is None else []}
 
-        logger.info("Entering list_compliance_reports method")
         if employee_number is None:
             # List reports for all employees
             employee_count = 0
-            logger.info("Checking cache folder existence")
             if not self.cache_folder.exists():
                 result["status"] = "warning"
                 result["message"] = f"Cache folder not found at {self.cache_folder}"
                 logger.warning(result["message"])
                 return json.dumps(result, indent=2)
             
-            logger.info("Checking if cache folder is a directory")
             if not self.cache_folder.is_dir():
                 result["status"] = "warning"
                 result["message"] = f"Cache folder is not a directory: {self.cache_folder}"
                 logger.warning(result["message"])
                 return json.dumps(result, indent=2)
 
-            logger.info(f"Scanning cache folder: {self.cache_folder}")
             # Fallback using os.listdir
             try:
                 dir_contents = os.listdir(self.cache_folder)
-                logger.info(f"os.listdir found {len(dir_contents)} items: {dir_contents}")
             except Exception as e:
-                logger.error(f"Failed to list directory contents with os.listdir: {str(e)}")
-                dir_contents = []
-
-            # Fallback using os.scandir
-            try:
-                scandir_entries = list(os.scandir(self.cache_folder))
-                logger.info(f"os.scandir found {len(scandir_entries)} items: {[entry.name for entry in scandir_entries]}")
-            except Exception as e:
-                logger.error(f"Failed to list directory contents with os.scandir: {str(e)}")
-                scandir_entries = []
+                result["status"] = "error"
+                result["message"] = f"Failed to list directory contents with os.listdir: {str(e)}"
+                logger.error(result["message"])
+                return json.dumps(result, indent=2)
 
             # Main method using pathlib
             emp_dirs = []
             try:
                 emp_dirs = list(self.cache_folder.iterdir())
-                logger.info(f"pathlib iterdir found {len(emp_dirs)} items: {emp_dirs}")
             except Exception as e:
                 result["status"] = "error"
                 result["message"] = f"Failed to scan cache folder with pathlib: {str(e)}"
@@ -600,82 +573,65 @@ class CacheManager:
 
             # If pathlib fails, try constructing paths from os.listdir
             if not emp_dirs and dir_contents:
-                logger.info("Falling back to os.listdir contents to construct paths")
                 emp_dirs = [self.cache_folder / name for name in dir_contents]
 
             # Additional fallback: manually construct paths and check existence
             if not emp_dirs:
-                logger.info("Trying manual path construction for known employee folder")
                 known_emp = self.cache_folder / "LD-107-Dev-3A"
                 if known_emp.exists() and known_emp.is_dir():
                     emp_dirs.append(known_emp)
-                    logger.info(f"Manually added known employee folder: {known_emp}")
 
             if not emp_dirs:
-                logger.warning("No directories found in cache folder")
                 result["status"] = "warning"
                 result["message"] = "No directories found in cache folder"
+                logger.warning(result["message"])
                 return json.dumps(result, indent=2)
 
             for emp_path in sorted(emp_dirs):
-                try:
-                    logger.info(f"Checking if {emp_path} is a directory")
-                    if emp_path.is_dir():
-                        logger.info(f"Processing employee folder: {emp_path.name}")
-                        # Check for symbolic link
-                        if emp_path.is_symlink():
-                            logger.info(f"{emp_path.name} is a symbolic link, resolving to: {emp_path.resolve()}")
-                            emp_path = emp_path.resolve()
+                if emp_path.is_dir():
+                    # Check for symbolic link
+                    if emp_path.is_symlink():
+                        emp_path = emp_path.resolve()
 
-                        # Check for compliance files directly in the employee folder
-                        report_files = sorted(emp_path.glob("ComplianceReportAgent_*.json"))
-                        logger.info(f"Found {len(report_files)} files in {emp_path}: {report_files}")
-                        if report_files:
-                            latest_reports: Dict[str, Dict[str, Any]] = {}
-                            for file in report_files:
-                                logger.info(f"Processing file: {file.name}")
-                                try:
-                                    parts = file.name.split("_")
-                                    if len(parts) < 4:
-                                        logger.warning(f"File {file.name} does not match expected pattern")
-                                        continue
-                                    reference_id = parts[1]  # e.g., "EN-53"
-                                    version_part = parts[2]  # e.g., "v1_20250308"
-                                    version_str = version_part.split("v")[1].split("_")[0]  # Extract "1"
-                                    version = int(version_str)
-                                    last_modified = datetime.fromtimestamp(file.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
-                                    
-                                    if reference_id not in latest_reports or version > latest_reports[reference_id]["version"]:
-                                        latest_reports[reference_id] = {
-                                            "reference_id": reference_id,
-                                            "version": version,
-                                            "file_name": file.name,
-                                            "last_modified": last_modified
-                                        }
-                                        logger.info(f"Added report for {reference_id}: {file.name}")
-                                except (IndexError, ValueError) as e:
-                                    logger.warning(f"Failed to parse file {file.name}: {str(e)}")
+                    # Check for compliance files directly in the employee folder
+                    report_files = sorted(emp_path.glob("ComplianceReportAgent_*.json"))
+                    if report_files:
+                        latest_reports: Dict[str, Dict[str, Any]] = {}
+                        for file in report_files:
+                            try:
+                                parts = file.name.split("_")
+                                if len(parts) < 4:
                                     continue
-                                except Exception as e:
-                                    logger.error(f"Unexpected error processing file {file.name}: {str(e)}")
-                                    continue
-                            
-                            if latest_reports:
-                                result["reports"][emp_path.name] = [
-                                    {"reference_id": data["reference_id"], "file_name": data["file_name"], "last_modified": data["last_modified"]}
-                                    for data in latest_reports.values()
-                                ]
-                                employee_count += 1
-                                logger.info(f"Found {len(latest_reports)} reports for {emp_path.name}")
-                            else:
-                                logger.info(f"No valid reports found in {emp_path}")
-                        else:
-                            logger.info(f"No compliance files found in {emp_path}")
+                                reference_id = parts[1]  # e.g., "EN-53"
+                                version_part = parts[2]  # e.g., "v1_20250308"
+                                version_str = version_part.split("v")[1].split("_")[0]  # Extract "1"
+                                version = int(version_str)
+                                last_modified = datetime.fromtimestamp(file.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+                                
+                                if reference_id not in latest_reports or version > latest_reports[reference_id]["version"]:
+                                    latest_reports[reference_id] = {
+                                        "reference_id": reference_id,
+                                        "version": version,
+                                        "file_name": file.name,
+                                        "last_modified": last_modified
+                                    }
+                            except (IndexError, ValueError) as e:
+                                logger.warning(f"Failed to parse file {file.name}: {str(e)}")
+                                continue
+                            except Exception as e:
+                                logger.error(f"Unexpected error processing file {file.name}: {str(e)}")
+                                continue
+                        
+                        if latest_reports:
+                            result["reports"][emp_path.name] = [
+                                {"reference_id": data["reference_id"], "file_name": data["file_name"], "last_modified": data["last_modified"]}
+                                for data in latest_reports.values()
+                            ]
+                            employee_count += 1
                     else:
-                        logger.info(f"Skipping non-directory: {emp_path.name}")
-                except Exception as e:
-                    logger.error(f"Failed to process path {emp_path}: {str(e)}")
-                    continue
+                        logger.warning(f"No compliance files found in {emp_path}")
+                else:
+                    logger.warning(f"Skipping non-directory: {emp_path.name}")
             
             if not result["reports"]:
                 result["status"] = "warning"
@@ -683,21 +639,18 @@ class CacheManager:
                 logger.warning(result["message"])
             else:
                 result["message"] = f"Listed compliance reports for {employee_count} employees"
-                logger.info(result["message"])
             return json.dumps(result, indent=2)
 
         # List reports for a specific employee
         emp_path = self.cache_folder / employee_number
         result["employee_number"] = employee_number
         
-        logger.info(f"Checking if employee path exists: {emp_path}")
         if not emp_path.exists():
             result["status"] = "warning"
             result["message"] = f"No compliance reports found for {employee_number} at {emp_path}"
             logger.warning(result["message"])
             return json.dumps(result, indent=2)
         
-        logger.info(f"Checking if employee path is a directory: {emp_path}")
         if not emp_path.is_dir():
             result["status"] = "warning"
             result["message"] = f"Employee path is not a directory: {emp_path}"
@@ -706,13 +659,10 @@ class CacheManager:
 
         latest_reports: Dict[str, Dict[str, Any]] = {}
         report_files = sorted(emp_path.glob("ComplianceReportAgent_*.json"))
-        logger.info(f"Found {len(report_files)} files in {emp_path}: {report_files}")
         for file in report_files:
-            logger.info(f"Processing file: {file.name}")
             try:
                 parts = file.name.split("_")
                 if len(parts) < 4:
-                    logger.warning(f"File {file.name} does not match expected pattern")
                     continue
                 reference_id = parts[1]  # e.g., "EN-53"
                 version_part = parts[2]  # e.g., "v1_20250308"
@@ -727,7 +677,6 @@ class CacheManager:
                         "file_name": file.name,
                         "last_modified": last_modified
                     }
-                    logger.info(f"Added report for {reference_id}: {file.name}")
             except (IndexError, ValueError) as e:
                 logger.warning(f"Failed to parse file {file.name}: {str(e)}")
                 continue
@@ -740,7 +689,6 @@ class CacheManager:
             for data in latest_reports.values()
         ]
         result["message"] = f"Listed {len(result['reports'])} compliance reports for {employee_number}"
-        logger.info(result["message"])
         return json.dumps(result, indent=2)
 
 # CLI Implementation
@@ -757,7 +705,6 @@ if __name__ == "__main__":
         python cache_manager.py --list-compliance-reports
     """
     try:
-        logger.info("Starting CLI execution")
         parser = argparse.ArgumentParser(description="Cache Manager CLI for managing regulatory and compliance cache.")
         parser.add_argument("--clear-cache", help="Clear all cache (except ComplianceReportAgent) for an employee")
         parser.add_argument("--clear-compliance", help="Clear only ComplianceReportAgent cache for an employee")
@@ -769,7 +716,6 @@ if __name__ == "__main__":
         parser.add_argument("--list-compliance-reports", nargs="?", const=None, help="List all compliance reports with latest revision (or specify an employee)")
 
         args = parser.parse_args()
-        logger.info(f"Parsed arguments: {vars(args)}")
         cache_manager = CacheManager()
 
         if args.clear_cache:
@@ -791,7 +737,6 @@ if __name__ == "__main__":
         elif hasattr(args, 'list_compliance_reports'):
             print(cache_manager.list_compliance_reports(args.list_compliance_reports))
         else:
-            logger.warning("No valid command-line arguments provided")
             parser.print_help()
     except Exception as e:
         logger.error(f"Unexpected error in CLI execution: {str(e)}")
