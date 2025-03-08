@@ -36,7 +36,7 @@ from normalizer import (
 )
 from agents.compliance_report_agent import save_compliance_report  # Direct import
 
-logger = logging.getLogger("FinancialServicesFacade")
+logger = logging.getLogger("services")
 
 RUN_HEADLESS = True
 
