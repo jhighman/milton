@@ -6,7 +6,6 @@ from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
 
 # Configure logging with detailed format
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("business")
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
@@ -60,7 +59,7 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
                 "detailed_result": detailed_result,
                 "search_strategy": "search_with_both_crds",
                 "crd_number": crd_number,
-                "compliance": True,
+                "compliance": False,
                 "compliance_explanation": "Search completed successfully with SEC IAPD data, individual found."
             }
         else:
@@ -98,12 +97,11 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
         broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
         logger.debug(f"BrokerCheck result: {json.dumps(broker_result, default=str)}")
         if broker_result and broker_result.get("fetched_name", "").strip():
-            detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
             logger.info(f"BrokerCheck returned valid data for {claim_summary}")
             return {
                 "source": "BrokerCheck",
                 "basic_result": broker_result,
-                "detailed_result": detailed_result,
+                "detailed_result": broker_result,
                 "search_strategy": "search_with_crd_and_org_name",
                 "crd_number": crd_number,
                 "compliance": True,
@@ -124,8 +122,8 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
                     "search_strategy": "search_with_crd_and_org_name",
                     "crd_number": crd_number,
                     "compliance": False,
-                    "compliance_explanation": "Unable to resolve organization CRD from name",
-                    "skip_reasons": ["Unable to resolve organization CRD from name"]
+                    "compliance_explanation": f"Unable to resolve organization CRD from name '{org_name}'",
+                    "skip_reasons": [f"Unable to resolve organization CRD from name '{org_name}'"]
                 }
         except Exception as e:
             logger.error(f"Failed to resolve org CRD for '{org_name}' in {claim_summary}: {str(e)}", exc_info=True)
@@ -136,7 +134,7 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
                 "search_strategy": "search_with_crd_and_org_name",
                 "crd_number": crd_number,
                 "compliance": False,
-                "compliance_explanation": f"Organization CRD resolution failed: {str(e)}",
+                "compliance_explanation": f"Organization CRD resolution failed for '{org_name}': {str(e)}",
                 "error": str(e)
             }
 
@@ -204,33 +202,19 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
         }
 
     if broker_result and broker_result.get("fetched_name", "").strip():
-        try:
-            detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
-            if detailed_result and detailed_result.get("employments", []):
-                logger.info(f"BrokerCheck returned valid data with employments for {claim_summary}")
-                return {
-                    "source": "BrokerCheck",
-                    "basic_result": broker_result,
-                    "detailed_result": detailed_result,
-                    "search_strategy": "search_with_crd_only",
-                    "crd_number": crd_number,
-                    "compliance": True,
-                    "compliance_explanation": "Search completed successfully with BrokerCheck data, individual found with employments."
-                }
-            else:
-                logger.info(f"BrokerCheck hit but no employments found for {claim_summary}, falling back to SEC IAPD")
-        except Exception as e:
-            logger.error(f"Failed to fetch detailed BrokerCheck data for {claim_summary}: {str(e)}", exc_info=True)
+        if broker_result.get("employments", []):
+            logger.info(f"BrokerCheck returned valid data with employments for {claim_summary}")
             return {
                 "source": "BrokerCheck",
                 "basic_result": broker_result,
-                "detailed_result": None,
+                "detailed_result": broker_result,
                 "search_strategy": "search_with_crd_only",
                 "crd_number": crd_number,
-                "compliance": False,
-                "compliance_explanation": f"Detailed BrokerCheck search failed: {str(e)}",
-                "error": str(e)
+                "compliance": True,
+                "compliance_explanation": "Search completed successfully with BrokerCheck data, individual found with employments."
             }
+        else:
+            logger.info(f"BrokerCheck hit but no employments found for {claim_summary}, falling back to SEC IAPD")
 
     logger.info(f"No valid BrokerCheck hits, searching SEC IAPD for {claim_summary}")
     try:
@@ -347,8 +331,8 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
                     "search_strategy": "search_with_correlated",
                     "crd_number": None,
                     "compliance": False,
-                    "compliance_explanation": "Unable to resolve organization CRD from name",
-                    "skip_reasons": ["Unable to resolve organization CRD from name"]
+                    "compliance_explanation": f"Unable to resolve organization CRD from name '{organization_name}'",
+                    "skip_reasons": [f"Unable to resolve organization CRD from name '{organization_name}'"]
                 }
             logger.debug(f"Resolved CRD '{resolved_crd_number}' from organization_name='{organization_name}' for {claim_summary}")
         except Exception as e:
@@ -360,7 +344,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
                 "search_strategy": "search_with_correlated",
                 "crd_number": None,
                 "compliance": False,
-                "compliance_explanation": f"Organization CRD resolution failed: {str(e)}",
+                "compliance_explanation": f"Organization CRD resolution failed for '{organization_name}': {str(e)}",
                 "error": str(e)
             }
     else:
