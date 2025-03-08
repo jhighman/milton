@@ -14,17 +14,17 @@ from services import FinancialServicesFacade
 from logger_config import setup_logging, reconfigure_logging, flush_logs
 
 logger = logging.getLogger('main')
+csv_processor = CSVProcessor()  # Create a global instance
 
 def signal_handler(sig, frame):
-    if current_csv and current_line > 0:
-        logger.info(f"Signal received ({signal.Signals(sig).name}), saving checkpoint: {current_csv}, line {current_line}")
-        save_checkpoint(current_csv, current_line)
+    if csv_processor.current_csv and csv_processor.current_line > 0:
+        logger.info(f"Signal received ({signal.Signals(sig).name}), saving checkpoint: {csv_processor.current_csv}, line {csv_processor.current_line}")
+        save_checkpoint(csv_processor.current_csv, csv_processor.current_line)
     logger.info("Exiting due to signal")
     sys.exit(0)
 
 def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float, loggers: dict):
-    global skipped_records
-    skipped_records.clear()
+    csv_processor.skipped_records.clear()
     
     print("\nRunning batch processing...")
     checkpoint = load_checkpoint()
@@ -47,7 +47,7 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool
             logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
             continue
         logger.info(f"Processing {csv_path} from line {start_line}")
-        process_csv(csv_path, start_line, facade, config, wait_time)  # No save_checkpoint here
+        csv_processor.process_csv(csv_path, start_line, facade, config, wait_time)
         try:
             with open(csv_path, 'r') as f:
                 csv_reader = csv.reader(f)
@@ -55,7 +55,7 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool
                 for row in csv_reader:
                     if any(field.strip() for field in row):
                         processed_records += 1
-                        ref_id = row[0] if row else generate_reference_id()
+                        ref_id = row[0] if row else csv_processor.generate_reference_id()
                         report_path = os.path.join(OUTPUT_FOLDER, f"{ref_id}.json")
                         if os.path.exists(report_path):
                             with open(report_path, 'r') as rf:
@@ -68,9 +68,9 @@ def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool
         processed_files += 1
         start_line = 0
 
-    if skipped_records:
-        write_skipped_records()
-        skipped_count = sum(len(records) for records in skipped_records.values())
+    if csv_processor.skipped_records:
+        csv_processor.write_skipped_records()
+        skipped_count = sum(len(records) for records in csv_processor.skipped_records.values())
     
     logger.info(f"Processed {processed_files} files, {processed_records} records, {skipped_count} skipped")
     if os.path.exists(CHECKPOINT_FILE):
