@@ -8,7 +8,7 @@ import logging
 from typing import Dict, Set
 from main_config import DEFAULT_WAIT_TIME, OUTPUT_FOLDER, load_config, save_config, INPUT_FOLDER, CHECKPOINT_FILE
 from main_file_utils import setup_folders, load_checkpoint, save_checkpoint, get_csv_files, archive_file
-from main_csv_processing import process_csv, write_skipped_records, generate_reference_id, current_csv, current_line, skipped_records
+from main_csv_processing import CSVProcessor
 from main_menu_helper import display_menu, handle_menu_choice
 from services import FinancialServicesFacade
 from logger_config import setup_logging, reconfigure_logging, flush_logs
