@@ -1,3 +1,24 @@
+# api.py
+"""
+==============================================
+📌 COMPLIANCE CLAIM PROCESSING API OVERVIEW
+==============================================
+🗂 PURPOSE
+This FastAPI application provides endpoints for processing individual compliance claims
+and managing cached compliance data. It supports basic, extended, and complete processing modes,
+along with cache management and compliance analytics features.
+
+🔧 USAGE
+Run the API with `uvicorn api:app --host 0.0.0.0 --port 8000 --log-level info`.
+Use endpoints like `/process-claim-basic`, `/cache/clear`, `/compliance/risk-dashboard`, etc.
+
+📝 NOTES
+- Integrates `cache_manager` for cache operations and analytics.
+- Uses `FinancialServicesFacade` for claim processing and `CacheManager` for cache management.
+- Supports asynchronous webhook notifications for processed claims.
+"""
+
+import json
 import logging
 from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException
@@ -7,6 +28,10 @@ import asyncio
 
 from services import FinancialServicesFacade
 from business import process_claim
+from cache_manager.cache_operations import CacheManager
+from cache_manager.compliance_handler import ComplianceHandler
+from cache_manager.summary_generator import SummaryGenerator
+from cache_manager.file_handler import FileHandler
 
 # Setup logging
 logging.basicConfig(
@@ -19,12 +44,16 @@ logger = logging.getLogger("api")
 # Initialize FastAPI app
 app = FastAPI(
     title="Compliance Claim Processing API",
-    description="API for processing individual compliance claims with specific endpoints for basic, extended, and complete modes",
+    description="API for processing individual compliance claims and managing cached compliance data with analytics",
     version="1.0.0"
 )
 
-# Initialize FinancialServicesFacade (singleton for the app)
+# Initialize services and cache management (singleton instances for the app)
 facade = FinancialServicesFacade()
+cache_manager = CacheManager()
+file_handler = FileHandler(cache_manager.cache_folder)
+compliance_handler = ComplianceHandler(file_handler.base_path)
+summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
 
 # Define processing mode invariants
 PROCESSING_MODES = {
@@ -48,12 +77,12 @@ PROCESSING_MODES = {
     }
 }
 
-# Define the request model using Pydantic
+# Define the request model using Pydantic with mandatory fields
 class ClaimRequest(BaseModel):
     reference_id: str
-    employee_number: Optional[str] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+    employee_number: str
+    first_name: str
+    last_name: str
     individual_name: Optional[str] = None
     crd_number: Optional[str] = None
     organization_crd: Optional[str] = None
@@ -77,13 +106,17 @@ async def send_to_webhook(webhook_url: str, report: Dict[str, Any], reference_id
             logger.error(f"Error sending to webhook for reference_id={reference_id}: {str(e)}", exc_info=True)
 
 async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, Any]:
-    """Helper function to process a claim with the specified mode."""
-    logger.info(f"Processing claim with mode='{mode}': {request.dict()}")
+    """
+    Helper function to process a claim with the specified mode.
 
-    # Validate minimum required field
-    if not request.reference_id:
-        logger.error("Missing required field: reference_id")
-        raise HTTPException(status_code=400, detail="Reference ID is required")
+    Args:
+        request (ClaimRequest): The claim data to process.
+        mode (str): Processing mode ("basic", "extended", "complete").
+
+    Returns:
+        Dict[str, Any]: Processed compliance report.
+    """
+    logger.info(f"Processing claim with mode='{mode}': {request.dict()}")
 
     # Extract mode settings
     mode_settings = PROCESSING_MODES[mode]
@@ -93,7 +126,7 @@ async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, An
 
     # Convert Pydantic model to dict for process_claim
     claim = request.dict(exclude_unset=True)
-    employee_number = claim.pop("employee_number", None)
+    employee_number = claim.pop("employee_number")
     webhook_url = claim.pop("webhook_url", None)
 
     try:
@@ -124,6 +157,7 @@ async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, An
         logger.error(f"Error processing claim for reference_id={request.reference_id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
+# Existing Claim Processing Endpoints
 @app.post("/process-claim-basic", response_model=Dict[str, Any])
 async def process_claim_basic(request: ClaimRequest):
     """Process a claim with basic mode (skips all reviews)."""
@@ -143,6 +177,133 @@ async def process_claim_complete(request: ClaimRequest):
 async def get_processing_modes():
     """Return the available processing modes and their configurations."""
     return PROCESSING_MODES
+
+# New Cache Management Endpoints
+@app.post("/cache/clear/{employee_number}")
+async def clear_cache(employee_number: str):
+    """
+    Clear all cache (except ComplianceReportAgent) for a specific employee.
+
+    Args:
+        employee_number (str): Employee identifier (e.g., "EN-016314").
+
+    Returns:
+        Dict[str, Any]: JSON response with clearance details.
+    """
+    result = cache_manager.clear_cache(employee_number)
+    return json.loads(result)
+
+@app.post("/cache/clear-all")
+async def clear_all_cache():
+    """
+    Clear all cache (except ComplianceReportAgent) across all employees.
+
+    Returns:
+        Dict[str, Any]: JSON response with clearance details.
+    """
+    result = cache_manager.clear_all_cache()
+    return json.loads(result)
+
+@app.post("/cache/clear-agent/{employee_number}/{agent_name}")
+async def clear_agent_cache(employee_number: str, agent_name: str):
+    """
+    Clear cache for a specific agent under an employee.
+
+    Args:
+        employee_number (str): Employee identifier (e.g., "EN-016314").
+        agent_name (str): Agent name (e.g., "SEC_IAPD_Agent").
+
+    Returns:
+        Dict[str, Any]: JSON response with clearance details.
+    """
+    result = cache_manager.clear_agent_cache(employee_number, agent_name)
+    return json.loads(result)
+
+@app.get("/cache/list")
+async def list_cache(employee_number: Optional[str] = None, page: int = 1, page_size: int = 10):
+    """
+    List all cached files for an employee or all employees with pagination.
+
+    Args:
+        employee_number (Optional[str]): Employee identifier or None/"ALL" for all employees.
+        page (int): Page number (default: 1).
+        page_size (int): Items per page (default: 10).
+
+    Returns:
+        Dict[str, Any]: JSON response with cache contents.
+    """
+    result = cache_manager.list_cache(employee_number or "ALL", page, page_size)
+    return json.loads(result)
+
+@app.post("/cache/cleanup-stale")
+async def cleanup_stale_cache():
+    """
+    Delete stale cache older than 90 days (except ComplianceReportAgent).
+
+    Returns:
+        Dict[str, Any]: JSON response with cleanup details.
+    """
+    result = cache_manager.cleanup_stale_cache()
+    return json.loads(result)
+
+# New Compliance Analytics Endpoints
+@app.get("/compliance/summary/{employee_number}")
+async def get_compliance_summary(employee_number: str, page: int = 1, page_size: int = 10):
+    """
+    Get a compliance summary for a specific employee with pagination.
+
+    Args:
+        employee_number (str): Employee identifier (e.g., "EN-016314").
+        page (int): Page number (default: 1).
+        page_size (int): Items per page (default: 10).
+
+    Returns:
+        Dict[str, Any]: JSON response with summary data.
+    """
+    emp_path = cache_manager.cache_folder / employee_number
+    result = summary_generator.generate_compliance_summary(emp_path, employee_number, page, page_size)
+    return json.loads(result)
+
+@app.get("/compliance/all-summaries")
+async def get_all_compliance_summaries(page: int = 1, page_size: int = 10):
+    """
+    Get a compliance summary for all employees with pagination.
+
+    Returns:
+        Dict[str, Any]: JSON response with summary data.
+    """
+    result = summary_generator.generate_all_compliance_summaries(cache_manager.cache_folder, page, page_size)
+    return json.loads(result)
+
+@app.get("/compliance/taxonomy")
+async def get_compliance_taxonomy():
+    """
+    Get a taxonomy tree from the latest ComplianceReportAgent JSON files.
+
+    Returns:
+        str: Human-readable taxonomy tree text.
+    """
+    return summary_generator.generate_taxonomy_from_latest_reports()
+
+@app.get("/compliance/risk-dashboard")
+async def get_risk_dashboard():
+    """
+    Get a compliance risk dashboard from the latest ComplianceReportAgent JSON files.
+
+    Returns:
+        str: Human-readable risk dashboard text.
+    """
+    return summary_generator.generate_risk_dashboard()
+
+@app.get("/compliance/data-quality")
+async def get_data_quality_report():
+    """
+    Get a data quality report checking field value presence from the latest ComplianceReportAgent JSON files.
+
+    Returns:
+        str: Human-readable data quality report text.
+    """
+    return summary_generator.generate_data_quality_report()
 
 @app.on_event("shutdown")
 def shutdown_event():
