@@ -15,12 +15,36 @@ import logging
 from typing import Dict, Any, List, Optional
 from evaluation_processor import evaluate_name, parse_name
 from datetime import datetime
+from enum import Enum
 
 logger = logging.getLogger("normalizer")
 
 class NormalizationError(Exception):
     """Exception raised for errors during normalization."""
     pass
+
+class MatchThreshold(Enum):
+    """
+    Enumeration defining name matching thresholds with descriptions for developer guidance.
+
+    - LOOSE: Score >= 50.0
+        Description: Matches names with moderate similarity (e.g., same last name or first name with variations).
+        Use Case: Broad searches where partial matches are acceptable, such as identifying potential aliases.
+        Risk: Higher false positives; may include unrelated individuals.
+
+    - STRICT: Score >= 80.0 (default)
+        Description: Requires strong similarity, typically matching both first and last names with minor variations.
+        Use Case: Standard compliance checks where precision is balanced with reasonable flexibility.
+        Risk: May miss some valid matches with typos or nickname variations.
+
+    - STRICTEST: Score >= 95.0
+        Description: Demands near-exact matches, allowing only minimal differences (e.g., exact name with optional middle).
+        Use Case: High-stakes scenarios requiring certainty, such as legal or regulatory enforcement.
+        Risk: Higher false negatives; may exclude valid matches with slight discrepancies.
+    """
+    LOOSE = 50.0
+    STRICT = 80.0
+    STRICTEST = 95.0
 
 def create_individual_record(
     data_source: str,
@@ -45,6 +69,8 @@ def create_individual_record(
           "employments": list,  # Consolidated employment section
           "crd_number": str
         }
+    Note: 'fetched_name' and 'other_names' are designed to be passed to evaluate_name for matching
+    against an expected name, producing names_found, name_scores, exact_match_found, and status.
     """
     extracted_info = {
         "fetched_name": "",
@@ -251,13 +277,36 @@ def create_individual_record(
 
     return extracted_info
 
-def create_disciplinary_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
+def create_disciplinary_record(
+    data_source: str,
+    data: Any,
+    searched_name: str,
+    threshold: MatchThreshold = MatchThreshold.STRICT
+) -> Dict[str, Any]:
+    """
+    Normalize disciplinary data from SEC or FINRA sources into a consistent structure.
+    Includes due_diligence section aligning with FINRA name handling convention.
+
+    :param data_source: Source of the data ("FINRA_Disciplinary" or "SEC_Disciplinary").
+    :param data: Raw data from the source.
+    :param searched_name: Name to match against respondent names.
+    :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
+    :return: Normalized dictionary with actions and due_diligence.
+    """
     result = {
         "actions": [],
-        "raw_data": [data] if not isinstance(data, list) else data,
-        "name_scores": {}
+        "due_diligence": {
+            "searched_name": searched_name,
+            "records_found": 0,
+            "records_filtered": 0,
+            "names_found": [],
+            "name_scores": {},
+            "exact_match_found": False,
+            "status": "No records found"
+        },
+        "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} disciplinary data for {searched_name}")
+    logger.debug(f"Normalizing {data_source} disciplinary data for {searched_name} with threshold {threshold.name}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
@@ -272,10 +321,13 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
         logger.warning(f"Unexpected result format in {data_source}: {raw_results}")
         return result
 
-    searched_name_dict = parse_name(searched_name)
+    due_diligence = result["due_diligence"]
+    due_diligence["records_found"] = len(raw_results)
+
     for record in raw_results:
         if not isinstance(record, dict):
             logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            due_diligence["records_filtered"] += 1
             continue
 
         normalized_record = {}
@@ -300,24 +352,53 @@ def create_disciplinary_record(data_source: str, data: Any, searched_name: str) 
             respondent_name = record.get("Name", "")
 
         if respondent_name:
-            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
-            score = name_eval["best_match"]["score"]
-            result["name_scores"][respondent_name] = score
-            if score >= 80.0:
+            name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+            dd = name_eval["due_diligence"]
+            due_diligence["names_found"].append(respondent_name)
+            due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
+            if dd["exact_match_found"]:
                 result["actions"].append(normalized_record)
-                logger.debug(f"Matched disciplinary record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+                due_diligence["exact_match_found"] = True
+                logger.debug(f"Matched disciplinary record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
         else:
+            due_diligence["records_filtered"] += 1
             logger.debug(f"Skipped disciplinary record {normalized_record['case_id']} - no respondent name")
+
+    due_diligence["records_filtered"] = due_diligence["records_found"] - len(result["actions"])
+    due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
 
     return result
 
-def create_arbitration_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
+def create_arbitration_record(
+    data_source: str,
+    data: Any,
+    searched_name: str,
+    threshold: MatchThreshold = MatchThreshold.STRICT
+) -> Dict[str, Any]:
+    """
+    Normalize arbitration data from SEC or FINRA sources into a consistent structure.
+    Includes due_diligence section aligning with FINRA name handling convention.
+
+    :param data_source: Source of the data ("FINRA_Arbitration" or "SEC_Arbitration").
+    :param data: Raw data from the source.
+    :param searched_name: Name to match against respondent names.
+    :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
+    :return: Normalized dictionary with actions and due_diligence.
+    """
     result = {
         "actions": [],
-        "raw_data": [data] if not isinstance(data, list) else data,
-        "name_scores": {}
+        "due_diligence": {
+            "searched_name": searched_name,
+            "records_found": 0,
+            "records_filtered": 0,
+            "names_found": [],
+            "name_scores": {},
+            "exact_match_found": False,
+            "status": "No records found"
+        },
+        "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} arbitration data for {searched_name}")
+    logger.debug(f"Normalizing {data_source} arbitration data for {searched_name} with threshold {threshold.name}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
@@ -340,10 +421,13 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
         logger.warning(f"Unexpected {data_source} result format: {raw_results}")
         return result
 
-    searched_name_dict = parse_name(searched_name)
+    due_diligence = result["due_diligence"]
+    due_diligence["records_found"] = len(raw_results)
+
     for record in raw_results:
         if not isinstance(record, dict):
             logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            due_diligence["records_filtered"] += 1
             continue
 
         normalized_record = {}
@@ -364,9 +448,6 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
             respondents_str = record.get("Case Summary", {}).get("Respondent(s):", "")
             if respondents_str:
                 respondent_names = [name.strip() for name in respondents_str.split(",") if name.strip()]
-            else:
-                logger.debug(f"No respondents found in {normalized_record['case_id']}, skipping match")
-                continue
         elif data_source == "SEC_Arbitration":
             normalized_record["case_id"] = record.get("Enforcement Action", "Unknown")
             normalized_record["date"] = record.get("Date Filed", "Unknown")
@@ -377,30 +458,60 @@ def create_arbitration_record(data_source: str, data: Any, searched_name: str) -
                 "enforcement_action": record.get("Enforcement Action"),
                 "documents": record.get("Documents", [])
             }
-            respondent_names = []
+            respondent_names = [searched_name]  # Explicitly score searched_name
 
-        for respondent_name in respondent_names:
-            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
-            score = name_eval["best_match"]["score"]
-            result["name_scores"][respondent_name] = score
-            if score >= 80.0:
-                normalized_record["matched_name"] = respondent_name
-                result["actions"].append(normalized_record)
-                logger.debug(f"Matched arbitration record {normalized_record['case_id']} with {respondent_name} (score: {score})")
-                break
-        if respondent_names and not any(a["case_id"] == normalized_record["case_id"] for a in result["actions"]):
-            logger.debug(f"Filtered arbitration record {normalized_record['case_id']} - no respondent matched {searched_name} (best score: {max([result['name_scores'].get(r, 0) for r in respondent_names], default=0)})")
+        if respondent_names:
+            for respondent_name in respondent_names:
+                name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+                dd = name_eval["due_diligence"]
+                due_diligence["names_found"].append(respondent_name)
+                due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
+                if dd["exact_match_found"]:
+                    normalized_record["matched_name"] = respondent_name
+                    result["actions"].append(normalized_record)
+                    due_diligence["exact_match_found"] = True
+                    logger.debug(f"Matched arbitration record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
+                    break
+            else:
+                due_diligence["records_filtered"] += 1
+        else:
+            due_diligence["records_filtered"] += 1
+            logger.debug(f"No respondents found in {normalized_record['case_id']}, skipping match")
+
+    due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
 
     return result
 
-def create_regulatory_record(data_source: str, data: Any, searched_name: str) -> Dict[str, Any]:
-    """Normalize NFA regulatory data into a consistent structure."""
+def create_regulatory_record(
+    data_source: str,
+    data: Any,
+    searched_name: str,
+    threshold: MatchThreshold = MatchThreshold.STRICT
+) -> Dict[str, Any]:
+    """
+    Normalize NFA regulatory data into a consistent structure.
+    Includes due_diligence section aligning with FINRA name handling convention.
+
+    :param data_source: Source of the data (e.g., "NFA").
+    :param data: Raw data from the source.
+    :param searched_name: Name to match against respondent names.
+    :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
+    :return: Normalized dictionary with actions and due_diligence.
+    """
     result = {
         "actions": [],
-        "raw_data": [data] if not isinstance(data, list) else data,
-        "name_scores": {}
+        "due_diligence": {
+            "searched_name": searched_name,
+            "records_found": 0,
+            "records_filtered": 0,
+            "names_found": [],
+            "name_scores": {},
+            "exact_match_found": False,
+            "status": "No records found"
+        },
+        "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} regulatory data for {searched_name}")
+    logger.debug(f"Normalizing {data_source} regulatory data for {searched_name} with threshold {threshold.name}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
@@ -415,10 +526,13 @@ def create_regulatory_record(data_source: str, data: Any, searched_name: str) ->
         logger.warning(f"Unexpected {data_source} result format: {raw_results}")
         return result
 
-    searched_name_dict = parse_name(searched_name)
+    due_diligence = result["due_diligence"]
+    due_diligence["records_found"] = len(raw_results)
+
     for record in raw_results:
         if not isinstance(record, dict):
             logger.warning(f"Skipping malformed record in {data_source}: {record}")
+            due_diligence["records_filtered"] += 1
             continue
 
         normalized_record = {
@@ -439,13 +553,19 @@ def create_regulatory_record(data_source: str, data: Any, searched_name: str) ->
         respondent_name = record.get("Name", "").strip()
 
         if respondent_name:
-            name_eval, _ = evaluate_name(searched_name, respondent_name, [])
-            score = name_eval["best_match"]["score"]
-            result["name_scores"][respondent_name] = score
-            if score >= 80.0 and record.get("Regulatory Actions") == "Yes":
+            name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+            dd = name_eval["due_diligence"]
+            due_diligence["names_found"].append(respondent_name)
+            due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
+            if dd["exact_match_found"] and record.get("Regulatory Actions") == "Yes":
                 result["actions"].append(normalized_record)
-                logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+                due_diligence["exact_match_found"] = True
+                logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
         else:
+            due_diligence["records_filtered"] += 1
             logger.debug(f"Skipped regulatory record {normalized_record['case_id']} - no respondent name")
+
+    due_diligence["records_filtered"] = due_diligence["records_found"] - len(result["actions"])
+    due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
 
     return result
