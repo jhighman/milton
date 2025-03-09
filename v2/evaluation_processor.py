@@ -152,9 +152,11 @@ def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name
         return 0.8 if code1 == code2 and code1 != "" else 0.0
 
 def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any], score_threshold: float = 80.0) -> Tuple[Dict[str, Any], Optional[Alert]]:
+    """Evaluate name matching between expected and fetched names, adhering to FINRA disciplinary convention."""
     claim_name = parse_name(expected_name)
+    searched_name = " ".join(filter(None, [claim_name["first"], claim_name["middle"], claim_name["last"]])).strip()
 
-    def score_single_name(claim: Dict[str, Any], fetched: Any) -> Dict[str, Any]:
+    def score_single_name(claim: Dict[str, Any], fetched: Any) -> Tuple[str, float]:
         fetched_parsed = parse_name(fetched)
         weights = {"first": 40, "middle": 10, "last": 50}
         if not claim["middle"] and not fetched_parsed["middle"]:
@@ -167,43 +169,57 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
                        middle_score * weights["middle"] +
                        last_score * weights["last"])
         normalized_score = (total_score / total_weight) * 100.0 if total_weight else 0.0
-        return {
-            "fetched_name": fetched_parsed,
-            "score": round(normalized_score, 2),
-            "first_score": round(first_score, 2),
-            "middle_score": round(middle_score, 2),
-            "last_score": round(last_score, 2),
-        }
+        fetched_full_name = " ".join(filter(None, [fetched_parsed["first"], fetched_parsed["middle"], fetched_parsed["last"]])).strip()
+        return fetched_full_name, round(normalized_score, 2)
 
-    matches = []
-    main_match = score_single_name(claim_name, fetched_name)
-    matches.append({"name_source": "main_fetched_name", **main_match})
-    for idx, alt in enumerate(other_names):
-        alt_match = score_single_name(claim_name, alt)
-        matches.append({"name_source": f"other_names[{idx}]", **alt_match})
+    # Collect all names and their scores
+    names_found = []
+    name_scores = {}
+    
+    # Score main fetched name
+    main_name, main_score = score_single_name(claim_name, fetched_name)
+    names_found.append(main_name)
+    name_scores[main_name] = main_score
 
-    best_match = max(matches, key=lambda x: x["score"])
-    best_score = best_match["score"]
-    compliance = best_score >= score_threshold
+    # Score other names
+    for alt in other_names:
+        alt_name, alt_score = score_single_name(claim_name, alt)
+        names_found.append(alt_name)
+        name_scores[alt_name] = alt_score
+
+    # Determine exact match and status
+    exact_match_found = any(score >= score_threshold for score in name_scores.values())
+    status = "Exact matches found" if exact_match_found else "Records found but no matches for '{}'".format(searched_name)
+    compliance = exact_match_found
 
     evaluation_details = {
-        "claimed_name": claim_name,
-        "all_matches": matches,
-        "best_match": best_match,
-        "compliance": compliance
+        "searched_name": searched_name,
+        "records_found": len(names_found),
+        "records_filtered": 0,  # Assuming all fetched names are relevant here
+        "names_found": names_found,
+        "name_scores": name_scores,
+        "exact_match_found": exact_match_found,
+        "status": status
     }
 
     alert = None
     if not compliance:
+        best_match_name = max(name_scores, key=name_scores.get)
+        best_score = name_scores[best_match_name]
         alert = Alert(
             alert_type="Name Mismatch",
             severity=AlertSeverity.MEDIUM,
-            metadata={"expected_name": claim_name, "best_score": best_score, "best_match": best_match},
-            description=f"Name match score {best_score} is below threshold {score_threshold}.",
+            metadata={"expected_name": searched_name, "best_score": best_score, "best_match": best_match_name},
+            description=f"Name match score {best_score} for '{best_match_name}' is below threshold {score_threshold}.",
             alert_category=determine_alert_category("Name Mismatch")
         )
 
-    return evaluation_details, alert
+    return {
+        "compliance": compliance,
+        "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record.",
+        "due_diligence": evaluation_details,
+        "alerts": [alert] if alert else []
+    }, alert
 
 def interpret_license_type(license_type: str) -> Tuple[bool, bool]:
     license_type = license_type.upper() if license_type else ""
@@ -483,6 +499,7 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str) -> Tuple[
         return True, summary, alerts
 
 def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
+    """Evaluate arbitration records, using due_diligence from normalizer if provided."""
     alerts = []
     
     if actions:
@@ -512,7 +529,7 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
         if total_records > 10 and total_filtered == total_records:
             alert = Alert(
                 alert_type="Arbitration Search Info",
-                severity=AlertSeverity.MEDIUM,
+                severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} arbitration records for {name}, all filtered out due to name mismatch. Potential review needed.",
                 alert_category=determine_alert_category("Arbitration Search Info")
@@ -521,9 +538,10 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
             explanation = f"No matching arbitration records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
         elif total_records > 0:
+            severity = AlertSeverity.MEDIUM if total_records > total_filtered else AlertSeverity.INFO
             alert = Alert(
                 alert_type="Arbitration Search Info",
-                severity=AlertSeverity.INFO,
+                severity=severity,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} arbitration records for {name}, {total_filtered} filtered out.",
                 alert_category=determine_alert_category("Arbitration Search Info")
@@ -536,6 +554,7 @@ def evaluate_arbitration(actions: List[Dict[str, Any]], name: str, due_diligence
     return True, explanation, alerts
 
 def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
+    """Evaluate disciplinary records, using due_diligence from normalizer if provided."""
     alerts = []
     
     if actions:
@@ -562,7 +581,7 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
         if total_records > 10 and total_filtered == total_records:
             alert = Alert(
                 alert_type="Disciplinary Search Info",
-                severity=AlertSeverity.MEDIUM,
+                severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} disciplinary records for {name}, all filtered out due to name mismatch. Potential review needed.",
                 alert_category=determine_alert_category("Disciplinary Search Info")
@@ -571,9 +590,10 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
             explanation = f"No matching disciplinary records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
         elif total_records > 0:
+            severity = AlertSeverity.MEDIUM if total_records > total_filtered else AlertSeverity.INFO
             alert = Alert(
                 alert_type="Disciplinary Search Info",
-                severity=AlertSeverity.INFO,
+                severity=severity,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} disciplinary records for {name}, {total_filtered} filtered out.",
                 alert_category=determine_alert_category("Disciplinary Search Info")
@@ -586,7 +606,7 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
     return True, explanation, alerts
 
 def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
-    """Evaluate NFA regulatory actions for compliance."""
+    """Evaluate NFA regulatory actions, using due_diligence from normalizer if provided."""
     alerts = []
     
     if actions:
@@ -595,7 +615,7 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
             action_type = record.get('details', {}).get('action_type', 'Unknown')
             if action_type == "Regulatory":
                 alert = Alert(
-                    alert_type="Regulatory Disclosure",  # Aligned with DISCLOSURE category
+                    alert_type="Regulatory Disclosure",
                     severity=AlertSeverity.HIGH,
                     metadata={"record": record},
                     description=f"Regulatory action found: NFA ID {case_id} for {name}.",
@@ -614,7 +634,7 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
         if total_records > 10 and total_filtered == total_records:
             alert = Alert(
                 alert_type="Regulatory Search Info",
-                severity=AlertSeverity.MEDIUM,
+                severity=AlertSeverity.INFO,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} regulatory records for {name}, all filtered out due to name mismatch. Potential review needed.",
                 alert_category=determine_alert_category("Regulatory Search Info")
@@ -623,9 +643,10 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
             explanation = f"No matching regulatory records found for {name}, but {total_records} records were reviewed and filtered, suggesting possible alias or data issues."
             return True, explanation, alerts
         elif total_records > 0:
+            severity = AlertSeverity.MEDIUM if total_records > total_filtered else AlertSeverity.INFO
             alert = Alert(
                 alert_type="Regulatory Search Info",
-                severity=AlertSeverity.INFO,
+                severity=severity,
                 metadata={"due_diligence": due_diligence},
                 description=f"Found {total_records} regulatory records for {name}, {total_filtered} filtered out.",
                 alert_category=determine_alert_category("Regulatory Search Info")
@@ -656,6 +677,6 @@ def determine_alert_category(alert_type: str) -> str:
         "Arbitration Search Info": "ARBITRATION",
         "Disciplinary Search Info": "DISCIPLINARY",
         "Regulatory Search Info": "REGULATORY",
-        "Name Mismatch": "status_evaluation"  # Not in taxonomy, aligned with STATUS-like alerts
+        "Name Mismatch": "status_evaluation"
     }
-    return alert_type_to_category.get(alert_type, "status_evaluation")  # Default to status_evaluation
+    return alert_type_to_category.get(alert_type, "status_evaluation")
