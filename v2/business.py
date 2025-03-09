@@ -59,7 +59,7 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
                 "detailed_result": detailed_result,
                 "search_strategy": "search_with_both_crds",
                 "crd_number": crd_number,
-                "compliance": False,
+                "compliance": True,
                 "compliance_explanation": "Search completed successfully with SEC IAPD data, individual found."
             }
         else:
@@ -314,7 +314,6 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     logger.info(f"Executing search_with_correlated for {claim_summary} with individual_name='{individual_name}', "
                 f"organization_name='{organization_name}', organization_crd_number='{organization_crd_number}'")
 
-    # Attempt to resolve CRD
     resolved_crd_number = None
     if organization_crd_number.strip():
         resolved_crd_number = organization_crd_number
@@ -323,7 +322,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
         try:
             resolved_crd_number = facade.get_organization_crd(organization_name)
             if not resolved_crd_number or resolved_crd_number == "NOT_FOUND":
-                logger.warning(f"Failed to resolve CRD for organization_name='{organization_name}' in {claim_summary}")
+                logger.info(f"Skipping record - unable to resolve CRD for organization_name='{organization_name}' in {claim_summary}")
                 return {
                     "source": "SEC_IAPD",
                     "basic_result": None,
@@ -345,10 +344,10 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
                 "crd_number": None,
                 "compliance": False,
                 "compliance_explanation": f"Organization CRD resolution failed for '{organization_name}': {str(e)}",
-                "error": str(e)
+                "skip_reasons": [f"Organization CRD resolution failed for '{organization_name}'"]
             }
     else:
-        logger.warning(f"No organization_name or organization_crd_number provided for {claim_summary}")
+        logger.info(f"Skipping record - no organization_name or organization_crd_number provided for {claim_summary}")
         return {
             "source": "SEC_IAPD",
             "basic_result": None,
@@ -360,11 +359,8 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
             "skip_reasons": ["No organization name or CRD provided"]
         }
 
-    # Add the resolved CRD number into the claim for delegation to search_with_crd_only
     claim["crd_number"] = resolved_crd_number
     logger.info(f"Resolved CRD number '{resolved_crd_number}' for {claim_summary}, delegating to search_with_crd_only")
-
-    # Delegate to search_with_crd_only with error handling
     try:
         result = search_with_crd_only(claim, facade, employee_number)
         logger.debug(f"search_with_crd_only returned: {json.dumps(result, default=str)} for {claim_summary}")
@@ -378,7 +374,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
             "search_strategy": "search_with_correlated",
             "crd_number": resolved_crd_number,
             "compliance": False,
-            "compliance_explanation": f"Delegation to search_with_crd_only failed: {str(e)}",
+            "compliance_explanation": f"Search failed: Delegation to search_with_crd_only failed: {str(e)}",
             "error": str(e)
         }
 
@@ -411,26 +407,26 @@ def process_claim(
             "detailed_result": None,
             "compliance": False,
             "compliance_explanation": f"Search strategy execution failed: {str(e)}",
-            "error": str(e)
+            "skip_reasons": [f"Search strategy execution failed: {str(e)}"]
         }
 
-    if search_evaluation is None or "skip_reasons" in search_evaluation or not search_evaluation.get("compliance", False):
-        logger.warning(f"Search failed or skipped for {claim_summary}: {search_evaluation.get('compliance_explanation', 'Unknown issue')}")
-        extracted_info = {
-            "search_evaluation": search_evaluation,
-            "skip_reasons": search_evaluation.get("skip_reasons", ["Search failure"]) if search_evaluation else ["Search returned None"],
-            "individual": {},
-            "fetched_name": "",
-            "other_names": [],
-            "bc_scope": "NotInScope",
-            "ia_scope": "NotInScope",
-            "exams": [],
-            "disclosures": [],
-            "disciplinary_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}},
-            "arbitration_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}},
-            "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to search failure"}}
-        }
-    else:
+    # Prepare extracted_info
+    extracted_info = {
+        "search_evaluation": search_evaluation,
+        "individual": {},
+        "fetched_name": "",
+        "other_names": [],
+        "bc_scope": "NotInScope",
+        "ia_scope": "NotInScope",
+        "exams": [],
+        "disclosures": [],
+        "disciplinary_evaluation": {"actions": [], "due_diligence": {"status": "Skipped"}},
+        "arbitration_evaluation": {"actions": [], "due_diligence": {"status": "Skipped"}},
+        "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped"}}
+    }
+
+    if "skip_reasons" not in search_evaluation and search_evaluation.get("compliance", False):
+        # Only perform detailed evaluations if search succeeds
         first_name = claim.get("first_name", "")
         last_name = claim.get("last_name", "")
         individual_name = claim.get("individual_name", "")
@@ -438,70 +434,64 @@ def process_claim(
             first_name, *last_name_parts = individual_name.split()
             last_name = " ".join(last_name_parts) if last_name_parts else ""
 
-        disciplinary_evaluation = arbitration_evaluation = regulatory_evaluation = None
-
         if skip_disciplinary:
             logger.info(f"Skipping disciplinary review for {claim_summary}")
-            disciplinary_evaluation = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
+            extracted_info["disciplinary_evaluation"] = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
         else:
             try:
-                disciplinary_evaluation = facade.perform_disciplinary_review(first_name, last_name, employee_number) if first_name and last_name else {
+                extracted_info["disciplinary_evaluation"] = facade.perform_disciplinary_review(first_name, last_name, employee_number) if first_name and last_name else {
                     "actions": [], "due_diligence": {"status": "No name provided"}
                 }
             except Exception as e:
                 logger.error(f"Disciplinary review failed for {claim_summary}: {str(e)}", exc_info=True)
-                disciplinary_evaluation = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
+                extracted_info["disciplinary_evaluation"] = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
 
         if skip_arbitration:
             logger.info(f"Skipping arbitration review for {claim_summary}")
-            arbitration_evaluation = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
+            extracted_info["arbitration_evaluation"] = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
         else:
             try:
-                arbitration_evaluation = facade.perform_arbitration_review(first_name, last_name, employee_number) if first_name and last_name else {
+                extracted_info["arbitration_evaluation"] = facade.perform_arbitration_review(first_name, last_name, employee_number) if first_name and last_name else {
                     "actions": [], "due_diligence": {"status": "No name provided"}
                 }
             except Exception as e:
                 logger.error(f"Arbitration review failed for {claim_summary}: {str(e)}", exc_info=True)
-                arbitration_evaluation = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
+                extracted_info["arbitration_evaluation"] = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
 
         if skip_regulatory:
             logger.info(f"Skipping regulatory review for {claim_summary}")
-            regulatory_evaluation = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
+            extracted_info["regulatory_evaluation"] = {"actions": [], "due_diligence": {"status": "Skipped per configuration"}}
         else:
             try:
-                regulatory_evaluation = facade.perform_regulatory_review(first_name, last_name, employee_number) if first_name and last_name else {
+                extracted_info["regulatory_evaluation"] = facade.perform_regulatory_review(first_name, last_name, employee_number) if first_name and last_name else {
                     "actions": [], "due_diligence": {"status": "No name provided"}
                 }
             except Exception as e:
                 logger.error(f"Regulatory review failed for {claim_summary}: {str(e)}", exc_info=True)
-                regulatory_evaluation = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
+                extracted_info["regulatory_evaluation"] = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
 
-        extracted_info = {
-            "search_evaluation": search_evaluation,
+        extracted_info.update({
             "individual": search_evaluation.get("basic_result", {}),
             "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
             "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
             "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", "NotInScope"),
             "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", "NotInScope"),
             "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") else [],
-            "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") else [],
-            "disciplinary_evaluation": disciplinary_evaluation,
-            "arbitration_evaluation": arbitration_evaluation,
-            "regulatory_evaluation": regulatory_evaluation
-        }
+            "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") else []
+        })
 
-    reference_id = claim.get("reference_id", "UNKNOWN")
-    builder = EvaluationReportBuilder(reference_id)
+    # Construct report via director
+    builder = EvaluationReportBuilder(claim.get("reference_id", "UNKNOWN"))
     director = EvaluationReportDirector(builder)
     report = director.construct_evaluation_report(claim, extracted_info)
 
     try:
         if facade.save_compliance_report(report, employee_number):
-            logger.info(f"Compliance report saved for {claim_summary}, reference_id={reference_id}")
+            logger.info(f"Compliance report saved for {claim_summary}, reference_id={report['reference_id']}")
         else:
-            logger.error(f"Failed to save compliance report for {claim_summary}, reference_id={reference_id}")
+            logger.error(f"Failed to save compliance report for {claim_summary}, reference_id={report['reference_id']}")
     except Exception as e:
-        logger.error(f"Exception while saving compliance report for {claim_summary}, reference_id={reference_id}: {str(e)}", exc_info=True)
+        logger.error(f"Exception while saving compliance report for {claim_summary}, reference_id={report['reference_id']}: {str(e)}", exc_info=True)
 
     logger.info(f"Claim processing completed for {claim_summary}")
     return report
