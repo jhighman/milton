@@ -8,11 +8,9 @@ It abstracts away the complexity of interacting with multiple underlying service
 provides a unified interface for business logic to retrieve and store normalized data.
 """
 
-import logging
 import json
 import os
 from typing import Optional, Dict, Any, List
-from selenium import webdriver
 import argparse
 
 from marshaller import (
@@ -34,9 +32,12 @@ from normalizer import (
     create_individual_record,
     create_regulatory_record,
 )
-from agents.compliance_report_agent import save_compliance_report  # Direct import
+from agents.compliance_report_agent import save_compliance_report
+from logger_config import setup_logging, reconfigure_logging  # Import your logger config
 
-logger = logging.getLogger("services")
+# Set up logging using logger_config
+loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
+logger = loggers["services"]  # Use the 'services' logger from your config
 
 RUN_HEADLESS = True
 
@@ -44,6 +45,7 @@ class FinancialServicesFacade:
     def __init__(self):
         self.driver = create_driver(RUN_HEADLESS)
         self._is_driver_managed = True
+        logger.debug("FinancialServicesFacade initialized with WebDriver")
 
     def __del__(self):
         if self._is_driver_managed and hasattr(self, 'driver') and self.driver:
@@ -62,9 +64,10 @@ class FinancialServicesFacade:
                 for line in f:
                     if line.strip():
                         organizations.append(json.loads(line))
+            logger.debug(f"Loaded {len(organizations)} organizations from cache")
             return organizations
         except Exception as e:
-            logger.error(f"Error loading organizations cache: {e}")
+            logger.error(f"Error loading organizations cache: {e}", exc_info=True)
             return None
 
     @staticmethod
@@ -73,7 +76,9 @@ class FinancialServicesFacade:
 
     @staticmethod
     def _normalize_individual_record(data_source: str, basic_info: Optional[Dict[str, Any]], detailed_info: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-        return create_individual_record(data_source, basic_info, detailed_info)
+        result = create_individual_record(data_source, basic_info, detailed_info)
+        logger.debug(f"Normalized individual record from {data_source}: {json.dumps(result, indent=2)}")
+        return result
 
     def get_organization_crd(self, organization_name: str) -> Optional[str]:
         orgs_data = self._load_organizations_cache()
@@ -118,7 +123,6 @@ class FinancialServicesFacade:
         if result:
             logger.info(f"Successfully fetched SEC IAPD correlated data for {individual_name} at organization {organization_crd_number}")
             normalized = self._normalize_individual_record("IAPD", result)
-            logger.debug(f"Normalized basic_result: {json.dumps(normalized, indent=2)}")
             return normalized
         logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in SEC IAPD correlated search")
         return None
@@ -165,7 +169,6 @@ class FinancialServicesFacade:
         return None
 
     def search_nfa_regulatory(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
-        """Fetch and normalize NFA regulatory data."""
         logger.info(f"Fetching NFA regulatory data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"
@@ -212,18 +215,13 @@ class FinancialServicesFacade:
         return None
 
     def save_compliance_report(self, report: Dict[str, Any], employee_number: Optional[str] = None) -> bool:
-        """
-        Saves a compliance report directly via the ComplianceReportAgent.
-
-        Args:
-            report (Dict[str, Any]): The compliance report to save.
-            employee_number (Optional[str]): Identifier for the cache subfolder. Defaults to None.
-
-        Returns:
-            bool: True if saved successfully, False otherwise.
-        """
         logger.info(f"Saving compliance report for employee_number={employee_number}")
-        return save_compliance_report(report, employee_number)
+        success = save_compliance_report(report, employee_number)
+        if success:
+            logger.debug(f"Compliance report saved: {json.dumps(report, indent=2)}")
+        else:
+            logger.error("Failed to save compliance report")
+        return success
 
     def perform_disciplinary_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
         logger.info(f"Performing disciplinary review for {first_name} {last_name}, Employee: {employee_number}")
@@ -282,6 +280,7 @@ class FinancialServicesFacade:
                 combined_review["actions"].extend(finra_actions)
                 logger.debug(f"Added {len(finra_actions)} FINRA disciplinary actions")
 
+        logger.debug(f"Combined disciplinary review result: {json.dumps(combined_review, indent=2)}")
         if combined_review["actions"]:
             logger.info(f"Combined disciplinary review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
         else:
@@ -346,6 +345,7 @@ class FinancialServicesFacade:
                 combined_review["actions"].extend(finra_actions)
                 logger.debug(f"Added {len(finra_actions)} FINRA arbitration actions")
 
+        logger.debug(f"Combined arbitration review result: {json.dumps(combined_review, indent=2)}")
         if combined_review["actions"]:
             logger.info(f"Combined arbitration review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
         else:
@@ -354,7 +354,6 @@ class FinancialServicesFacade:
         return combined_review
 
     def perform_regulatory_review(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Dict[str, Any]:
-        """Perform a regulatory review using NFA data."""
         logger.info(f"Performing regulatory review for {first_name} {last_name}, Employee: {employee_number}")
         searched_name = f"{first_name} {last_name}"
         combined_review = {
@@ -376,20 +375,19 @@ class FinancialServicesFacade:
         nfa_result = self.search_nfa_regulatory(first_name, last_name, employee_number)
         if nfa_result:
             logger.debug(f"NFA Regulatory result received: {json.dumps(nfa_result, indent=2)}")
+            nfa_dd = nfa_result.get("due_diligence", {})
             nfa_actions = nfa_result.get("actions", [])
-            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_found"] = len(nfa_result.get("raw_data", [{}])[0].get("result", []))
-            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_filtered"] = len(nfa_result.get("raw_data", [{}])[0].get("result", [])) - len(nfa_actions)
-            combined_review["due_diligence"]["nfa_regulatory_actions"]["name_scores"] = nfa_result.get("name_scores", {})
-            combined_review["due_diligence"]["nfa_regulatory_actions"]["names_found"] = list(nfa_result.get("name_scores", {}).keys())
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_found"] = nfa_dd.get("records_found", 0)
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["records_filtered"] = nfa_dd.get("records_filtered", 0)
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["names_found"] = nfa_dd.get("names_found", [])
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["name_scores"] = nfa_dd.get("name_scores", {})
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["exact_match_found"] = nfa_dd.get("exact_match_found", False)
+            combined_review["due_diligence"]["nfa_regulatory_actions"]["status"] = nfa_dd.get("status", "Records processed")
             if nfa_actions:
                 combined_review["actions"].extend(nfa_actions)
-                combined_review["due_diligence"]["nfa_regulatory_actions"]["exact_match_found"] = True
-                combined_review["due_diligence"]["nfa_regulatory_actions"]["status"] = "Exact matches found"
-            else:
-                combined_review["due_diligence"]["nfa_regulatory_actions"]["status"] = (
-                    f"Records found but no matches for '{searched_name}'" if nfa_result.get("raw_data") else "No records found"
-                )
+                logger.debug(f"Added {len(nfa_actions)} NFA regulatory actions")
 
+        logger.debug(f"Combined regulatory review result: {json.dumps(combined_review, indent=2)}")
         if combined_review["actions"]:
             logger.info(f"Combined regulatory review completed for {combined_review['primary_name']} with {len(combined_review['actions'])} matching actions")
         else:
