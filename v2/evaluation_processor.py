@@ -37,6 +37,11 @@ class AlertSeverity(Enum):
     HIGH = "High"
     INFO = "INFO"
 
+class MatchThreshold(Enum):
+    STRICT = 90.0
+    MODERATE = 80.0
+    LENIENT = 70.0
+
 @dataclass
 class Alert:
     alert_type: str
@@ -73,22 +78,22 @@ for formal_name, nicknames in nickname_dict.items():
     for nickname in nicknames:
         reverse_nickname_dict.setdefault(nickname, set()).add(formal_name)
 
-def parse_name(name_input: Any) -> Dict[str, Optional[str]]:
-    if isinstance(name_input, dict):
-        return {
-            "first": name_input.get("first"),
-            "middle": name_input.get("middle"),
-            "last": name_input.get("last")
-        }
-    if isinstance(name_input, str):
-        parts = name_input.strip().split()
-        if len(parts) == 0:
-            return {"first": None, "middle": None, "last": None}
-        elif len(parts) == 1:
-            return {"first": parts[0], "middle": None, "last": None}
-        elif len(parts) == 2:
+def parse_name(name: str) -> Dict[str, Optional[str]]:
+    """Parse a name into first, middle, and last components, handling 'Last, First' format."""
+    name = name.strip()
+    parts = [part.strip() for part in name.split(",")] if "," in name else name.split()
+    
+    if len(parts) == 1:
+        return {"first": parts[0], "middle": None, "last": None}
+    elif len(parts) == 2:
+        if "," in name:  # "Last, First" format
+            return {"first": parts[1], "middle": None, "last": parts[0]}
+        else:  # "First Last" format
             return {"first": parts[0], "middle": None, "last": parts[1]}
-        else:
+    elif len(parts) >= 3:
+        if "," in name:  # "Last, First Middle" format
+            return {"first": parts[1], "middle": " ".join(parts[2:]), "last": parts[0]}
+        else:  # "First Middle Last" format
             return {"first": parts[0], "middle": " ".join(parts[1:-1]), "last": parts[-1]}
     return {"first": None, "middle": None, "last": None}
 
@@ -627,9 +632,23 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
             return False, explanation, alerts
 
     if due_diligence:
-        nfa_dd = due_diligence.get("nfa_regulatory_actions", {})
+        # Handle both nested and flat due_diligence structures
+        nfa_dd = due_diligence.get("nfa_regulatory_actions", due_diligence if "searched_name" in due_diligence else {})
         total_records = nfa_dd.get("records_found", 0)
         total_filtered = nfa_dd.get("records_filtered", 0)
+        status = nfa_dd.get("status", "No records found")
+
+        if "failure" in status.lower():
+            alert = Alert(
+                alert_type="Regulatory Search Info",
+                severity=AlertSeverity.MEDIUM,
+                metadata={"due_diligence": due_diligence},
+                description=f"Regulatory record processing failed for {name}: {status}. Review raw data.",
+                alert_category=determine_alert_category("Regulatory Search Info")
+            )
+            alerts.append(alert)
+            explanation = f"No matching regulatory records found for {name}, processing failed: {status}."
+            return True, explanation, alerts
         
         if total_records > 10 and total_filtered == total_records:
             alert = Alert(
