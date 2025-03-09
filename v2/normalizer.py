@@ -13,38 +13,14 @@ It handles:
 import json
 import logging
 from typing import Dict, Any, List, Optional
-from evaluation_processor import evaluate_name, parse_name
+from evaluation_processor import evaluate_name, MatchThreshold  # Use MatchThreshold from evaluation_processor
 from datetime import datetime
-from enum import Enum
 
 logger = logging.getLogger("normalizer")
 
 class NormalizationError(Exception):
     """Exception raised for errors during normalization."""
     pass
-
-class MatchThreshold(Enum):
-    """
-    Enumeration defining name matching thresholds with descriptions for developer guidance.
-
-    - LOOSE: Score >= 50.0
-        Description: Matches names with moderate similarity (e.g., same last name or first name with variations).
-        Use Case: Broad searches where partial matches are acceptable, such as identifying potential aliases.
-        Risk: Higher false positives; may include unrelated individuals.
-
-    - STRICT: Score >= 80.0 (default)
-        Description: Requires strong similarity, typically matching both first and last names with minor variations.
-        Use Case: Standard compliance checks where precision is balanced with reasonable flexibility.
-        Risk: May miss some valid matches with typos or nickname variations.
-
-    - STRICTEST: Score >= 95.0
-        Description: Demands near-exact matches, allowing only minimal differences (e.g., exact name with optional middle).
-        Use Case: High-stakes scenarios requiring certainty, such as legal or regulatory enforcement.
-        Risk: Higher false negatives; may exclude valid matches with slight discrepancies.
-    """
-    LOOSE = 50.0
-    STRICT = 80.0
-    STRICTEST = 95.0
 
 def create_individual_record(
     data_source: str,
@@ -72,6 +48,7 @@ def create_individual_record(
     Note: 'fetched_name' and 'other_names' are designed to be passed to evaluate_name for matching
     against an expected name, producing names_found, name_scores, exact_match_found, and status.
     """
+    logger.debug(f"Entering create_individual_record for {data_source} with basic_info={json.dumps(basic_info, indent=2)}")
     extracted_info = {
         "fetched_name": "",
         "other_names": [],
@@ -98,6 +75,7 @@ def create_individual_record(
         return extracted_info
 
     individual = hits_list[0].get("_source", {})
+    logger.debug(f"Extracted individual data: {json.dumps(individual, indent=2)}")
 
     # Name fields
     first_name = individual.get('ind_firstname', '').upper()
@@ -106,15 +84,19 @@ def create_individual_record(
     fetched_name = " ".join(filter(None, [first_name, middle_name, last_name]))
     extracted_info["fetched_name"] = fetched_name
     extracted_info["other_names"] = individual.get("ind_other_names", [])
+    logger.debug(f"Parsed fetched_name: '{fetched_name}', other_names: {extracted_info['other_names']}")
 
     # Scopes and CRD
     extracted_info["bc_scope"] = individual.get("ind_bc_scope", "")
     extracted_info["ia_scope"] = individual.get("ind_ia_scope", "")
     extracted_info["crd_number"] = str(individual.get("ind_source_id", "")) if individual.get("ind_source_id") else None
+    logger.debug(f"Scopes: bc_scope='{extracted_info['bc_scope']}', ia_scope='{extracted_info['ia_scope']}', crd_number='{extracted_info['crd_number']}'")
 
     if not detailed_info:
         logger.warning(f"No detailed_info provided for {data_source}. Skipping detailed fields.")
         return extracted_info
+
+    logger.debug(f"Processing detailed_info: {json.dumps(detailed_info, indent=2)}")
 
     # Helper function to normalize employments with firm_id as string
     def normalize_employment(emp: Dict[str, Any], status: str, emp_type: str) -> Dict[str, Any]:
@@ -137,11 +119,13 @@ def create_individual_record(
         }
         if status == "previous":
             normalized["registration_end_date"] = emp.get("registrationEndDate")
+        logger.debug(f"Normalized employment: {json.dumps(normalized, indent=2)}")
         return normalized
 
     # 10-year cutoff for IAPD employment history
-    current_date = datetime(2025, 3, 5)  # Current date per system info
+    current_date = datetime(2025, 3, 9)  # Updated to match current date from your context
     ten_years_ago = current_date.replace(year=current_date.year - 10)
+    logger.debug(f"Using 10-year cutoff: {ten_years_ago}")
 
     # Source-specific parsing
     if data_source == "BrokerCheck":
@@ -161,6 +145,7 @@ def create_individual_record(
             for emp in detailed_info.get("previousEmployments", []):
                 employments.append(normalize_employment(emp, "previous", "registered_firm"))
             extracted_info["employments"] = employments
+            logger.debug(f"Flat structure employments: {len(employments)} entries")
 
         # Handle nested structure
         elif "hits" in detailed_info:
@@ -170,6 +155,7 @@ def create_individual_record(
                 content_str = detailed_hits[0]["_source"].get("content", "")
                 try:
                     content_json = json.loads(content_str)
+                    logger.debug(f"Parsed nested content: {json.dumps(content_json, indent=2)}")
                 except json.JSONDecodeError as e:
                     logger.warning(f"Failed to parse BrokerCheck 'content' JSON: {e}")
                     content_json = {}
@@ -180,6 +166,7 @@ def create_individual_record(
                 for emp in content_json.get("previousEmployments", []):
                     employments.append(normalize_employment(emp, "previous", "registered_firm"))
                 extracted_info["employments"] = employments
+                logger.debug(f"Nested structure employments: {len(employments)} entries")
             else:
                 logger.info("BrokerCheck detailed_info had no hits. No employments extracted.")
         else:
@@ -190,6 +177,7 @@ def create_individual_record(
         iacontent_str = individual.get("iacontent", "{}")
         try:
             iacontent_data = json.loads(iacontent_str)
+            logger.debug(f"Parsed iacontent from basic_info: {json.dumps(iacontent_data, indent=2)}")
         except json.JSONDecodeError as e:
             logger.warning(f"IAPD basic_info iacontent parse error: {e}")
             iacontent_data = {}
@@ -197,6 +185,7 @@ def create_individual_record(
         employments = []
         for emp in iacontent_data.get("currentIAEmployments", []):
             employments.append(normalize_employment(emp, "current", "registered_firm"))
+        logger.debug(f"Basic_info iacontent employments: {len(employments)} entries")
 
         # Handle flat structure
         if "disclosures" in detailed_info:
@@ -221,12 +210,16 @@ def create_individual_record(
                         end_date = datetime.strptime(end_date_str, "%m/%d/%Y")
                         if end_date >= ten_years_ago:
                             employments.append(normalized_emp)
+                            logger.debug(f"Included previous employment ending {end_date_str} (within 10 years)")
+                        else:
+                            logger.debug(f"Excluded previous employment ending {end_date_str} (older than 10 years)")
                     except ValueError:
                         logger.warning(f"Invalid registrationEndDate format: {end_date_str}")
                         employments.append(normalized_emp)  # Include if parsing fails
                 else:
                     employments.append(normalized_emp)  # Include if no end date
             extracted_info["employments"] = employments
+            logger.debug(f"Flat structure employments: {len(employments)} entries")
 
         # Handle nested structure
         elif "hits" in detailed_info:
@@ -236,6 +229,7 @@ def create_individual_record(
                 iapd_detailed_content_str = detailed_hits[0]["_source"].get("iacontent", "{}")
                 try:
                     iapd_detailed_content_data = json.loads(iapd_detailed_content_str)
+                    logger.debug(f"Parsed nested iacontent: {json.dumps(iapd_detailed_content_data, indent=2)}")
                 except json.JSONDecodeError as e:
                     logger.warning(f"IAPD detailed_info iacontent parse error: {e}")
                     iapd_detailed_content_data = {}
@@ -259,12 +253,16 @@ def create_individual_record(
                             end_date = datetime.strptime(end_date_str, "%m/%d/%Y")
                             if end_date >= ten_years_ago:
                                 employments.append(normalized_emp)
+                                logger.debug(f"Included previous employment ending {end_date_str} (within 10 years)")
+                            else:
+                                logger.debug(f"Excluded previous employment ending {end_date_str} (older than 10 years)")
                         except ValueError:
                             logger.warning(f"Invalid registrationEndDate format: {end_date_str}")
                             employments.append(normalized_emp)
                     else:
                         employments.append(normalized_emp)
                 extracted_info["employments"] = employments
+                logger.debug(f"Nested structure employments: {len(employments)} entries")
             else:
                 logger.info("IAPD detailed_info had no hits. Using basic_info's iacontent.")
                 extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
@@ -274,7 +272,9 @@ def create_individual_record(
             extracted_info["disclosures"] = iacontent_data.get("disclosures", [])
             extracted_info["arbitrations"] = iacontent_data.get("arbitrations", [])
             extracted_info["employments"] = employments
+            logger.debug(f"Defaulted to iacontent employments: {len(employments)} entries")
 
+    logger.debug(f"Normalized individual record from {data_source}: {json.dumps(extracted_info, indent=2)}")
     return extracted_info
 
 def create_disciplinary_record(
@@ -293,6 +293,7 @@ def create_disciplinary_record(
     :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
     :return: Normalized dictionary with actions and due_diligence.
     """
+    logger.debug(f"Entering create_disciplinary_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
     result = {
         "actions": [],
         "due_diligence": {
@@ -306,23 +307,34 @@ def create_disciplinary_record(
         },
         "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} disciplinary data for {searched_name} with threshold {threshold.name}")
+    logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
         return result
 
-    raw_results = data.get("result", []) if isinstance(data, dict) else data
+    # Handle nested structure: extract "result" if present
+    raw_results = data
+    if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict) and "result" in data[0]:
+        raw_results = data[0]["result"]
+        logger.debug(f"{data_source} data is a nested list, using 'result' key")
+    elif isinstance(data, dict) and "result" in data:
+        raw_results = data["result"]
+    elif not isinstance(data, list):
+        logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
+        return result
+
     if raw_results == "No Results Found" or not raw_results:
         logger.info(f"No results found in {data_source} for {searched_name}")
         return result
 
     if not isinstance(raw_results, list):
-        logger.warning(f"Unexpected result format in {data_source}: {raw_results}")
+        logger.warning(f"Unexpected {data_source} result format: {raw_results}")
         return result
 
     due_diligence = result["due_diligence"]
     due_diligence["records_found"] = len(raw_results)
+    logger.debug(f"Found {due_diligence['records_found']} records")
 
     for record in raw_results:
         if not isinstance(record, dict):
@@ -330,6 +342,7 @@ def create_disciplinary_record(
             due_diligence["records_filtered"] += 1
             continue
 
+        logger.debug(f"Processing record: {json.dumps(record, indent=2)}")
         normalized_record = {}
         respondent_name = None
         if data_source == "FINRA_Disciplinary":
@@ -351,22 +364,32 @@ def create_disciplinary_record(
             }
             respondent_name = record.get("Name", "")
 
+        logger.debug(f"Extracted respondent_name: '{respondent_name}'")
         if respondent_name:
-            name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
-            dd = name_eval["due_diligence"]
-            due_diligence["names_found"].append(respondent_name)
-            due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
-            if dd["exact_match_found"]:
-                result["actions"].append(normalized_record)
-                due_diligence["exact_match_found"] = True
-                logger.debug(f"Matched disciplinary record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
+            try:
+                name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+                dd = name_eval["due_diligence"]
+                logger.debug(f"Name evaluation result for '{respondent_name}': {json.dumps(dd, indent=2)}")
+                due_diligence["names_found"].append(respondent_name)
+                due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
+                if dd["exact_match_found"]:
+                    result["actions"].append(normalized_record)
+                    due_diligence["exact_match_found"] = True
+                    logger.debug(f"Matched disciplinary record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
+            except Exception as e:
+                logger.error(f"Failed to evaluate name '{respondent_name}' against '{searched_name}': {str(e)}")
+                due_diligence["names_found"].append(respondent_name)
+                due_diligence["name_scores"][respondent_name] = 0.0
+                due_diligence["status"] = f"Partial failure: Error processing '{respondent_name}'"
         else:
             due_diligence["records_filtered"] += 1
             logger.debug(f"Skipped disciplinary record {normalized_record['case_id']} - no respondent name")
 
     due_diligence["records_filtered"] = due_diligence["records_found"] - len(result["actions"])
-    due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
+    if not due_diligence["status"].startswith("Partial failure"):
+        due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
 
+    logger.debug(f"Final due_diligence for {data_source}: {json.dumps(due_diligence, indent=2)}")
     return result
 
 def create_arbitration_record(
@@ -385,6 +408,7 @@ def create_arbitration_record(
     :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
     :return: Normalized dictionary with actions and due_diligence.
     """
+    logger.debug(f"Entering create_arbitration_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
     result = {
         "actions": [],
         "due_diligence": {
@@ -398,19 +422,24 @@ def create_arbitration_record(
         },
         "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} arbitration data for {searched_name} with threshold {threshold.name}")
+    logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
         return result
 
-    if isinstance(data, dict):
-        raw_results = data.get("result", [])
+    # Handle nested structure: extract "result" if present
+    raw_results = data
+    if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict) and "result" in data[0]:
+        raw_results = data[0]["result"]
+        logger.debug(f"{data_source} data is a nested list, using 'result' key")
+    elif isinstance(data, dict) and "result" in data:
+        raw_results = data["result"]
     elif isinstance(data, list):
         logger.debug(f"{data_source} data is a raw list, treating as results")
         raw_results = data
     else:
-        logger.warning(f"Unexpected {data_source} data format: {type(data)}")
+        logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
         return result
 
     if raw_results == "No Results Found" or not raw_results:
@@ -423,6 +452,7 @@ def create_arbitration_record(
 
     due_diligence = result["due_diligence"]
     due_diligence["records_found"] = len(raw_results)
+    logger.debug(f"Found {due_diligence['records_found']} records")
 
     for record in raw_results:
         if not isinstance(record, dict):
@@ -430,6 +460,7 @@ def create_arbitration_record(
             due_diligence["records_filtered"] += 1
             continue
 
+        logger.debug(f"Processing record: {json.dumps(record, indent=2)}")
         normalized_record = {}
         respondent_names = []
 
@@ -460,26 +491,37 @@ def create_arbitration_record(
             }
             respondent_names = [searched_name]  # Explicitly score searched_name
 
+        logger.debug(f"Extracted respondent_names: {respondent_names}")
         if respondent_names:
+            matched = False
             for respondent_name in respondent_names:
-                name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
-                dd = name_eval["due_diligence"]
-                due_diligence["names_found"].append(respondent_name)
-                due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
-                if dd["exact_match_found"]:
-                    normalized_record["matched_name"] = respondent_name
-                    result["actions"].append(normalized_record)
-                    due_diligence["exact_match_found"] = True
-                    logger.debug(f"Matched arbitration record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
-                    break
-            else:
+                try:
+                    name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+                    dd = name_eval["due_diligence"]
+                    logger.debug(f"Name evaluation result for '{respondent_name}': {json.dumps(dd, indent=2)}")
+                    due_diligence["names_found"].append(respondent_name)
+                    due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
+                    if dd["exact_match_found"]:
+                        normalized_record["matched_name"] = respondent_name
+                        result["actions"].append(normalized_record)
+                        due_diligence["exact_match_found"] = True
+                        matched = True
+                        logger.debug(f"Matched arbitration record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
+                        break
+                except Exception as e:
+                    logger.error(f"Failed to evaluate name '{respondent_name}' against '{searched_name}': {str(e)}")
+                    due_diligence["names_found"].append(respondent_name)
+                    due_diligence["name_scores"][respondent_name] = 0.0
+                    due_diligence["status"] = f"Partial failure: Error processing '{respondent_name}'"
+            if not matched:
                 due_diligence["records_filtered"] += 1
+                logger.debug(f"Record {normalized_record['case_id']} not matched")
         else:
             due_diligence["records_filtered"] += 1
             logger.debug(f"No respondents found in {normalized_record['case_id']}, skipping match")
 
     due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
-
+    logger.debug(f"Final due_diligence for {data_source}: {json.dumps(due_diligence, indent=2)}")
     return result
 
 def create_regulatory_record(
@@ -488,16 +530,7 @@ def create_regulatory_record(
     searched_name: str,
     threshold: MatchThreshold = MatchThreshold.STRICT
 ) -> Dict[str, Any]:
-    """
-    Normalize NFA regulatory data into a consistent structure.
-    Includes due_diligence section aligning with FINRA name handling convention.
-
-    :param data_source: Source of the data (e.g., "NFA").
-    :param data: Raw data from the source.
-    :param searched_name: Name to match against respondent names.
-    :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
-    :return: Normalized dictionary with actions and due_diligence.
-    """
+    logger.debug(f"Entering create_regulatory_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
     result = {
         "actions": [],
         "due_diligence": {
@@ -511,13 +544,22 @@ def create_regulatory_record(
         },
         "raw_data": [data] if not isinstance(data, list) else data
     }
-    logger.debug(f"Normalizing {data_source} regulatory data for {searched_name} with threshold {threshold.name}")
+    logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
         return result
 
-    raw_results = data.get("result", []) if isinstance(data, dict) else data
+    raw_results = data
+    if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict) and "result" in data[0]:
+        raw_results = data[0]["result"]
+        logger.debug(f"{data_source} data is a nested list, using 'result' key")
+    elif isinstance(data, dict) and "result" in data:
+        raw_results = data["result"]
+    elif not isinstance(data, list):
+        logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
+        return result
+
     if raw_results == "No Results Found" or not raw_results:
         logger.info(f"No results found in {data_source} for {searched_name}")
         return result
@@ -528,6 +570,7 @@ def create_regulatory_record(
 
     due_diligence = result["due_diligence"]
     due_diligence["records_found"] = len(raw_results)
+    logger.debug(f"Found {due_diligence['records_found']} records")
 
     for record in raw_results:
         if not isinstance(record, dict):
@@ -535,9 +578,10 @@ def create_regulatory_record(
             due_diligence["records_filtered"] += 1
             continue
 
+        logger.debug(f"Processing record: {json.dumps(record, indent=2)}")
         normalized_record = {
             "case_id": record.get("NFA ID", "Unknown"),
-            "date": "Unknown",  # NFA data lacks a specific date field
+            "date": "Unknown",
             "details": {
                 "action_type": "Regulatory" if record.get("Regulatory Actions") == "Yes" else "Registration",
                 "firms_individuals": record.get("Name", ""),
@@ -551,21 +595,41 @@ def create_regulatory_record(
             }
         }
         respondent_name = record.get("Name", "").strip()
+        logger.debug(f"Extracted respondent_name: '{respondent_name}'")
 
         if respondent_name:
-            name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
-            dd = name_eval["due_diligence"]
-            due_diligence["names_found"].append(respondent_name)
-            due_diligence["name_scores"][respondent_name] = dd["name_scores"][respondent_name]
-            if dd["exact_match_found"] and record.get("Regulatory Actions") == "Yes":
-                result["actions"].append(normalized_record)
-                due_diligence["exact_match_found"] = True
-                logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {dd['name_scores'][respondent_name]})")
+            try:
+                name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
+                dd = name_eval["due_diligence"]
+                logger.debug(f"Name evaluation result for '{respondent_name}': {json.dumps(dd, indent=2)}")
+                # Use the raw respondent_name as the key, but fetch the normalized score
+                normalized_name = dd["names_found"][0]  # First name in names_found is the main fetched name
+                score = dd["name_scores"].get(normalized_name, 0.0)
+                due_diligence["names_found"].append(respondent_name)
+                due_diligence["name_scores"][respondent_name] = score
+                if dd["exact_match_found"] and record.get("Regulatory Actions") == "Yes":
+                    result["actions"].append(normalized_record)
+                    due_diligence["exact_match_found"] = True
+                    logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+            except Exception as e:
+                logger.error(f"Failed to evaluate name '{respondent_name}' against '{searched_name}': {str(e)}")
+                due_diligence["names_found"].append(respondent_name)
+                due_diligence["name_scores"][respondent_name] = 0.0
+                due_diligence["status"] = f"Partial failure: Error processing '{respondent_name}'"
         else:
             due_diligence["records_filtered"] += 1
             logger.debug(f"Skipped regulatory record {normalized_record['case_id']} - no respondent name")
 
     due_diligence["records_filtered"] = due_diligence["records_found"] - len(result["actions"])
-    due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
+    if not due_diligence["status"].startswith("Partial failure"):
+        due_diligence["status"] = "Exact matches found" if due_diligence["exact_match_found"] else f"Records found but no matches for '{searched_name}'"
 
+    logger.debug(f"Final due_diligence for {data_source}: {json.dumps(due_diligence, indent=2)}")
     return result
+
+if __name__ == "__main__":
+    # Configure logging for testing
+    logging.basicConfig(level=logging.DEBUG)
+    test_data = [{"result": [{"Name": "LANEY, DANNY", "NFA ID": "0569081", "Regulatory Actions": "Yes"}]}]
+    result = create_regulatory_record("NFA_Regulatory", test_data, "Danny La")
+    print(json.dumps(result, indent=2))
