@@ -9,9 +9,9 @@ def setup_logging(debug: bool = False) -> Dict[str, logging.Logger]:
     # Define logger groups
     LOGGER_GROUPS = {
         'services': {
-            'services': 'FinancialServicesFacade',
+            'services': 'services',
             'normalizer': 'normalizer',
-            'marshaller': 'Marshaller',
+            'marshaller': 'marshaller',
             'business': 'business',
             'name_matcher': 'name_matcher'
         },
@@ -31,7 +31,17 @@ def setup_logging(debug: bool = False) -> Dict[str, logging.Logger]:
             'evaluation_director': 'evaluation_report_director'
         },
         'core': {
-            'main': 'main'
+            'main': 'main',
+            'business': 'business',
+            'services': 'services',
+            'finra_disciplinary': 'finra_disciplinary_agent',
+            'sec_disciplinary': 'sec_disciplinary_agent',
+            'finra_arbitration': 'finra_arbitration_agent',
+            'finra_brokercheck': 'finra_brokercheck_agent',
+            'nfa_basic': 'nfa_basic_agent',
+            'sec_arbitration': 'sec_arbitration_agent',
+            'sec_iapd': 'sec_iapd_agent',
+            'agent_manager': 'agent_manager'
         }
     }
 
