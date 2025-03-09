@@ -41,7 +41,8 @@ def setup_logging(debug: bool = False) -> Dict[str, logging.Logger]:
             'nfa_basic': 'nfa_basic_agent',
             'sec_arbitration': 'sec_arbitration_agent',
             'sec_iapd': 'sec_iapd_agent',
-            'agent_manager': 'agent_manager'
+            'agent_manager': 'agent_manager',
+            'evaluation_processor': 'evaluation_processor'
         }
     }
 
