@@ -541,10 +541,8 @@ def create_regulatory_record(
             "name_scores": {},
             "exact_match_found": False,
             "status": "No records found"
-        },
-        "raw_data": [data] if not isinstance(data, list) else data
+        }
     }
-    logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
@@ -579,19 +577,18 @@ def create_regulatory_record(
             continue
 
         logger.debug(f"Processing record: {json.dumps(record, indent=2)}")
+        # Parse Current Registration Types into a list
+        reg_types_str = record.get("Current Registration Types", "-")
+        registration_types = [rtype.strip() for rtype in reg_types_str.split(",")] if reg_types_str and reg_types_str != "-" else []
+
         normalized_record = {
-            "case_id": record.get("NFA ID", "Unknown"),
-            "date": "Unknown",
+            "nfa_id": record.get("NFA ID", "Unknown"),  # Changed from case_id
             "details": {
                 "action_type": "Regulatory" if record.get("Regulatory Actions") == "Yes" else "Registration",
-                "firms_individuals": record.get("Name", ""),
-                "description": (
-                    f"NFA ID {record.get('NFA ID', 'Unknown')} status: {record.get('Current NFA Membership Status', 'Unknown')}, "
-                    f"Registration: {record.get('Current Registration Types', '-')}, "
-                    f"Regulatory Actions: {record.get('Regulatory Actions', 'No')}"
-                ),
+                "firms_individuals": record.get("Name", ""),  # Kept as-is per your original
+                "registration_types": registration_types,  # New list field
                 "firm_name": record.get("Firm", ""),
-                "details_available": record.get("Details Available", "No")
+                "details_available": record.get("Details Available") == "Yes"  # Adjusted to boolean per your intent
             }
         }
         respondent_name = record.get("Name", "").strip()
@@ -602,15 +599,14 @@ def create_regulatory_record(
                 name_eval, _ = evaluate_name(searched_name, respondent_name, [], score_threshold=threshold.value)
                 dd = name_eval["due_diligence"]
                 logger.debug(f"Name evaluation result for '{respondent_name}': {json.dumps(dd, indent=2)}")
-                # Use the raw respondent_name as the key, but fetch the normalized score
-                normalized_name = dd["names_found"][0]  # First name in names_found is the main fetched name
+                normalized_name = dd["names_found"][0]
                 score = dd["name_scores"].get(normalized_name, 0.0)
                 due_diligence["names_found"].append(respondent_name)
                 due_diligence["name_scores"][respondent_name] = score
-                if dd["exact_match_found"] and record.get("Regulatory Actions") == "Yes":
+                if dd["exact_match_found"]:  # Removed "and record.get('Regulatory Actions') == 'Yes'"
                     result["actions"].append(normalized_record)
                     due_diligence["exact_match_found"] = True
-                    logger.debug(f"Matched regulatory record {normalized_record['case_id']} with {respondent_name} (score: {score})")
+                    logger.debug(f"Matched regulatory record {normalized_record['nfa_id']} with {respondent_name} (score: {score})")
             except Exception as e:
                 logger.error(f"Failed to evaluate name '{respondent_name}' against '{searched_name}': {str(e)}")
                 due_diligence["names_found"].append(respondent_name)
@@ -618,7 +614,7 @@ def create_regulatory_record(
                 due_diligence["status"] = f"Partial failure: Error processing '{respondent_name}'"
         else:
             due_diligence["records_filtered"] += 1
-            logger.debug(f"Skipped regulatory record {normalized_record['case_id']} - no respondent name")
+            logger.debug(f"Skipped regulatory record {normalized_record['nfa_id']} - no respondent name")
 
     due_diligence["records_filtered"] = due_diligence["records_found"] - len(result["actions"])
     if not due_diligence["status"].startswith("Partial failure"):

@@ -38,9 +38,9 @@ class AlertSeverity(Enum):
     INFO = "INFO"
 
 class MatchThreshold(Enum):
-    STRICT = 90.0
-    MODERATE = 80.0
-    LENIENT = 70.0
+    STRICT = 90.0    # Production: 90.0
+    MODERATE = 80.0  # Production 80.0
+    LENIENT = 70.0   # Production 70.0
 
 @dataclass
 class Alert:
@@ -613,26 +613,31 @@ def evaluate_disciplinary(actions: List[Dict[str, Any]], name: str, due_diligenc
 def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence: Optional[Dict[str, Any]] = None) -> Tuple[bool, str, List[Alert]]:
     """Evaluate NFA regulatory actions, using due_diligence from normalizer if provided."""
     alerts = []
+    regulatory_found = False
     
     if actions:
         for record in actions:
-            case_id = record.get('case_id', 'Unknown')
+            nfa_id = record.get('nfa_id', 'Unknown')  # Updated from case_id
             action_type = record.get('details', {}).get('action_type', 'Unknown')
             if action_type == "Regulatory":
+                regulatory_found = True
                 alert = Alert(
                     alert_type="Regulatory Disclosure",
                     severity=AlertSeverity.HIGH,
                     metadata={"record": record},
-                    description=f"Regulatory action found: NFA ID {case_id} for {name}.",
+                    description=f"Regulatory action found: NFA ID {nfa_id} for {name}.",
                     alert_category=determine_alert_category("Regulatory Disclosure")
                 )
                 alerts.append(alert)
-        if alerts:
+        
+        if regulatory_found:
             explanation = f"Regulatory actions found for {name}."
             return False, explanation, alerts
+        else:
+            explanation = f"No regulatory actions found for {name}; only registration records present."
+            return True, explanation, alerts
 
     if due_diligence:
-        # Handle both nested and flat due_diligence structures
         nfa_dd = due_diligence.get("nfa_regulatory_actions", due_diligence if "searched_name" in due_diligence else {})
         total_records = nfa_dd.get("records_found", 0)
         total_filtered = nfa_dd.get("records_filtered", 0)
