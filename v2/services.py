@@ -47,10 +47,18 @@ class FinancialServicesFacade:
         self._is_driver_managed = True
         logger.debug("FinancialServicesFacade initialized with WebDriver")
 
-    def __del__(self):
+    def cleanup(self):
+        """Explicitly close the WebDriver."""
         if self._is_driver_managed and hasattr(self, 'driver') and self.driver:
-            self.driver.quit()
-            logger.info("WebDriver closed")
+            try:
+                self.driver.quit()
+                logger.info("WebDriver closed")
+            except Exception as e:
+                logger.error(f"Failed to close WebDriver: {str(e)}")
+            finally:
+                self.driver = None
+                self._is_driver_managed = False    
+
 
     @staticmethod
     def _load_organizations_cache() -> Optional[List[Dict]]:

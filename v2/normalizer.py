@@ -13,7 +13,8 @@ It handles:
 import json
 import logging
 from typing import Dict, Any, List, Optional
-from evaluation_processor import evaluate_name, MatchThreshold  # Use MatchThreshold from evaluation_processor
+from evaluation_processor import evaluate_name  # Only import evaluate_name
+from common_types import MatchThreshold  # Import MatchThreshold from common_types
 from datetime import datetime
 
 logger = logging.getLogger("normalizer")
@@ -622,6 +623,8 @@ def create_regulatory_record(
 
     logger.debug(f"Final due_diligence for {data_source}: {json.dumps(due_diligence, indent=2)}")
     return result
+
+
 
 if __name__ == "__main__":
     # Configure logging for testing

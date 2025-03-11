@@ -1,4 +1,3 @@
-# api.py
 """
 ==============================================
 📌 COMPLIANCE CLAIM PROCESSING API OVERVIEW
@@ -19,13 +18,13 @@ Use endpoints like `/process-claim-basic`, `/cache/clear`, `/compliance/risk-das
 """
 
 import json
-import logging
 from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import aiohttp
 import asyncio
 
+from logger_config import setup_logging  # Import centralized logging config
 from services import FinancialServicesFacade
 from business import process_claim
 from cache_manager.cache_operations import CacheManager
@@ -33,13 +32,9 @@ from cache_manager.compliance_handler import ComplianceHandler
 from cache_manager.summary_generator import SummaryGenerator
 from cache_manager.file_handler import FileHandler
 
-# Setup logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger("api")
+# Setup logging using logger_config
+loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
+logger = loggers["api"]  # Use 'api' logger from core group
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -309,6 +304,7 @@ async def get_data_quality_report():
 def shutdown_event():
     """Clean up resources on shutdown."""
     logger.info("Shutting down API server")
+    facade.cleanup()  # Explicitly close WebDriver
 
 if __name__ == "__main__":
     import uvicorn

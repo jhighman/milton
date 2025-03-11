@@ -27,7 +27,7 @@ class EvaluationReportDirector:
         Constructs a full evaluation report by performing evaluation steps via evaluation_processor.py,
         applying skip logic, search failure logic, or full evaluation as needed.
 
-        :param claim: A dictionary containing claim data (e.g., from a CSV row).
+        :param claim: A dictionary containing claim data (e.g., from a CSV row), including employee_number.
         :param extracted_info: A dictionary of normalized data, potentially including skip_reasons.
         :return: A complete evaluation report as an OrderedDict.
         """
@@ -40,6 +40,12 @@ class EvaluationReportDirector:
             "compliance_explanation": "No search performed."
         })
         self.builder.set_search_evaluation(search_evaluation)
+
+        # Extract employee_number from claim
+        employee_number = claim.get("employee_number", None)
+        if not employee_number:
+            logger.warning("employee_number not found in claim, using 'UNKNOWN'")
+            employee_number = "UNKNOWN"
 
         # Step 2: Check for skip reasons or search failure
         skip_reasons = search_evaluation.get("skip_reasons", [])
@@ -185,7 +191,10 @@ class EvaluationReportDirector:
 
             regulatory_evaluation = extracted_info.get("regulatory_evaluation", {})
             regulatory_compliant, regulatory_explanation, regulatory_alerts = evaluate_regulatory(
-                regulatory_evaluation.get("actions", []), expected_name, regulatory_evaluation.get("due_diligence")
+                regulatory_evaluation.get("actions", []), 
+                expected_name, 
+                regulatory_evaluation.get("due_diligence"),
+                employee_number  # Pass employee_number here
             )
             regulatory_eval = {
                 "compliance": regulatory_compliant,
@@ -227,11 +236,10 @@ class EvaluationReportDirector:
             arbitration_eval.get("alerts", []) +
             regulatory_eval.get("alerts", [])
         )
-        # Filter out "Info" severity alerts for the final evaluation
         final_alerts = [alert for alert in all_alerts if alert.get("severity", "").lower() not in ["info"]]
         
         overall_risk_level = "Low"
-        for alert in final_alerts:  # Use filtered alerts for risk level
+        for alert in final_alerts:
             severity = alert.get("severity", "").lower()
             if severity == "high":
                 overall_risk_level = "High"
@@ -252,7 +260,7 @@ class EvaluationReportDirector:
                 "Immediate action required due to critical compliance issues." if not overall_compliance else
                 "No immediate action required."
             ),
-            "alerts": final_alerts  # Only include Medium and High severity alerts
+            "alerts": final_alerts
         }
         self.builder.set_final_evaluation(final_eval)
 
