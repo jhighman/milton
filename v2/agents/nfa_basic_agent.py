@@ -14,29 +14,17 @@ from bs4 import BeautifulSoup
 import logging
 from logging import Logger
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('nfa_basic_agent')
 
 """
-NFA BASIC Search Tool Agent for Individuals
+NFA BASIC Search Tool Agent for Individuals and NFA IDs
 
-This script searches for individual profiles on the NFA BASIC website.
-It can process single searches via command-line arguments or batch process
-JSON files from the 'drop' folder with the following structure:
-
-{
-    "claim": {
-        "first_name": "John",
-        "last_name": "Doe"
-    },
-    "alternate_names": [
-        ["Jane", "Doe"],
-        ["Johnny", "Doe"]
-    ]
-}
+This script searches for profiles on the NFA BASIC website using either individual names or NFA IDs.
+It can process single searches via command-line arguments or batch process JSON files from the 'drop' folder.
 """
 
 # Constants
-RUN_HEADLESS: bool = True
+RUN_HEADLESS: bool = False
 input_folder: str = './drop'
 output_folder: str = './output'
 cache_folder: str = './cache'
@@ -191,6 +179,175 @@ def search_individual(first_name: str, last_name: str, driver: webdriver.Chrome,
         driver.save_screenshot("debug_error.png")
         return {"error": str(e)}
 
+def search_nfa(nfa_id: str, driver: webdriver.Chrome, logger: Logger = logger) -> Dict[str, Any]:
+    """
+    Search for a profile in NFA BASIC using an NFA ID and extract regulatory actions.
+    """
+    search_term = nfa_id
+    print(f"Step 1: Starting NFA ID search for {search_term}")
+    logger.info("Starting NFA ID profile search", extra={"search_term": search_term})
+    
+    try:
+        print("Step 2: Navigating to NFA BASIC search page")
+        logger.debug("Navigating to NFA BASIC search page")
+        driver.get("https://www.nfa.futures.org/BasicNet/#profile")
+        
+        print("Step 3: Waiting for page to load")
+        logger.debug("Waiting for page to load")
+        WebDriverWait(driver, 30).until(
+            EC.presence_of_element_located((By.ID, "landing_search_tabs"))
+        )
+        print("Step 4: Page loaded, locating NFA ID tab")
+
+        logger.debug("Locating NFA ID tab")
+        nfa_tab = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "//ul[@id='landing_search_tabs']//a[contains(text(), 'NFA ID')]"))
+        )
+        parent_classes = nfa_tab.find_element(By.XPATH, "..").get_attribute("class")
+        if "active" not in parent_classes:
+            print("Step 5: Clicking NFA ID tab")
+            driver.execute_script("arguments[0].click();", nfa_tab)
+            logger.debug("Clicked NFA ID tab")
+            print("Step 5a: Waiting for input field after tab click")
+            # Updated to use XPath for input with placeholder="NFA ID"
+            WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, "//input[@type='search' and @placeholder='NFA ID']"))
+            )
+            print("Step 5b: Input field found")
+            time.sleep(2)  # Delay for dynamic content
+        else:
+            print("Step 5: NFA ID tab already active")
+            logger.debug("NFA ID tab already active")
+
+        print("Step 6: Entering NFA ID")
+        logger.debug("Entering NFA ID")
+        nfa_input = WebDriverWait(driver, 15).until(
+            EC.element_to_be_clickable((By.XPATH, "//input[@type='search' and @placeholder='NFA ID']"))
+        )
+        print("Step 6a: Input field located")
+        nfa_input.clear()
+        nfa_input.send_keys(nfa_id)
+        print(f"Step 6b: NFA ID '{nfa_id}' entered")
+        logger.debug("NFA ID entered", extra={"nfa_id": nfa_id})
+
+        print("Step 7: Submitting search form")
+        logger.debug("Submitting search form")
+        search_button = WebDriverWait(driver, 30).until(
+            EC.element_to_be_clickable((
+                By.CSS_SELECTOR,
+                "#nfaid button.btn.btn-primary"
+            ))
+        )
+        driver.execute_script("arguments[0].click();", search_button)
+        print("Step 7: Search submitted, waiting for profile page results")
+
+        # Retry loop for "View All Actions" button
+        logger.debug("Waiting for 'View All Actions' button with retry loop")
+        max_wait_time = 100
+        retry_interval = 10
+        start_time = time.time()
+
+        while time.time() - start_time <= max_wait_time:
+            elapsed_time = time.time() - start_time
+            print(f"Step 9: Checking for 'View All Actions' button at {elapsed_time:.1f} seconds")
+
+            try:
+                view_all_button = driver.find_element(By.ID, "view-all-actions")
+                print(f"Step 10: 'View All Actions' button found after {elapsed_time:.1f} seconds")
+                logger.debug("View All Actions button found")
+                break
+            except:
+                elapsed_time = time.time() - start_time
+                print(f"Step 10: 'View All Actions' button not found yet after {elapsed_time:.1f} seconds, retrying in {retry_interval} seconds")
+                logger.debug(f"Button not found yet, retrying in {retry_interval} seconds", 
+                            extra={"elapsed_time": elapsed_time})
+
+            if elapsed_time + retry_interval > max_wait_time:
+                print(f"Step 11: Max wait time ({max_wait_time} seconds) exceeded for button, returning 'No Results Found'")
+                logger.error("Max wait time exceeded, no button found")
+                driver.save_screenshot("debug_button_timeout.png")
+                return {"result": "No Results Found"}
+            time.sleep(retry_interval)
+
+        # Click the "View All Actions" button
+        print("Step 11: Clicking 'View All Actions' button")
+        driver.execute_script("arguments[0].click();", view_all_button)
+        logger.debug("Clicked 'View All Actions' button")
+
+        # Retry loop for Regulatory Actions table
+        logger.debug("Waiting for Regulatory Actions table with retry loop")
+        start_time = time.time()
+        while time.time() - start_time <= max_wait_time:
+            elapsed_time = time.time() - start_time
+            print(f"Step 12: Checking for actions table at {elapsed_time:.1f} seconds")
+
+            try:
+                # The table ID includes the NFA ID, so we construct it dynamically
+                table_id = f"actionsIndexTable{nfa_id}"
+                actions_table = driver.find_element(By.ID, table_id)
+                print(f"Step 13: Actions table found after {elapsed_time:.1f} seconds")
+                logger.debug("Actions table found")
+                time.sleep(1)  # Brief pause to ensure table is fully loaded
+
+                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                table = soup.find("table", id=table_id)
+                
+                if not table or not table.find("tbody"):
+                    print(f"Step 14: Table found but no tbody after {elapsed_time:.1f} seconds, retrying")
+                    logger.debug("Table found but no tbody, retrying", extra={"elapsed_time": elapsed_time})
+                else:
+                    rows = table.find("tbody").find_all("tr")
+                    if not rows:
+                        print(f"Step 14: Table found with tbody but no rows after {elapsed_time:.1f} seconds, retrying")
+                        logger.debug("Table found with tbody but no rows, retrying", extra={"elapsed_time": elapsed_time})
+                    else:
+                        print(f"Step 14: Parsing actions table with {len(rows)} rows after {elapsed_time:.1f} seconds")
+                        logger.debug("Parsing actions table")
+                        result_rows = []
+
+                        for tr in rows:
+                            cells = tr.find_all("td")
+                            # Skip spacer or incomplete rows
+                            if len(cells) < 5:
+                                continue
+                            
+                            row: Dict[str, Any] = {}
+                            # Extract data from each column safely
+                            row["Effective Date"] = cells[0].get_text(strip=True)
+                            row["Contributor"] = cells[1].get_text(strip=True)
+                            row["Action Type"] = [li.get_text(strip=True) for li in cells[2].find_all("li")]
+                            row["Case Outcome"] = [li.get_text(strip=True) for li in cells[3].find_all("li")]
+                            case_link = cells[4].find("a")
+                            row["Case #"] = case_link.get_text(strip=True) if case_link else cells[4].get_text(strip=True)
+                            row["Case Link"] = case_link["href"] if case_link else ""
+                            
+                            result_rows.append(row)
+                        
+                        print(f"Step 15: Search completed with {len(result_rows)} regulatory actions after {elapsed_time:.1f} seconds")
+                        logger.info("Search completed", extra={"nfa_id": nfa_id, "action_count": len(result_rows)})
+                        return {"result": {"nfa_id": nfa_id, "regulatory_actions": result_rows}}
+
+            except:
+                elapsed_time = time.time() - start_time
+                print(f"Step 13: Actions table not found yet after {elapsed_time:.1f} seconds, retrying in {retry_interval} seconds")
+                logger.debug(f"Table not found yet, retrying in {retry_interval} seconds", 
+                            extra={"elapsed_time": elapsed_time})
+
+            if elapsed_time + retry_interval > max_wait_time:
+                print(f"Step 14: Max wait time ({max_wait_time} seconds) exceeded for table, returning 'No Results Found'")
+                logger.error("Max wait time exceeded, no table found")
+                driver.save_screenshot("debug_table_timeout.png")
+                return {"result": "No Results Found"}
+
+            time.sleep(retry_interval)
+
+    except Exception as e:
+        print(f"Step 15: Unexpected error occurred: {str(e)}")
+        logger.error("Search failed", extra={"error": str(e)})
+        driver.save_screenshot("debug_error.png")
+        return {"error": str(e)}
+
+
 def validate_json_data(data: Any, file_path: str, logger: Logger = logger) -> Tuple[bool, str]:
     """
     Validate JSON data structure for required fields.
@@ -282,54 +439,68 @@ def handle_search_results(results: List[Dict[str, Any]], output_name: str,
     logger.debug("Results saved", extra={"output_path": output_path})
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Search NFA BASIC Individual Profiles')
+    parser = argparse.ArgumentParser(description='Search NFA BASIC Individual Profiles or NFA IDs')
     parser.add_argument('--first-name', help='First name to search')
     parser.add_argument('--last-name', help='Last name to search')
+    parser.add_argument('--nfa-id', help='NFA ID to search')
     parser.add_argument('--batch', action='store_true', help='Process JSON files in drop folder')
     parser.add_argument('--headless', action='store_true', default=RUN_HEADLESS, help='Run in headless mode')
     
     args = parser.parse_args()
 
-    # Sample data for interactive menu
     sample_searches = [
         {"first_name": "John", "last_name": "Doe", "description": "Common name (may have results)"},
         {"first_name": "Xzq", "last_name": "Yzv", "description": "Obscure name (likely no results)"},
-        {"first_name": "Mary", "last_name": "Smith", "description": "Another common name"},
+        {"nfa_id": "1234567", "description": "Sample NFA ID search"},
     ]
 
-    def run_search(first_name: str, last_name: str, headless: bool = args.headless) -> None:
-        """Helper function to execute and display a search."""
+    def run_individual_search(first_name: str, last_name: str, headless: bool = args.headless) -> None:
+        """Helper function to execute and display an individual search."""
         with create_driver(headless, logger) as driver:
             result = search_individual(first_name, last_name, driver=driver, logger=logger)
             print(f"\nSearch Results for {first_name} {last_name}:")
             print(json.dumps(result, indent=2))
 
-    # Check command-line arguments first
+    def run_nfa_search(nfa_id: str, headless: bool = args.headless) -> None:
+        """Helper function to execute and display an NFA ID search."""
+        with create_driver(headless, logger) as driver:
+            result = search_nfa(nfa_id, driver=driver, logger=logger)
+            print(f"\nSearch Results for NFA ID {nfa_id}:")
+            print(json.dumps(result, indent=2))
+
     if args.first_name and args.last_name:
-        run_search(args.first_name, args.last_name, args.headless)
+        run_individual_search(args.first_name, args.last_name, args.headless)
+    elif args.nfa_id:
+        run_nfa_search(args.nfa_id, args.headless)
     elif args.batch:
         batch_process_folder(logger)
     else:
-        # Interactive menu
         while True:
-            print("\nNFA BASIC Individual Search Tool")
+            print("\nNFA BASIC Search Tool")
             print("==================================")
             print("1. Run a sample search")
-            print("2. Perform a custom search")
-            print("3. Process JSON files in drop folder (batch mode)")
-            print("4. Exit")
-            choice = input("Enter your choice (1-4): ").strip()
+            print("2. Perform a custom individual search")
+            print("3. Perform a custom NFA ID search")
+            print("4. Process JSON files in drop folder (batch mode)")
+            print("5. Exit")
+            choice = input("Enter your choice (1-5): ").strip()
 
             if choice == "1":
                 print("\nAvailable Sample Searches:")
                 for i, sample in enumerate(sample_searches, 1):
-                    print(f"{i}. {sample['first_name']} {sample['last_name']} - {sample['description']}")
+                    if "nfa_id" in sample:
+                        print(f"{i}. NFA ID: {sample['nfa_id']} - {sample['description']}")
+                    else:
+                        print(f"{i}. {sample['first_name']} {sample['last_name']} - {sample['description']}")
                 sample_choice = input("Select a sample (1-{}): ".format(len(sample_searches))).strip()
                 try:
                     idx = int(sample_choice) - 1
                     if 0 <= idx < len(sample_searches):
                         sample = sample_searches[idx]
-                        run_search(sample["first_name"], sample["last_name"])
+                        if "nfa_id" in sample:
+                            run_nfa_search(sample["nfa_id"])
+                        else:
+                            run_individual_search(sample["first_name"], sample["last_name"])
                     else:
                         print("Invalid sample number.")
                 except ValueError:
@@ -341,18 +512,25 @@ def main() -> None:
                 if not last_name:
                     print("Error: Last name is required.")
                     continue
-                run_search(first_name, last_name)
+                run_individual_search(first_name, last_name)
 
             elif choice == "3":
+                nfa_id = input("Enter NFA ID: ").strip()
+                if not nfa_id:
+                    print("Error: NFA ID is required.")
+                    continue
+                run_nfa_search(nfa_id)
+
+            elif choice == "4":
                 print("\nRunning batch process...")
                 batch_process_folder(logger)
 
-            elif choice == "4":
+            elif choice == "5":
                 print("Exiting...")
                 break
 
             else:
-                print("Invalid choice. Please enter 1, 2, 3, or 4.")
+                print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
 
 if __name__ == "__main__":
     main()
