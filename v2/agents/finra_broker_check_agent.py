@@ -32,13 +32,8 @@ Terminology (from FINRA BrokerCheck):
 - BrokerCheck: FINRA's public tool for researching broker and firm backgrounds.
 """
 
-# Module-level logger configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-    handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
+
+logger = logging.getLogger('finra_brokercheck_agent')
 
 # Configuration for FINRA BrokerCheck API
 BROKERCHECK_CONFIG: Dict[str, Any] = {
@@ -77,6 +72,69 @@ def rate_limit(func):
         return func(*args, **kwargs)
     
     return wrapper
+
+# Request throttling delay in seconds
+
+
+def search_individual_by_firm(individual_name: str, organization_crd: str, employee_number: Optional[str] = None,
+                    logger: Logger = logger) -> Optional[Dict]:
+    """
+    Search for an individual by name within a specific firm using the firm's CRD.
+    Args:
+        individual_name: Individual's name to search for
+        employee_number: Optional identifier for logging
+        organization_crd: The firm's CRD number
+        logger: Logger instance
+    """
+    log_context = {
+        "individual_name": individual_name,
+        "organization_crd": organization_crd,
+        "employee_number": employee_number
+    }
+    logger.info("Starting FINRA BrokerCheck firm search", extra=log_context)
+
+    time.sleep(RATE_LIMIT_DELAY)
+
+    try:
+        url = BROKERCHECK_CONFIG["base_search_url"]
+        params = {
+            'query': individual_name,
+            'firm': organization_crd,
+            'start': '0',
+            'sortField': 'Relevance',
+            'sortOrder': 'Desc',
+            'type': 'Individual',
+            'investmentAdvisors': 'true',
+            'brokerDealers': 'false',
+            'isNlSearch': 'false',
+            'size': '50'
+        }
+
+        logger.debug("Fetching from BrokerCheck API", 
+                    extra={**log_context, "url": url, "params": params})
+
+        full_url = f"{url}?{'&'.join(f'{key}={value}' for key, value in params.items())}"
+        logger.debug(f"Fetching correlated firm info with URL: {full_url}")
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            data = response.json()
+            logger.info("BrokerCheck search completed successfully", 
+                       extra={**log_context, "response_data": data})
+            return data
+        elif response.status_code == 403:
+            raise RateLimitExceeded(f"Rate limit exceeded for individual '{individual_name}' at firm {organization_crd}.")
+        else:
+            logger.error(f"Error fetching correlated firm info for '{individual_name}' at firm {organization_crd} from BrokerCheck API: {response.status_code}")
+            return None
+
+    except requests.exceptions.HTTPError as e:
+        logger.error("HTTP error during fetch", 
+                    extra={**log_context, "error": str(e)})
+        return None
+    except requests.exceptions.RequestException as e:
+        logger.error("Request error during fetch", 
+                    extra={**log_context, "error": str(e)})
+        return None
 
 @rate_limit
 def search_individual(crd_number: str, employee_number: Optional[str] = None, 
