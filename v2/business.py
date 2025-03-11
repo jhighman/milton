@@ -11,25 +11,25 @@ logger = logging.getLogger("business")
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     """Determine the appropriate search strategy based on claim data."""
     individual_name = claim.get("individual_name", "")
-    crd_number = claim.get("crd_number", "")
-    organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
-    organization_name = claim.get("organization_name", "")
+    crd_number = claim.get("crd_number", "").strip()
+    organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", "")).strip()
+    organization_name = claim.get("organization_name", "").strip()
 
     claim_summary = f"claim={json.dumps(claim, default=str)}"
     logger.debug(f"Determining search strategy for {claim_summary}")
 
-    if crd_number:
+    if crd_number and organization_crd_number:
+        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}' and organization_crd_number='{organization_crd_number}'")
+        return search_with_crd_and_org_crd
+    elif crd_number:
         logger.info(f"Selected search_with_crd_only for {claim_summary} due to crd_number='{crd_number}'")
         return search_with_crd_only
+    elif individual_name and organization_crd_number:
+        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary} with individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'")
+        return search_with_crd_and_org_crd
     elif individual_name and organization_name and not organization_crd_number:
         logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_name='{organization_name}'")
         return search_with_correlated
-    elif individual_name and organization_crd_number:
-        logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'")
-        return search_with_correlated
-    elif not individual_name and not organization_crd_number and not organization_name:
-        logger.info(f"Selected search_default for {claim_summary} due to no key identifiers")
-        return search_default
     elif organization_crd_number:
         logger.info(f"Selected search_with_entity for {claim_summary} with organization_crd_number='{organization_crd_number}'")
         return search_with_entity
@@ -177,6 +177,101 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
             "compliance": False,
             "compliance_explanation": f"SEC IAPD search failed: {str(e)}",
             "error": str(e)
+        }
+
+def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
+    """Search using individual CRD and organization CRD, or name and organization CRD if individual CRD is missing."""
+    crd_number = claim.get("crd_number", "")
+    individual_name = claim.get("individual_name", "")
+    organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
+    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    
+    logger.info(f"Executing search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}' and organization_crd_number='{organization_crd_number}'")
+
+    try:
+        if crd_number:
+            # Full correlated search with both CRDs
+            broker_result = facade.search_finra_correlated(individual_name or crd_number, organization_crd_number, employee_number)
+            logger.debug(f"BrokerCheck correlated result: {json.dumps(broker_result, default=str)}")
+            if broker_result and broker_result.get("fetched_name", "").strip():
+                logger.info(f"BrokerCheck correlated search returned valid data for {employee_number}")
+                detailed_broker_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
+                return {
+                    "source": "BrokerCheck",
+                    "basic_result": broker_result,
+                    "detailed_result": detailed_broker_result if detailed_broker_result else None,
+                    "search_strategy": "search_with_crd_and_org_crd",
+                    "crd_number": crd_number,
+                    "compliance": True,
+                    "compliance_explanation": "Search completed successfully with BrokerCheck correlated data."
+                }
+            iapd_result = facade.search_sec_iapd_correlated(individual_name or crd_number, organization_crd_number, employee_number)
+            if iapd_result and iapd_result.get("fetched_name", "").strip():
+                logger.info(f"IAPD correlated search returned valid data for {employee_number}")
+                detailed_iapd_result = facade.search_sec_iapd_detailed(crd_number, employee_number)
+                return {
+                    "source": "IAPD",
+                    "basic_result": iapd_result,
+                    "detailed_result": detailed_iapd_result if detailed_iapd_result else None,
+                    "search_strategy": "search_with_crd_and_org_crd",
+                    "crd_number": crd_number,
+                    "compliance": True,
+                    "compliance_explanation": "Search completed successfully with IAPD correlated data."
+                }
+        elif individual_name:
+            # Fallback to name and organization CRD search
+            logger.info(f"No individual CRD, searching with name '{individual_name}' and org_crd '{organization_crd_number}' for {claim_summary}")
+            broker_result = facade.search_finra_correlated(individual_name, organization_crd_number, employee_number)
+            logger.debug(f"BrokerCheck name/org result: {json.dumps(broker_result, default=str)}")
+            if broker_result and broker_result.get("fetched_name", "").strip():
+                crd_number = broker_result.get("crd_number", "")
+                detailed_broker_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number) if crd_number else None
+                return {
+                    "source": "BrokerCheck",
+                    "basic_result": broker_result,
+                    "detailed_result": detailed_broker_result if detailed_broker_result else None,
+                    "search_strategy": "search_with_crd_and_org_crd",
+                    "crd_number": crd_number,
+                    "compliance": True,
+                    "compliance_explanation": "Search completed successfully with BrokerCheck using name and org CRD."
+                }
+            iapd_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
+            logger.debug(f"IAPD name/org result: {json.dumps(iapd_result, default=str)}")
+            if iapd_result and iapd_result.get("fetched_name", "").strip():
+                crd_number = iapd_result.get("crd_number", "")
+                detailed_iapd_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
+                return {
+                    "source": "IAPD",
+                    "basic_result": iapd_result,
+                    "detailed_result": detailed_iapd_result if detailed_iapd_result else None,
+                    "search_strategy": "search_with_crd_and_org_crd",
+                    "crd_number": crd_number,
+                    "compliance": True,
+                    "compliance_explanation": "Search completed successfully with IAPD using name and org CRD."
+                }
+
+        # No valid results
+        logger.info(f"No valid results found for {claim_summary} from BrokerCheck or IAPD")
+        return {
+            "source": None,
+            "basic_result": None,
+            "detailed_result": None,
+            "search_strategy": "search_with_crd_and_org_crd",
+            "crd_number": crd_number,
+            "compliance": False,
+            "compliance_explanation": "No valid data found in BrokerCheck or IAPD searches."
+        }
+
+    except Exception as e:
+        logger.error(f"Search failed for {claim_summary}: {str(e)}", exc_info=True)
+        return {
+            "source": None,
+            "basic_result": None,
+            "detailed_result": None,
+            "search_strategy": "search_with_crd_and_org_crd",
+            "crd_number": crd_number,
+            "compliance": False,
+            "compliance_explanation": f"Search failed due to an error: {str(e)}"
         }
 
 def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:

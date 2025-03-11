@@ -27,7 +27,6 @@ MANIFEST_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 RUN_HEADLESS = True
 REQUEST_LOG_FILE = "request_log.txt"
 
-
 # WebDriver setup (shared across Selenium agents)
 def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger) -> webdriver.Chrome:
     logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
@@ -44,6 +43,7 @@ def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger
     except Exception as e:
         logger.error(f"Failed to initialize Chrome WebDriver: {str(e)}")
         raise
+
 # Import agent functions
 from agents.sec_iapd_agent import (
     search_individual as sec_iapd_search,
@@ -52,13 +52,14 @@ from agents.sec_iapd_agent import (
 )
 from agents.finra_broker_check_agent import (
     search_individual as finra_bc_search, 
-    search_individual_detailed_info as finra_bc_detailed
+    search_individual_detailed_info as finra_bc_detailed,
+    search_individual_by_firm as finra_bc_search_by_firm  # New import
 )
 from agents.sec_arbitration_agent import search_individual as sec_arb_search
 from agents.finra_disciplinary_agent import search_individual as finra_disc_search
 from agents.nfa_basic_agent import (
     search_individual as nfa_search,
-    search_nfa as nfa_id_search  # Added new import
+    search_nfa as nfa_id_search
 )
 from agents.finra_arbitration_agent import search_individual as finra_arb_search
 from agents.sec_disciplinary_agent import search_individual as sec_disc_search
@@ -72,7 +73,8 @@ AGENT_SERVICES: Dict[str, Dict[str, Callable]] = {
     },
     "FINRA_BrokerCheck_Agent": {
         "search_individual": finra_bc_search,
-        "search_individual_detailed_info": finra_bc_detailed
+        "search_individual_detailed_info": finra_bc_detailed,
+        "search_individual_by_firm": finra_bc_search_by_firm  # New service
     },
     "SEC_Arbitration_Agent": {
         "search_individual": sec_arb_search
@@ -82,7 +84,7 @@ AGENT_SERVICES: Dict[str, Dict[str, Callable]] = {
     },
     "NFA_Basic_Agent": {
         "search_individual": nfa_search,
-        "search_nfa": nfa_id_search  # Added new service
+        "search_nfa": nfa_id_search
     },
     "FINRA_Arbitration_Agent": {
         "search_individual": finra_arb_search
@@ -204,10 +206,15 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
         agent_fn = AGENT_SERVICES[agent_name][service]
         start_time = time.time()
         
+        # Parameter adjustments for specific services
         if service == "search_individual_by_firm":
             if "organization_crd_number" in params:
                 params["organization_crd"] = params.pop("organization_crd_number")
-        
+            if "individual_name" not in params:
+                raise ValueError(f"Missing required 'individual_name' for {agent_name}/{service}")
+        elif service == "search_individual_by_firm" and "organization_crd" not in params:
+            raise ValueError(f"Missing required 'organization_crd' for {agent_name}/{service}")
+
         if agent_name in SELENIUM_AGENTS:
             if driver is None:
                 raise ValueError(f"Agent {agent_name} requires a WebDriver instance")
@@ -237,7 +244,7 @@ def check_cache_or_fetch(
     cache_path.mkdir(parents=True, exist_ok=True)
 
     cached_date = read_manifest(cache_path)
-    is_multiple = agent_name not in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"]
+    is_multiple = agent_name not in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"] and service != "search_individual_by_firm"
     if cached_date and is_cache_valid(cached_date):
         cached_data = load_cached_data(cache_path, is_multiple)
         if cached_data is not None:
@@ -256,7 +263,7 @@ def check_cache_or_fetch(
         save_multiple_results(cache_path, agent_name, employee_number, service, date, results)
     write_manifest(cache_path, get_manifest_timestamp())
     
-    return results[0] if len(results) == 1 else results
+    return results[0] if len(results) == 1 and not is_multiple else results
 
 # Higher-order function to create service-specific fetchers
 def create_fetcher(agent_name: str, service: str) -> Callable[[str, Dict[str, Any], Optional[webdriver.Chrome]], Union[Optional[Dict], List[Dict]]]:
@@ -275,10 +282,11 @@ fetch_agent_sec_iapd_search = create_fetcher("SEC_IAPD_Agent", "search_individua
 fetch_agent_sec_iapd_detailed = create_fetcher("SEC_IAPD_Agent", "search_individual_detailed_info")
 fetch_agent_finra_bc_search = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual")
 fetch_agent_finra_bc_detailed = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual_detailed_info")
+fetch_agent_finra_bc_search_by_firm = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual_by_firm")  # New fetcher
 fetch_agent_sec_arb_search = create_fetcher("SEC_Arbitration_Agent", "search_individual")
 fetch_agent_finra_disc_search = create_fetcher("FINRA_Disciplinary_Agent", "search_individual")
 fetch_agent_nfa_search = create_fetcher("NFA_Basic_Agent", "search_individual")
-fetch_agent_nfa_id_search = create_fetcher("NFA_Basic_Agent", "search_nfa")  # Added new fetcher
+fetch_agent_nfa_id_search = create_fetcher("NFA_Basic_Agent", "search_nfa")
 fetch_agent_finra_arb_search = create_fetcher("FINRA_Arbitration_Agent", "search_individual")
 fetch_agent_sec_iapd_correlated = create_fetcher("SEC_IAPD_Agent", "search_individual_by_firm")
 fetch_agent_sec_disc_search = create_fetcher("SEC_Disciplinary_Agent", "search_individual")
@@ -289,7 +297,8 @@ def main():
     parser.add_argument('--first-name', help='First name for custom search')
     parser.add_argument('--last-name', help='Last name for custom search')
     parser.add_argument('--crd-number', help='CRD number for custom search')
-    parser.add_argument('--nfa-id', help='NFA ID for custom search')  # Added new argument
+    parser.add_argument('--nfa-id', help='NFA ID for custom search')
+    parser.add_argument('--organization-crd', help='Organization CRD number for firm-based search')  # New argument
     parser.add_argument('--headless', action='store_true', default=RUN_HEADLESS, help='Run in headless mode')
     
     args = parser.parse_args()
@@ -298,7 +307,7 @@ def main():
         result = agent_fetcher(employee_number, params, driver)
         print(f"{agent_fetcher.__name__.replace('fetch_agent_', '')} Result:", json.dumps(result, indent=2))
 
-    if args.employee_number or args.first_name or args.last_name or args.crd_number or args.nfa_id:
+    if args.employee_number or args.first_name or args.last_name or args.crd_number or args.nfa_id or args.organization_crd:
         employee_number = args.employee_number or "EMP001"
         driver = create_driver(args.headless)
         try:
@@ -313,6 +322,8 @@ def main():
                 run_search(fetch_agent_sec_disc_search, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
             if args.nfa_id:
                 run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": args.nfa_id}, driver)
+            if args.first_name and args.organization_crd:
+                run_search(fetch_agent_finra_bc_search_by_firm, employee_number, {"individual_name": args.first_name, "organization_crd": args.organization_crd})
         finally:
             driver.quit()
             logger.info("WebDriver closed")
@@ -332,7 +343,7 @@ def main():
                     run_search(fetch_agent_sec_disc_search, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
                 elif choice == "2":
                     employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP001"
-                    search_type = input("Enter search type (1 for CRD, 2 for name, 3 for NFA ID): ").strip()
+                    search_type = input("Enter search type (1 for CRD, 2 for name, 3 for NFA ID, 4 for firm search): ").strip()
                     if search_type == "1":
                         crd_number = input("Enter CRD number: ").strip()
                         if crd_number:
@@ -357,8 +368,15 @@ def main():
                             print("NFA ID is required.")
                             continue
                         run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": nfa_id}, driver)
+                    elif search_type == "4":
+                        individual_name = input("Enter individual name (required): ").strip()
+                        organization_crd = input("Enter organization CRD number (required): ").strip()
+                        if not individual_name or not organization_crd:
+                            print("Both individual name and organization CRD are required.")
+                            continue
+                        run_search(fetch_agent_finra_bc_search_by_firm, employee_number, {"individual_name": individual_name, "organization_crd": organization_crd})
                     else:
-                        print("Invalid search type. Use 1 for CRD, 2 for name, or 3 for NFA ID.")
+                        print("Invalid search type. Use 1 for CRD, 2 for name, 3 for NFA ID, or 4 for firm search.")
                 elif choice == "3":
                     employee_number = "EMP001"
                     print("\nRunning all example searches...")
@@ -366,10 +384,11 @@ def main():
                     run_search(fetch_agent_sec_iapd_detailed, employee_number, {"crd_number": "12345"})
                     run_search(fetch_agent_finra_bc_search, employee_number, {"crd_number": "67890"})
                     run_search(fetch_agent_finra_bc_detailed, employee_number, {"crd_number": "67890"})
+                    run_search(fetch_agent_finra_bc_search_by_firm, employee_number, {"individual_name": "John Doe", "organization_crd": "123456"})
                     run_search(fetch_agent_sec_arb_search, employee_number, {"first_name": "Alice", "last_name": "Johnson"}, driver)
                     run_search(fetch_agent_finra_disc_search, employee_number, {"first_name": "John", "last_name": "Doe"}, driver)
                     run_search(fetch_agent_nfa_search, employee_number, {"first_name": "Jane", "last_name": "Smith"}, driver)
-                    run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": "1234567"}, driver)  # Added to example searches
+                    run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": "1234567"}, driver)
                     run_search(fetch_agent_finra_arb_search, employee_number, {"first_name": "Bob", "last_name": "Smith"}, driver)
                     run_search(fetch_agent_sec_iapd_correlated, employee_number, {"individual_name": "Matthew Vetto", "organization_crd": "282563"})
                     run_search(fetch_agent_sec_disc_search, employee_number, {"first_name": "Mark", "last_name": "Miller"}, driver)
