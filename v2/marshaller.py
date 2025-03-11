@@ -27,6 +27,7 @@ MANIFEST_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 RUN_HEADLESS = True
 REQUEST_LOG_FILE = "request_log.txt"
 
+
 # WebDriver setup (shared across Selenium agents)
 def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger) -> webdriver.Chrome:
     logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
@@ -36,8 +37,13 @@ def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/115.0.0.0 Safari/537.36")
-    return webdriver.Chrome(service=ChromeService(), options=options)
-
+    try:
+        driver = webdriver.Chrome(service=ChromeService(), options=options)
+        logger.info("Chrome WebDriver initialized successfully")
+        return driver
+    except Exception as e:
+        logger.error(f"Failed to initialize Chrome WebDriver: {str(e)}")
+        raise
 # Import agent functions
 from agents.sec_iapd_agent import (
     search_individual as sec_iapd_search,
@@ -50,7 +56,10 @@ from agents.finra_broker_check_agent import (
 )
 from agents.sec_arbitration_agent import search_individual as sec_arb_search
 from agents.finra_disciplinary_agent import search_individual as finra_disc_search
-from agents.nfa_basic_agent import search_individual as nfa_search
+from agents.nfa_basic_agent import (
+    search_individual as nfa_search,
+    search_nfa as nfa_id_search  # Added new import
+)
 from agents.finra_arbitration_agent import search_individual as finra_arb_search
 from agents.sec_disciplinary_agent import search_individual as sec_disc_search
 
@@ -72,7 +81,8 @@ AGENT_SERVICES: Dict[str, Dict[str, Callable]] = {
         "search_individual": finra_disc_search
     },
     "NFA_Basic_Agent": {
-        "search_individual": nfa_search
+        "search_individual": nfa_search,
+        "search_nfa": nfa_id_search  # Added new service
     },
     "FINRA_Arbitration_Agent": {
         "search_individual": finra_arb_search
@@ -218,6 +228,10 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
 def check_cache_or_fetch(
     agent_name: str, service: str, employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None
 ) -> Union[Optional[Dict], List[Dict]]:
+    if not employee_number or employee_number.strip() == "":
+        logger.error(f"Invalid employee_number: '{employee_number}' for agent {agent_name}/{service}")
+        raise ValueError(f"employee_number must be a non-empty string, got '{employee_number}'")
+    
     cache_path = build_cache_path(employee_number, agent_name, service)
     date = get_current_date()
     cache_path.mkdir(parents=True, exist_ok=True)
@@ -264,6 +278,7 @@ fetch_agent_finra_bc_detailed = create_fetcher("FINRA_BrokerCheck_Agent", "searc
 fetch_agent_sec_arb_search = create_fetcher("SEC_Arbitration_Agent", "search_individual")
 fetch_agent_finra_disc_search = create_fetcher("FINRA_Disciplinary_Agent", "search_individual")
 fetch_agent_nfa_search = create_fetcher("NFA_Basic_Agent", "search_individual")
+fetch_agent_nfa_id_search = create_fetcher("NFA_Basic_Agent", "search_nfa")  # Added new fetcher
 fetch_agent_finra_arb_search = create_fetcher("FINRA_Arbitration_Agent", "search_individual")
 fetch_agent_sec_iapd_correlated = create_fetcher("SEC_IAPD_Agent", "search_individual_by_firm")
 fetch_agent_sec_disc_search = create_fetcher("SEC_Disciplinary_Agent", "search_individual")
@@ -274,6 +289,7 @@ def main():
     parser.add_argument('--first-name', help='First name for custom search')
     parser.add_argument('--last-name', help='Last name for custom search')
     parser.add_argument('--crd-number', help='CRD number for custom search')
+    parser.add_argument('--nfa-id', help='NFA ID for custom search')  # Added new argument
     parser.add_argument('--headless', action='store_true', default=RUN_HEADLESS, help='Run in headless mode')
     
     args = parser.parse_args()
@@ -282,7 +298,7 @@ def main():
         result = agent_fetcher(employee_number, params, driver)
         print(f"{agent_fetcher.__name__.replace('fetch_agent_', '')} Result:", json.dumps(result, indent=2))
 
-    if args.employee_number or args.first_name or args.last_name or args.crd_number:
+    if args.employee_number or args.first_name or args.last_name or args.crd_number or args.nfa_id:
         employee_number = args.employee_number or "EMP001"
         driver = create_driver(args.headless)
         try:
@@ -295,6 +311,8 @@ def main():
                 run_search(fetch_agent_nfa_search, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
                 run_search(fetch_agent_finra_arb_search, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
                 run_search(fetch_agent_sec_disc_search, employee_number, {"first_name": args.first_name, "last_name": args.last_name}, driver)
+            if args.nfa_id:
+                run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": args.nfa_id}, driver)
         finally:
             driver.quit()
             logger.info("WebDriver closed")
@@ -314,7 +332,7 @@ def main():
                     run_search(fetch_agent_sec_disc_search, "EMP_TEST", {"first_name": "Mark", "last_name": "Miller"}, driver)
                 elif choice == "2":
                     employee_number = input("Enter employee number (e.g., EMP001): ").strip() or "EMP001"
-                    search_type = input("Enter search type (1 for CRD, 2 for name): ").strip()
+                    search_type = input("Enter search type (1 for CRD, 2 for name, 3 for NFA ID): ").strip()
                     if search_type == "1":
                         crd_number = input("Enter CRD number: ").strip()
                         if crd_number:
@@ -333,8 +351,14 @@ def main():
                         run_search(fetch_agent_nfa_search, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
                         run_search(fetch_agent_finra_arb_search, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
                         run_search(fetch_agent_sec_disc_search, employee_number, {"first_name": first_name, "last_name": last_name}, driver)
+                    elif search_type == "3":
+                        nfa_id = input("Enter NFA ID: ").strip()
+                        if not nfa_id:
+                            print("NFA ID is required.")
+                            continue
+                        run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": nfa_id}, driver)
                     else:
-                        print("Invalid search type. Use 1 for CRD or 2 for name.")
+                        print("Invalid search type. Use 1 for CRD, 2 for name, or 3 for NFA ID.")
                 elif choice == "3":
                     employee_number = "EMP001"
                     print("\nRunning all example searches...")
@@ -345,8 +369,10 @@ def main():
                     run_search(fetch_agent_sec_arb_search, employee_number, {"first_name": "Alice", "last_name": "Johnson"}, driver)
                     run_search(fetch_agent_finra_disc_search, employee_number, {"first_name": "John", "last_name": "Doe"}, driver)
                     run_search(fetch_agent_nfa_search, employee_number, {"first_name": "Jane", "last_name": "Smith"}, driver)
+                    run_search(fetch_agent_nfa_id_search, employee_number, {"nfa_id": "1234567"}, driver)  # Added to example searches
                     run_search(fetch_agent_finra_arb_search, employee_number, {"first_name": "Bob", "last_name": "Smith"}, driver)
                     run_search(fetch_agent_sec_iapd_correlated, employee_number, {"individual_name": "Matthew Vetto", "organization_crd": "282563"})
+                    run_search(fetch_agent_sec_disc_search, employee_number, {"first_name": "Mark", "last_name": "Miller"}, driver)
                 elif choice == "4":
                     print("Exiting...")
                     break
