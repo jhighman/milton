@@ -8,7 +8,8 @@ logger = logging.getLogger('main_config')
 DEFAULT_WAIT_TIME = 7.0
 
 canonical_fields = {
-    'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID', 'workProductNumber'],
+    'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],  # Removed 'workProductNumber'
+    'work_product_number': ['workProductNumber', 'Work Product Number', 'work_product_number', 'workProductNo'],  # New field
     'crd_number': ['CRD', 'crd_number', 'crd', 'CRD Number', 'CRDNumber', 'crdnumber', 'individualCRDNumber'],
     'first_name': ['firstName', 'First Name', 'first_name', 'fname', 'FirstName', 'first'],
     'middle_name': ['middle_name', 'Middle Name', 'middlename', 'MiddleName', 'middle', 'middleName'],
