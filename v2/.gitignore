@@ -32,6 +32,7 @@ ENV/
 .vscode/
 *.swp
 *.swo
+.cursorignore
 
 # OS
 .DS_Store
@@ -46,3 +47,6 @@ Thumbs.db
 cache/
 output/
 *.log
+logs/
+archive/
+taxonomy_output.txt
