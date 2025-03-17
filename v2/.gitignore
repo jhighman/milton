@@ -1,7 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.class
 *.so
 .Python
 build/
@@ -19,54 +19,30 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+
+# Virtual Environment
 .env
 .venv
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
 
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# IDEs and editors
+# IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-*~
+
+# OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Testing and coverage
-coverage/
-.coverage
-htmlcov/
-.pytest_cache/
-.tox/
-
-# Build and distribution
-dist/
-build/
-*.tsbuildinfo
-.next/
-out/
-
-# Logs
-logs/
+# Project specific
+cache/
+output/
 *.log
-
-# Local development
-.env.local
-.env.development
-.env.test
-.env.production
