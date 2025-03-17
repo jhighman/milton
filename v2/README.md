@@ -312,12 +312,155 @@ You can configure logging through:
 Example configuration in `config.json`:
 ```json
 {
-    "enabled_logging_groups": ["core", "agents"],
+    "enabled_logging_groups": ["services", "agents", "evaluation", "core"],
     "logging_levels": {
-        "core": "INFO",
-        "agents": "DEBUG",
-        "services": "WARNING",
-        "evaluation": "WARNING"
+        "FinancialServicesFacade": "DEBUG",
+        "normalizer": "DEBUG",
+        "marshaller": "DEBUG",
+        "nfa_basic_agent": "DEBUG",
+        "finra_disciplinary_agent": "INFO",
+        "evaluation_processor": "INFO",
+        "main": "INFO"
     }
 }
-``` 
+```
+
+### Running in Debug Mode
+
+There are several ways to enable debug logging:
+
+1. **Command Line**:
+   ```bash
+   # Run with debug logging enabled
+   python main.py --diagnostic
+   
+   # Run in headless mode with debug logging
+   python main.py --diagnostic --headless
+   ```
+
+2. **Interactive Menu**:
+   - Launch the application: `python main.py`
+   - Select option 6 (Set trace mode) to enable DEBUG level for all components
+   - Or use option 4 (Manage logging groups) to enable DEBUG for specific components
+
+3. **Configuration File**:
+   Modify `config.json` to enable debug logging permanently:
+   ```json
+   {
+       "enabled_logging_groups": ["core", "agents", "services", "evaluation"],
+       "logging_levels": {
+           "core": "DEBUG",
+           "agents": "DEBUG",
+           "services": "DEBUG",
+           "evaluation": "DEBUG"
+       }
+   }
+   ```
+
+Debug logs will be written to:
+- Console output
+- `logs/app.log` (rotated when size exceeds 10MB)
+
+**Note**: Debug mode generates verbose output and may impact performance. Use selectively when troubleshooting specific issues.
+
+### Running Individual Agents
+
+#### NFA Basic Agent
+You can run the NFA Basic Agent directly for testing:
+
+```bash
+# Basic run with a single search
+python agents/nfa_basic_agent.py --first-name "John" --last-name "Doe"
+
+# Run with debug logging
+python agents/nfa_basic_agent.py --first-name "John" --last-name "Doe" --diagnostic
+
+# Run in batch mode (processes JSON files in drop folder)
+python agents/nfa_basic_agent.py --batch --diagnostic
+
+# Run in non-headless mode (shows browser)
+python agents/nfa_basic_agent.py --first-name "John" --last-name "Doe" --diagnostic --no-headless
+```
+
+The agent will:
+- Log detailed Selenium operations
+- Save screenshots on errors (`debug_*.png`)
+- Show wait times and page interactions
+- Output structured search results
+
+Example debug output:
+```
+DEBUG - Initializing Chrome WebDriver
+DEBUG - Navigating to NFA BASIC search page
+DEBUG - Waiting 2 seconds for page to load
+DEBUG - Locating Individual tab
+DEBUG - Entering first name: John
+DEBUG - Entering last name: Doe
+DEBUG - Submitting search form
+DEBUG - Processing search results
+INFO - Search completed, found X profiles
+```
+
+**Note**: The agent includes built-in waits (up to 45s) to handle page load times. Debug mode will show these timing details.
+
+### Configuring Logger Groups
+
+The logging system uses a nested structure of logger groups. Here's how to properly configure them:
+
+```json
+{
+    "enabled_logging_groups": ["services", "agents", "evaluation", "core"],
+    "logging_levels": {
+        "FinancialServicesFacade": "DEBUG",
+        "normalizer": "DEBUG",
+        "marshaller": "DEBUG",
+        "nfa_basic_agent": "DEBUG",
+        "finra_disciplinary_agent": "INFO",
+        "evaluation_processor": "INFO",
+        "main": "INFO"
+    }
+}
+```
+
+Logger Groups Structure:
+1. **services**
+   - FinancialServicesFacade
+   - normalizer
+   - marshaller
+   - business
+   - name_matcher
+
+2. **agents**
+   - finra_disciplinary_agent
+   - sec_disciplinary_agent
+   - finra_arbitration_agent
+   - finra_brokercheck_agent
+   - nfa_basic_agent
+   - sec_arbitration_agent
+   - sec_iapd_agent
+   - agent_manager
+
+3. **evaluation**
+   - evaluation_processor
+   - evaluation_report_builder
+   - evaluation_report_director
+
+4. **core**
+   - main
+
+To debug a specific agent (like NFA Basic):
+```bash
+# Method 1: Using config.json
+{
+    "enabled_logging_groups": ["agents"],
+    "logging_levels": {
+        "nfa_basic_agent": "DEBUG",
+        "agent_manager": "INFO"
+    }
+}
+
+# Method 2: Using command line
+python main.py --diagnostic
+```
+
+**Note**: When using `--diagnostic`, it enables DEBUG level for all loggers in all groups. For more granular control, use the config file or interactive menu. 

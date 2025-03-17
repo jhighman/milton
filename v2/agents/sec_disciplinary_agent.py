@@ -25,13 +25,7 @@ Includes a main menu with a local test option for "Mark Miller".
 """
 
 
-# Module-level logger configuration
-logging.basicConfig(
-   level=logging.INFO,
-   format='%(asctime)s | %(levelname)s | %(name)s | %(message)s',
-   handlers=[logging.StreamHandler()]
-)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('sec_disciplinary_agent')
 
 
 # Constants

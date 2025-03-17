@@ -24,6 +24,7 @@ from marshaller import (
     fetch_agent_finra_arb_search,
     fetch_agent_sec_iapd_correlated,
     fetch_agent_sec_disc_search,
+    fetch_agent_finra_bc_search_by_firm,
     create_driver,
 )
 from normalizer import (
@@ -134,7 +135,21 @@ class FinancialServicesFacade:
             return normalized
         logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in SEC IAPD correlated search")
         return None
-
+    
+    def search_finra_correlated(self, individual_name: str, organization_crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        logger.info(f"Fetching FINRA correlated info for {individual_name} at organization {organization_crd_number}, Employee: {employee_number}")
+        result = fetch_agent_finra_bc_search_by_firm(employee_number, {
+            "individual_name": individual_name,
+            "organization_crd": organization_crd_number
+        })
+        logger.debug(f"Raw result from fetch_agent_finra_bc_search_by_firm: {json.dumps(result, indent=2)}")
+        if result:
+            logger.info(f"Successfully fetched FINRA correlated data for {individual_name} at organization {organization_crd_number}")
+            normalized = self._normalize_individual_record("FINRA", result)
+            return normalized
+        logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in FINRA correlated search")
+        return None
+    
     def search_finra_brokercheck_individual(self, crd_number: str, employee_number: Optional[str] = None) -> Optional[Dict]:
         logger.info(f"Fetching FINRA BrokerCheck basic info for CRD: {crd_number}, Employee: {employee_number}")
         basic_result = fetch_agent_finra_bc_search(employee_number, {"crd_number": crd_number})

@@ -31,26 +31,22 @@ for formal_name, nicknames in nickname_dict.items():
     for nickname in nicknames:
         reverse_nickname_dict.setdefault(nickname, set()).add(formal_name)
 
-def parse_name(name_input: Any) -> Dict[str, Optional[str]]:
-    """
-    Convert a name input (string or dict) into a standardized dict with keys:
-    'first', 'middle', 'last'.
-    """
-    if isinstance(name_input, dict):
-        return {
-            "first": name_input.get("first"),
-            "middle": name_input.get("middle"),
-            "last": name_input.get("last")
-        }
-    if isinstance(name_input, str):
-        parts = name_input.strip().split()
-        if len(parts) == 0:
-            return {"first": None, "middle": None, "last": None}
-        elif len(parts) == 1:
-            return {"first": parts[0], "middle": None, "last": None}
-        elif len(parts) == 2:
+def parse_name(name: str) -> Dict[str, Optional[str]]:
+    """Parse a name into first, middle, and last components, handling 'Last, First' format."""
+    name = name.strip()
+    parts = [part.strip() for part in name.split(",")] if "," in name else name.split()
+    
+    if len(parts) == 1:
+        return {"first": parts[0], "middle": None, "last": None}
+    elif len(parts) == 2:
+        if "," in name:  # "Last, First" format
+            return {"first": parts[1], "middle": None, "last": parts[0]}
+        else:  # "First Last" format
             return {"first": parts[0], "middle": None, "last": parts[1]}
-        else:
+    elif len(parts) >= 3:
+        if "," in name:  # "Last, First Middle" format
+            return {"first": parts[1], "middle": " ".join(parts[2:]), "last": parts[0]}
+        else:  # "First Middle Last" format
             return {"first": parts[0], "middle": " ".join(parts[1:-1]), "last": parts[-1]}
     return {"first": None, "middle": None, "last": None}
 

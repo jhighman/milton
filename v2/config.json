@@ -1,6 +1,17 @@
 {
-    "evaluate_name": true,
-    "evaluate_license": true,
-    "evaluate_exams": true,
-    "evaluate_disclosures": true
+  "evaluate_name": true,
+  "evaluate_license": true,
+  "evaluate_exams": true,
+  "evaluate_disclosures": true,
+  "skip_disciplinary": false,
+  "skip_arbitration": false,
+  "skip_regulatory": false,
+  "enabled_logging_groups": [
+    "core"
+  ],
+  "logging_levels": {
+    "core": "DEBUG"
+  },
+  "config_file": "config.json",
+  "default_wait_time": 7.0
 }
