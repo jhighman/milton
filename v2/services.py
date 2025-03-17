@@ -145,7 +145,7 @@ class FinancialServicesFacade:
         logger.debug(f"Raw result from fetch_agent_finra_bc_search_by_firm: {json.dumps(result, indent=2)}")
         if result:
             logger.info(f"Successfully fetched FINRA correlated data for {individual_name} at organization {organization_crd_number}")
-            normalized = self._normalize_individual_record("FINRA", result)
+            normalized = self._normalize_individual_record("BrokerCheck", result)
             return normalized
         logger.warning(f"No data found for {individual_name} at organization {organization_crd_number} in FINRA correlated search")
         return None
