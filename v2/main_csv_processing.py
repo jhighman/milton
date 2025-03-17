@@ -237,8 +237,19 @@ class CSVProcessor:
         report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
         logger.info(f"Saving report to {report_path} (output folder)")
         try:
+            # Convert Alert objects to dictionaries
+            def convert_to_serializable(obj):
+                if hasattr(obj, '__dict__'):
+                    return {k: convert_to_serializable(v) for k, v in obj.__dict__.items()}
+                elif isinstance(obj, list):
+                    return [convert_to_serializable(item) for item in obj]
+                elif isinstance(obj, dict):
+                    return {k: convert_to_serializable(v) for k, v in obj.items()}
+                return obj
+
+            serializable_report = convert_to_serializable(report)
             with open(report_path, 'w') as f:
-                json.dump(report, f, indent=2)
+                json.dump(serializable_report, f, indent=2)
             compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
             logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
         except Exception as e:
