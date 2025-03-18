@@ -559,7 +559,7 @@ def evaluate_regulatory(actions: List[Dict[str, Any]], name: str, due_diligence:
                     logger.warning(f"employee_number is None for NFA ID {nfa_id}, using default 'UNKNOWN'")
                     employee_number = "UNKNOWN"  # TODO: Remove this once we have a way to get the employee number  
                 secondary_result = perform_regulatory_action_review(nfa_id, employee_number)
-                logger.debug(f"Secondary NFA search result for NFA ID {nfa_id}: {json.dumps(secondary_result, indent=2)}")
+                logger.debug(f"Secondary NFA search result for NFA ID {nfa_id}: {json_dumps_with_alerts(secondary_result, indent=2)}")
                 if secondary_result and isinstance(secondary_result, dict):
                     secondary_actions = secondary_result.get("actions", [])
                     if secondary_actions:
@@ -652,7 +652,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     def print_result(result):
-        print(json.dumps(result, indent=2))
+        print(json_dumps_with_alerts(result, indent=2))
 
     while True:
         print("\nEvaluation Processor Interactive Menu:")
