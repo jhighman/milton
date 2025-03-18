@@ -4,9 +4,21 @@ import logging
 from services import FinancialServicesFacade
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
+from evaluation_processor import Alert
 
 # Configure logging with detailed format
 logger = logging.getLogger("business")
+
+class AlertEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle Alert objects."""
+    def default(self, obj):
+        if isinstance(obj, Alert):
+            return obj.to_dict()
+        return super().default(obj)
+
+def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
+    """Helper function to serialize objects that may contain Alert instances."""
+    return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     """Determine the appropriate search strategy based on claim data."""
@@ -15,7 +27,7 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", "")).strip()
     organization_name = claim.get("organization_name", "").strip()
 
-    claim_summary = f"claim={json.dumps(claim, default=str)}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}"
     logger.debug(f"Determining search strategy for {claim_summary}")
 
     if crd_number and organization_crd_number:
@@ -43,15 +55,15 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
 def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using both individual and organization CRDs."""
     crd_number = claim.get("crd_number", "")
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_both_crds for {claim_summary} with crd_number='{crd_number}'")
 
     try:
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
-        logger.debug(f"SEC IAPD basic_result: {json.dumps(basic_result, default=str)}")
+        logger.debug(f"SEC IAPD basic_result: {json_dumps_with_alerts(basic_result)}")
         if basic_result and (basic_result.get("fetched_name", "").strip() or basic_result.get("crd_number")):
             detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number)
-            logger.debug(f"SEC IAPD detailed_result: {json.dumps(detailed_result, default=str)}")
+            logger.debug(f"SEC IAPD detailed_result: {json_dumps_with_alerts(detailed_result)}")
             logger.info(f"SEC IAPD returned valid data for {claim_summary}")
             return {
                 "source": "SEC_IAPD",
@@ -90,12 +102,12 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
     """Search using CRD and organization name."""
     crd_number = claim.get("crd_number", "")
     org_name = claim.get("organization_name", "")
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_crd_and_org_name for {claim_summary} with crd_number='{crd_number}', org_name='{org_name}'")
 
     try:
         broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
-        logger.debug(f"BrokerCheck result: {json.dumps(broker_result, default=str)}")
+        logger.debug(f"BrokerCheck result: {json_dumps_with_alerts(broker_result)}")
         if broker_result and broker_result.get("fetched_name", "").strip():
             logger.info(f"BrokerCheck returned valid data for {claim_summary}")
             return {
@@ -141,10 +153,10 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
     logger.info(f"No valid BrokerCheck hits, falling back to SEC IAPD for {claim_summary}")
     try:
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
-        logger.debug(f"SEC IAPD basic_result: {json.dumps(basic_result, default=str)}")
+        logger.debug(f"SEC IAPD basic_result: {json_dumps_with_alerts(basic_result)}")
         if basic_result and (basic_result.get("fetched_name", "").strip() or basic_result.get("crd_number")):
             detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number)
-            logger.debug(f"SEC IAPD detailed_result: {json.dumps(detailed_result, default=str)}")
+            logger.debug(f"SEC IAPD detailed_result: {json_dumps_with_alerts(detailed_result)}")
             logger.info(f"SEC IAPD returned valid data for {claim_summary}")
             return {
                 "source": "SEC_IAPD",
@@ -184,7 +196,7 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
     crd_number = claim.get("crd_number", "")
     individual_name = claim.get("individual_name", "")
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     
     logger.info(f"Executing search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}' and organization_crd_number='{organization_crd_number}'")
 
@@ -192,7 +204,7 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
         if crd_number:
             # Full correlated search with both CRDs
             broker_result = facade.search_finra_correlated(individual_name or crd_number, organization_crd_number, employee_number)
-            logger.debug(f"BrokerCheck correlated result: {json.dumps(broker_result, default=str)}")
+            logger.debug(f"BrokerCheck correlated result: {json_dumps_with_alerts(broker_result)}")
             if broker_result and broker_result.get("fetched_name", "").strip():
                 logger.info(f"BrokerCheck correlated search returned valid data for {employee_number}")
                 detailed_broker_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number)
@@ -222,7 +234,7 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
             # Fallback to name and organization CRD search
             logger.info(f"No individual CRD, searching with name '{individual_name}' and org_crd '{organization_crd_number}' for {claim_summary}")
             broker_result = facade.search_finra_correlated(individual_name, organization_crd_number, employee_number)
-            logger.debug(f"BrokerCheck name/org result: {json.dumps(broker_result, default=str)}")
+            logger.debug(f"BrokerCheck name/org result: {json_dumps_with_alerts(broker_result)}")
             if broker_result and broker_result.get("fetched_name", "").strip():
                 crd_number = broker_result.get("crd_number", "")
                 detailed_broker_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number) if crd_number else None
@@ -236,7 +248,7 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
                     "compliance_explanation": "Search completed successfully with BrokerCheck using name and org CRD."
                 }
             iapd_result = facade.search_sec_iapd_correlated(individual_name, organization_crd_number, employee_number)
-            logger.debug(f"IAPD name/org result: {json.dumps(iapd_result, default=str)}")
+            logger.debug(f"IAPD name/org result: {json_dumps_with_alerts(iapd_result)}")
             if iapd_result and iapd_result.get("fetched_name", "").strip():
                 crd_number = iapd_result.get("crd_number", "")
                 detailed_iapd_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
@@ -277,12 +289,12 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
 def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only CRD number, ensuring compliance reflects data retrieval."""
     crd_number = claim.get("crd_number", "")
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_crd_only for {claim_summary} with crd_number='{crd_number}'")
 
     try:
         broker_result = facade.search_finra_brokercheck_individual(crd_number, employee_number)
-        logger.debug(f"BrokerCheck result: {json.dumps(broker_result, default=str)}")
+        logger.debug(f"BrokerCheck result: {json_dumps_with_alerts(broker_result)}")
     except Exception as e:
         logger.error(f"Failed to search BrokerCheck for {claim_summary}: {str(e)}", exc_info=True)
         return {
@@ -314,10 +326,10 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
     logger.info(f"No valid BrokerCheck hits, searching SEC IAPD for {claim_summary}")
     try:
         basic_result = facade.search_sec_iapd_individual(crd_number, employee_number)
-        logger.debug(f"SEC IAPD basic_result: {json.dumps(basic_result, default=str)}")
+        logger.debug(f"SEC IAPD basic_result: {json_dumps_with_alerts(basic_result)}")
         if basic_result and (basic_result.get("fetched_name", "").strip() or basic_result.get("crd_number")):
             detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number)
-            logger.debug(f"SEC IAPD detailed_result: {json.dumps(detailed_result, default=str)}")
+            logger.debug(f"SEC IAPD detailed_result: {json_dumps_with_alerts(detailed_result)}")
             logger.info(f"SEC IAPD returned valid data for {claim_summary}")
             return {
                 "source": "SEC_IAPD",
@@ -355,7 +367,7 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
 def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only organization CRD number."""
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_entity for {claim_summary} with organization_crd_number='{organization_crd_number}'")
     logger.warning(f"Entity search not supported for {claim_summary}")
     return {
@@ -371,7 +383,7 @@ def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, e
 def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only organization name."""
     organization_name = claim.get("organization_name", "")
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_org_name_only for {claim_summary} with organization_name='{organization_name}'")
     logger.warning(f"Entity search not supported for {claim_summary}")
     return {
@@ -386,7 +398,7 @@ def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFa
 
 def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Default search when no usable fields are provided."""
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_default for {claim_summary}")
     logger.warning(f"Insufficient identifiers to perform search for {claim_summary}")
     return {
@@ -404,7 +416,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     individual_name = claim.get("individual_name", "")
     organization_name = claim.get("organization_name", "")
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
-    claim_summary = f"claim={json.dumps(claim, default=str)}, employee_number={employee_number}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     
     logger.info(f"Executing search_with_correlated for {claim_summary} with individual_name='{individual_name}', "
                 f"organization_name='{organization_name}', organization_crd_number='{organization_crd_number}'")
@@ -458,7 +470,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     logger.info(f"Resolved CRD number '{resolved_crd_number}' for {claim_summary}, delegating to search_with_crd_only")
     try:
         result = search_with_crd_only(claim, facade, employee_number)
-        logger.debug(f"search_with_crd_only returned: {json.dumps(result, default=str)} for {claim_summary}")
+        logger.debug(f"search_with_crd_only returned: {json_dumps_with_alerts(result)} for {claim_summary}")
         return result
     except Exception as e:
         logger.error(f"Delegation to search_with_crd_only failed for {claim_summary} with crd_number='{resolved_crd_number}': {str(e)}", exc_info=True)
@@ -482,7 +494,7 @@ def process_claim(
     skip_regulatory: bool = False
 ) -> Dict[str, Any]:
     """Process a claim with enhanced error handling and logging."""
-    claim_summary = f"claim={json.dumps(claim, default=str)}"
+    claim_summary = f"claim={json_dumps_with_alerts(claim)}"
     employee_number = claim.get("employee_number", employee_number or "EMP_DEFAULT")
     logger.info(f"Starting claim processing for {claim_summary}, employee_number={employee_number}, "
                 f"skip_disciplinary={skip_disciplinary}, skip_arbitration={skip_arbitration}, skip_regulatory={skip_regulatory}")
@@ -597,7 +609,7 @@ if __name__ == "__main__":
     def run_process_claim(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str = None, skip_disciplinary: bool = False, skip_arbitration: bool = False, skip_regulatory: bool = False):
         result = process_claim(claim, facade, employee_number, skip_disciplinary, skip_arbitration, skip_regulatory)
         print(f"\nResult for {claim.get('reference_id', 'Custom Claim')}:")
-        print(json.dumps(result, indent=2, default=str))
+        print(json_dumps_with_alerts(result, indent=2))
 
     while True:
         print("\nBusiness Process Interactive Menu:")
