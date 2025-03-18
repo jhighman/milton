@@ -42,21 +42,21 @@ class CSVProcessor:
                 logger.warning("Empty header name encountered")
                 continue
             header_lower = header.lower().strip()
-            logger.debug(f"Processing header: '{header}' (lowercase: '{header_lower}')")
+            logger.info(f"Processing header: '{header}' (lowercase: '{header_lower}')")
             for canonical, variants in canonical_fields.items():
                 variants_lower = [v.lower().strip() for v in variants]
-                logger.debug(f"Checking against canonical '{canonical}' variants: {variants_lower}")
+                logger.info(f"Checking against canonical '{canonical}' variants: {variants_lower}")
                 if header_lower in variants_lower:
                     resolved_headers[header] = canonical
-                    logger.debug(f"Mapped header '{header}' to '{canonical}'")
+                    logger.info(f"Mapped header '{header}' to '{canonical}'")
                     break
             else:
                 logger.warning(f"Unmapped CSV column: '{header}' will be included as-is")
                 resolved_headers[header] = header
-        logger.debug(f"Resolved headers: {json.dumps(resolved_headers, indent=2)}")
+        logger.info(f"Resolved headers: {json.dumps(resolved_headers, indent=2)}")
         unmapped_canonicals = set(canonical_fields.keys()) - set(resolved_headers.values())
         if unmapped_canonicals:
-            logger.debug(f"Canonical fields not found in CSV headers: {unmapped_canonicals}")
+            logger.info(f"Canonical fields not found in CSV headers: {unmapped_canonicals}")
         return resolved_headers
 
     def validate_row(self, claim: Dict[str, str]) -> Tuple[bool, List[str]]:
@@ -85,11 +85,11 @@ class CSVProcessor:
             with open(csv_file_path, 'r', newline='') as f:
                 reader = csv.DictReader(f)
                 resolved_headers = self.resolve_headers(reader.fieldnames)
-                logger.debug(f"Resolved headers (post-processing): {resolved_headers}")
+                logger.info(f"Resolved headers (post-processing): {resolved_headers}")
 
                 for i, row in enumerate(reader, start=2):
                     if i <= start_line:
-                        logger.debug(f"Skipping line {i} (before start_line {start_line})")
+                        logger.info(f"Skipping line {i} (before start_line {start_line})")
                         continue
                     logger.info(f"Processing {self.current_csv}, line {i}, row: {dict(row)}")
                     self.current_line = i
@@ -128,7 +128,7 @@ class CSVProcessor:
             for header, canonical in resolved_headers.items():
                 value = raw_row.get(header, '')
                 claim[canonical] = value
-                logger.debug(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
+                logger.info(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
 
             claim['individual_name'] = " ".join(
                 filter(None, [
@@ -237,19 +237,8 @@ class CSVProcessor:
         report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
         logger.info(f"Saving report to {report_path} (output folder)")
         try:
-            # Convert Alert objects to dictionaries
-            def convert_to_serializable(obj):
-                if hasattr(obj, '__dict__'):
-                    return {k: convert_to_serializable(v) for k, v in obj.__dict__.items()}
-                elif isinstance(obj, list):
-                    return [convert_to_serializable(item) for item in obj]
-                elif isinstance(obj, dict):
-                    return {k: convert_to_serializable(v) for k, v in obj.items()}
-                return obj
-
-            serializable_report = convert_to_serializable(report)
             with open(report_path, 'w') as f:
-                json.dump(serializable_report, f, indent=2)
+                json.dump(report, f, indent=2)
             compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
             logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
         except Exception as e:
