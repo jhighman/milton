@@ -250,7 +250,7 @@ class CSVProcessor:
         logger.info(f"Saving report to {report_path} (output folder)")
         try:
             with open(report_path, 'w') as f:
-                json.dump(report, f, indent=2, cls=AlertEncoder)
+                f.write(json_dumps_with_alerts(report, indent=2))
             compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
             logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
         except Exception as e:
