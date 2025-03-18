@@ -648,6 +648,17 @@ def determine_alert_category(alert_type: str) -> str:
     }
     return alert_type_to_category.get(alert_type, "status_evaluation")
 
+class AlertEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle Alert objects."""
+    def default(self, obj):
+        if isinstance(obj, Alert):
+            return obj.to_dict()
+        return super().default(obj)
+
+def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
+    """Helper function to serialize objects that may contain Alert instances."""
+    return json.dumps(obj, cls=AlertEncoder, **kwargs)
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
