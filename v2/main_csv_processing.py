@@ -14,8 +14,20 @@ from business import process_claim
 from services import FinancialServicesFacade
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
+from evaluation_processor import Alert
 
 logger = logging.getLogger('main_csv_processing')
+
+class AlertEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle Alert objects."""
+    def default(self, obj):
+        if isinstance(obj, Alert):
+            return obj.to_dict()
+        return super().default(obj)
+
+def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
+    """Helper function to serialize objects that may contain Alert instances."""
+    return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 class SkipScenario(Enum):
     NO_NAME = "Missing both first/last names and individual name"
@@ -53,7 +65,7 @@ class CSVProcessor:
             else:
                 logger.warning(f"Unmapped CSV column: '{header}' will be included as-is")
                 resolved_headers[header] = header
-        logger.info(f"Resolved headers: {json.dumps(resolved_headers, indent=2)}")
+        logger.info(f"Resolved headers: {json_dumps_with_alerts(resolved_headers, indent=2)}")
         unmapped_canonicals = set(canonical_fields.keys()) - set(resolved_headers.values())
         if unmapped_canonicals:
             logger.info(f"Canonical fields not found in CSV headers: {unmapped_canonicals}")
@@ -122,7 +134,7 @@ class CSVProcessor:
                 else:
                     raw_row[header] = str(value).strip()
 
-            logger.info(f"Raw CSV row for reference_id='{reference_id}': {json.dumps(raw_row, indent=2)}")
+            logger.info(f"Raw CSV row for reference_id='{reference_id}': {json_dumps_with_alerts(raw_row, indent=2)}")
 
             claim = {}
             for header, canonical in resolved_headers.items():
@@ -190,7 +202,7 @@ class CSVProcessor:
                 if unmapped_fields:
                     logger.warning(f"Unmapped fields in row for reference_id='{reference_id}': {unmapped_fields}")
                 
-                logger.info(f"Canonical claim for reference_id='{reference_id}': {json.dumps(claim, indent=2)}")
+                logger.info(f"Canonical claim for reference_id='{reference_id}': {json_dumps_with_alerts(claim, indent=2)}")
 
                 report = process_claim(
                     claim,
@@ -238,7 +250,7 @@ class CSVProcessor:
         logger.info(f"Saving report to {report_path} (output folder)")
         try:
             with open(report_path, 'w') as f:
-                json.dump(report, f, indent=2)
+                json.dump(report, f, indent=2, cls=AlertEncoder)
             compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
             logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
         except Exception as e:
