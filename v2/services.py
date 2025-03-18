@@ -35,12 +35,24 @@ from normalizer import (
 )
 from agents.compliance_report_agent import save_compliance_report
 from logger_config import setup_logging, reconfigure_logging  # Import your logger config
+from evaluation_processor import Alert
 
 # Set up logging using logger_config
 loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
 logger = loggers["services"]  # Use the 'services' logger from your config
 
 RUN_HEADLESS = True
+
+class AlertEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle Alert objects."""
+    def default(self, obj):
+        if isinstance(obj, Alert):
+            return obj.to_dict()
+        return super().default(obj)
+
+def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
+    """Helper function to serialize objects that may contain Alert instances."""
+    return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 class FinancialServicesFacade:
     def __init__(self):
@@ -241,7 +253,7 @@ class FinancialServicesFacade:
         logger.info(f"Saving compliance report for employee_number={employee_number}")
         success = save_compliance_report(report, employee_number)
         if success:
-            logger.debug(f"Compliance report saved: {json.dumps(report, indent=2)}")
+            logger.debug(f"Compliance report saved: {json_dumps_with_alerts(report, indent=2)}")
         else:
             logger.error("Failed to save compliance report")
         return success
