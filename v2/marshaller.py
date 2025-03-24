@@ -291,6 +291,89 @@ fetch_agent_finra_arb_search = create_fetcher("FINRA_Arbitration_Agent", "search
 fetch_agent_sec_iapd_correlated = create_fetcher("SEC_IAPD_Agent", "search_individual_by_firm")
 fetch_agent_sec_disc_search = create_fetcher("SEC_Disciplinary_Agent", "search_individual")
 
+class Marshaller:
+    """Class to manage browser automation and data fetching operations."""
+    
+    def __init__(self, headless: bool = True):
+        """Initialize the Marshaller with configurable headless mode."""
+        self.headless = headless
+        self.driver = None
+        self._is_driver_managed = False
+        self.logger = logging.getLogger("Marshaller")
+        self.logger.debug(f"Marshaller initialized with headless={headless}")
+
+    def _ensure_driver(self):
+        """Ensure WebDriver is initialized with current headless setting."""
+        if not self.driver:
+            self.driver = create_driver(headless=self.headless)
+            self._is_driver_managed = True
+            self.logger.debug("Created new WebDriver instance")
+
+    def cleanup(self):
+        """Explicitly close the WebDriver."""
+        if self._is_driver_managed and self.driver:
+            try:
+                self.driver.quit()
+                self.logger.info("WebDriver closed successfully")
+            except Exception as e:
+                self.logger.error(f"Failed to close WebDriver: {str(e)}")
+            finally:
+                self.driver = None
+                self._is_driver_managed = False
+
+    def fetch_data(self, agent_name: str, service: str, employee_number: str, params: Dict[str, Any]) -> Union[Optional[Dict], List[Dict]]:
+        """Fetch data using the specified agent and service."""
+        self._ensure_driver()
+        return check_cache_or_fetch(agent_name, service, employee_number, params, self.driver)
+
+    def __del__(self):
+        """Ensure WebDriver is cleaned up when the object is destroyed."""
+        self.cleanup()
+
+def fetch_agent_sec_iapd_search(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch SEC IAPD search results."""
+    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual", employee_number, params)
+
+def fetch_agent_sec_iapd_detailed(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch SEC IAPD detailed results."""
+    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual_detailed_info", employee_number, params)
+
+def fetch_agent_finra_bc_search(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch FINRA BrokerCheck search results."""
+    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual", employee_number, params)
+
+def fetch_agent_finra_bc_detailed(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch FINRA BrokerCheck detailed results."""
+    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual_detailed_info", employee_number, params)
+
+def fetch_agent_sec_arb_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    """Fetch SEC Arbitration search results."""
+    return check_cache_or_fetch("SEC_Arbitration_Agent", "search_individual", employee_number, params, driver)
+
+def fetch_agent_finra_disc_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    """Fetch FINRA Disciplinary search results."""
+    return check_cache_or_fetch("FINRA_Disciplinary_Agent", "search_individual", employee_number, params, driver)
+
+def fetch_agent_nfa_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    """Fetch NFA search results."""
+    return check_cache_or_fetch("NFA_Basic_Agent", "search_individual", employee_number, params, driver)
+
+def fetch_agent_finra_arb_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    """Fetch FINRA Arbitration search results."""
+    return check_cache_or_fetch("FINRA_Arbitration_Agent", "search_individual", employee_number, params, driver)
+
+def fetch_agent_sec_iapd_correlated(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch SEC IAPD correlated search results."""
+    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual_by_firm", employee_number, params)
+
+def fetch_agent_sec_disc_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
+    """Fetch SEC Disciplinary search results."""
+    return check_cache_or_fetch("SEC_Disciplinary_Agent", "search_individual", employee_number, params, driver)
+
+def fetch_agent_finra_bc_search_by_firm(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
+    """Fetch FINRA BrokerCheck search results by firm."""
+    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual_by_firm", employee_number, params)
+
 def main():
     parser = argparse.ArgumentParser(description='Marshaller for Financial Regulatory Agents')
     parser.add_argument('--employee-number', help='Employee number for the search')
