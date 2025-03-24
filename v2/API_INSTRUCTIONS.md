@@ -1,24 +1,31 @@
 # Compliance Claim Processing API Instructions
 
 ## Overview
-This FastAPI application provides endpoints for processing individual compliance claims and managing cached compliance data. It supports basic, extended, and complete processing modes, along with cache management and compliance analytics features.
+This FastAPI application provides endpoints for processing individual compliance claims and managing cached compliance data. It supports:
+- Basic, extended, and complete processing modes
+- Cache management
+- Compliance analytics features
+- Configurable headless mode for browser automation
 
 ## Prerequisites
 - Python 3.8+
 - Chrome/Chromium browser
-- ChromeDriver (compatible with your Chrome version)
-- Virtual environment (recommended)
+- ChromeDriver (matching your Chrome version)
+- Windows operating system
 
 ## Local Development Setup
 
 ### 1. Environment Setup
 ```bash
-# Create and activate virtual environment
-python -m venv myvenv
-source myvenv/bin/activate  # On Windows: myvenv\Scripts\activate
+# Create and activate virtual environment (Windows)
+python -m venv venv
+venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Install Chrome WebDriver (ensure it matches your Chrome version)
+# Add ChromeDriver to your system PATH
 ```
 
 ### 2. Running the API Locally
@@ -29,160 +36,172 @@ python -m uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 
 The API will be available at:
 - API Endpoints: http://localhost:8000
-- Swagger Documentation: http://localhost:8000/docs
-- ReDoc Documentation: http://localhost:8000/redoc
+- Interactive API Documentation: http://localhost:8000/docs
 
-### 3. Headless Mode Configuration
-The API runs in headless mode by default. You can modify this setting in two ways:
+### 3. Logging Configuration
+The API uses a structured logging system with the following groups:
+- `services`: Core services (services, normalizer, marshaller, etc.)
+- `agents`: Various agent modules (FINRA, SEC, NFA)
+- `evaluation`: Evaluation processing modules
+- `core`: Main application components
 
-1. At startup through environment variables:
-```bash
-export HEADLESS_MODE=false
-python -m uvicorn api:app --host 0.0.0.0 --port 8000 --reload
-```
+Logs are written to:
+- Console output
+- `logs/app.log` (rotated, max 10MB per file, 5 backups)
 
-2. At runtime through the API:
-```bash
-# Check current settings
-curl http://localhost:8000/settings
-
-# Update settings
-curl -X PUT http://localhost:8000/settings \
-  -H "Content-Type: application/json" \
-  -d '{"headless": false, "debug": true}'
-```
-
-## Production Deployment
-
-### 1. Security Considerations
-Before deploying to production:
-- Set up proper authentication/authorization
-- Configure CORS settings
-- Use HTTPS
-- Set up rate limiting
-- Configure proper logging
-- Use environment variables for sensitive data
-
-### 2. Production Server Setup
-For production, use a production-grade ASGI server like Gunicorn with Uvicorn workers:
-
-```bash
-# Install Gunicorn
-pip install gunicorn
-
-# Run with Gunicorn (adjust worker count based on CPU cores)
-gunicorn api:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
-```
-
-### 3. Environment Variables
-Set these environment variables in production:
-```bash
-export PRODUCTION=true
-export HEADLESS_MODE=true
-export DEBUG=false
-export LOG_LEVEL=info
-export ALLOWED_HOSTS=your-domain.com
-export MAX_WORKERS=4
-```
-
-### 4. Docker Deployment
-If using Docker:
-
-```dockerfile
-FROM python:3.8-slim
-
-# Install Chrome and ChromeDriver
-RUN apt-get update && apt-get install -y \
-    chromium \
-    chromium-driver \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-ENV HEADLESS_MODE=true
-ENV CHROME_BIN=/usr/bin/chromium
-
-# Set working directory
-WORKDIR /app
-
-# Copy requirements and install dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Copy application code
-COPY . .
-
-# Run the application
-CMD ["gunicorn", "api:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]
-```
-
-Build and run:
-```bash
-docker build -t compliance-api .
-docker run -p 8000:8000 compliance-api
-```
-
-### 5. Health Checks
-Monitor these endpoints for system health:
-- `/health`: Basic health check
-- `/metrics`: Application metrics (if implemented)
-
-### 6. Logging
-Configure proper logging in production:
+To enable debug logging:
 ```python
-# Example logging configuration
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'app.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-        },
-    },
-    'root': {
-        'handlers': ['file'],
-        'level': 'INFO',
-    },
+loggers = setup_logging(debug=True)
+```
+
+To reconfigure logging for specific groups:
+```python
+reconfigure_logging(loggers, {'services'}, {'services': 'DEBUG'})
+```
+
+### 4. Headless Mode Configuration
+The API runs in headless mode by default (True), which is recommended for production use. For debugging purposes, you can disable headless mode through the settings API endpoint.
+
+#### Checking Current Settings
+```bash
+curl http://localhost:8000/settings
+```
+Example response:
+```json
+{
+    "headless": true,
+    "debug": false
 }
 ```
 
-### 7. Monitoring
-Consider implementing:
-- Prometheus metrics
-- Error tracking (e.g., Sentry)
-- Performance monitoring
-- Resource usage alerts
+#### Disabling Headless Mode for Debugging
+```bash
+curl -X PUT http://localhost:8000/settings ^
+  -H "Content-Type: application/json" ^
+  -d "{\"headless\": false, \"debug\": true}"
+```
+
+Note: Disabling headless mode will:
+- Show browser windows during automation
+- Slow down processing
+- Consume more resources
+- May interfere with other processes
+
+It should only be used during development/debugging when you need to visually inspect the browser automation process.
+
+#### Restoring Normal Operation
+```bash
+curl -X PUT http://localhost:8000/settings ^
+  -H "Content-Type: application/json" ^
+  -d "{\"headless\": true, \"debug\": false}"
+```
+
+The API will automatically reinitialize the browser automation services when headless mode is changed, ensuring a clean state for subsequent operations.
+
+## API Usage Examples
+
+### 1. Process a Basic Claim
+```bash
+curl -X POST http://localhost:8000/process-claim-basic ^
+  -H "Content-Type: application/json" ^
+  -d "{
+    \"reference_id\": \"REF123\",
+    \"employee_number\": \"EMP456\",
+    \"first_name\": \"John\",
+    \"last_name\": \"Doe\",
+    \"organization_name\": \"ACME Corp\"
+  }"
+```
+
+### 2. Process an Extended Claim with Webhook
+```bash
+curl -X POST http://localhost:8000/process-claim-extended ^
+  -H "Content-Type: application/json" ^
+  -d "{
+    \"reference_id\": \"REF124\",
+    \"employee_number\": \"EMP457\",
+    \"first_name\": \"Jane\",
+    \"last_name\": \"Smith\",
+    \"organization_name\": \"XYZ Inc\",
+    \"webhook_url\": \"http://your-webhook.com/endpoint\"
+  }"
+```
+
+### 3. Cache Management
+```bash
+# Clear cache for specific employee
+curl -X POST http://localhost:8000/cache/clear/EMP456
+
+# List cache contents
+curl http://localhost:8000/cache/list?employee_number=EMP456&page=1&page_size=10
+
+# Clean up stale cache
+curl -X POST http://localhost:8000/cache/cleanup-stale
+```
+
+### 4. Compliance Analytics
+```bash
+# Get compliance summary for employee
+curl http://localhost:8000/compliance/summary/EMP456
+
+# Get risk dashboard
+curl http://localhost:8000/compliance/risk-dashboard
+
+# Get data quality report
+curl http://localhost:8000/compliance/data-quality
+```
 
 ## Troubleshooting
 
 ### Common Issues
 
 1. ChromeDriver Version Mismatch
-```bash
-# Check Chrome version
-google-chrome --version
-
-# Download matching ChromeDriver version
-# Update ChromeDriver path in configuration
 ```
+WARNING - The chromedriver version detected in PATH might not be compatible with the detected chrome version
+```
+Solution: Download the matching ChromeDriver version from https://chromedriver.chromium.org/downloads
 
 2. WebDriver Initialization Failures
-- Ensure Chrome/Chromium is installed
+- Ensure Chrome is installed
 - Verify ChromeDriver is in PATH
-- Check file permissions
+- Check Windows Defender or antivirus isn't blocking ChromeDriver
 
-3. Memory Issues
-- Monitor memory usage
-- Adjust worker count
-- Implement proper cleanup
+3. Logging Issues
+- Check write permissions for the `logs` directory
+- Verify log rotation is working (`logs/app.log`)
+- Use `flush_logs()` if logs aren't appearing immediately
 
 ### Getting Help
-- Check the logs: `tail -f app.log`
-- Review Swagger documentation
-- Contact support team
+1. Check the logs:
+   - Console output
+   - `logs/app.log`
+2. Enable debug logging:
+   ```python
+   loggers = setup_logging(debug=True)
+   ```
+3. Review specific logger groups:
+   ```python
+   reconfigure_logging(loggers, {'services'}, {'services': 'DEBUG'})
+   ```
+
+## Processing Modes
+
+### Basic Mode
+- Skips disciplinary reviews
+- Skips arbitration reviews
+- Skips regulatory reviews
+- Fastest processing time
+
+### Extended Mode
+- Includes disciplinary reviews
+- Includes arbitration reviews
+- Skips regulatory reviews
+- Moderate processing time
+
+### Complete Mode
+- Includes all reviews
+- Most comprehensive results
+- Longest processing time
 
 ## API Endpoints
 
