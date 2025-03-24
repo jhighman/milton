@@ -36,6 +36,10 @@ from cache_manager.file_handler import FileHandler
 loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
 logger = loggers["api"]  # Use 'api' logger from core group
 
+class Settings(BaseModel):
+    headless: bool = True
+    debug: bool = False
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Compliance Claim Processing API",
@@ -43,12 +47,46 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Global settings
+settings = Settings()
+
 # Initialize services and cache management (singleton instances for the app)
-facade = FinancialServicesFacade()
-cache_manager = CacheManager()
-file_handler = FileHandler(cache_manager.cache_folder)
-compliance_handler = ComplianceHandler(file_handler.base_path)
-summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
+facade = None
+cache_manager = None
+file_handler = None
+compliance_handler = None
+summary_generator = None
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize services with current settings on startup."""
+    global facade, cache_manager, file_handler, compliance_handler, summary_generator
+    facade = FinancialServicesFacade(headless=settings.headless)
+    cache_manager = CacheManager()
+    file_handler = FileHandler(cache_manager.cache_folder)
+    compliance_handler = ComplianceHandler(file_handler.base_path)
+    summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
+
+@app.put("/settings")
+async def update_settings(new_settings: Settings):
+    """Update API settings and reinitialize services if needed."""
+    global settings, facade
+    old_headless = settings.headless
+    settings = new_settings
+    
+    # If headless mode changed, reinitialize the facade
+    if old_headless != settings.headless:
+        if facade:
+            facade.cleanup()  # Clean up existing WebDriver
+        facade = FinancialServicesFacade(headless=settings.headless)
+        logger.info(f"Reinitialized FinancialServicesFacade with headless={settings.headless}")
+    
+    return {"message": "Settings updated", "settings": settings.dict()}
+
+@app.get("/settings")
+async def get_settings():
+    """Get current API settings."""
+    return settings.dict()
 
 # Define processing mode invariants
 PROCESSING_MODES = {

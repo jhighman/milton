@@ -12,6 +12,7 @@ import json
 import os
 from typing import Optional, Dict, Any, List
 import argparse
+import logging
 
 from marshaller import (
     fetch_agent_sec_iapd_search,
@@ -26,6 +27,7 @@ from marshaller import (
     fetch_agent_sec_disc_search,
     fetch_agent_finra_bc_search_by_firm,
     create_driver,
+    Marshaller,
 )
 from normalizer import (
     create_disciplinary_record,
@@ -55,23 +57,33 @@ def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
     return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 class FinancialServicesFacade:
-    def __init__(self):
-        self.driver = create_driver(RUN_HEADLESS)
-        self._is_driver_managed = True
-        logger.debug("FinancialServicesFacade initialized with WebDriver")
+    def __init__(self, headless: bool = True):
+        """Initialize the facade with configurable headless mode."""
+        self.headless = headless
+        self.marshaller = Marshaller(headless=headless)
+        self.driver = None
+        self._is_driver_managed = False
+        self.logger = logging.getLogger("services")
+        self.logger.debug(f"FinancialServicesFacade initialized with headless={headless}")
+
+    def _ensure_driver(self):
+        """Ensure WebDriver is initialized with current headless setting."""
+        if not self.driver:
+            self.driver = create_driver(headless=self.headless)
+            self._is_driver_managed = True
+            self.logger.debug("Created new WebDriver instance")
 
     def cleanup(self):
         """Explicitly close the WebDriver."""
-        if self._is_driver_managed and hasattr(self, 'driver') and self.driver:
+        if self._is_driver_managed and self.driver:
             try:
                 self.driver.quit()
-                logger.info("WebDriver closed")
+                self.logger.info("WebDriver closed successfully")
             except Exception as e:
-                logger.error(f"Failed to close WebDriver: {str(e)}")
+                self.logger.error(f"Failed to close WebDriver: {str(e)}")
             finally:
                 self.driver = None
-                self._is_driver_managed = False    
-
+                self._is_driver_managed = False
 
     @staticmethod
     def _load_organizations_cache() -> Optional[List[Dict]]:
