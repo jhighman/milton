@@ -1,6 +1,8 @@
 """
-Base storage provider interface for file operations.
-This module defines the abstract base class that all storage providers must implement.
+Base storage provider interface.
+
+This module defines the abstract base class for storage providers,
+which provides a common interface for both local and S3 storage operations.
 """
 
 from abc import ABC, abstractmethod
@@ -22,14 +24,14 @@ class StorageProvider(ABC):
         Read a file and return its contents as bytes.
         
         Args:
-            path (str): Path to the file to read
+            path: The path to the file to read.
             
         Returns:
-            bytes: The contents of the file
+            The contents of the file as bytes.
             
         Raises:
-            FileNotFoundError: If the file does not exist
-            IOError: If there is an error reading the file
+            FileNotFoundError: If the file does not exist.
+            IOError: If there is an error reading the file.
         """
         pass
     
@@ -39,14 +41,14 @@ class StorageProvider(ABC):
         Write content to a file.
         
         Args:
-            path (str): Path where the file should be written
-            content (Union[str, bytes, BinaryIO]): Content to write to the file
+            path: The path where the file should be written.
+            content: The content to write (string, bytes, or file-like object).
             
         Returns:
-            bool: True if successful, False otherwise
+            True if the write was successful, False otherwise.
             
         Raises:
-            IOError: If there is an error writing the file
+            IOError: If there is an error writing the file.
         """
         pass
     
@@ -56,15 +58,15 @@ class StorageProvider(ABC):
         List files in a directory, optionally filtered by pattern.
         
         Args:
-            directory (str): Directory to list files from
-            pattern (Optional[str]): Optional glob pattern to filter files
+            directory: The directory to list files from.
+            pattern: Optional glob pattern to filter files.
             
         Returns:
-            List[str]: List of file paths
+            List of file paths relative to the base directory.
             
         Raises:
-            FileNotFoundError: If the directory does not exist
-            IOError: If there is an error listing files
+            FileNotFoundError: If the directory does not exist.
+            IOError: If there is an error listing files.
         """
         pass
     
@@ -74,14 +76,14 @@ class StorageProvider(ABC):
         Delete a file.
         
         Args:
-            path (str): Path to the file to delete
+            path: The path to the file to delete.
             
         Returns:
-            bool: True if successful, False otherwise
+            True if the deletion was successful, False otherwise.
             
         Raises:
-            FileNotFoundError: If the file does not exist
-            IOError: If there is an error deleting the file
+            FileNotFoundError: If the file does not exist.
+            IOError: If there is an error deleting the file.
         """
         pass
     
@@ -91,15 +93,15 @@ class StorageProvider(ABC):
         Move a file from source to destination.
         
         Args:
-            source (str): Source path of the file
-            destination (str): Destination path for the file
+            source: The path to the source file.
+            destination: The path to the destination.
             
         Returns:
-            bool: True if successful, False otherwise
+            True if the move was successful, False otherwise.
             
         Raises:
-            FileNotFoundError: If the source file does not exist
-            IOError: If there is an error moving the file
+            FileNotFoundError: If the source file does not exist.
+            IOError: If there is an error moving the file.
         """
         pass
     
@@ -109,10 +111,13 @@ class StorageProvider(ABC):
         Check if a file exists.
         
         Args:
-            path (str): Path to check
+            path: The path to check.
             
         Returns:
-            bool: True if the file exists, False otherwise
+            True if the file exists, False otherwise.
+            
+        Raises:
+            IOError: If there is an error checking the file.
         """
         pass
     
@@ -122,13 +127,13 @@ class StorageProvider(ABC):
         Create a directory.
         
         Args:
-            path (str): Path of the directory to create
+            path: The path to the directory to create.
             
         Returns:
-            bool: True if successful, False otherwise
+            True if the directory was created successfully, False otherwise.
             
         Raises:
-            IOError: If there is an error creating the directory
+            IOError: If there is an error creating the directory.
         """
         pass
     
@@ -138,14 +143,14 @@ class StorageProvider(ABC):
         Get the size of a file in bytes.
         
         Args:
-            path (str): Path to the file
+            path: The path to the file.
             
         Returns:
-            int: Size of the file in bytes
+            The size of the file in bytes.
             
         Raises:
-            FileNotFoundError: If the file does not exist
-            IOError: If there is an error getting the file size
+            FileNotFoundError: If the file does not exist.
+            IOError: If there is an error getting the file size.
         """
         pass
     
@@ -155,13 +160,13 @@ class StorageProvider(ABC):
         Get the last modified time of a file.
         
         Args:
-            path (str): Path to the file
+            path: The path to the file.
             
         Returns:
-            float: Last modified time as a Unix timestamp
+            The last modified time as a Unix timestamp.
             
         Raises:
-            FileNotFoundError: If the file does not exist
-            IOError: If there is an error getting the modified time
+            FileNotFoundError: If the file does not exist.
+            IOError: If there is an error getting the modified time.
         """
         pass 
