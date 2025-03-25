@@ -253,6 +253,7 @@ class TestNormalizeIndividualRecord(unittest.TestCase):
         employment = result["current_ia_employments"][0]
         self.assertEqual(employment["firm_id"], "282563")
         self.assertEqual(employment["firm_name"], "DOUGLAS C. LANE & ASSOCIATES")
+        self.assertEqual(employment["registration_begin_date"], "2021-11-17")
         
         # Branch office checks from basic data
         branch = employment["branch_offices"][0]

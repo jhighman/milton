@@ -74,8 +74,8 @@ def test_create_local_provider(temp_config):
     """Test creation of local storage provider."""
     storage = StorageManager(temp_config)
     assert isinstance(storage.provider, LocalStorageProvider)
-    assert storage.provider.input_folder == "drop"
-    assert storage.provider.output_folder == "output"
+    assert str(storage.provider.input_folder) == "drop"
+    assert str(storage.provider.output_folder) == "output"
 
 def test_create_s3_provider(temp_config):
     """Test creation of S3 storage provider."""
@@ -153,7 +153,17 @@ def test_file_operations(mock_provider):
 
 def test_update_config(mock_provider):
     """Test configuration updates."""
-    with patch('storage_manager.StorageManager._create_provider', return_value=mock_provider):
+    with patch('storage_manager.StorageManager._create_provider', return_value=S3StorageProvider(
+        aws_region="us-west-2",
+        input_bucket="new-input",
+        input_prefix="new-input/",
+        output_bucket="new-output",
+        output_prefix="new-output/",
+        archive_bucket="new-archive",
+        archive_prefix="new-archive/",
+        cache_bucket="new-cache",
+        cache_prefix="new-cache/"
+    )):
         storage = StorageManager()
         
         # Update config to S3 mode

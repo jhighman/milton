@@ -12,6 +12,7 @@ from collections import OrderedDict
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import main as cp
+from main_config import DEFAULT_CONFIG
 
 class TestComplianceProcessor(unittest.TestCase):
 
@@ -20,8 +21,6 @@ class TestComplianceProcessor(unittest.TestCase):
         self.input_folder = "drop"
         self.output_folder = "output"
         self.archive_folder = "archive"
-        cp.current_csv = None
-        cp.current_line = 0
         self.logger = logging.getLogger('main')
         self.logger.handlers = []  # Clear handlers to avoid duplicate logging
         self.logger.addHandler(logging.NullHandler())
@@ -33,13 +32,13 @@ class TestComplianceProcessor(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data='{"evaluate_name": false}')
     def test_load_config_file_exists(self, mock_file):
         config = cp.load_config()
-        self.assertEqual(config, {**cp.DEFAULT_CONFIG, "evaluate_name": False})
+        self.assertEqual(config, {**DEFAULT_CONFIG, "evaluate_name": False})
 
     @patch('builtins.open', side_effect=FileNotFoundError)
     @patch('main.logger')
     def test_load_config_file_not_found(self, mock_logger, mock_file):
         config = cp.load_config()
-        self.assertEqual(config, cp.DEFAULT_CONFIG)
+        self.assertEqual(config, DEFAULT_CONFIG)
         mock_logger.warning.assert_called_once_with("Config file not found, using defaults")
 
     def test_generate_reference_id_with_crd(self):
@@ -120,11 +119,7 @@ class TestComplianceProcessor(unittest.TestCase):
         mock_logger.error.assert_called()
         mock_file.assert_called_once()
 
-    @patch('main.process_row')
-    @patch('main.get_csv_files', return_value=['test.csv'])
-    @patch('main.load_checkpoint', return_value=None)
-    @patch('main.archive_file')
-    @patch('main.load_config', return_value=cp.DEFAULT_CONFIG)
+    @patch('main.load_config', return_value=DEFAULT_CONFIG)
     @patch('builtins.open')
     def test_main_batch_processing(self, mock_file, mock_config, mock_archive, mock_checkpoint, mock_get_csv, mock_process_row):
         # Mock the config file to return valid JSON
@@ -144,11 +139,12 @@ class TestComplianceProcessor(unittest.TestCase):
                 mock_get_csv.assert_called_once()
                 mock_archive.assert_called_once_with(os.path.join(cp.INPUT_FOLDER, "test.csv"))
 
-    @patch('builtins.input', return_value="2")
-    def test_main_exit(self, mock_input):
-        with patch('builtins.print') as mock_print:
-            cp.main()
-            mock_print.assert_any_call("Exiting...")
+    @patch('main.logger')
+    def test_main_exit(self, mock_logger):
+        with patch('builtins.input', return_value="2"):
+            with patch('builtins.print') as mock_print:
+                cp.main()
+                mock_logger.info.assert_called_with("Exiting due to user choice")
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

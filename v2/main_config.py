@@ -1,3 +1,9 @@
+"""
+Main configuration module.
+
+This module defines the main configuration settings for the application.
+"""
+
 import json
 import logging
 import os
@@ -6,6 +12,33 @@ from typing import Dict, Any
 logger = logging.getLogger('main_config')
 
 DEFAULT_WAIT_TIME = 7.0
+
+DEFAULT_CONFIG = {
+    "evaluate_name": True,
+    "skip_disciplinary": False,
+    "skip_arbitration": False,
+    "skip_regulatory": False,
+    "storage": {
+        "mode": "local",
+        "local": {
+            "input_folder": "drop",
+            "output_folder": "output",
+            "archive_folder": "archive",
+            "cache_folder": "cache"
+        },
+        "s3": {
+            "aws_region": "us-east-1",
+            "input_bucket": "",
+            "input_prefix": "input/",
+            "output_bucket": "",
+            "output_prefix": "output/",
+            "archive_bucket": "",
+            "archive_prefix": "archive/",
+            "cache_bucket": "",
+            "cache_prefix": "cache/"
+        }
+    }
+}
 
 canonical_fields = {
     'reference_id': ['referenceId', 'Reference ID', 'reference_id', 'ref_id', 'RefID'],  # Removed 'workProductNumber'
@@ -61,18 +94,6 @@ canonical_fields = {
     'driving_license_restriction_code': ['drivingLicenseRestrictionCode', 'Driving License Restriction Code', 'driversLicenseRestrictionCode', 'driving_license_restriction_code']
 }
 
-DEFAULT_CONFIG = {
-    "evaluate_name": True,
-    "evaluate_license": True,
-    "evaluate_exams": True,
-    "evaluate_disclosures": True,
-    "skip_disciplinary": True,
-    "skip_arbitration": True,
-    "skip_regulatory": True,
-    "enabled_logging_groups": ["core"],
-    "logging_levels": {"core": "INFO"}
-}
-
 DISCIPLINARY_ENABLED = True
 ARBITRATION_ENABLED = True
 
@@ -83,6 +104,15 @@ CHECKPOINT_FILE = os.path.join(OUTPUT_FOLDER, "checkpoint.json")
 CONFIG_FILE = "config.json"
 
 def load_config(config_path: str = CONFIG_FILE) -> Dict[str, Any]:
+    """
+    Load configuration from file.
+    
+    Args:
+        config_path: Path to the configuration file.
+        
+    Returns:
+        Dictionary containing the configuration.
+    """
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
@@ -95,9 +125,28 @@ def load_config(config_path: str = CONFIG_FILE) -> Dict[str, Any]:
         return DEFAULT_CONFIG
 
 def save_config(config: Dict[str, Any], config_path: str = CONFIG_FILE):
+    """
+    Save configuration to file.
+    
+    Args:
+        config: Configuration dictionary to save.
+        config_path: Path to save the configuration to.
+    """
     try:
         with open(config_path, 'w') as f:
             json.dump(config, f, indent=2)
         logger.info(f"Saved settings to {config_path}: {config}")
     except Exception as e:
         logger.error(f"Error saving config to {config_path}: {str(e)}")
+
+def get_storage_config(config: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Get storage configuration from main config.
+    
+    Args:
+        config: Main configuration dictionary.
+        
+    Returns:
+        Dictionary containing storage configuration.
+    """
+    return config.get('storage', DEFAULT_CONFIG['storage'])
