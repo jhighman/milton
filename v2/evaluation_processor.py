@@ -34,9 +34,9 @@ logger = logging.getLogger("evaluation_processor")
 
 # Alert and Severity Definitions
 class AlertSeverity(Enum):
-    LOW = "Low"
-    MEDIUM = "Medium"
-    HIGH = "High"
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
     INFO = "INFO"
 
 @dataclass
