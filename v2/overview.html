@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Architecture Overview: Intent of Design</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #122141; /* truame.com background */
+            color: #ffffff;
+            overflow: hidden;
+        }
+        .step {
+            width: 1200px;
+            height: 800px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+        }
+        .step.active {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 64px;
+            color: #8ed1fc; /* Pale cyan blue for harmony */
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            font-size: 40px;
+            color: #00d084; /* Vivid green-cyan placeholder */
+            margin-bottom: 25px;
+        }
+        p, li {
+            font-size: 22px;
+            line-height: 1.6;
+        }
+        ul {
+            text-align: left;
+            margin: 25px auto;
+            max-width: 700px;
+            list-style: none;
+        }
+        li:before {
+            content: "→ ";
+            color: #8a4af3; /* Vivid purple for bullets */
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            color: #8ed1fc;
+            font-size: 20px;
+        }
+        .content {
+            flex: 1;
+            padding-left: 30px;
+        }
+        .architecture-stack {
+            width: 250px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .layer {
+            height: 14%;
+            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            font-size: 18px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .layer.active {
+            background: linear-gradient(90deg, #8a4af3, #8ed1fc); /* Vivid purple to pale cyan blue */
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(138, 74, 243, 0.8);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(138, 74, 243, 0.8); }
+            50% { box-shadow: 0 0 30px rgba(142, 209, 252, 0.9); }
+            100% { box-shadow: 0 0 20px rgba(138, 74, 243, 0.8); }
+        }
+        .vision-visual {
+            width: 250px;
+            height: 100%;
+            position: relative;
+        }
+        .hexagon {
+            width: 120px;
+            height: 69.3px;
+            background: linear-gradient(45deg, #8a4af3, #00d084); /* Purple to green-cyan */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: spin 8s infinite linear;
+        }
+        .hexagon:nth-child(2) {
+            transform: translate(-50%, -50%) scale(0.8) rotate(30deg);
+            opacity: 0.8;
+            animation-delay: -2s;
+        }
+        .hexagon:nth-child(3) {
+            transform: translate(-50%, -50%) scale(0.6) rotate(60deg);
+            opacity: 0.6;
+            animation-delay: -4s;
+        }
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        .fallback-message {
+            display: none;
+            font-size: 22px;
+            color: #fff;
+        }
+        .impress-not-supported .fallback-message {
+            display: block;
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body class="impress-not-supported">
+    <div class="fallback-message">
+        <p>Your browser doesn’t support Impress.js magic. Try the latest Chrome, Safari, or Firefox!</p>
+    </div>
+
+    <div id="impress" data-transition-duration="1000">
+        <!-- Slide 1: Title and Intro -->
+        <div id="intro" class="step" data-x="0" data-y="0" data-z="-1500" data-scale="2.5" data-rotate-x="20">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h1>System Architecture Overview</h1>
+                <h2>Intent of Design</h2>
+                <p>A modular, layered architecture to streamline compliance-focused data processing.</p>
+                <p>Delivers actionable insights with flexibility for growth and customization.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Orchestration Layer -->
+        <div id="orchestration" class="step" data-x="2000" data-y="800" data-rotate="60" data-z="800" data-scale="1.8">
+            <div class="architecture-stack">
+                <div class="layer active" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Orchestration Layer</h2>
+                <p>Components: <code>main.py</code>, <code>aws-pull-todrop.py</code>, <code>aws-push-to-output.py</code></p>
+                <ul>
+                    <li>Coordinates batch processing with AWS integration</li>
+                    <li>Check/point restart ensures workflow recovery</li>
+                    <li>Designed to evolve into REST or queue-based systems</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Business Layer -->
+        <div id="business" class="step" data-x="4000" data-y="0" data-rotate-y="45" data-scale="1.8">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer active" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Business Layer</h2>
+                <ul>
+                    <li>Houses core logic, bridging data collection and reporting</li>
+                    <li>Interprets compliance decisions with abstraction</li>
+                    <li>Allows easy updates to rules without pipeline disruption</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Reporting Layer -->
+        <div id="reporting" class="step" data-x="3000" data-y="2500" data-rotate-x="-30" data-z="-800">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer active" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Reporting Layer</h2>
+                <p>Components: <code>evaluation_processor.py</code>, <code>evaluation_report_builder.py</code>, <code>evaluation_report_director.py</code></p>
+                <ul>
+                    <li>Transforms data into compliance evaluations and alerts</li>
+                    <li>Flexible framework for systematic rule application</li>
+                    <li>Future: Tailored reports for diverse customers</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Services Layer -->
+        <div id="services" class="step" data-x="0" data-y="4500" data-scale="1.8" data-rotate-y="90">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer active" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Services Layer</h2>
+                <p>Component: <code>services.py</code></p>
+                <ul>
+                    <li>Unifying facade to standardize agent outputs</li>
+                    <li>Simplifies interactions with diverse agents</li>
+                    <li>Isolates complexity for easy data source additions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 6: Resource Layer -->
+        <div id="resource" class="step" data-x="-3000" data-y="2500" data-rotate="120" data-z="1200">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer active" data-layer="resource">Resource</div>
+                <div class="layer" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Resource Layer</h2>
+                <p>Component: <code>marshalling.py</code></p>
+                <ul>
+                    <li>Abstracts caching logic for system-wide control</li>
+                    <li>Decouples agents from caching specifics</li>
+                    <li>Enables future enhancements (e.g., database, Kafka)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Agent Layer -->
+        <div id="agent" class="step" data-x="-4000" data-y="0" data-scale="1.8" data-rotate-x="45">
+            <div class="architecture-stack">
+                <div class="layer" data-layer="orchestration">Orchestration</div>
+                <div class="layer" data-layer="business">Business</div>
+                <div class="layer" data-layer="reporting">Reporting</div>
+                <div class="layer" data-layer="services">Services</div>
+                <div class="layer" data-layer="resource">Resource</div>
+                <div class="layer active" data-layer="agent">Agent</div>
+            </div>
+            <div class="content">
+                <h2>Agent Layer</h2>
+                <p>Components: 7 agents (2 HTTP, 5 Selenium) in <code>/agents</code></p>
+                <ul>
+                    <li>Handles web scraping and parsing</li>
+                    <li>Mimics human compliance processes</li>
+                    <li>Balances speed and capability for due diligence</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 8: The Vision -->
+        <div id="closing" class="step" data-x="0" data-y="-3000" data-scale="3" data-rotate="360">
+            <div class="vision-visual">
+                <div class="hexagon"></div>
+                <div class="hexagon"></div>
+                <div class="hexagon"></div>
+            </div>
+            <div class="content">
+                <h2>The Vision</h2>
+                <ul>
+                    <li>Streamlined compliance processing today</li>
+                    <li>Flexible, scalable foundation for tomorrow</li>
+                    <li>Questions? Feedback? Let’s align it!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Impress.js from local js/ folder -->
+    <script src="js/impress.js"></script>
+    <script>
+        impress().init();
+        document.addEventListener('impress:stepenter', function(e) {
+            document.querySelectorAll('.step').forEach(function(step) {
+                step.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            if (e.target.id !== 'closing') {
+                const slideId = e.target.id;
+                const layers = e.target.querySelectorAll('.layer');
+                layers.forEach(layer => {
+                    layer.classList.remove('active');
+                    if (slideId === layer.getAttribute('data-layer')) {
+                        layer.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

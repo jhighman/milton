@@ -1332,3 +1332,33 @@ AttributeError: 'list' object has no attribute 'strip'
 2025-02-27 07:38:19,864 - main - INFO - === Starting application ===
 2025-02-27 07:40:04,200 - main - INFO - User chose to exit
 2025-02-27 07:40:04,340 - FinancialServicesFacade - INFO - WebDriver closed
+2025-03-24 08:06:48,850 - Marshaller - DEBUG - Initializing Chrome WebDriver
+2025-03-24 08:06:48,851 - selenium.webdriver.common.selenium_manager - DEBUG - Selenium Manager binary found at: /Users/cto/myvenv/lib/python3.13/site-packages/selenium/webdriver/common/macos/selenium-manager
+2025-03-24 08:06:48,851 - selenium.webdriver.common.selenium_manager - DEBUG - Executing process: /Users/cto/myvenv/lib/python3.13/site-packages/selenium/webdriver/common/macos/selenium-manager --browser chrome --debug --language-binding python --output json
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Sending stats to Plausible: Props { browser: "chrome", browser_version: "", os: "macos", arch: "x86_64", lang: "python", selenium_version: "4.29" }
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Found chromedriver 133.0.6943.126 in PATH: /usr/local/bin/chromedriver
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - chrome detected at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Running command: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Output: "Google Chrome 134.0.6998.118 "
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Detected browser: chrome 134.0.6998.118
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Discovering versions from https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json
+2025-03-24 08:06:50,051 - selenium.webdriver.common.selenium_manager - DEBUG - Required driver: chromedriver 134.0.6998.165
+2025-03-24 08:06:50,052 - selenium.webdriver.common.selenium_manager - WARNING - The chromedriver version (133.0.6943.126) detected in PATH at /usr/local/bin/chromedriver might not be compatible with the detected chrome version (134.0.6998.118); currently, chromedriver 134.0.6998.165 is recommended for chrome 134.*, so it is advised to delete the driver in PATH and retry
+2025-03-24 08:06:50,052 - selenium.webdriver.common.selenium_manager - DEBUG - Driver path: /usr/local/bin/chromedriver
+2025-03-24 08:06:50,052 - selenium.webdriver.common.selenium_manager - DEBUG - Browser path: /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+2025-03-24 08:06:50,060 - selenium.webdriver.common.service - DEBUG - Started executable: `/usr/local/bin/chromedriver` in a child process with pid: 12171 using 0 to output -3
+2025-03-24 08:06:50,258 - selenium.webdriver.remote.remote_connection - DEBUG - POST http://localhost:65293/session {'capabilities': {'firstMatch': [{}], 'alwaysMatch': {'browserName': 'chrome', 'pageLoadStrategy': <PageLoadStrategy.normal: 'normal'>, 'browserVersion': None, 'goog:chromeOptions': {'extensions': [], 'binary': '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', 'args': ['--headless', '--no-sandbox', '--disable-dev-shm-usage', 'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/115.0.0.0 Safari/537.36']}}}}
+2025-03-24 08:06:50,259 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:65293
+2025-03-24 08:06:52,227 - urllib3.connectionpool - DEBUG - http://localhost:65293 "POST /session HTTP/1.1" 200 0
+2025-03-24 08:06:52,227 - selenium.webdriver.remote.remote_connection - DEBUG - Remote response: status=200 | data={"value":{"capabilities":{"acceptInsecureCerts":false,"browserName":"chrome","browserVersion":"134.0.6998.118","chrome":{"chromedriverVersion":"133.0.6943.126 (cffa127ce7b6be72885391527c15b452056a2e81-refs/branch-heads/6943@{#1570})","userDataDir":"/var/folders/7b/0098n8v17xv387zrf6pln2p80000gn/T/.org.chromium.Chromium.RahK07"},"fedcm:accounts":true,"goog:chromeOptions":{"debuggerAddress":"localhost:65330"},"networkConnectionEnabled":false,"pageLoadStrategy":"normal","platformName":"mac","proxy":{},"setWindowRect":true,"strictFileInteractability":false,"timeouts":{"implicit":0,"pageLoad":300000,"script":30000},"unhandledPromptBehavior":"dismiss and notify","webauthn:extension:credBlob":true,"webauthn:extension:largeBlob":true,"webauthn:extension:minPinLength":true,"webauthn:extension:prf":true,"webauthn:virtualAuthenticators":true},"sessionId":"18bab44dfb2db0c0c5b913ff3668a0ea"}} | headers=HTTPHeaderDict({'Content-Length': '892', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2025-03-24 08:06:52,227 - selenium.webdriver.remote.remote_connection - DEBUG - Finished Request
+2025-03-24 08:06:52,228 - Marshaller - INFO - Chrome WebDriver initialized successfully
+2025-03-24 08:06:52,228 - services - DEBUG - FinancialServicesFacade initialized with WebDriver
+2025-03-24 08:08:52,540 - api - INFO - Shutting down API server
+2025-03-24 08:08:52,542 - selenium.webdriver.remote.remote_connection - DEBUG - DELETE http://localhost:65293/session/18bab44dfb2db0c0c5b913ff3668a0ea {}
+2025-03-24 08:08:52,598 - urllib3.connectionpool - DEBUG - http://localhost:65293 "DELETE /session/18bab44dfb2db0c0c5b913ff3668a0ea HTTP/1.1" 200 0
+2025-03-24 08:08:52,599 - selenium.webdriver.remote.remote_connection - DEBUG - Remote response: status=200 | data={"value":null} | headers=HTTPHeaderDict({'Content-Length': '14', 'Content-Type': 'application/json; charset=utf-8', 'cache-control': 'no-cache'})
+2025-03-24 08:08:52,599 - selenium.webdriver.remote.remote_connection - DEBUG - Finished Request
+2025-03-24 08:08:52,771 - services - INFO - WebDriver closed
+2025-03-24 11:31:38,788 - Marshaller - DEBUG - Marshaller initialized with headless=True
+2025-03-24 11:31:38,789 - services - DEBUG - FinancialServicesFacade initialized with headless=True

@@ -1,7 +1,7 @@
 # Python
 __pycache__/
 *.py[cod]
-*.class
+*$py.class
 *.so
 .Python
 build/
@@ -21,18 +21,32 @@ wheels/
 *.egg
 
 # Virtual Environment
-.env
-.venv
-env/
 venv/
 ENV/
+env/
+.env/
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-.cursorignore
+*~
+
+# Test
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Storage directories
+drop/
+output/
+archive/
+cache/
+
+# Configuration
+s3_config.json
 
 # OS
 .DS_Store
@@ -44,9 +58,6 @@ ehthumbs.db
 Thumbs.db
 
 # Project specific
-cache/
-output/
 *.log
 logs/
-archive/
 taxonomy_output.txt

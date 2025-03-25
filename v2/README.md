@@ -464,3 +464,178 @@ python main.py --diagnostic
 ```
 
 **Note**: When using `--diagnostic`, it enables DEBUG level for all loggers in all groups. For more granular control, use the config file or interactive menu. 
+
+# Storage Integration
+
+This module provides a flexible storage abstraction layer that supports both local filesystem and AWS S3 storage backends.
+
+## Features
+
+- Abstract storage provider interface
+- Local filesystem implementation
+- AWS S3 implementation
+- Configuration-based provider selection
+- Unified API for file operations
+- Comprehensive error handling and logging
+
+## Configuration
+
+The storage system is configured through a JSON configuration file (`config.json` by default). Here's an example configuration:
+
+```json
+{
+  "storage": {
+    "mode": "local",  // or "s3"
+    "local": {
+      "input_folder": "drop",
+      "output_folder": "output",
+      "archive_folder": "archive",
+      "cache_folder": "cache"
+    },
+    "s3": {
+      "aws_region": "us-east-1",
+      "input_bucket": "my-input-bucket",
+      "input_prefix": "input/",
+      "output_bucket": "my-output-bucket",
+      "output_prefix": "output/",
+      "archive_bucket": "my-archive-bucket",
+      "archive_prefix": "archive/",
+      "cache_bucket": "my-cache-bucket",
+      "cache_prefix": "cache/"
+    }
+  }
+}
+```
+
+### Local Storage Configuration
+
+- `input_folder`: Directory for incoming files
+- `output_folder`: Directory for processed files
+- `archive_folder`: Directory for archived files
+- `cache_folder`: Directory for cached data
+
+### S3 Storage Configuration
+
+- `aws_region`: AWS region (e.g., "us-east-1")
+- `input_bucket`: S3 bucket for incoming files
+- `input_prefix`: Prefix for input files
+- `output_bucket`: S3 bucket for processed files
+- `output_prefix`: Prefix for output files
+- `archive_bucket`: S3 bucket for archived files
+- `archive_prefix`: Prefix for archived files
+- `cache_bucket`: S3 bucket for cached data
+- `cache_prefix`: Prefix for cached files
+
+## Usage
+
+```python
+from storage_manager import StorageManager
+
+# Initialize the storage manager
+storage = StorageManager()
+
+# Read a file
+content = storage.read_file("path/to/file.txt")
+
+# Write a file
+storage.write_file("path/to/output.txt", "Hello, World!")
+
+# List files
+files = storage.list_files("path/to/directory")
+
+# Move a file
+storage.move_file("source.txt", "destination.txt")
+
+# Check if file exists
+exists = storage.file_exists("path/to/file.txt")
+
+# Get file size
+size = storage.get_file_size("path/to/file.txt")
+
+# Get file modification time
+mtime = storage.get_file_modified_time("path/to/file.txt")
+```
+
+## AWS Credentials
+
+When using the S3 storage provider, AWS credentials must be configured. This can be done in several ways:
+
+1. Environment variables:
+   ```bash
+   export AWS_ACCESS_KEY_ID="your_access_key"
+   export AWS_SECRET_ACCESS_KEY="your_secret_key"
+   export AWS_DEFAULT_REGION="us-east-1"
+   ```
+
+2. AWS credentials file:
+   ```bash
+   aws configure
+   ```
+
+3. IAM role (when running on AWS infrastructure)
+
+## Error Handling
+
+The storage system provides comprehensive error handling:
+
+- File not found errors
+- Permission errors
+- Network errors (for S3)
+- Configuration errors
+- Invalid operation errors
+
+All errors are logged with appropriate severity levels.
+
+## Logging
+
+The storage system uses Python's logging module with the following loggers:
+
+- `storage_manager`: Main storage manager operations
+- `storage_providers.base`: Base provider operations
+- `storage_providers.local_provider`: Local filesystem operations
+- `storage_providers.s3_provider`: S3 operations
+
+## Dependencies
+
+- boto3>=1.26.0
+- botocore>=1.29.0
+- python-dateutil>=2.8.2
+
+## Development
+
+To set up the development environment:
+
+1. Create a virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Configure AWS credentials (if using S3)
+
+4. Create a config.json file with your desired configuration
+
+## Testing
+
+Run the test suite:
+
+```bash
+pytest tests/
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details. 

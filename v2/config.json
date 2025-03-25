@@ -13,5 +13,25 @@
     "core": "DEBUG"
   },
   "config_file": "config.json",
-  "default_wait_time": 7.0
+  "default_wait_time": 7.0,
+  "storage": {
+    "mode": "local",
+    "local": {
+      "input_folder": "drop",
+      "output_folder": "output",
+      "archive_folder": "archive",
+      "cache_folder": "cache"
+    },
+    "s3": {
+      "aws_region": "us-east-1",
+      "input_bucket": "",
+      "input_prefix": "input/",
+      "output_bucket": "",
+      "output_prefix": "output/",
+      "archive_bucket": "",
+      "archive_prefix": "archive/",
+      "cache_bucket": "",
+      "cache_prefix": "cache/"
+    }
+  }
 }
