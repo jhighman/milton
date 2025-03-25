@@ -35,7 +35,17 @@ REQUEST_LOG_FILE = "request_log.txt"
 # Initialize storage provider
 config = load_config()
 storage_config = get_storage_config(config)
-storage_provider = StorageProviderFactory.create_provider(storage_config)
+
+# Create storage provider with proper configuration structure
+provider_config = {
+    'mode': storage_config.get('mode', 'local'),
+    'local': {
+        'base_path': storage_config.get('local', {}).get('cache_folder', 'cache')
+    },
+    's3': storage_config.get('s3', {})
+}
+
+storage_provider = StorageProviderFactory.create_provider(provider_config)
 
 # Get cache folder from config
 CACHE_FOLDER = Path(storage_config.get("local", {}).get("cache_folder", "cache"))

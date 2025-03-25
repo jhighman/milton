@@ -5,6 +5,7 @@ This module provides a unified interface for file storage operations using the s
 """
 
 import logging
+import json
 from typing import Dict, Any, Optional, Union, BinaryIO, List
 from pathlib import Path
 
@@ -29,55 +30,73 @@ class StorageManager:
     
     def _initialize_providers(self):
         """Initialize storage providers based on configuration."""
-        storage_config = self.config.get('storage', {})
-        mode = storage_config.get('mode', 'local')
+        if not isinstance(self.config, dict):
+            raise ValueError("Configuration must be a dictionary")
+            
+        mode = self.config.get('mode', 'local')
+        logger.debug(f"Initializing storage providers with mode: {mode}")
+        logger.debug(f"Storage configuration: {json.dumps(self.config, indent=2)}")
         
         if mode == 'local':
-            local_config = storage_config.get('local', {})
-            self._providers['input'] = StorageProviderFactory.create_provider({
-                'type': 'local',
-                'base_path': local_config.get('input_folder', 'drop')
-            })
-            self._providers['output'] = StorageProviderFactory.create_provider({
-                'type': 'local',
-                'base_path': local_config.get('output_folder', 'output')
-            })
-            self._providers['archive'] = StorageProviderFactory.create_provider({
-                'type': 'local',
-                'base_path': local_config.get('archive_folder', 'archive')
-            })
-            self._providers['cache'] = StorageProviderFactory.create_provider({
-                'type': 'local',
-                'base_path': local_config.get('cache_folder', 'cache')
-            })
-        elif mode == 's3':
-            s3_config = storage_config.get('s3', {})
-            region = s3_config.get('aws_region', 'us-east-1')
+            local_config = self.config.get('local', {})
+            logger.debug(f"Local configuration: {json.dumps(local_config, indent=2)}")
             
-            self._providers['input'] = StorageProviderFactory.create_provider({
-                'type': 's3',
-                'aws_region': region,
-                'bucket_name': s3_config.get('input_bucket', ''),
-                'base_prefix': s3_config.get('input_prefix', 'input/')
+            # Create providers for each storage type
+            self.input_provider = StorageProviderFactory.create_provider({
+                'mode': 'local',
+                'local': {'base_path': local_config.get('input_folder', 'drop')}
             })
-            self._providers['output'] = StorageProviderFactory.create_provider({
-                'type': 's3',
-                'aws_region': region,
-                'bucket_name': s3_config.get('output_bucket', ''),
-                'base_prefix': s3_config.get('output_prefix', 'output/')
+            self.output_provider = StorageProviderFactory.create_provider({
+                'mode': 'local',
+                'local': {'base_path': local_config.get('output_folder', 'output')}
             })
-            self._providers['archive'] = StorageProviderFactory.create_provider({
-                'type': 's3',
-                'aws_region': region,
-                'bucket_name': s3_config.get('archive_bucket', ''),
-                'base_prefix': s3_config.get('archive_prefix', 'archive/')
+            self.archive_provider = StorageProviderFactory.create_provider({
+                'mode': 'local',
+                'local': {'base_path': local_config.get('archive_folder', 'archive')}
             })
-            self._providers['cache'] = StorageProviderFactory.create_provider({
-                'type': 's3',
-                'aws_region': region,
-                'bucket_name': s3_config.get('cache_bucket', ''),
-                'base_prefix': s3_config.get('cache_prefix', 'cache/')
+            self.cache_provider = StorageProviderFactory.create_provider({
+                'mode': 'local',
+                'local': {'base_path': local_config.get('cache_folder', 'cache')}
             })
+            
+        elif mode == 's3':
+            s3_config = self.config.get('s3', {})
+            logger.debug(f"S3 configuration: {json.dumps(s3_config, indent=2)}")
+            
+            # Create providers for each storage type
+            self.input_provider = StorageProviderFactory.create_provider({
+                'mode': 's3',
+                's3': {
+                    'aws_region': s3_config.get('aws_region'),
+                    'bucket_name': s3_config.get('input_bucket'),
+                    'base_prefix': s3_config.get('input_prefix', '')
+                }
+            })
+            self.output_provider = StorageProviderFactory.create_provider({
+                'mode': 's3',
+                's3': {
+                    'aws_region': s3_config.get('aws_region'),
+                    'bucket_name': s3_config.get('output_bucket'),
+                    'base_prefix': s3_config.get('output_prefix', '')
+                }
+            })
+            self.archive_provider = StorageProviderFactory.create_provider({
+                'mode': 's3',
+                's3': {
+                    'aws_region': s3_config.get('aws_region'),
+                    'bucket_name': s3_config.get('archive_bucket'),
+                    'base_prefix': s3_config.get('archive_prefix', '')
+                }
+            })
+            self.cache_provider = StorageProviderFactory.create_provider({
+                'mode': 's3',
+                's3': {
+                    'aws_region': s3_config.get('aws_region'),
+                    'bucket_name': s3_config.get('cache_bucket'),
+                    'base_prefix': s3_config.get('cache_prefix', '')
+                }
+            })
+            
         else:
             raise ValueError(f"Unsupported storage mode: {mode}")
     

@@ -6,6 +6,7 @@ based on configuration settings.
 """
 
 import logging
+import json
 from typing import Dict, Any, Optional
 from .base import StorageProvider
 from .local_provider import LocalStorageProvider
@@ -17,45 +18,52 @@ class StorageProviderFactory:
     """Factory class for creating storage provider instances."""
     
     @staticmethod
-    def create_provider(config: Dict[str, Any]) -> Optional[StorageProvider]:
+    def create_provider(config: Dict[str, Any]) -> StorageProvider:
         """
-        Create a storage provider instance based on configuration.
+        Create a storage provider based on configuration.
         
         Args:
-            config: Dictionary containing storage configuration.
-                   Required keys:
-                   - type: 'local' or 's3'
-                   For local storage:
-                   - base_path: Base directory path
-                   For S3 storage:
-                   - aws_region: AWS region
-                   - bucket_name: S3 bucket name
-                   - base_prefix: Base prefix for all operations (optional)
-        
+            config: Dictionary containing provider configuration
+            
         Returns:
-            An instance of StorageProvider or None if configuration is invalid.
+            Configured storage provider instance
         """
-        provider_type = config.get('type', '').lower()
+        logger.debug(f"Creating storage provider with config: {json.dumps(config, indent=2)}")
         
+        # Get provider type from mode
+        provider_type = config.get('mode', '').lower()
+        logger.debug(f"Provider type from mode: {provider_type}")
+        
+        if not provider_type:
+            raise ValueError("No provider type specified in configuration")
+            
         if provider_type == 'local':
-            base_path = config.get('base_path')
-            if not base_path:
-                logger.error("Missing required 'base_path' for local storage provider")
-                return None
-            return LocalStorageProvider(base_path=base_path)
+            logger.debug("Creating local storage provider")
+            if 'local' not in config:
+                raise ValueError("Local storage configuration missing")
+            
+            local_config = config['local']
+            if 'base_path' not in local_config:
+                raise ValueError("Local storage base path not specified")
+            
+            return LocalStorageProvider(local_config['base_path'])
             
         elif provider_type == 's3':
-            aws_region = config.get('aws_region')
-            bucket_name = config.get('bucket_name')
-            if not aws_region or not bucket_name:
-                logger.error("Missing required 'aws_region' or 'bucket_name' for S3 storage provider")
-                return None
+            logger.debug("Creating S3 storage provider")
+            if 's3' not in config:
+                raise ValueError("S3 storage configuration missing")
+            
+            s3_config = config['s3']
+            required_params = ['aws_region', 'bucket_name', 'base_prefix']
+            missing_params = [p for p in required_params if p not in s3_config]
+            if missing_params:
+                raise ValueError(f"Missing required S3 parameters: {', '.join(missing_params)}")
+            
             return S3StorageProvider(
-                aws_region=aws_region,
-                bucket_name=bucket_name,
-                base_prefix=config.get('base_prefix', '')
+                region=s3_config['aws_region'],
+                bucket_name=s3_config['bucket_name'],
+                base_prefix=s3_config['base_prefix']
             )
             
         else:
-            logger.error(f"Unsupported storage provider type: {provider_type}")
-            return None 
+            raise ValueError(f"Unsupported storage provider type: {provider_type}") 

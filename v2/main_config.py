@@ -7,7 +7,7 @@ This module defines the main configuration settings for the application.
 import json
 import logging
 import os
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 logger = logging.getLogger('main_config')
 
@@ -103,6 +103,25 @@ ARCHIVE_FOLDER = "archive"
 CHECKPOINT_FILE = os.path.join(OUTPUT_FOLDER, "checkpoint.json")
 CONFIG_FILE = "config.json"
 
+def deep_merge(base: Dict[str, Any], update: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Deep merge two dictionaries.
+    
+    Args:
+        base: Base dictionary
+        update: Dictionary to merge on top of base
+        
+    Returns:
+        Merged dictionary
+    """
+    result = base.copy()
+    for key, value in update.items():
+        if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            result[key] = deep_merge(result[key], value)
+        else:
+            result[key] = value
+    return result
+
 def load_config(config_path: str = CONFIG_FILE) -> Dict[str, Any]:
     """
     Load configuration from file.
@@ -116,13 +135,13 @@ def load_config(config_path: str = CONFIG_FILE) -> Dict[str, Any]:
     try:
         with open(config_path, 'r') as f:
             config = json.load(f)
-            return {**DEFAULT_CONFIG, **config}
+            return deep_merge(DEFAULT_CONFIG, config)
     except FileNotFoundError:
         logger.warning("Config file not found, using defaults")
-        return DEFAULT_CONFIG
+        return DEFAULT_CONFIG.copy()
     except Exception as e:
         logger.error(f"Error loading config file {config_path}: {str(e)}")
-        return DEFAULT_CONFIG
+        return DEFAULT_CONFIG.copy()
 
 def save_config(config: Dict[str, Any], config_path: str = CONFIG_FILE):
     """
@@ -139,14 +158,43 @@ def save_config(config: Dict[str, Any], config_path: str = CONFIG_FILE):
     except Exception as e:
         logger.error(f"Error saving config to {config_path}: {str(e)}")
 
-def get_storage_config(config: Dict[str, Any]) -> Dict[str, Any]:
+def get_storage_config(config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     """
-    Get storage configuration from main config.
+    Get storage configuration from the main config.
     
     Args:
-        config: Main configuration dictionary.
-        
+        config: Optional configuration dictionary. If not provided,
+               loads from config file or uses defaults.
+               
     Returns:
-        Dictionary containing storage configuration.
+        Dictionary containing storage configuration
     """
-    return config.get('storage', DEFAULT_CONFIG['storage'])
+    if config is None:
+        config = load_config()
+    
+    logger.debug(f"Getting storage config from: {json.dumps(config, indent=2)}")
+    storage_config = config.get('storage', DEFAULT_CONFIG['storage'])
+    logger.debug(f"Retrieved storage config: {json.dumps(storage_config, indent=2)}")
+    
+    # Ensure the storage config has all required sections
+    if 'mode' not in storage_config:
+        storage_config['mode'] = DEFAULT_CONFIG['storage']['mode']
+    if 'local' not in storage_config:
+        storage_config['local'] = DEFAULT_CONFIG['storage']['local']
+    if 's3' not in storage_config:
+        storage_config['s3'] = DEFAULT_CONFIG['storage']['s3']
+        
+    # Ensure local config has all required fields
+    local_config = storage_config['local']
+    for key in ['input_folder', 'output_folder', 'archive_folder', 'cache_folder']:
+        if key not in local_config:
+            local_config[key] = DEFAULT_CONFIG['storage']['local'][key]
+            
+    # Ensure S3 config has all required fields
+    s3_config = storage_config['s3']
+    for key in ['aws_region', 'input_bucket', 'input_prefix', 'output_bucket', 'output_prefix',
+                'archive_bucket', 'archive_prefix', 'cache_bucket', 'cache_prefix']:
+        if key not in s3_config:
+            s3_config[key] = DEFAULT_CONFIG['storage']['s3'][key]
+            
+    return storage_config
