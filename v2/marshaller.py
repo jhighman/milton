@@ -1,3 +1,7 @@
+"""
+Marshaller module for handling agent operations and caching.
+"""
+
 import argparse
 import os
 from datetime import datetime, timedelta
@@ -10,6 +14,8 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
+from storage_providers import StorageProviderFactory
+from main_config import get_storage_config, load_config
 
 # Setup logging
 logging.basicConfig(
@@ -20,12 +26,19 @@ logging.basicConfig(
 logger = logging.getLogger("Marshaller")
 
 # Configuration
-CACHE_FOLDER = Path(os.path.dirname(os.path.abspath(__file__))) / "cache"
 CACHE_TTL_DAYS = 90
 DATE_FORMAT = "%Y%m%d"
 MANIFEST_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 RUN_HEADLESS = True
 REQUEST_LOG_FILE = "request_log.txt"
+
+# Initialize storage provider
+config = load_config()
+storage_config = get_storage_config(config)
+storage_provider = StorageProviderFactory.create_provider(storage_config)
+
+# Get cache folder from config
+CACHE_FOLDER = Path(storage_config.get("local", {}).get("cache_folder", "cache"))
 
 # WebDriver setup (shared across Selenium agents)
 def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger) -> webdriver.Chrome:
@@ -53,7 +66,7 @@ from agents.sec_iapd_agent import (
 from agents.finra_broker_check_agent import (
     search_individual as finra_bc_search, 
     search_individual_detailed_info as finra_bc_detailed,
-    search_individual_by_firm as finra_bc_search_by_firm  # New import
+    search_individual_by_firm as finra_bc_search_by_firm
 )
 from agents.sec_arbitration_agent import search_individual as sec_arb_search
 from agents.finra_disciplinary_agent import search_individual as finra_disc_search
@@ -74,7 +87,7 @@ AGENT_SERVICES: Dict[str, Dict[str, Callable]] = {
     "FINRA_BrokerCheck_Agent": {
         "search_individual": finra_bc_search,
         "search_individual_detailed_info": finra_bc_detailed,
-        "search_individual_by_firm": finra_bc_search_by_firm  # New service
+        "search_individual_by_firm": finra_bc_search_by_firm
     },
     "SEC_Arbitration_Agent": {
         "search_individual": sec_arb_search
@@ -118,67 +131,68 @@ def build_file_name(agent_name: str, employee_number: str, service: str, date: s
     return f"{base}_{ordinal}.json" if ordinal is not None else f"{base}.json"
 
 def read_manifest(cache_path: Path) -> Optional[str]:
+    """Read the manifest file and return the cached date."""
     manifest_path = cache_path / "manifest.txt"
-    if manifest_path.exists():
-        with manifest_path.open("r") as f:
-            line = f.readline().strip()
-            if line and "Cached on: " in line:
-                try:
-                    return line.split("Cached on: ")[1].split(" ")[0].replace("-", "")
-                except IndexError:
-                    logger.warning(f"Malformed manifest file at {manifest_path}: {line}")
-                    return None
+    manifest_path_str = str(manifest_path)
+    if storage_provider.file_exists(manifest_path_str):
+        try:
+            content = storage_provider.read_file(manifest_path_str).decode().strip()
+            if content and "Cached on: " in content:
+                return content.split("Cached on: ")[1].split(" ")[0].replace("-", "")
+        except Exception as e:
+            logger.warning(f"Error reading manifest file at {manifest_path}: {e}")
     return None
 
 def write_manifest(cache_path: Path, timestamp: str) -> None:
     """Write a manifest file with a consistent 'Cached on: ' prefix."""
-    cache_path.mkdir(parents=True, exist_ok=True)
-    manifest_path = cache_path / "manifest.txt"
-    with manifest_path.open("w") as f:
-        f.write(f"Cached on: {timestamp}")
+    storage_provider.create_directory(str(cache_path))
+    manifest_path = str(cache_path / "manifest.txt")
+    storage_provider.write_file(manifest_path, f"Cached on: {timestamp}")
 
 def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optional[Dict], List[Dict]]:
-    if not cache_path.exists():
+    """Load cached data from the specified path."""
+    cache_path_str = str(cache_path)
+    if not storage_provider.file_exists(cache_path_str):
         logger.debug(f"Cache directory not found: {cache_path}")
         return None if not is_multiple else []
     try:
         if is_multiple:
             results = []
-            json_files = sorted(cache_path.glob("*.json"))
+            json_files = storage_provider.list_files(cache_path_str, "*.json")
             if not json_files:
                 logger.debug(f"No JSON files in cache directory: {cache_path}")
                 return []
-            for file_path in json_files:
-                with file_path.open("r") as f:
-                    content = f.read().strip()
+            for file_path in sorted(json_files):
+                try:
+                    content = storage_provider.read_file(file_path).decode().strip()
                     if not content:
                         logger.warning(f"Empty cache file: {file_path}")
                         continue
                     results.append(json.loads(content))
+                except Exception as e:
+                    logger.error(f"Error reading cache file {file_path}: {e}")
             return results if results else []
         else:
-            json_files = list(cache_path.glob("*.json"))
+            json_files = storage_provider.list_files(cache_path_str, "*.json")
             if not json_files:
                 logger.debug(f"No JSON files in cache directory: {cache_path}")
                 return None
-            with json_files[0].open("r") as f:
-                content = f.read().strip()
-                if not content:
-                    logger.warning(f"Empty cache file: {json_files[0]}")
-                    return None
-                return json.loads(content)
-    except json.JSONDecodeError as e:
-        logger.error(f"Failed to decode JSON in cache file at {cache_path}: {e}")
-        return None if not is_multiple else []
+            try:
+                content = storage_provider.read_file(json_files[0]).decode().strip()
+                if content:
+                    return json.loads(content)
+            except Exception as e:
+                logger.error(f"Error reading cache file {json_files[0]}: {e}")
+            return None
     except Exception as e:
-        logger.error(f"Error reading cache file at {cache_path}: {e}")
+        logger.error(f"Error accessing cache directory {cache_path}: {e}")
         return None if not is_multiple else []
 
 def save_cached_data(cache_path: Path, file_name: str, data: Dict) -> None:
-    cache_path.mkdir(parents=True, exist_ok=True)
-    file_path = cache_path / file_name
-    with file_path.open("w") as f:
-        json.dump(data, f, indent=2)
+    """Save data to cache with the specified file name."""
+    storage_provider.create_directory(str(cache_path))
+    file_path = str(cache_path / file_name)
+    storage_provider.write_file(file_path, json.dumps(data, indent=2))
 
 def save_multiple_results(cache_path: Path, agent_name: str, employee_number: str, service: str, date: str, results: List[Dict]) -> None:
     """Save multiple results, ensuring even empty results are cached."""
@@ -191,15 +205,20 @@ def save_multiple_results(cache_path: Path, agent_name: str, employee_number: st
             save_cached_data(cache_path, file_name, result)
 
 def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: Optional[float] = None) -> None:
+    """Log a request with timestamp and optional duration."""
     log_path = CACHE_FOLDER / employee_number / REQUEST_LOG_FILE
-    log_path.parent.mkdir(parents=True, exist_ok=True)
+    storage_provider.create_directory(str(log_path.parent))
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"[{timestamp}] {agent_name}/{service} - {status}"
     if duration is not None:
         log_entry += f" (fetch duration: {duration:.2f}s)"
     log_entry += "\n"
-    with log_path.open("a") as f:
-        f.write(log_entry)
+    
+    # Append to the log file
+    existing_content = b""
+    if storage_provider.file_exists(str(log_path)):
+        existing_content = storage_provider.read_file(str(log_path))
+    storage_provider.write_file(str(log_path), existing_content + log_entry.encode())
 
 def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> tuple[Union[Optional[Dict], List[Dict]], Optional[float]]:
     try:
