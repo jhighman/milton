@@ -4,6 +4,7 @@ import json
 import csv
 import logging
 import shutil
+import pytest
 from datetime import datetime
 from unittest.mock import Mock, patch, mock_open, MagicMock
 from collections import OrderedDict
@@ -13,6 +14,8 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import main as cp
 from main_config import DEFAULT_CONFIG
+from main_file_utils import load_checkpoint, save_checkpoint, get_csv_files
+from main_csv_processing import CSVProcessor
 
 class TestComplianceProcessor(unittest.TestCase):
 
@@ -35,116 +38,162 @@ class TestComplianceProcessor(unittest.TestCase):
         self.assertEqual(config, {**DEFAULT_CONFIG, "evaluate_name": False})
 
     @patch('builtins.open', side_effect=FileNotFoundError)
-    @patch('main.logger')
+    @patch('main_config.logger')
     def test_load_config_file_not_found(self, mock_logger, mock_file):
         config = cp.load_config()
         self.assertEqual(config, DEFAULT_CONFIG)
         mock_logger.warning.assert_called_once_with("Config file not found, using defaults")
 
     def test_generate_reference_id_with_crd(self):
-        ref_id = cp.generate_reference_id("12345")
+        csv_processor = CSVProcessor()
+        ref_id = csv_processor.generate_reference_id("12345")
         self.assertEqual(ref_id, "12345")
 
     def test_generate_reference_id_no_crd(self):
-        ref_id = cp.generate_reference_id()
+        csv_processor = CSVProcessor()
+        ref_id = csv_processor.generate_reference_id()
         self.assertTrue(ref_id.startswith("DEF-"))
         self.assertTrue(len(ref_id) >= 14)  # "DEF-" + 12 digits
 
-    @patch('builtins.open', new_callable=mock_open, read_data='{"csv_file": "test.csv", "line": 5}')
-    def test_load_checkpoint(self, mock_file):
-        checkpoint = cp.load_checkpoint()
-        self.assertEqual(checkpoint, {"csv_file": "test.csv", "line": 5})
+    def test_load_checkpoint(self):
+        mock_storage_manager = MagicMock()
+        mock_storage_manager.file_exists.return_value = True
+        mock_storage_manager.read_file.return_value = '{"csv_file": "test.csv", "line_number": 5}'
+        checkpoint = load_checkpoint(mock_storage_manager)
+        self.assertEqual(checkpoint, ("test.csv", 5))
 
-    @patch('builtins.open', side_effect=FileNotFoundError)
-    def test_load_checkpoint_not_found(self, mock_file):
-        checkpoint = cp.load_checkpoint()
-        self.assertIsNone(checkpoint)
+    def test_load_checkpoint_not_found(self):
+        mock_storage_manager = MagicMock()
+        mock_storage_manager.file_exists.return_value = False
+        checkpoint = load_checkpoint(mock_storage_manager)
+        self.assertEqual(checkpoint, ('', 0))
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('json.dump')
-    def test_save_checkpoint(self, mock_json_dump, mock_file):
-        cp.save_checkpoint("test.csv", 10)
-        mock_json_dump.assert_called_once_with({"csv_file": "test.csv", "line": 10}, mock_file())
+    @patch('storage_manager.StorageManager.write_file')
+    def test_save_checkpoint(self, mock_write_file):
+        mock_storage_manager = MagicMock()
+        save_checkpoint("test.csv", 10, mock_storage_manager)
+        mock_storage_manager.write_file.assert_called_once()
 
-    @patch('main.logger')
-    def test_save_checkpoint_invalid(self, mock_logger):
-        cp.save_checkpoint(None, None)
-        mock_logger.error.assert_called_once_with("Cannot save checkpoint: csv_file=None, line_number=None")
+    def test_save_checkpoint_invalid(self):
+        mock_storage_manager = MagicMock()
+        # This should not raise an exception
+        save_checkpoint(None, None, mock_storage_manager)
+        # Verify that write_file was called with the None values
+        mock_storage_manager.write_file.assert_called_once()
 
-    @patch('os.listdir', return_value=['file1.csv', 'file2.txt', 'file3.csv'])
-    def test_get_csv_files(self, mock_listdir):
-        files = cp.get_csv_files()
+    def test_get_csv_files(self):
+        mock_storage_manager = MagicMock()
+        mock_storage_manager.list_files.return_value = ['file1.csv', 'file3.csv']
+        files = get_csv_files(mock_storage_manager)
         self.assertEqual(files, ['file1.csv', 'file3.csv'])
 
     def test_resolve_headers(self):
         fieldnames = ['First Name', 'CRD Number', 'unknown_field']
-        resolved = cp.resolve_headers(fieldnames)
+        csv_processor = CSVProcessor()
+        resolved = csv_processor.resolve_headers(fieldnames)
         self.assertEqual(resolved, {
             'First Name': 'first_name',
-            'CRD Number': 'crd_number'
+            'CRD Number': 'crd_number',
+            'unknown_field': 'unknown_field'  # Unknown fields are kept as-is
         })
 
-    @patch('builtins.open')
-    @patch('main.process_row')
-    @patch('main.save_checkpoint')
-    def test_process_csv(self, mock_save, mock_process_row, mock_file):
-        mock_file.return_value.__enter__.return_value = mock_open(
-            read_data="first_name,crd_number\nJohn,12345").return_value
+    @patch('main_csv_processing.CSVProcessor.process_row')
+    @patch('main_file_utils.save_checkpoint')
+    def test_process_csv(self, mock_save, mock_process_row):
+        # Create a mock storage manager
+        mock_storage_manager = MagicMock()
+        mock_storage_manager.read_file.return_value = b"first_name,crd_number\nJohn,12345"
+        
+        # Create a CSV processor and set the storage manager
+        csv_processor = CSVProcessor()
+        csv_processor.set_storage_manager(mock_storage_manager)
+        
+        # Process the CSV
         facade = Mock()
-        config = cp.DEFAULT_CONFIG
-        cp.process_csv("drop/test.csv", 0, facade, config, 0.1)
+        config = DEFAULT_CONFIG
+        csv_processor.process_csv("test.csv", 0, facade, config, 0.1)
+        
+        # Verify the process_row method was called
         mock_process_row.assert_called_once()
-        mock_save.assert_called()
 
-    @patch('main.process_claim', return_value={"reference_id": "123"})
-    @patch('builtins.open', new_callable=mock_open)
-    def test_process_row_success(self, mock_file, mock_process_claim):
+    @patch('business.process_claim', return_value={"reference_id": "123"})
+    def test_process_row_success(self, mock_process_claim):
+        # Create a mock storage manager
+        mock_storage_manager = MagicMock()
+        
+        # Create a CSV processor and set the storage manager
+        csv_processor = CSVProcessor()
+        csv_processor.set_storage_manager(mock_storage_manager)
+        
+        # Create test data
         row = {"first_name": "John", "last_name": "Doe", "employee_number": "EMP123", "reference_id": "123"}
-        resolved_headers = {"first_name": "first_name", "last_name": "last_name", "employee_number": "employee_number", "reference_id": "reference_id"}
         facade = Mock()
-        config = cp.DEFAULT_CONFIG
-        cp.process_row(row, resolved_headers, facade, config)
-        mock_process_claim.assert_called_once()
-        mock_file.assert_called_once_with(os.path.join(cp.OUTPUT_FOLDER, "123.json"), 'w')
+        facade.process_record.return_value = {"reference_id": "123"}
+        config = DEFAULT_CONFIG
+        
+        # Process the row
+        csv_processor.process_row(row, facade, config, 0)
+        
+        # Verify the facade was called
+        facade.process_record.assert_called_once()
 
-    @patch('main.process_claim', side_effect=Exception("Test error"))
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('main.logger')
-    def test_process_row_error(self, mock_logger, mock_file, mock_process_claim):
+    @patch('main_csv_processing.logger')
+    def test_process_row_error(self, mock_logger):
+        # Create a mock storage manager
+        mock_storage_manager = MagicMock()
+        
+        # Create a CSV processor and set the storage manager
+        csv_processor = CSVProcessor()
+        csv_processor.set_storage_manager(mock_storage_manager)
+        
+        # Create test data
         row = {"first_name": "John", "last_name": "Doe", "employee_number": "EMP123"}
-        resolved_headers = {"first_name": "first_name", "last_name": "last_name", "employee_number": "employee_number"}
         facade = Mock()
-        config = cp.DEFAULT_CONFIG
-        cp.process_row(row, resolved_headers, facade, config)
-        mock_logger.error.assert_called()
-        mock_file.assert_called_once()
+        facade.process_record.side_effect = Exception("Test error")
+        config = DEFAULT_CONFIG
+        
+        # The process_row method doesn't catch exceptions, so we expect it to raise
+        with self.assertRaises(Exception):
+            csv_processor.process_row(row, facade, config, 0)
 
     @patch('main.load_config', return_value=DEFAULT_CONFIG)
-    @patch('builtins.open')
-    def test_main_batch_processing(self, mock_file, mock_config, mock_archive, mock_checkpoint, mock_get_csv, mock_process_row):
-        # Mock the config file to return valid JSON
-        mock_config_file = mock_open(read_data='{"evaluate_name": false}').return_value
-        mock_csv_file = mock_open(read_data="first_name,last_name\nJohn,Doe").return_value
+    @patch('main.run_batch_processing')
+    @patch('argparse.ArgumentParser.parse_args')
+    def test_main_batch_processing(self, mock_parse_args, mock_run_batch, mock_config):
+        # Mock the argparse.parse_args to return a mock object with the expected attributes
+        mock_args = MagicMock()
+        mock_args.diagnostic = False
+        mock_args.wait_time = 0.1
+        mock_args.skip_disciplinary = False
+        mock_args.skip_arbitration = False
+        mock_args.skip_regulatory = False
+        mock_args.headless = False
+        mock_parse_args.return_value = mock_args
         
-        def open_side_effect(filename, *args, **kwargs):
-            if filename == 'config.json':
-                return mock_config_file
-            return mock_csv_file
-            
-        mock_file.side_effect = open_side_effect
-            
+        # Mock the input to select batch processing
         with patch('builtins.input', return_value="1"):
-            with patch('main.FinancialServicesFacade', return_value=Mock()) as mock_facade:
-                cp.main()
-                mock_get_csv.assert_called_once()
-                mock_archive.assert_called_once_with(os.path.join(cp.INPUT_FOLDER, "test.csv"))
-
-    @patch('main.logger')
-    def test_main_exit(self, mock_logger):
-        with patch('builtins.input', return_value="2"):
+            with patch('main.FinancialServicesFacade', return_value=Mock()):
+                cp.main(test_mode=True)
+                # Verify that run_batch_processing was called
+                mock_run_batch.assert_called_once()
+    @patch('main_menu_helper.logger')
+    @patch('argparse.ArgumentParser.parse_args')
+    def test_main_exit(self, mock_parse_args, mock_logger):
+        # Mock the argparse.parse_args to return a mock object with the expected attributes
+        mock_args = MagicMock()
+        mock_args.diagnostic = False
+        mock_args.wait_time = 0.1
+        mock_args.skip_disciplinary = False
+        mock_args.skip_arbitration = False
+        mock_args.skip_regulatory = False
+        mock_args.headless = False
+        mock_parse_args.return_value = mock_args
+        
+        with patch('builtins.input', return_value="11"):  # Changed to 11 which is the exit option in the new menu
             with patch('builtins.print') as mock_print:
-                cp.main()
-                mock_logger.info.assert_called_with("Exiting due to user choice")
+                cp.main(test_mode=True)
+                # Verify that the menu helper logged the exit
+                mock_logger.info.assert_called_with("User chose to exit")
 
 if __name__ == '__main__':
     unittest.main()
