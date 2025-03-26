@@ -31,6 +31,8 @@ from cache_manager.cache_operations import CacheManager
 from cache_manager.compliance_handler import ComplianceHandler
 from cache_manager.summary_generator import SummaryGenerator
 from cache_manager.file_handler import FileHandler
+from main_config import get_storage_config, load_config  # Import load_config
+from storage_manager import StorageManager  # Import storage manager
 
 # Setup logging using logger_config
 loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
@@ -50,22 +52,63 @@ app = FastAPI(
 # Global settings
 settings = Settings()
 
-# Initialize services and cache management (singleton instances for the app)
+# Global instances
 facade = None
 cache_manager = None
 file_handler = None
 compliance_handler = None
 summary_generator = None
+storage_manager = None
 
 @app.on_event("startup")
 async def startup_event():
     """Initialize services with current settings on startup."""
-    global facade, cache_manager, file_handler, compliance_handler, summary_generator
-    facade = FinancialServicesFacade(headless=settings.headless)
+    global facade, cache_manager, file_handler, compliance_handler, summary_generator, storage_manager
+    
+    # Initialize storage configuration
+    config = load_config()  # Load the full configuration
+    logger.debug(f"Full config loaded: {json.dumps(config, indent=2)}")
+    storage_config = get_storage_config(config)  # Get storage section
+    logger.debug(f"Storage config retrieved: {json.dumps(storage_config, indent=2)}")
+    
+    try:
+        # Ensure storage config has all required sections
+        if 'mode' not in storage_config:
+            storage_config['mode'] = 'local'
+        if 'local' not in storage_config:
+            storage_config['local'] = {
+                'input_folder': 'drop',
+                'output_folder': 'output',
+                'archive_folder': 'archive',
+                'cache_folder': 'cache'
+            }
+        if 's3' not in storage_config:
+            storage_config['s3'] = {
+                'aws_region': 'us-east-1',
+                'input_bucket': '',
+                'input_prefix': 'input/',
+                'output_bucket': '',
+                'output_prefix': 'output/',
+                'archive_bucket': '',
+                'archive_prefix': 'archive/',
+                'cache_bucket': '',
+                'cache_prefix': 'cache/'
+            }
+        
+        storage_manager = StorageManager(storage_config)  # Pass only the storage section
+        logger.debug("Successfully created StorageManager")
+    except Exception as e:
+        logger.error(f"Error creating StorageManager: {str(e)}", exc_info=True)
+        raise
+    
+    # Initialize services with storage manager
+    facade = FinancialServicesFacade(headless=settings.headless, storage_manager=storage_manager)
     cache_manager = CacheManager()
     file_handler = FileHandler(cache_manager.cache_folder)
     compliance_handler = ComplianceHandler(file_handler.base_path)
     summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
+    
+    logger.info("API services initialized with storage configuration")
 
 @app.put("/settings")
 async def update_settings(new_settings: Settings):

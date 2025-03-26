@@ -57,9 +57,10 @@ def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
     return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 class FinancialServicesFacade:
-    def __init__(self, headless: bool = True):
-        """Initialize the facade with configurable headless mode."""
+    def __init__(self, headless: bool = True, storage_manager=None):
+        """Initialize the facade with configurable headless mode and storage manager."""
         self.headless = headless
+        self.storage_manager = storage_manager
         self.marshaller = Marshaller(headless=headless)
         self.driver = None
         self._is_driver_managed = False
@@ -85,11 +86,25 @@ class FinancialServicesFacade:
                 self.driver = None
                 self._is_driver_managed = False
 
-    @staticmethod
-    def _load_organizations_cache() -> Optional[List[Dict]]:
+    def _load_organizations_cache(self) -> Optional[List[Dict]]:
+        """Load organizations cache using storage manager if available, fallback to direct file operations."""
         cache_file = os.path.join("input", "organizationsCrd.jsonl")
+        
+        if self.storage_manager:
+            try:
+                content = self.storage_manager.read_file(cache_file)
+                organizations = []
+                for line in content.decode('utf-8').splitlines():
+                    if line.strip():
+                        organizations.append(json.loads(line))
+                self.logger.debug(f"Loaded {len(organizations)} organizations from cache using storage manager")
+                return organizations
+            except Exception as e:
+                self.logger.error(f"Error loading organizations cache using storage manager: {e}", exc_info=True)
+        
+        # Fallback to direct file operations if storage manager is not available or fails
         if not os.path.exists(cache_file):
-            logger.error("Failed to load organizations cache.")
+            self.logger.error("Failed to load organizations cache.")
             return None
         try:
             organizations = []
@@ -97,10 +112,10 @@ class FinancialServicesFacade:
                 for line in f:
                     if line.strip():
                         organizations.append(json.loads(line))
-            logger.debug(f"Loaded {len(organizations)} organizations from cache")
+            self.logger.debug(f"Loaded {len(organizations)} organizations from cache using direct file operations")
             return organizations
         except Exception as e:
-            logger.error(f"Error loading organizations cache: {e}", exc_info=True)
+            self.logger.error(f"Error loading organizations cache: {e}", exc_info=True)
             return None
 
     @staticmethod

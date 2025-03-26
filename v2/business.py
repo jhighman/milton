@@ -37,8 +37,8 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
         logger.info(f"Selected search_with_crd_only for {claim_summary} due to crd_number='{crd_number}'")
         return search_with_crd_only
     elif individual_name and organization_crd_number:
-        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary} with individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'")
-        return search_with_crd_and_org_crd
+        logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'")
+        return search_with_correlated
     elif individual_name and organization_name and not organization_crd_number:
         logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_name='{organization_name}'")
         return search_with_correlated
@@ -471,6 +471,8 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
     try:
         result = search_with_crd_only(claim, facade, employee_number)
         logger.debug(f"search_with_crd_only returned: {json_dumps_with_alerts(result)} for {claim_summary}")
+        # Preserve the original search strategy
+        result["search_strategy"] = "search_with_correlated"
         return result
     except Exception as e:
         logger.error(f"Delegation to search_with_crd_only failed for {claim_summary} with crd_number='{resolved_crd_number}': {str(e)}", exc_info=True)
