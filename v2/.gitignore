@@ -19,3 +19,12 @@ debug_*.png
 
 # Environment
 .env
+
+# Data directories
+archive/
+cache/
+drop/
+output/
+
+# Python package
+*.egg-info/
