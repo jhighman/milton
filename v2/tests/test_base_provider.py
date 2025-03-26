@@ -4,7 +4,8 @@ Tests for the base StorageProvider interface.
 
 import pytest
 from abc import ABC
-from storage_providers.base import StorageProvider
+from typing import Any, Optional, List
+from storage_providers.base_provider import BaseStorageProvider as StorageProvider
 
 def test_storage_provider_is_abstract():
     """Test that StorageProvider is an abstract base class."""

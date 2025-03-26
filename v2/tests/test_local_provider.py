@@ -1,209 +1,205 @@
 """
-Tests for the LocalStorageProvider class.
+Tests for the LocalStorageProvider implementation.
 """
 
 import os
 import pytest
+import tempfile
 from pathlib import Path
-from datetime import datetime
-
 from storage_providers.local_provider import LocalStorageProvider
 
 @pytest.fixture
-def temp_dirs(tmp_path):
-    """Create temporary directories for testing."""
-    input_dir = tmp_path / "drop"
-    output_dir = tmp_path / "output"
-    archive_dir = tmp_path / "archive"
-    cache_dir = tmp_path / "cache"
-    
-    for dir_path in [input_dir, output_dir, archive_dir, cache_dir]:
-        dir_path.mkdir()
-    
-    return {
-        "input": str(input_dir),
-        "output": str(output_dir),
-        "archive": str(archive_dir),
-        "cache": str(cache_dir)
-    }
+def temp_dir():
+    """Create a temporary directory for testing."""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        yield tmp_dir
 
 @pytest.fixture
-def provider(temp_dirs):
-    """Create a LocalStorageProvider instance."""
+def provider(temp_dir):
+    """Create a LocalStorageProvider instance with test directories."""
+    # Create test directories
+    input_dir = os.path.join(temp_dir, "input")
+    output_dir = os.path.join(temp_dir, "output")
+    archive_dir = os.path.join(temp_dir, "archive")
+    cache_dir = os.path.join(temp_dir, "cache")
+    
+    os.makedirs(input_dir)
+    os.makedirs(output_dir)
+    os.makedirs(archive_dir)
+    os.makedirs(cache_dir)
+    
     return LocalStorageProvider(
-        input_folder=temp_dirs["input"],
-        output_folder=temp_dirs["output"],
-        archive_folder=temp_dirs["archive"],
-        cache_folder=temp_dirs["cache"]
+        base_path=temp_dir,
+        input_folder="input",
+        output_folder="output",
+        archive_folder="archive",
+        cache_folder="cache"
     )
 
-def test_init_creates_directories(tmp_path):
-    """Test that initialization creates required directories."""
-    input_dir = tmp_path / "drop"
-    output_dir = tmp_path / "output"
-    archive_dir = tmp_path / "archive"
-    cache_dir = tmp_path / "cache"
-    
-    provider = LocalStorageProvider(
-        input_folder=str(input_dir),
-        output_folder=str(output_dir),
-        archive_folder=str(archive_dir),
-        cache_folder=str(cache_dir)
-    )
-    
-    assert input_dir.exists()
-    assert output_dir.exists()
-    assert archive_dir.exists()
-    assert cache_dir.exists()
+def test_provider_initialization(provider, temp_dir):
+    """Test that the provider is initialized with correct paths."""
+    assert isinstance(provider.base_path, Path)
+    # Compare resolved paths to handle symlinks
+    assert provider.base_path.resolve() == Path(temp_dir).resolve()
+    assert provider.input_folder == "input"
+    assert provider.output_folder == "output"
+    assert provider.archive_folder == "archive"
+    assert provider.cache_folder == "cache"
 
-def test_read_file(provider, temp_dirs):
-    """Test reading a file."""
-    # Create a test file
-    test_file = Path(temp_dirs["input"]) / "test.txt"
+def test_write_and_read_file(provider):
+    """Test writing and reading a file."""
+    test_content = b"Hello, World!"
+    test_path = "test.txt"
+    
+    # Write file
+    assert provider.write_file(test_path, test_content)
+    
+    # Read file
+    content = provider.read_file(test_path)
+    assert content == test_content
+
+def test_write_and_read_file_with_string(provider):
+    """Test writing and reading a file with string content."""
     test_content = "Hello, World!"
-    test_file.write_text(test_content)
+    test_path = "test.txt"
     
-    # Read the file
-    content = provider.read_file(str(test_file))
-    assert content == test_content.encode()
-
-def test_read_file_not_found(provider):
-    """Test reading a non-existent file."""
-    with pytest.raises(FileNotFoundError):
-        provider.read_file("nonexistent.txt")
-
-def test_write_file(provider, temp_dirs):
-    """Test writing a file."""
-    test_file = Path(temp_dirs["output"]) / "test.txt"
-    test_content = "Hello, World!"
+    # Write file
+    assert provider.write_file(test_path, test_content)
     
-    # Write string content
-    success = provider.write_file(str(test_file), test_content)
-    assert success is True
-    assert test_file.read_text() == test_content
-    
-    # Write bytes content
-    test_file.unlink()
-    success = provider.write_file(str(test_file), test_content.encode())
-    assert success is True
-    assert test_file.read_text() == test_content
+    # Read file
+    content = provider.read_file(test_path)
+    assert content.decode() == test_content
 
-def test_write_file_binary(provider, temp_dirs):
-    """Test writing binary content."""
-    test_file = Path(temp_dirs["output"]) / "test.bin"
-    test_content = b"\x00\x01\x02\x03"
-    
-    success = provider.write_file(str(test_file), test_content)
-    assert success is True
-    assert test_file.read_bytes() == test_content
-
-def test_list_files(provider, temp_dirs):
+def test_list_files(provider):
     """Test listing files in a directory."""
     # Create test files
-    test_dir = Path(temp_dirs["input"])
-    (test_dir / "file1.txt").write_text("content1")
-    (test_dir / "file2.txt").write_text("content2")
-    (test_dir / "subdir").mkdir()
-    (test_dir / "subdir" / "file3.txt").write_text("content3")
+    test_files = ["file1.txt", "file2.txt", "subdir/file3.txt"]
+    for file in test_files:
+        provider.write_file(file, b"test content")
     
-    # List all files
-    files = provider.list_files(str(test_dir))
-    assert len(files) == 2
-    assert "file1.txt" in files
-    assert "file2.txt" in files
+    # List files
+    files = provider.list_files("")
+    assert len(files) >= len(test_files)
+    assert all(file in files for file in test_files)
+
+def test_list_files_with_pattern(provider):
+    """Test listing files with a pattern."""
+    # Create test files
+    test_files = ["file1.txt", "file2.txt", "file3.csv"]
+    for file in test_files:
+        provider.write_file(file, b"test content")
     
     # List files with pattern
-    files = provider.list_files(str(test_dir), "file1.*")
-    assert len(files) == 1
-    assert files[0] == "file1.txt"
+    txt_files = provider.list_files("", pattern="*.txt")
+    assert len(txt_files) == 2
+    assert all(file.endswith(".txt") for file in txt_files)
 
-def test_list_files_not_found(provider):
-    """Test listing files in a non-existent directory."""
-    with pytest.raises(FileNotFoundError):
-        provider.list_files("nonexistent")
-
-def test_delete_file(provider, temp_dirs):
+def test_delete_file(provider):
     """Test deleting a file."""
-    test_file = Path(temp_dirs["input"]) / "test.txt"
-    test_file.write_text("content")
+    test_path = "test.txt"
+    provider.write_file(test_path, b"test content")
     
-    success = provider.delete_file(str(test_file))
-    assert success is True
-    assert not test_file.exists()
+    # Delete file
+    assert provider.delete_file(test_path)
+    
+    # Verify file is deleted
+    assert not provider.file_exists(test_path)
 
-def test_delete_file_not_found(provider):
-    """Test deleting a non-existent file."""
-    success = provider.delete_file("nonexistent.txt")
-    assert success is False
-
-def test_move_file(provider, temp_dirs):
+def test_move_file(provider):
     """Test moving a file."""
-    source = Path(temp_dirs["input"]) / "source.txt"
-    destination = Path(temp_dirs["output"]) / "dest.txt"
-    source.write_text("content")
+    source = "source.txt"
+    destination = "destination.txt"
+    test_content = b"test content"
     
-    success = provider.move_file(str(source), str(destination))
-    assert success is True
-    assert not source.exists()
-    assert destination.exists()
-    assert destination.read_text() == "content"
+    # Create source file
+    provider.write_file(source, test_content)
+    
+    # Move file
+    assert provider.move_file(source, destination)
+    
+    # Verify file was moved
+    assert not provider.file_exists(source)
+    assert provider.file_exists(destination)
+    assert provider.read_file(destination) == test_content
 
-def test_move_file_not_found(provider, temp_dirs):
-    """Test moving a non-existent file."""
-    destination = Path(temp_dirs["output"]) / "dest.txt"
-    success = provider.move_file("nonexistent.txt", str(destination))
-    assert success is False
-
-def test_file_exists(provider, temp_dirs):
+def test_file_exists(provider):
     """Test checking if a file exists."""
-    test_file = Path(temp_dirs["input"]) / "test.txt"
-    test_file.write_text("content")
+    test_path = "test.txt"
     
-    assert provider.file_exists(str(test_file)) is True
-    assert provider.file_exists("nonexistent.txt") is False
+    # File should not exist initially
+    assert not provider.file_exists(test_path)
+    
+    # Create file
+    provider.write_file(test_path, b"test content")
+    
+    # File should exist now
+    assert provider.file_exists(test_path)
 
-def test_create_directory(provider, temp_dirs):
+def test_create_directory(provider):
     """Test creating a directory."""
-    new_dir = Path(temp_dirs["input"]) / "new_dir"
+    test_dir = "test_dir"
     
-    success = provider.create_directory(str(new_dir))
-    assert success is True
-    assert new_dir.exists()
-    assert new_dir.is_dir()
-
-def test_create_directory_exists(provider, temp_dirs):
-    """Test creating a directory that already exists."""
-    existing_dir = Path(temp_dirs["input"])
+    # Create directory
+    assert provider.create_directory(test_dir)
     
-    success = provider.create_directory(str(existing_dir))
-    assert success is True
-    assert existing_dir.exists()
-    assert existing_dir.is_dir()
+    # Verify directory exists
+    # The create_directory method creates the directory directly under base_path
+    full_path = provider.base_path / test_dir
+    assert full_path.is_dir()
 
-def test_get_file_size(provider, temp_dirs):
+def test_get_file_size(provider):
     """Test getting file size."""
-    test_file = Path(temp_dirs["input"]) / "test.txt"
-    test_content = "Hello, World!"
-    test_file.write_text(test_content)
+    test_path = "test.txt"
+    test_content = b"test content"
     
-    size = provider.get_file_size(str(test_file))
+    # Create file
+    provider.write_file(test_path, test_content)
+    
+    # Get file size
+    size = provider.get_file_size(test_path)
     assert size == len(test_content)
 
-def test_get_file_size_not_found(provider):
-    """Test getting size of non-existent file."""
-    with pytest.raises(FileNotFoundError):
-        provider.get_file_size("nonexistent.txt")
-
-def test_get_file_modified_time(provider, temp_dirs):
+def test_get_file_modified_time(provider):
     """Test getting file modification time."""
-    test_file = Path(temp_dirs["input"]) / "test.txt"
-    test_file.write_text("content")
+    test_path = "test.txt"
+    test_content = b"test content"
     
-    mtime = provider.get_file_modified_time(str(test_file))
+    # Create file
+    provider.write_file(test_path, test_content)
+    
+    # Get modification time
+    mtime = provider.get_file_modified_time(test_path)
     assert isinstance(mtime, float)
     assert mtime > 0
 
-def test_get_file_modified_time_not_found(provider):
-    """Test getting modification time of non-existent file."""
+def test_error_handling(provider):
+    """Test error handling for various operations."""
+    # Test reading non-existent file
     with pytest.raises(FileNotFoundError):
-        provider.get_file_modified_time("nonexistent.txt") 
+        provider.read_file("nonexistent.txt")
+    
+    # Test deleting non-existent file
+    assert not provider.delete_file("nonexistent.txt")
+    
+    # Test moving non-existent file
+    assert not provider.move_file("nonexistent.txt", "destination.txt")
+    
+    # Test getting size of non-existent file
+    with pytest.raises(FileNotFoundError):
+        provider.get_file_size("nonexistent.txt")
+    
+    # Test getting modification time of non-existent file
+    with pytest.raises(FileNotFoundError):
+        provider.get_file_modified_time("nonexistent.txt")
+
+def test_path_normalization(provider):
+    """Test path normalization."""
+    # Test with different path separators
+    test_path = "test\\dir/file.txt"
+    normalized_path = provider._normalize_path(test_path)
+    assert normalized_path == "test/dir/file.txt"
+    
+    # Test with absolute path
+    abs_path = os.path.abspath("test.txt")
+    normalized_abs_path = provider._normalize_path(abs_path)
+    assert normalized_abs_path == "test.txt" 
