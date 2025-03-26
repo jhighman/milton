@@ -1,3 +1,9 @@
+"""
+Main application module.
+
+This module contains the main application logic and entry point.
+"""
+
 import argparse
 import csv
 import json
@@ -5,82 +11,126 @@ import os
 import signal
 import sys
 import logging
-from typing import Dict, Set
-from main_config import DEFAULT_WAIT_TIME, OUTPUT_FOLDER, load_config, save_config, INPUT_FOLDER, CHECKPOINT_FILE
+from typing import Dict, Set, Any
+from main_config import DEFAULT_WAIT_TIME, OUTPUT_FOLDER, load_config, save_config, INPUT_FOLDER, CHECKPOINT_FILE, get_storage_config
 from main_file_utils import setup_folders, load_checkpoint, save_checkpoint, get_csv_files, archive_file
 from main_csv_processing import CSVProcessor
 from main_menu_helper import display_menu, handle_menu_choice
 from services import FinancialServicesFacade
 from logger_config import setup_logging, reconfigure_logging, flush_logs
+from storage_manager import StorageManager
 
 logger = logging.getLogger('main')
 csv_processor = CSVProcessor()  # Create a global instance
+storage_manager = None  # Global storage manager instance
 
 def signal_handler(sig, frame):
+    """Handle system signals."""
+    global storage_manager
     if csv_processor.current_csv and csv_processor.current_line > 0:
         logger.info(f"Signal received ({signal.Signals(sig).name}), saving checkpoint: {csv_processor.current_csv}, line {csv_processor.current_line}")
-        save_checkpoint(csv_processor.current_csv, csv_processor.current_line)
+        if storage_manager:
+            save_checkpoint(csv_processor.current_csv, csv_processor.current_line, storage_manager)
+        else:
+            logger.warning("Cannot save checkpoint: storage_manager is None")
     logger.info("Exiting due to signal")
     sys.exit(0)
 
-def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float, loggers: dict):
-    csv_processor.skipped_records.clear()
+# This function is now imported from main_file_utils.py
+# def setup_folders(storage_manager):
+#     """Set up required folders using storage manager."""
+#     try:
+#         for folder in ['input', 'output', 'archive', 'cache']:
+#             storage_manager.create_directory('', storage_type=folder)
+#     except Exception as e:
+#         logger.error(f"Failed to create folders: {str(e)}")
+#         raise
+
+# This function is now imported from main_file_utils.py
+# def save_checkpoint(csv_file: str, line_number: int, storage_manager: StorageManager):
+#     """Save processing checkpoint using storage manager."""
+#     checkpoint = {
+#         'csv_file': csv_file,
+#         'line_number': line_number
+#     }
+#     storage_manager.write_file('checkpoint.json', json.dumps(checkpoint), storage_type='output')
+
+# These functions are now imported from main_file_utils.py
+# def load_checkpoint(storage_manager) -> tuple:
+#     """Load processing checkpoint using storage manager."""
+#     try:
+#         if storage_manager.file_exists('checkpoint.json', storage_type='output'):
+#             content = storage_manager.read_file('checkpoint.json', storage_type='output')
+#             checkpoint = json.loads(content)
+#             return checkpoint.get('csv_file', ''), checkpoint.get('line_number', 0)
+#     except Exception as e:
+#         logger.error(f"Error loading checkpoint: {str(e)}")
+#     return '', 0
+#
+# def get_csv_files(storage_manager) -> list:
+#     """Get list of CSV files from input folder using storage manager."""
+#     try:
+#         return storage_manager.list_files('', pattern='*.csv', storage_type='input')
+#     except Exception as e:
+#         logger.error(f"Error getting CSV files: {str(e)}")
+#         return []
+#
+# def archive_file(file_path: str, storage_manager):
+#     """Archive a file using storage manager."""
+#     try:
+#         filename = os.path.basename(file_path)
+#         storage_manager.move_file(file_path, filename, source_type='input', dest_type='archive')
+#         logger.info(f"Archived file: {filename}")
+#     except Exception as e:
+#         logger.error(f"Error archiving file {file_path}: {str(e)}")
+
+def run_batch_processing(facade: FinancialServicesFacade, config: Dict[str, Any], wait_time: float, loggers: Dict[str, logging.Logger]):
+    """Run batch processing with the given configuration."""
+    global storage_manager, csv_processor
     
-    print("\nRunning batch processing...")
-    checkpoint = load_checkpoint()
-    csv_files = get_csv_files()
+    # Initialize storage manager if not already done
+    if storage_manager is None:
+        storage_manager = StorageManager(config)
+    
+    # Set up folders
+    setup_folders(storage_manager)
+    
+    # Get CSV files
+    csv_files = get_csv_files(storage_manager)
     if not csv_files:
-        logger.warning(f"No CSV files found in {INPUT_FOLDER}")
-        print(f"No CSV files found in {INPUT_FOLDER}")
+        logger.info("No CSV files found in input folder")
         return
-
-    start_file = checkpoint["csv_file"] if checkpoint else None
-    start_line = checkpoint["line"] if checkpoint else 0
-
-    processed_files = 0
-    processed_records = 0
-    skipped_count = 0
-
-    for csv_file in csv_files:
-        csv_path = os.path.join(INPUT_FOLDER, csv_file)
-        if start_file and csv_file < start_file:
-            logger.debug(f"Skipping {csv_file} - before start_file {start_file}")
-            continue
-        logger.info(f"Processing {csv_path} from line {start_line}")
-        csv_processor.process_csv(csv_path, start_line, facade, config, wait_time)
-        try:
-            with open(csv_path, 'r') as f:
-                csv_reader = csv.reader(f)
-                next(csv_reader)  # Skip header
-                for row in csv_reader:
-                    if any(field.strip() for field in row):
-                        processed_records += 1
-                        ref_id = row[0] if row else csv_processor.generate_reference_id()
-                        report_path = os.path.join(OUTPUT_FOLDER, f"{ref_id}.json")
-                        if os.path.exists(report_path):
-                            with open(report_path, 'r') as rf:
-                                report = json.load(rf)
-                                if report.get("processing_status") == "skipped":
-                                    skipped_count += 1
-        except Exception as e:
-            logger.error(f"Error counting records in {csv_path}: {str(e)}", exc_info=True)
-        archive_file(csv_path)
-        processed_files += 1
-        start_line = 0
-
-    if csv_processor.skipped_records:
-        csv_processor.write_skipped_records()
-        skipped_count = sum(len(records) for records in csv_processor.skipped_records.values())
     
-    logger.info(f"Processed {processed_files} files, {processed_records} records, {skipped_count} skipped")
-    if os.path.exists(CHECKPOINT_FILE):
+    # Load checkpoint
+    last_csv, last_line = load_checkpoint(storage_manager)
+    if last_csv and last_csv in csv_files:
+        csv_files = csv_files[csv_files.index(last_csv):]
+        logger.info(f"Resuming from checkpoint: {last_csv}, line {last_line}")
+    
+    # Set storage manager in CSV processor
+    csv_processor.set_storage_manager(storage_manager)
+    
+    # Process each CSV file
+    for csv_file in csv_files:
         try:
-            os.remove(CHECKPOINT_FILE)
-            logger.debug(f"Removed checkpoint file: {CHECKPOINT_FILE}")
+            csv_processor.process_csv(
+                csv_file,
+                start_line=last_line if csv_file == last_csv else 0,
+                facade=facade,
+                config=config,
+                wait_time=wait_time
+            )
+            archive_file(csv_file, storage_manager)
         except Exception as e:
-            logger.error(f"Error removing checkpoint file {CHECKPOINT_FILE}: {str(e)}")
+            logger.error(f"Error processing file {csv_file}: {str(e)}")
+            continue
 
-def main():
+def main(test_mode=False):
+    """Main application entry point.
+    
+    Args:
+        test_mode: If True, run in test mode (no infinite loop)
+    """
     parser = argparse.ArgumentParser(description="Compliance CSV Processor")
     parser.add_argument('--diagnostic', action='store_true', help="Enable verbose debug logging")
     parser.add_argument('--wait-time', type=float, default=DEFAULT_WAIT_TIME, help=f"Seconds to wait between records (default: {DEFAULT_WAIT_TIME})")
@@ -100,7 +150,13 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
-    setup_folders()
+    # Initialize storage manager
+    config = load_config()
+    global storage_manager
+    storage_manager = StorageManager(config)
+    
+    # Set up folders
+    setup_folders(storage_manager)
 
     try:
         facade = FinancialServicesFacade()
@@ -164,7 +220,9 @@ def main():
         "default_wait_time": DEFAULT_WAIT_TIME
     }
 
-    while True:
+    # In test mode, we'll only run one iteration of the loop
+    run_loop = True
+    while run_loop:
         choice = display_menu(skip_disciplinary, skip_arbitration, skip_regulatory, wait_time)
         if choice == "1":
             logger.info(f"Running batch with config: {config}, wait_time: {wait_time}")
@@ -179,6 +237,10 @@ def main():
                 break
         if choice in ["8", "9"]:
             reconfigure_logging(loggers, enabled_groups, {k: LOG_LEVELS[v][1] if v in LOG_LEVELS else logging.INFO for k, v in group_levels.items()})
+        
+        # Exit after one iteration if in test mode
+        if test_mode:
+            run_loop = False
 
 if __name__ == "__main__":
     main()

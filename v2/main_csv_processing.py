@@ -1,3 +1,9 @@
+"""
+CSV processing module.
+
+This module handles CSV file processing and data extraction.
+"""
+
 import csv
 import json
 import logging
@@ -5,7 +11,7 @@ import os
 import random
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Set
 from collections import defaultdict
 from enum import Enum
 from main_config import INPUT_FOLDER, OUTPUT_FOLDER, ARCHIVE_FOLDER, canonical_fields
@@ -15,8 +21,9 @@ from services import FinancialServicesFacade
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_report_director import EvaluationReportDirector
 from evaluation_processor import Alert
+from storage_manager import StorageManager
 
-logger = logging.getLogger('main_csv_processing')
+logger = logging.getLogger('csv_processor')
 
 class AlertEncoder(json.JSONEncoder):
     """Custom JSON encoder to handle Alert objects."""
@@ -35,11 +42,19 @@ class SkipScenario(Enum):
     NO_ORG_IDENTIFIERS = "Missing all organization identifiers (crd_number, organization_crd, organization_name)"
 
 class CSVProcessor:
+    """Handles CSV file processing and data extraction."""
+    
     def __init__(self):
+        """Initialize the CSV processor."""
         self.current_csv = None
         self.current_line = 0
-        self.skipped_records = defaultdict(list)
+        self.skipped_records: Set[str] = set()
         self.error_records = defaultdict(list)
+        self.storage_manager = None
+
+    def set_storage_manager(self, storage_manager: StorageManager):
+        """Set the storage manager instance."""
+        self.storage_manager = storage_manager
 
     def generate_reference_id(self, crd_number: str = None) -> str:
         if crd_number and crd_number.strip():
@@ -88,175 +103,102 @@ class CSVProcessor:
             issues.append(SkipScenario.NO_ORG_IDENTIFIERS.value)
         return (len(issues) == 0, issues)
 
-    def process_csv(self, csv_file_path: str, start_line: int, facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
-        self.current_csv = os.path.basename(csv_file_path)
-        self.current_line = 0
-        logger.info(f"Starting to process {csv_file_path} from line {start_line}")
-
+    def process_csv(self, csv_file: str, start_line: int = 0, facade: Any = None, config: Dict[str, Any] = None, wait_time: float = 0.0):
+        """
+        Process a CSV file.
+        
+        Args:
+            csv_file: Path to the CSV file.
+            start_line: Line number to start processing from.
+            facade: Financial services facade instance.
+            config: Configuration dictionary.
+            wait_time: Time to wait between records.
+        """
+        if not self.storage_manager:
+            raise ValueError("Storage manager not set")
+        
+        self.current_csv = csv_file
+        self.current_line = start_line
+        
         try:
-            with open(csv_file_path, 'r', newline='') as f:
-                reader = csv.DictReader(f)
-                resolved_headers = self.resolve_headers(reader.fieldnames)
-                logger.info(f"Resolved headers (post-processing): {resolved_headers}")
-
-                for i, row in enumerate(reader, start=2):
-                    if i <= start_line:
-                        logger.info(f"Skipping line {i} (before start_line {start_line})")
-                        continue
-                    logger.info(f"Processing {self.current_csv}, line {i}, row: {dict(row)}")
-                    self.current_line = i
-                    try:
-                        self.process_row(row, resolved_headers, facade, config, wait_time)
-                    except Exception as e:
-                        logger.error(f"Error processing {self.current_csv}, line {i}: {str(e)}", exc_info=True)
-                        self.error_records[self.current_csv].append({"row_data": dict(row), "error": str(e)})
-                    save_checkpoint(self.current_csv, self.current_line)
-                    time.sleep(wait_time)
-        except Exception as e:
-            logger.error(f"Error reading {csv_file_path}: {str(e)}", exc_info=True)
-            self.error_records[self.current_csv].append({"row_data": {}, "error": f"File read error: {str(e)}"})
-        finally:
-            self.write_error_records()
-            self.write_skipped_records()
-
-    def process_row(self, row: Dict[str, str], resolved_headers: Dict[str, str], facade: FinancialServicesFacade, config: Dict[str, bool], wait_time: float):
-        reference_id_header = next((k for k, v in resolved_headers.items() if v == 'reference_id'), 'reference_id')
-        reference_id = row.get(reference_id_header, '').strip() or self.generate_reference_id(row.get(resolved_headers.get('crd_number', 'crd_number'), ''))
-
-        try:
-            raw_row = {}
-            for header in row:
-                value = row.get(header, '')
-                if isinstance(value, str):
-                    raw_row[header] = value.strip()
-                elif isinstance(value, list):
-                    raw_row[header] = ''.join(str(v).strip() for v in value if v)
-                else:
-                    raw_row[header] = str(value).strip()
-
-            logger.info(f"Raw CSV row for reference_id='{reference_id}': {json_dumps_with_alerts(raw_row, indent=2)}")
-
-            claim = {}
-            for header, canonical in resolved_headers.items():
-                value = raw_row.get(header, '')
-                claim[canonical] = value
-                logger.info(f"Mapping field - canonical: '{canonical}', header: '{header}', value: '{value}'")
-
-            claim['individual_name'] = " ".join(
-                filter(None, [
-                    claim.get('first_name', '').strip(),
-                    claim.get('middle_name', '').strip(),
-                    claim.get('last_name', '').strip(),
-                    claim.get('suffix', '').strip()
-                ])
-            )
-
-            employee_number_header = next((k for k, v in resolved_headers.items() if v == 'employee_number'), 'employee_number')
-            employee_number = raw_row.get(employee_number_header, '').strip()
-            claim['employee_number'] = employee_number
-            logger.info(f"Employee number header: '{employee_number_header}', value: '{employee_number}'")
-
-            is_valid, issues = self.validate_row(claim)
-            logger.info(f"Validation for reference_id='{reference_id}': valid={is_valid}, issues={issues}")
-
-            if not is_valid:
-                for issue in issues:
-                    logger.warning(f"Row skipped - {issue} for reference_id='{reference_id}'")
-                    self.skipped_records[self.current_csv].append({"row_data": raw_row})
-                builder = EvaluationReportBuilder()
-                director = EvaluationReportDirector(builder)
-                extracted_info = {
-                    "search_evaluation": {
-                        "source": "Validation",
-                        "basic_result": None,
-                        "detailed_result": None,
-                        "search_strategy": "none",
-                        "crd_number": None,
-                        "compliance": False,
-                        "compliance_explanation": f"Insufficient data: {', '.join(issues)}"
-                    },
-                    "skip_reasons": issues,
-                    "individual": {},
-                    "fetched_name": "",
-                    "other_names": [],
-                    "bc_scope": "NotInScope",
-                    "ia_scope": "NotInScope",
-                    "exams": [],
-                    "disclosures": [],
-                    "disciplinary_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to insufficient data"}},
-                    "arbitration_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to insufficient data"}},
-                    "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to insufficient data"}}
-                }
-                report = director.construct_evaluation_report(claim, extracted_info)
-                process_claim(
-                    claim,
-                    facade,
-                    employee_number,
-                    skip_disciplinary=config.get('skip_disciplinary', False),
-                    skip_arbitration=config.get('skip_arbitration', False),
-                    skip_regulatory=config.get('skip_regulatory', False)
-                )
-                self._save_report(report, employee_number, reference_id)
-            else:
-                unmapped_fields = set(row.keys()) - set(resolved_headers.keys())
-                if unmapped_fields:
-                    logger.warning(f"Unmapped fields in row for reference_id='{reference_id}': {unmapped_fields}")
+            # Read CSV file
+            content = self.storage_manager.read_file(csv_file, storage_type='input')
+            reader = csv.DictReader(content.decode('utf-8').splitlines())
+            
+            # Skip to start line
+            for _ in range(start_line):
+                next(reader, None)
+            
+            # Process each row
+            for row in reader:
+                try:
+                    self.process_row(row, facade, config, wait_time)
+                    self.current_line += 1
+                except Exception as e:
+                    logger.error(f"Error processing row {self.current_line}: {str(e)}")
+                    self.skipped_records.add(str(self.current_line))
+                    continue
                 
-                logger.info(f"Canonical claim for reference_id='{reference_id}': {json_dumps_with_alerts(claim, indent=2)}")
-
-                report = process_claim(
-                    claim,
-                    facade,
-                    employee_number,
-                    skip_disciplinary=config.get('skip_disciplinary', False),
-                    skip_arbitration=config.get('skip_arbitration', False),
-                    skip_regulatory=config.get('skip_regulatory', False)
-                )
-                if report is None:
-                    logger.error(f"process_claim returned None for reference_id='{reference_id}'")
-                    builder = EvaluationReportBuilder()
-                    director = EvaluationReportDirector(builder)
-                    extracted_info = {
-                        "search_evaluation": {
-                            "search_strategy": "unknown",
-                            "search_outcome": "process_claim returned None",
-                            "search_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                            "compliance": False,
-                            "compliance_explanation": "Processing failed: process_claim returned None"
-                        },
-                        "skip_reasons": ["Processing failure"],
-                        "individual": {},
-                        "fetched_name": "",
-                        "other_names": [],
-                        "bc_scope": "NotInScope",
-                        "ia_scope": "NotInScope",
-                        "exams": [],
-                        "disclosures": [],
-                        "disciplinary_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to processing failure"}},
-                        "arbitration_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to processing failure"}},
-                        "regulatory_evaluation": {"actions": [], "due_diligence": {"status": "Skipped due to processing failure"}}
-                    }
-                    report = director.construct_evaluation_report(claim, extracted_info)
-                    facade.save_compliance_report(report, employee_number)
-
-                self._save_report(report, employee_number, reference_id)
-
         except Exception as e:
-            logger.error(f"Unexpected error processing row for reference_id='{reference_id}': {str(e)}", exc_info=True)
-            self.error_records[self.current_csv].append({"row_data": raw_row if 'raw_row' in locals() else dict(row), "error": str(e)})
+            logger.error(f"Error processing CSV file {csv_file}: {str(e)}")
+            raise
 
-    def _save_report(self, report: Dict[str, Any], employee_number: str, reference_id: str):
-        report_path = os.path.join(OUTPUT_FOLDER, f"{reference_id}.json")
-        logger.info(f"Saving report to {report_path} (output folder)")
-        try:
-            with open(report_path, 'w') as f:
-                f.write(json_dumps_with_alerts(report, indent=2))
-            compliance = report.get('final_evaluation', {}).get('overall_compliance', False)
-            logger.info(f"Processed {reference_id}, overall_compliance: {compliance}, saved to output/")
-        except Exception as e:
-            logger.error(f"Error saving report to {report_path}: {str(e)}", exc_info=True)
+    def process_row(self, row: Dict[str, str], facade: Any, config: Dict[str, Any], wait_time: float):
+        """
+        Process a single row from the CSV file.
+        
+        Args:
+            row: Dictionary containing row data.
+            facade: Financial services facade instance.
+            config: Configuration dictionary.
+            wait_time: Time to wait between records.
+        """
+        # Extract data from row
+        data = self.extract_data(row)
+        
+        # Process the data
+        result = facade.process_record(data, config)
+        
+        # Save result
+        self.save_result(result)
+        
+        # Wait between records
+        if wait_time > 0:
+            time.sleep(wait_time)
 
-        logger.info(f"Report for reference_id='{reference_id}' also saved to cache/{employee_number}/ by process_claim")
+    def extract_data(self, row: Dict[str, str]) -> Dict[str, Any]:
+        """
+        Extract data from a CSV row.
+        
+        Args:
+            row: Dictionary containing row data.
+            
+        Returns:
+            Dictionary containing extracted data.
+        """
+        # Implementation depends on your data structure
+        return row
+
+    def save_result(self, result: Dict[str, Any]):
+        """
+        Save processing result.
+        
+        Args:
+            result: Dictionary containing processing result.
+        """
+        if not self.storage_manager:
+            raise ValueError("Storage manager not set")
+        
+        # Generate output filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        output_file = f"result_{timestamp}.json"
+        
+        # Save result
+        self.storage_manager.write_file(
+            output_file,
+            json.dumps(result, indent=2),
+            storage_type='output'
+        )
 
     def _write_records(self, records: defaultdict, output_file: str, record_type: str):
         date_str = datetime.now().strftime("%m-%d-%Y")
@@ -289,9 +231,6 @@ class CSVProcessor:
             records.clear()
 
     def write_skipped_records(self):
-        self._write_records(self.skipped_records, "skipped.csv", "skipped")
-
-    def write_error_records(self):
         self._write_records(self.error_records, "errors.csv", "error")
 
 if __name__ == "__main__":
