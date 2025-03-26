@@ -8,7 +8,7 @@ based on configuration settings.
 import logging
 import json
 from typing import Dict, Any, Optional
-from .base import StorageProvider
+from .base_provider import BaseStorageProvider
 from .local_provider import LocalStorageProvider
 from .s3_provider import S3StorageProvider
 
@@ -18,7 +18,7 @@ class StorageProviderFactory:
     """Factory class for creating storage provider instances."""
     
     @staticmethod
-    def create_provider(config: Dict[str, Any]) -> StorageProvider:
+    def create_provider(config: Dict[str, Any]) -> BaseStorageProvider:
         """
         Create a storage provider based on configuration.
         
@@ -30,39 +30,67 @@ class StorageProviderFactory:
         """
         logger.debug(f"Creating storage provider with config: {json.dumps(config, indent=2)}")
         
-        # Get provider type from mode
-        provider_type = config.get('mode', '').lower()
-        logger.debug(f"Provider type from mode: {provider_type}")
+        # Get provider type from mode or type field for backward compatibility
+        provider_type = config.get('mode', config.get('type', '')).lower()
+        logger.debug(f"Provider type from config: {provider_type}")
         
         if not provider_type:
             raise ValueError("No provider type specified in configuration")
             
         if provider_type == 'local':
             logger.debug("Creating local storage provider")
-            if 'local' not in config:
-                raise ValueError("Local storage configuration missing")
+            base_path = config.get('base_path')
+            if not base_path:
+                if 'local' in config:
+                    base_path = config['local'].get('base_path')
             
-            local_config = config['local']
-            if 'base_path' not in local_config:
+            if not base_path:
                 raise ValueError("Local storage base path not specified")
             
-            return LocalStorageProvider(local_config['base_path'])
+            # Get folder names from config, with fallbacks to local config section
+            input_folder = config.get('input_folder')
+            if not input_folder and 'local' in config:
+                input_folder = config['local'].get('input_folder', 'input')
+            
+            output_folder = config.get('output_folder')
+            if not output_folder and 'local' in config:
+                output_folder = config['local'].get('output_folder')
+            
+            archive_folder = config.get('archive_folder')
+            if not archive_folder and 'local' in config:
+                archive_folder = config['local'].get('archive_folder')
+            
+            cache_folder = config.get('cache_folder')
+            if not cache_folder and 'local' in config:
+                cache_folder = config['local'].get('cache_folder')
+            
+            return LocalStorageProvider(
+                base_path=base_path,
+                input_folder=input_folder,
+                output_folder=output_folder,
+                archive_folder=archive_folder,
+                cache_folder=cache_folder
+            )
             
         elif provider_type == 's3':
             logger.debug("Creating S3 storage provider")
-            if 's3' not in config:
-                raise ValueError("S3 storage configuration missing")
+            s3_config = config.get('s3', {})
             
-            s3_config = config['s3']
-            required_params = ['aws_region', 'bucket_name', 'base_prefix']
-            missing_params = [p for p in required_params if p not in s3_config]
-            if missing_params:
-                raise ValueError(f"Missing required S3 parameters: {', '.join(missing_params)}")
+            # Support both old and new config formats
+            aws_region = config.get('aws_region', s3_config.get('aws_region'))
+            if not aws_region:
+                raise ValueError("Missing required S3 parameter: aws_region")
             
             return S3StorageProvider(
-                region=s3_config['aws_region'],
-                bucket_name=s3_config['bucket_name'],
-                base_prefix=s3_config['base_prefix']
+                aws_region=aws_region,
+                input_bucket=s3_config.get('input_bucket'),
+                input_prefix=s3_config.get('input_prefix'),
+                output_bucket=s3_config.get('output_bucket'),
+                output_prefix=s3_config.get('output_prefix'),
+                archive_bucket=s3_config.get('archive_bucket'),
+                archive_prefix=s3_config.get('archive_prefix'),
+                cache_bucket=s3_config.get('cache_bucket'),
+                cache_prefix=s3_config.get('cache_prefix')
             )
             
         else:

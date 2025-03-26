@@ -10,7 +10,34 @@ from datetime import datetime
 from storage_providers.s3_provider import S3StorageProvider
 
 @pytest.fixture
-def provider():
+def mock_s3():
+    """Create a mock S3 client."""
+    with patch('boto3.client') as mock_client:
+        s3 = Mock()
+        # Configure default successful responses
+        s3.get_object.return_value = {
+            'Body': Mock(read=lambda: b"test content"),
+            'LastModified': datetime.now()
+        }
+        s3.put_object.return_value = {}
+        s3.list_objects_v2.return_value = {
+            'Contents': [
+                {'Key': 'test1.txt'},
+                {'Key': 'test2.txt'}
+            ]
+        }
+        s3.head_object.return_value = {
+            'ContentLength': 100,
+            'LastModified': datetime.now()
+        }
+        s3.delete_object.return_value = {}
+        s3.copy_object.return_value = {}
+        
+        mock_client.return_value = s3
+        yield s3
+
+@pytest.fixture
+def provider(mock_s3):
     """Create an S3StorageProvider instance with test configuration."""
     return S3StorageProvider(
         aws_region="us-east-1",
@@ -23,14 +50,6 @@ def provider():
         cache_bucket="test-cache",
         cache_prefix="cache/"
     )
-
-@pytest.fixture
-def mock_s3():
-    """Create a mock S3 client."""
-    with patch('boto3.client') as mock_client:
-        s3 = Mock()
-        mock_client.return_value = s3
-        yield s3
 
 def test_init(provider):
     """Test initialization of S3StorageProvider."""
@@ -118,6 +137,7 @@ def test_list_files(provider, mock_s3):
     assert len(files) == 2
     assert "file1.txt" in files
     assert "file2.txt" in files
+    assert "subdir/file3.txt" not in files  # Verify subdirectory files are filtered out
     
     mock_s3.list_objects_v2.assert_called_once_with(
         Bucket="test-input",
@@ -173,7 +193,7 @@ def test_move_file(provider, mock_s3):
     assert success is True
     
     mock_s3.copy_object.assert_called_once_with(
-        Bucket="test-input",
+        Bucket="test-output",
         CopySource={"Bucket": "test-input", "Key": "input/source.txt"},
         Key="output/dest.txt"
     )
