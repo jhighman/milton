@@ -131,12 +131,12 @@ def when_lookup_organization(mock_facade, result_fixture, org_name):
 # Then Steps
 @then(parsers.parse('the system should choose "{strategy_name}"'))
 def then_check_strategy_used(result_fixture, strategy_name):
-    actual_strategy = result_fixture.get('search_strategy')
+    actual_strategy = result_fixture.get('search_evaluation', {}).get('search_strategy')
     assert actual_strategy == strategy_name, f"Expected {strategy_name}, got {actual_strategy}"
 
 @then(parsers.parse('the final source is "{source_name}"'))
 def then_final_source(result_fixture, source_name):
-    actual_source = result_fixture.get('source')
+    actual_source = result_fixture.get('search_evaluation', {}).get('source')
     assert actual_source == source_name, f"Expected source='{source_name}', got '{actual_source}'"
 
 @then('compliance is true')
@@ -179,7 +179,7 @@ def then_verify_valid_crd_lookup(result_fixture):
 def then_brokercheck_hit_combined(result_fixture, source_name, fragment, _pytest_bdd_example):
     brokercheck_result = _pytest_bdd_example["brokercheck_result"]
     if brokercheck_result == "hit":
-        actual_source = result_fixture.get('source')
+        actual_source = result_fixture.get('search_evaluation', {}).get('source')
         eval_data = result_fixture.get('search_evaluation', {})
         explanation = eval_data.get('compliance_explanation', '')
         print(f"Expected source: '{source_name}', Actual source: '{actual_source}'")
@@ -194,7 +194,7 @@ def then_brokercheck_no_hit_org_not_found_combined(result_fixture, source_name, 
     brokercheck_result = _pytest_bdd_example["brokercheck_result"]
     org_lookup = _pytest_bdd_example["org_lookup"]
     if brokercheck_result == "no hit" and org_lookup == "NOT_FOUND":
-        actual_source = result_fixture.get('source')
+        actual_source = result_fixture.get('search_evaluation', {}).get('source')
         eval_data = result_fixture.get('search_evaluation', {})
         outcome = eval_data.get('search_outcome', '')
         print(f"Expected source: '{source_name}', Actual source: '{actual_source}'")
@@ -209,7 +209,7 @@ def then_brokercheck_no_hit_org_found_combined(result_fixture, source_name, erro
     brokercheck_result = _pytest_bdd_example["brokercheck_result"]
     org_lookup = _pytest_bdd_example["org_lookup"]
     if brokercheck_result == "no hit" and org_lookup != "NOT_FOUND":
-        actual_source = result_fixture.get('source')
+        actual_source = result_fixture.get('search_evaluation', {}).get('source')
         eval_data = result_fixture.get('search_evaluation', {})
         outcome = eval_data.get('search_outcome', '')
         print(f"Expected source: '{source_name}', Actual source: '{actual_source}'")
@@ -246,7 +246,7 @@ def then_brokercheck_no_hit_sec_iapd_hit_combined(result_fixture, source_name, f
     brokercheck_result = _pytest_bdd_example["brokercheck_result"]
     iapd_result = _pytest_bdd_example["iapd_result"]
     if brokercheck_result == "no hit" and iapd_result == "hit":
-        actual_source = result_fixture.get('source')
+        actual_source = result_fixture.get('search_evaluation', {}).get('source')
         eval_data = result_fixture.get('search_evaluation', {})
         explanation = eval_data.get('compliance_explanation', '')
         print(f"Expected source: '{source_name}', Actual source: '{actual_source}'")
@@ -261,7 +261,7 @@ def then_both_no_hit_combined(result_fixture, source_name, fragment, _pytest_bdd
     brokercheck_result = _pytest_bdd_example["brokercheck_result"]
     iapd_result = _pytest_bdd_example["iapd_result"]
     if brokercheck_result == "no hit" and iapd_result == "no hit":
-        actual_source = result_fixture.get('source')
+        actual_source = result_fixture.get('search_evaluation', {}).get('source')
         eval_data = result_fixture.get('search_evaluation', {})
         explanation = eval_data.get('compliance_explanation', '')
         print(f"Expected source: '{source_name}', Actual source: '{actual_source}'")

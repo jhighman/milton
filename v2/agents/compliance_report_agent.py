@@ -9,8 +9,25 @@ from logging import Logger
 from datetime import datetime
 from evaluation_processor import Alert
 import os
+from storage_providers import StorageProviderFactory
+from main_config import get_storage_config
 
 logger = logging.getLogger(__name__)
+
+# Initialize storage provider lazily
+_storage_provider = None
+
+def get_storage_provider():
+    """Get or initialize the storage provider."""
+    global _storage_provider
+    if _storage_provider is None:
+        try:
+            storage_config = get_storage_config()
+            _storage_provider = StorageProviderFactory.create_provider(storage_config)
+        except Exception as e:
+            logger.error(f"Failed to initialize storage provider: {str(e)}")
+            _storage_provider = None
+    return _storage_provider
 
 CACHE_FOLDER = Path(__file__).parent.parent / "cache"  # Define locally, no marshaller dependency
 DATE_FORMAT = "%Y%m%d"
@@ -146,8 +163,11 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
     Returns:
         bool: True if the save was successful, False otherwise.
     """
-    logger.debug(f"Starting save_compliance_report with report keys: {list(report.keys())}")
-    
+    storage_provider = get_storage_provider()
+    if not storage_provider:
+        logger.error("Storage provider not initialized")
+        return False
+
     if not report or not isinstance(report, dict):
         logger.error("Invalid report data", extra={"employee_number": employee_number})
         return False
@@ -164,26 +184,26 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
     logger.info("Processing compliance report save", extra={"reference_id": reference_id, "employee_number": employee_number})
 
     try:
-        # Define cache path directly as cache/<employee_number>/
-        cache_path = CACHE_FOLDER / employee_number
+        # Define cache path using storage provider
+        cache_path = f"cache/{employee_number}"
         logger.debug(f"Creating cache directory: {cache_path}")
-        cache_path.mkdir(parents=True, exist_ok=True)
+        storage_provider.create_directory(cache_path)
         date = datetime.now().strftime(DATE_FORMAT)
         logger.debug(f"Using date: {date}")
 
         # Find existing files for this reference_id and date
         pattern = f"ComplianceReportAgent_{reference_id}_v*_{date}.json"
         logger.debug(f"Looking for existing files with pattern: {pattern}")
-        existing_files = sorted(cache_path.glob(pattern))
-        logger.debug(f"Found existing files: {[f.name for f in existing_files]}")
+        existing_files = sorted([f for f in storage_provider.list_files(cache_path) if f.endswith(f"_{date}.json")])
+        logger.debug(f"Found existing files: {existing_files}")
         latest_file = existing_files[-1] if existing_files else None
 
         # Load latest file for comparison, if it exists
         if latest_file:
             logger.debug(f"Loading latest file for comparison: {latest_file}")
             try:
-                with latest_file.open("r") as f:
-                    old_report = json.load(f)
+                file_content = storage_provider.read_file(f"{cache_path}/{latest_file}")
+                old_report = json.loads(file_content)
                 logger.debug(f"Successfully loaded old report with keys: {list(old_report.keys())}")
                 needs_new_version = has_significant_changes(report, old_report)
                 version = len(existing_files) + 1 if needs_new_version else None
@@ -197,7 +217,7 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
 
         if version:
             file_name = f"ComplianceReportAgent_{reference_id}_v{version}_{date}.json"
-            file_path = cache_path / file_name
+            file_path = f"{cache_path}/{file_name}"
             logger.debug(f"Attempting to save new version to: {file_path}")
             
             # Log the structure of the report before saving
@@ -221,11 +241,11 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
                 json_str = json_dumps_with_alerts(serializable_report, indent=2)
                 logger.debug("JSON serialization test successful")
                 
-                with file_path.open("w") as f:
-                    f.write(json_str)
+                # Write file using storage provider
+                storage_provider.write_file(file_path, json_str)
                 logger.info("New version of compliance report saved", 
                             extra={"reference_id": reference_id, "employee_number": employee_number, 
-                                   "file_path": str(file_path)})
+                                   "file_path": file_path})
             except TypeError as e:
                 logger.error(f"JSON serialization error: {str(e)}", exc_info=True)
                 logger.error("Problematic data structure:", extra={"report": str(report)})

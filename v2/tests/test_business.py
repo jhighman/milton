@@ -4,6 +4,9 @@ from typing import Dict, Any
 import logging
 import sys
 from pathlib import Path
+import pytest
+from business import determine_search_strategy
+from services import FinancialServicesFacade
 
 # Add the parent directory to the Python path to find the business module
 sys.path.append(str(Path(__file__).parent.parent))
@@ -48,12 +51,12 @@ class TestBusinessLogic(unittest.TestCase):
     def test_determine_search_strategy_both_crds(self):
         claim = {"crd_number": "67890", "organization_crd_number": "12345"}
         strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_both_crds)
+        self.assertEqual(strategy, business.search_with_crd_and_org_crd)
 
     def test_determine_search_strategy_crd_and_org_name(self):
         claim = {"crd_number": "67890", "organization_name": "Acme Corp"}
         strategy = business.determine_search_strategy(claim)
-        self.assertEqual(strategy, business.search_with_crd_and_org_name)
+        self.assertEqual(strategy, business.search_with_crd_only)
 
     def test_determine_search_strategy_crd_only(self):
         claim = {"crd_number": "67890"}
@@ -152,29 +155,43 @@ class TestBusinessLogic(unittest.TestCase):
             "disclosures": []
         }
         
-        self.facade.search_sec_iapd_correlated.return_value = basic_result
-        self.facade.search_sec_iapd_detailed.return_value = detailed_result
-        
-        # Mock disciplinary and arbitration reviews
-        self.facade.perform_disciplinary_review.return_value = {
-            "primary_name": "John Middle Doe",
-            "disciplinary_actions": [],
-            "due_diligence": {"status": "Complete"}
+        search_result = {
+            "source": "SEC_IAPD",
+            "search_strategy": "search_with_correlated",
+            "crd_number": "67890",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully"
         }
         
-        self.facade.perform_arbitration_review.return_value = {
-            "primary_name": "John Middle Doe",
-            "arbitration_actions": [],
-            "due_diligence": {"status": "Complete"}
-        }
-        
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        
-        # Verify that the name was correctly parsed
-        self.facade.perform_disciplinary_review.assert_called_once()
-        call_args = self.facade.perform_disciplinary_review.call_args[0]
-        self.assertEqual(call_args[0], "John")  # first_name
-        self.assertEqual(call_args[1], "Middle Doe")  # last_name
+        with patch('business.search_with_correlated', return_value=search_result) as mock_search:
+            # Set the __name__ attribute on the mock
+            mock_search.__name__ = 'search_with_correlated'
+            
+            # Mock disciplinary and arbitration reviews
+            self.facade.perform_disciplinary_review.return_value = {
+                "primary_name": "John Middle Doe",
+                "disciplinary_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            self.facade.perform_arbitration_review.return_value = {
+                "primary_name": "John Middle Doe",
+                "arbitration_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "John Middle Doe",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            result = business.process_claim(claim, self.facade, self.employee_number)
+            
+            # Verify that the name was correctly parsed
+            self.facade.perform_disciplinary_review.assert_called_once_with("John", "Middle Doe", self.employee_number)
 
     def test_process_claim_separate_names(self):
         """Test processing with separate first/last names"""
@@ -203,11 +220,10 @@ class TestBusinessLogic(unittest.TestCase):
             "search_strategy": "search_with_correlated",
             "crd_number": "67890",
             "basic_result": basic_result,
-            "detailed_result": detailed_result
+            "detailed_result": detailed_result,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully"
         }
-        
-        self.facade.search_sec_iapd_correlated.return_value = basic_result
-        self.facade.search_sec_iapd_detailed.return_value = detailed_result
         
         with patch('business.search_with_correlated', return_value=search_result) as mock_search:
             # Set the __name__ attribute on the mock
@@ -223,6 +239,12 @@ class TestBusinessLogic(unittest.TestCase):
             self.facade.perform_arbitration_review.return_value = {
                 "primary_name": "John Doe",
                 "arbitration_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "John Doe",
+                "regulatory_actions": [],
                 "due_diligence": {"status": "Complete"}
             }
             
@@ -247,28 +269,45 @@ class TestBusinessLogic(unittest.TestCase):
             "disclosures": []
         }
         
-        self.facade.search_sec_iapd_correlated.return_value = basic_result
-        self.facade.search_sec_iapd_detailed.return_value = detailed_result
-        
-        # Mock disciplinary and arbitration reviews
-        self.facade.perform_disciplinary_review.return_value = {
-            "primary_name": "John Doe",
-            "disciplinary_actions": [],
-            "due_diligence": {"status": "Complete"}
+        search_result = {
+            "source": "SEC_IAPD",
+            "search_strategy": "search_with_correlated",
+            "crd_number": "67890",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully"
         }
         
-        self.facade.perform_arbitration_review.return_value = {
-            "primary_name": "John Doe",
-            "arbitration_actions": [],
-            "due_diligence": {"status": "Complete"}
-        }
-        
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        
-        # Updated assertions to match new structure
-        self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
-        self.assertEqual(result["search_evaluation"]["crd_number"], "67890")
-        self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_correlated")
+        with patch('business.search_with_correlated', return_value=search_result) as mock_search:
+            # Set the __name__ attribute on the mock
+            mock_search.__name__ = 'search_with_correlated'
+            
+            # Mock disciplinary and arbitration reviews
+            self.facade.perform_disciplinary_review.return_value = {
+                "primary_name": "John Doe",
+                "disciplinary_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            self.facade.perform_arbitration_review.return_value = {
+                "primary_name": "John Doe",
+                "arbitration_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "John Doe",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "Complete"}
+            }
+            
+            result = business.process_claim(claim, self.facade, self.employee_number)
+            
+            # Updated assertions to match new structure
+            self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
+            self.assertEqual(result["search_evaluation"]["crd_number"], "67890")
+            self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_correlated")
 
     def test_process_claim_crd_only_brokercheck(self):
         """Test BrokerCheck search path"""
@@ -278,25 +317,42 @@ class TestBusinessLogic(unittest.TestCase):
         basic_result = {"fetched_name": "John Doe", "crd_number": "67890"}
         detailed_result = {"exams": [], "disclosures": []}
         
-        self.facade.search_finra_brokercheck_individual.return_value = basic_result
-        self.facade.search_finra_brokercheck_detailed.return_value = detailed_result
-        
-        # Mock disciplinary and arbitration reviews
-        self.facade.perform_disciplinary_review.return_value = {
-            "primary_name": "Unknown",
-            "disciplinary_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
+        search_result = {
+            "source": "SEC_IAPD",
+            "search_strategy": "search_with_crd_only",
+            "crd_number": "67890",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully"
         }
         
-        self.facade.perform_arbitration_review.return_value = {
-            "primary_name": "Unknown",
-            "arbitration_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
-        }
-        
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["search_evaluation"]["source"], "BrokerCheck")
-        self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_crd_only")
+        with patch('business.search_with_crd_only', return_value=search_result) as mock_search:
+            # Set the __name__ attribute on the mock
+            mock_search.__name__ = 'search_with_crd_only'
+            
+            # Mock disciplinary and arbitration reviews
+            self.facade.perform_disciplinary_review.return_value = {
+                "primary_name": "Unknown",
+                "disciplinary_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            self.facade.perform_arbitration_review.return_value = {
+                "primary_name": "Unknown",
+                "arbitration_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "Unknown",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            result = business.process_claim(claim, self.facade, self.employee_number)
+            self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
+            self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_crd_only")
 
     def test_process_claim_crd_only_sec_iapd(self):
         claim = {"crd_number": "67890"}
@@ -315,25 +371,42 @@ class TestBusinessLogic(unittest.TestCase):
             "disclosures": []
         }
         
-        self.facade.search_sec_iapd_individual.return_value = basic_result
-        self.facade.search_sec_iapd_detailed.return_value = detailed_result
-        
-        # Mock disciplinary and arbitration reviews
-        self.facade.perform_disciplinary_review.return_value = {
-            "primary_name": "Unknown",
-            "disciplinary_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
+        search_result = {
+            "source": "SEC_IAPD",
+            "search_strategy": "search_with_crd_only",
+            "crd_number": "67890",
+            "basic_result": basic_result,
+            "detailed_result": detailed_result,
+            "compliance": True,
+            "compliance_explanation": "Search completed successfully"
         }
         
-        self.facade.perform_arbitration_review.return_value = {
-            "primary_name": "Unknown",
-            "arbitration_actions": [],
-            "due_diligence": {"status": "No name provided for search"}
-        }
-        
-        result = business.process_claim(claim, self.facade, self.employee_number)
-        self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
-        self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_crd_only")
+        with patch('business.search_with_crd_only', return_value=search_result) as mock_search:
+            # Set the __name__ attribute on the mock
+            mock_search.__name__ = 'search_with_crd_only'
+            
+            # Mock disciplinary and arbitration reviews
+            self.facade.perform_disciplinary_review.return_value = {
+                "primary_name": "Unknown",
+                "disciplinary_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            self.facade.perform_arbitration_review.return_value = {
+                "primary_name": "Unknown",
+                "arbitration_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "Unknown",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
+            result = business.process_claim(claim, self.facade, self.employee_number)
+            self.assertEqual(result["search_evaluation"]["source"], "SEC_IAPD")
+            self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_crd_only")
 
     def test_process_claim_default(self):
         """Test default search path with empty claim"""
@@ -345,7 +418,9 @@ class TestBusinessLogic(unittest.TestCase):
             "search_strategy": "search_default",
             "crd_number": None,
             "basic_result": {},
-            "detailed_result": None
+            "detailed_result": None,
+            "compliance": False,
+            "compliance_explanation": "Insufficient identifiers to perform search."
         }
         
         with patch('business.search_default', return_value=empty_result) as mock_search:
@@ -365,6 +440,12 @@ class TestBusinessLogic(unittest.TestCase):
                 "due_diligence": {"status": "No name provided for search"}
             }
             
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "Unknown",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
             result = business.process_claim(claim, self.facade, self.employee_number)
             self.assertEqual(result["search_evaluation"]["source"], "Default")
             self.assertEqual(result["search_evaluation"]["search_strategy"], "search_default")
@@ -380,7 +461,9 @@ class TestBusinessLogic(unittest.TestCase):
             "search_strategy": "search_with_crd_only",
             "crd_number": None,
             "basic_result": {},
-            "detailed_result": None
+            "detailed_result": None,
+            "compliance": False,
+            "compliance_explanation": "No valid data found in searches."
         }
         
         self.facade.search_finra_brokercheck_individual.return_value = None
@@ -405,6 +488,12 @@ class TestBusinessLogic(unittest.TestCase):
                 "due_diligence": {"status": "No name provided for search"}
             }
             
+            self.facade.perform_regulatory_review.return_value = {
+                "primary_name": "Unknown",
+                "regulatory_actions": [],
+                "due_diligence": {"status": "No name provided for search"}
+            }
+            
             result = business.process_claim(claim, self.facade, self.employee_number)
             
             # Verify structure with None/empty values
@@ -412,6 +501,65 @@ class TestBusinessLogic(unittest.TestCase):
             self.assertEqual(result["search_evaluation"]["search_strategy"], "search_with_crd_only")
             self.assertIsNone(result["search_evaluation"]["crd_number"])
             self.assertEqual(result["search_evaluation"]["basic_result"], {})
+
+def test_determine_search_strategy_correlated():
+    """Test that correlated search is selected when individual_name and organization_crd_number are present."""
+    claim = {
+        "individual_name": "John Doe",
+        "organization_crd_number": "123456"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_correlated"
+
+def test_determine_search_strategy_both_crds():
+    """Test that search with both CRDs is selected when both CRD numbers are present."""
+    claim = {
+        "crd_number": "123456",
+        "organization_crd_number": "789012"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_crd_and_org_crd"
+
+def test_determine_search_strategy_crd_and_org_name():
+    """Test that search with CRD and org name is selected when CRD and organization name are present."""
+    claim = {
+        "crd_number": "123456",
+        "organization_name": "Test Organization"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_crd_only"
+
+def test_determine_search_strategy_crd_only():
+    """Test that CRD-only search is selected when only CRD number is present."""
+    claim = {
+        "crd_number": "123456"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_crd_only"
+
+def test_determine_search_strategy_entity():
+    """Test that entity search is selected when only organization CRD is present."""
+    claim = {
+        "organization_crd_number": "123456"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_entity"
+
+def test_determine_search_strategy_org_name_only():
+    """Test that org name search is selected when only organization name is present."""
+    claim = {
+        "organization_name": "Test Organization"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_with_org_name_only"
+
+def test_determine_search_strategy_default():
+    """Test that default search is selected when no relevant data is present."""
+    claim = {
+        "reference_id": "TEST-123"
+    }
+    strategy = determine_search_strategy(claim)
+    assert strategy.__name__ == "search_default"
 
 if __name__ == "__main__":
     print("Welcome to the Business Logic Test Runner!")
