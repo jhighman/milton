@@ -22,10 +22,17 @@ def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
     """Determine the appropriate search strategy based on claim data."""
-    individual_name = claim.get("individual_name", "")
-    crd_number = claim.get("crd_number", "").strip()
-    organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", "")).strip()
-    organization_name = claim.get("organization_name", "").strip()
+    # Get individual identifiers
+    individual_name = claim.get("individual_name") or ""
+    first_name = claim.get("first_name") or ""
+    last_name = claim.get("last_name") or ""
+    if not individual_name and (first_name or last_name):
+        individual_name = f"{first_name} {last_name}".strip()
+
+    # Get organization identifiers
+    crd_number = (claim.get("crd_number") or "").strip()
+    organization_crd_number = (claim.get("organization_crd_number") or claim.get("organization_crd") or "").strip()
+    organization_name = (claim.get("organization_name") or "").strip()
 
     claim_summary = f"claim={json_dumps_with_alerts(claim)}"
     logger.debug(f"Determining search strategy for {claim_summary}")
