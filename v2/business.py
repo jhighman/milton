@@ -31,9 +31,9 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
       - The combined name is stored back in the claim
     """
     # Get individual identifiers
-    individual_name = claim.get("individual_name", "").strip()
-    first_name = claim.get("first_name", "").strip()
-    last_name = claim.get("last_name", "").strip()
+    individual_name = (claim.get("individual_name") or "").strip()
+    first_name = (claim.get("first_name") or "").strip()
+    last_name = (claim.get("last_name") or "").strip()
 
     # Combine first_name and last_name into individual_name if needed
     if not individual_name and (first_name or last_name):
@@ -44,7 +44,7 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     # Get organization identifiers - keep them separate
     crd_number = claim.get("crd_number")
     organization_crd = claim.get("organization_crd")
-    organization_name = claim.get("organization_name", "").strip()
+    organization_name = (claim.get("organization_name") or "").strip()
 
     # Clean up CRD numbers and ensure they stay separate
     if crd_number:
