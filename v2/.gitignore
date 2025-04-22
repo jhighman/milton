@@ -1,11 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Logs
 logs/
 *.log
 
-# Python cache
-__pycache__/
-*.py[cod]
-*$py.class
+# Mac system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Gradio
+.gradio/
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+.venv
+myvenv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
 
 # Test data
 input/input/
@@ -25,6 +52,3 @@ archive/
 cache/
 drop/
 output/
-
-# Python package
-*.egg-info/
