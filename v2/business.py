@@ -21,42 +21,67 @@ def json_dumps_with_alerts(obj: Any, **kwargs) -> str:
     return json.dumps(obj, cls=AlertEncoder, **kwargs)
 
 def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any], FinancialServicesFacade, str], Dict[str, Any]]:
-    """Determine the appropriate search strategy based on claim data."""
+    """Determine the appropriate search strategy based on claim data.
+    
+    The function handles both individual_name and separate first_name/last_name fields:
+    - If individual_name is present, it is used as is
+    - If first_name and/or last_name are present but individual_name is not:
+      - They are combined into individual_name
+      - Spaces are properly handled
+      - The combined name is stored back in the claim
+    """
     # Get individual identifiers
-    individual_name = claim.get("individual_name") or ""
-    first_name = claim.get("first_name") or ""
-    last_name = claim.get("last_name") or ""
+    individual_name = claim.get("individual_name", "").strip()
+    first_name = claim.get("first_name", "").strip()
+    last_name = claim.get("last_name", "").strip()
+
+    # Combine first_name and last_name into individual_name if needed
     if not individual_name and (first_name or last_name):
         individual_name = f"{first_name} {last_name}".strip()
+        claim["individual_name"] = individual_name
+        logger.debug(f"Combined first_name='{first_name}' and last_name='{last_name}' into individual_name='{individual_name}'")
 
-    # Get organization identifiers
-    crd_number = (claim.get("crd_number") or "").strip()
-    organization_crd_number = (claim.get("organization_crd_number") or claim.get("organization_crd") or "").strip()
-    organization_name = (claim.get("organization_name") or "").strip()
+    # Get organization identifiers - keep them separate
+    crd_number = claim.get("crd_number")
+    organization_crd = claim.get("organization_crd")
+    organization_name = claim.get("organization_name", "").strip()
+
+    # Clean up CRD numbers and ensure they stay separate
+    if crd_number:
+        crd_number = crd_number.strip()
+        if not crd_number:
+            crd_number = None
+            claim["crd_number"] = None
+
+    if organization_crd:
+        organization_crd = organization_crd.strip()
+        if not organization_crd:
+            organization_crd = None
+            claim["organization_crd"] = None
 
     claim_summary = f"claim={json_dumps_with_alerts(claim)}"
     logger.debug(f"Determining search strategy for {claim_summary}")
 
-    if crd_number and organization_crd_number:
-        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}' and organization_crd_number='{organization_crd_number}'")
+    if crd_number and organization_crd:
+        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary}")
         return search_with_crd_and_org_crd
     elif crd_number:
-        logger.info(f"Selected search_with_crd_only for {claim_summary} due to crd_number='{crd_number}'")
+        logger.info(f"Selected search_with_crd_only for {claim_summary}")
         return search_with_crd_only
-    elif individual_name and organization_crd_number:
-        logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_crd_number='{organization_crd_number}'")
+    elif individual_name and organization_crd:
+        logger.info(f"Selected search_with_correlated for {claim_summary}")
         return search_with_correlated
-    elif individual_name and organization_name and not organization_crd_number:
-        logger.info(f"Selected search_with_correlated for {claim_summary} with individual_name='{individual_name}' and organization_name='{organization_name}'")
+    elif individual_name and organization_name:
+        logger.info(f"Selected search_with_correlated for {claim_summary}")
         return search_with_correlated
-    elif organization_crd_number:
-        logger.info(f"Selected search_with_entity for {claim_summary} with organization_crd_number='{organization_crd_number}'")
+    elif organization_crd:
+        logger.info(f"Selected search_with_entity for {claim_summary}")
         return search_with_entity
     elif organization_name:
-        logger.info(f"Selected search_with_org_name_only for {claim_summary} with organization_name='{organization_name}'")
+        logger.info(f"Selected search_with_org_name_only for {claim_summary}")
         return search_with_org_name_only
     else:
-        logger.info(f"Selected search_default for {claim_summary} as fallback")
+        logger.info(f"Selected search_default for {claim_summary}")
         return search_default
 
 def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
@@ -419,7 +444,7 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
     }
 
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
-    """Search using correlated individual and organization data, delegating to search_with_crd_only if CRD is resolved."""
+    """Search using correlated individual and organization data."""
     individual_name = claim.get("individual_name", "")
     organization_name = claim.get("organization_name", "")
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
@@ -473,24 +498,50 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
             "skip_reasons": ["No organization name or CRD provided"]
         }
 
-    claim["crd_number"] = resolved_crd_number
-    logger.info(f"Resolved CRD number '{resolved_crd_number}' for {claim_summary}, delegating to search_with_crd_only")
+    # Create a new claim for searching without modifying the original
+    search_claim = claim.copy()
+    search_claim["organization_crd"] = resolved_crd_number
+    
+    logger.info(f"Searching with individual name '{individual_name}' and organization CRD '{resolved_crd_number}' for {claim_summary}")
     try:
-        result = search_with_crd_only(claim, facade, employee_number)
-        logger.debug(f"search_with_crd_only returned: {json_dumps_with_alerts(result)} for {claim_summary}")
-        # Preserve the original search strategy
-        result["search_strategy"] = "search_with_correlated"
-        return result
+        # Search using individual name AND organization CRD
+        basic_result = facade.search_sec_iapd_correlated(individual_name, resolved_crd_number, employee_number)
+        logger.debug(f"SEC IAPD basic_result: {json_dumps_with_alerts(basic_result)}")
+        if basic_result and (basic_result.get("fetched_name", "").strip() or basic_result.get("crd_number")):
+            crd_number = basic_result.get("crd_number")
+            detailed_result = facade.search_sec_iapd_detailed(crd_number, employee_number) if crd_number else None
+            logger.debug(f"SEC IAPD detailed_result: {json_dumps_with_alerts(detailed_result)}")
+            logger.info(f"SEC IAPD returned valid data for {claim_summary}")
+            return {
+                "source": "SEC_IAPD",
+                "basic_result": basic_result,
+                "detailed_result": detailed_result,
+                "search_strategy": "search_with_correlated",
+                "crd_number": crd_number,
+                "compliance": True,
+                "compliance_explanation": "Search completed successfully with SEC IAPD data using individual name and organization CRD."
+            }
+        else:
+            logger.warning(f"SEC IAPD search returned no meaningful data for {claim_summary}")
+            return {
+                "source": "SEC_IAPD",
+                "basic_result": basic_result or {},
+                "detailed_result": None,
+                "search_strategy": "search_with_correlated",
+                "crd_number": None,
+                "compliance": False,
+                "compliance_explanation": "Search completed but no individual found in SEC IAPD data."
+            }
     except Exception as e:
-        logger.error(f"Delegation to search_with_crd_only failed for {claim_summary} with crd_number='{resolved_crd_number}': {str(e)}", exc_info=True)
+        logger.error(f"Search failed for {claim_summary}: {str(e)}", exc_info=True)
         return {
-            "source": "Unknown",
+            "source": "SEC_IAPD",
             "basic_result": None,
             "detailed_result": None,
             "search_strategy": "search_with_correlated",
-            "crd_number": resolved_crd_number,
+            "crd_number": None,
             "compliance": False,
-            "compliance_explanation": f"Search failed: Delegation to search_with_crd_only failed: {str(e)}",
+            "compliance_explanation": f"Search failed: {str(e)}",
             "error": str(e)
         }
 

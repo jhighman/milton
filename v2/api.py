@@ -20,7 +20,7 @@ Use endpoints like `/process-claim-basic`, `/cache/clear`, `/compliance/risk-das
 import json
 from typing import Dict, Any, Optional
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 import aiohttp
 import asyncio
 
@@ -168,6 +168,13 @@ class ClaimRequest(BaseModel):
     class Config:
         extra = "allow"
 
+    @validator('crd_number', pre=True, always=True)
+    def validate_crd_number(cls, v):
+        """Ensure crd_number is explicitly set and not implicitly copied from organization_crd"""
+        if v == "":  # Convert empty string to None
+            return None
+        return v
+
 async def send_to_webhook(webhook_url: str, report: Dict[str, Any], reference_id: str):
     """Asynchronously send the report to the specified webhook URL."""
     async with aiohttp.ClientSession() as session:
@@ -204,6 +211,11 @@ async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, An
     claim = request.dict(exclude_unset=True)
     employee_number = claim.pop("employee_number")
     webhook_url = claim.pop("webhook_url", None)
+
+    # Set individual_name if not provided but we have first_name and last_name
+    if not claim.get("individual_name") and claim.get("first_name") and claim.get("last_name"):
+        claim["individual_name"] = f"{claim['first_name']} {claim['last_name']}".strip()
+        logger.debug(f"Set individual_name to '{claim['individual_name']}' from first_name and last_name")
 
     try:
         # Process the claim
