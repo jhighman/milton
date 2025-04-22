@@ -165,16 +165,25 @@ def process_claim(mode: str, reference_id: str, employee_number: str, first_name
         error_html = "<div style='color: orange;'>Please provide at least one of: CRD Number, Organization CRD, or Organization Name.</div>"
         return error_html, ""
 
+    # Start with mandatory fields
     data = {
-        "reference_id": reference_id,
-        "employee_number": employee_number,
-        "first_name": first_name,
-        "last_name": last_name,
-        "crd_number": crd_number if crd_number else None,
-        "organization_crd": organization_crd if organization_crd else None,
-        "organization_name": organization_name if organization_name else None,
-        "webhook_url": webhook_url if webhook_url else None
+        "reference_id": reference_id.strip(),
+        "employee_number": employee_number.strip(),
+        "first_name": first_name.strip(),
+        "last_name": last_name.strip()
     }
+
+    # Only add optional fields if they have non-empty values
+    if crd_number and crd_number.strip():
+        data["crd_number"] = crd_number.strip()
+    if organization_crd and organization_crd.strip():
+        data["organization_crd"] = organization_crd.strip()
+    if organization_name and organization_name.strip():
+        data["organization_name"] = organization_name.strip()
+    if webhook_url and webhook_url.strip():
+        data["webhook_url"] = webhook_url.strip()
+
+    logger.debug(f"Submitting claim with data: {json.dumps(data, indent=2)}")
     endpoint = f"/process-claim-{mode}"
     raw_response = api_call("post", endpoint, data)
     return render_claim_report(raw_response)
@@ -222,78 +231,96 @@ def get_risk_dashboard() -> str:
 def get_data_quality_report() -> str:
     return api_call("get", "/compliance/data-quality")
 
-# Gradio UI Layout
-with gr.Blocks(title="Compliance API Interface") as demo:
-    gr.Markdown("# Compliance Claim Processing & Cache Management UI")
-
-    # Claim Processing Section
-    with gr.Row():
-        with gr.Column():
-            gr.Markdown("## Submit Compliance Claim")
-            mode = gr.Dropdown(choices=["basic", "extended", "complete"], label="Processing Mode", value="basic")
-            reference_id = gr.Textbox(label="Reference ID *", placeholder="e.g., TEST123")
-            employee_number_claim = gr.Textbox(label="Employee Number *", placeholder="e.g., EN-016314")
-            first_name = gr.Textbox(label="First Name *", placeholder="e.g., John")
-            last_name = gr.Textbox(label="Last Name *", placeholder="e.g., Doe")
-            crd_number = gr.Textbox(label="CRD Number", placeholder="e.g., 123456")
-            organization_crd = gr.Textbox(label="Organization CRD", placeholder="e.g., 789101")
-            organization_name = gr.Textbox(label="Organization Name", placeholder="e.g., Acme Corp")
-            webhook_url = gr.Textbox(label="Webhook URL (optional)", placeholder="e.g., http://example.com/webhook")
-            submit_btn = gr.Button("Submit Claim")
-            
-            with gr.Tabs():
-                with gr.TabItem("Formatted Report"):
-                    claim_output_html = gr.HTML(label="Claim Result")
-                with gr.TabItem("Raw JSON"):
-                    claim_output_json = gr.Textbox(label="Raw JSON", lines=15)
+def create_ui() -> gr.Blocks:
+    """Create and return the Gradio interface."""
+    with gr.Blocks(title="Compliance Claim Processing") as demo:
+        gr.Markdown("# 🔍 Compliance Claim Processing")
+        
+        with gr.Tab("Process Claim"):
+            with gr.Row():
+                with gr.Column():
+                    mode = gr.Radio(
+                        choices=["basic", "extended", "complete"],
+                        value="basic",
+                        label="Processing Mode"
+                    )
+                    reference_id = gr.Textbox(label="Reference ID*", placeholder="e.g., REF-001")
+                    employee_number = gr.Textbox(label="Employee Number*", placeholder="e.g., EMP-001")
+                    first_name = gr.Textbox(label="First Name*", placeholder="e.g., John")
+                    last_name = gr.Textbox(label="Last Name*", placeholder="e.g., Doe")
+                    crd_number = gr.Textbox(label="CRD Number", placeholder="e.g., 123456")
+                    organization_crd = gr.Textbox(label="Organization CRD", placeholder="e.g., 789012")
+                    organization_name = gr.Textbox(label="Organization Name", placeholder="e.g., Acme Corp")
+                    webhook_url = gr.Textbox(label="Webhook URL", placeholder="https://...")
+                    submit_btn = gr.Button("Process Claim")
+                
+                with gr.Column():
+                    result_html = gr.HTML(label="Report")
+                    json_output = gr.JSON(label="Raw JSON")
             
             submit_btn.click(
                 fn=process_claim,
-                inputs=[mode, reference_id, employee_number_claim, first_name, last_name, 
-                        crd_number, organization_crd, organization_name, webhook_url],
-                outputs=[claim_output_html, claim_output_json]
+                inputs=[mode, reference_id, employee_number, first_name, last_name, 
+                       crd_number, organization_crd, organization_name, webhook_url],
+                outputs=[result_html, json_output]
             )
-
-    # Cache Management Section
-    with gr.Row():
-        with gr.Column():
-            gr.Markdown("## Cache Management")
-            employee_number_cache = gr.Textbox(label="Employee Number", placeholder="e.g., EN-016314")
-            agent_name = gr.Textbox(label="Agent Name", placeholder="e.g., SEC_IAPD_Agent")
-            page_cache = gr.Number(label="Page", value=1, minimum=1)
-            page_size_cache = gr.Number(label="Page Size", value=10, minimum=1)
+        
+        with gr.Tab("Cache Management"):
             with gr.Row():
-                clear_btn = gr.Button("Clear Cache")
-                clear_all_btn = gr.Button("Clear All Cache")
-                clear_agent_btn = gr.Button("Clear Agent Cache")
-                list_btn = gr.Button("List Cache")
-                cleanup_btn = gr.Button("Cleanup Stale Cache")
-            cache_output = gr.Textbox(label="Cache Operation Result", lines=10)
-            clear_btn.click(fn=clear_cache, inputs=employee_number_cache, outputs=cache_output)
-            clear_all_btn.click(fn=clear_all_cache, inputs=None, outputs=cache_output)
-            clear_agent_btn.click(fn=clear_agent_cache, inputs=[employee_number_cache, agent_name], outputs=cache_output)
-            list_btn.click(fn=list_cache, inputs=[employee_number_cache, page_cache, page_size_cache], outputs=cache_output)
-            cleanup_btn.click(fn=cleanup_stale_cache, inputs=None, outputs=cache_output)
-
-    # Compliance Analytics Section
-    with gr.Row():
-        with gr.Column():
-            gr.Markdown("## Compliance Analytics")
-            employee_number_summary = gr.Textbox(label="Employee Number for Summary", placeholder="e.g., EN-016314")
-            page_summary = gr.Number(label="Page", value=1, minimum=1)
-            page_size_summary = gr.Number(label="Page Size", value=10, minimum=1)
+                with gr.Column():
+                    cache_emp_number = gr.Textbox(label="Employee Number")
+                    agent_name = gr.Textbox(label="Agent Name")
+                    page = gr.Number(value=1, label="Page")
+                    page_size = gr.Number(value=10, label="Page Size")
+                    
+                    with gr.Row():
+                        clear_cache_btn = gr.Button("Clear Cache")
+                        clear_all_btn = gr.Button("Clear All Cache")
+                        clear_agent_btn = gr.Button("Clear Agent Cache")
+                        list_cache_btn = gr.Button("List Cache")
+                        cleanup_btn = gr.Button("Cleanup Stale")
+                
+                with gr.Column():
+                    cache_output = gr.JSON(label="Cache Operation Result")
+            
+            clear_cache_btn.click(fn=clear_cache, inputs=[cache_emp_number], outputs=cache_output)
+            clear_all_btn.click(fn=clear_all_cache, inputs=[], outputs=cache_output)
+            clear_agent_btn.click(fn=clear_agent_cache, inputs=[cache_emp_number, agent_name], outputs=cache_output)
+            list_cache_btn.click(fn=list_cache, inputs=[cache_emp_number, page, page_size], outputs=cache_output)
+            cleanup_btn.click(fn=cleanup_stale_cache, inputs=[], outputs=cache_output)
+        
+        with gr.Tab("Analytics"):
             with gr.Row():
-                summary_btn = gr.Button("Get Summary")
-                all_summaries_btn = gr.Button("Get All Summaries")
-                taxonomy_btn = gr.Button("Get Taxonomy")
-                risk_btn = gr.Button("Get Risk Dashboard")
-                quality_btn = gr.Button("Get Data Quality")
-            analytics_output = gr.Textbox(label="Analytics Result", lines=15)
-            summary_btn.click(fn=get_compliance_summary, inputs=[employee_number_summary, page_summary, page_size_summary], outputs=analytics_output)
-            all_summaries_btn.click(fn=get_all_compliance_summaries, inputs=[page_summary, page_size_summary], outputs=analytics_output)
-            taxonomy_btn.click(fn=get_taxonomy, inputs=None, outputs=analytics_output)
-            risk_btn.click(fn=get_risk_dashboard, inputs=None, outputs=analytics_output)
-            quality_btn.click(fn=get_data_quality_report, inputs=None, outputs=analytics_output)
+                with gr.Column():
+                    analytics_emp_number = gr.Textbox(label="Employee Number")
+                    analytics_page = gr.Number(value=1, label="Page")
+                    analytics_page_size = gr.Number(value=10, label="Page Size")
+                    
+                    with gr.Row():
+                        summary_btn = gr.Button("Get Summary")
+                        all_summaries_btn = gr.Button("Get All Summaries")
+                        taxonomy_btn = gr.Button("Get Taxonomy")
+                        risk_btn = gr.Button("Get Risk Dashboard")
+                        quality_btn = gr.Button("Get Data Quality")
+                
+                with gr.Column():
+                    analytics_output = gr.JSON(label="Analytics Result")
+            
+            summary_btn.click(fn=get_compliance_summary, 
+                            inputs=[analytics_emp_number, analytics_page, analytics_page_size], 
+                            outputs=analytics_output)
+            all_summaries_btn.click(fn=get_all_compliance_summaries, 
+                                  inputs=[analytics_page, analytics_page_size], 
+                                  outputs=analytics_output)
+            taxonomy_btn.click(fn=get_taxonomy, inputs=[], outputs=analytics_output)
+            risk_btn.click(fn=get_risk_dashboard, inputs=[], outputs=analytics_output)
+            quality_btn.click(fn=get_data_quality_report, inputs=[], outputs=analytics_output)
+    
+    return demo
 
-# Launch the UI
-demo.launch()
+if __name__ == "__main__":
+    demo = create_ui()
+    # Start without sharing first
+    demo.launch(server_port=7860)  # Use a specific port
+    # After allowing the binary, you can enable sharing
+    # demo.launch(share=True, server_port=7860)
