@@ -14,7 +14,7 @@ from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
-from storage_providers import StorageProviderFactory
+from storage_providers.factory import StorageProviderFactory
 from main_config import get_storage_config, load_config
 
 # Setup logging
@@ -33,24 +33,36 @@ RUN_HEADLESS = True
 REQUEST_LOG_FILE = "request_log.txt"
 
 # Initialize storage provider
-config = load_config()
-storage_config = get_storage_config(config)
+try:
+    config = load_config()
+    logger.debug(f"Loaded config: {config}")
+    storage_config = get_storage_config(config)
+    logger.debug(f"Storage config: {storage_config}")
+    
+    provider_config = {
+        'mode': storage_config.get('mode', 'local'),
+        'local': {
+            'base_path': storage_config.get('local', {}).get('base_path', str(Path.cwd())),
+            'input_folder': storage_config.get('local', {}).get('input_folder', 'drop'),
+            'output_folder': storage_config.get('local', {}).get('output_folder', 'output'),
+            'archive_folder': storage_config.get('local', {}).get('archive_folder', 'archive'),
+            'cache_folder': storage_config.get('local', {}).get('cache_folder', 'cache')
+        },
+        's3': storage_config.get('s3', {})
+    }
+    
+    storage_provider = StorageProviderFactory.create_provider(provider_config)
+    logger.info("Storage provider initialized successfully")
+    
+    # Get cache folder from config and ensure it exists
+    CACHE_FOLDER = Path(provider_config['local']['cache_folder'])
+    storage_provider.create_directory(str(CACHE_FOLDER))
+    
+except Exception as e:
+    logger.error(f"Failed to initialize storage provider: {str(e)}", exc_info=True)
+    raise
 
-# Create storage provider with proper configuration structure
-provider_config = {
-    'mode': storage_config.get('mode', 'local'),
-    'local': {
-        'base_path': storage_config.get('local', {}).get('cache_folder', 'cache')
-    },
-    's3': storage_config.get('s3', {})
-}
-
-storage_provider = StorageProviderFactory.create_provider(provider_config)
-
-# Get cache folder from config
-CACHE_FOLDER = Path(storage_config.get("local", {}).get("cache_folder", "cache"))
-
-# WebDriver setup (shared across Selenium agents)
+# WebDriver setup
 def create_driver(headless: bool = RUN_HEADLESS, logger: logging.Logger = logger) -> webdriver.Chrome:
     logger.debug("Initializing Chrome WebDriver", extra={"headless": headless})
     options = Options()
@@ -125,12 +137,27 @@ def get_current_date() -> str:
 def get_manifest_timestamp() -> str:
     return datetime.now().strftime(MANIFEST_DATE_FORMAT)
 
-def is_cache_valid(cached_date: str) -> bool:
+def is_cache_valid(cache_path: Union[str, Path], max_age_hours: int = 24) -> bool:
+    """Check if cached data is still valid.
+    
+    Args:
+        cache_path: Path to the cache directory
+        max_age_hours: Maximum age of cache in hours
+        
+    Returns:
+        True if cache is valid, False otherwise
+    """
     try:
-        cached_datetime = datetime.strptime(cached_date, DATE_FORMAT)
-        return (datetime.now() - cached_datetime) <= timedelta(days=CACHE_TTL_DAYS)
-    except ValueError:
-        logger.warning(f"Invalid date format in cache manifest: {cached_date}")
+        manifest = read_manifest(cache_path)
+        if not manifest:
+            return False
+            
+        cache_time = datetime.fromisoformat(manifest.get('timestamp', ''))
+        age_limit = datetime.now() - timedelta(hours=max_age_hours)
+        return cache_time > age_limit
+        
+    except Exception as e:
+        logger.error(f"Error checking cache validity for {cache_path}: {str(e)}", exc_info=True)
         return False
 
 def build_cache_path(employee_number: str, agent_name: str, service: str) -> Path:
@@ -140,24 +167,44 @@ def build_file_name(agent_name: str, employee_number: str, service: str, date: s
     base = f"{agent_name}_{employee_number}_{service}_{date}"
     return f"{base}_{ordinal}.json" if ordinal is not None else f"{base}.json"
 
-def read_manifest(cache_path: Path) -> Optional[str]:
-    """Read the manifest file and return the cached date."""
-    manifest_path = cache_path / "manifest.txt"
-    manifest_path_str = str(manifest_path)
-    if storage_provider.file_exists(manifest_path_str):
-        try:
-            content = storage_provider.read_file(manifest_path_str).decode().strip()
-            if content and "Cached on: " in content:
-                return content.split("Cached on: ")[1].split(" ")[0].replace("-", "")
-        except Exception as e:
-            logger.warning(f"Error reading manifest file at {manifest_path}: {e}")
-    return None
+def read_manifest(cache_path: Union[str, Path]) -> Optional[Dict[str, Any]]:
+    """Read the manifest file for a cached result.
+    
+    Args:
+        cache_path: Path to the cache directory
+        
+    Returns:
+        Manifest data if found, None otherwise
+    """
+    try:
+        manifest_path_str = str(Path(cache_path) / "manifest.json")
+        if storage_provider.file_exists(manifest_path_str):
+            content = storage_provider.read_file(manifest_path_str)
+            if isinstance(content, bytes):
+                return json.loads(content.decode('utf-8'))
+            return json.loads(content)
+        return None
+    except Exception as e:
+        logger.error(f"Error reading manifest at {cache_path}: {str(e)}", exc_info=True)
+        return None
 
-def write_manifest(cache_path: Path, timestamp: str) -> None:
-    """Write a manifest file with a consistent 'Cached on: ' prefix."""
-    storage_provider.create_directory(str(cache_path))
-    manifest_path = str(cache_path / "manifest.txt")
-    storage_provider.write_file(manifest_path, f"Cached on: {timestamp}")
+def write_manifest(cache_path: Union[str, Path], data: Dict[str, Any]) -> bool:
+    """Write the manifest file for a cached result.
+    
+    Args:
+        cache_path: Path to the cache directory
+        data: Manifest data to write
+        
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        manifest_path_str = str(Path(cache_path) / "manifest.json")
+        manifest_content = json.dumps(data, indent=2)
+        return storage_provider.write_file(manifest_path_str, manifest_content)
+    except Exception as e:
+        logger.error(f"Error writing manifest to {cache_path}: {str(e)}", exc_info=True)
+        return False
 
 def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optional[Dict], List[Dict]]:
     """Load cached data from the specified path."""
@@ -208,29 +255,59 @@ def save_multiple_results(cache_path: Path, agent_name: str, employee_number: st
     """Save multiple results, ensuring even empty results are cached."""
     if not results:  # Explicitly handle empty results
         file_name = build_file_name(agent_name, employee_number, service, date, 1)
-        save_cached_data(cache_path, file_name, {"result": "No Results Found"})
+        save_cached_data(cache_path, file_name, {"hits": {"total": 0, "hits": []}})
     else:
         for i, result in enumerate(results, 1):
             file_name = build_file_name(agent_name, employee_number, service, date, i)
             save_cached_data(cache_path, file_name, result)
 
-def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: Optional[float] = None) -> None:
-    """Log a request with timestamp and optional duration."""
-    log_path = CACHE_FOLDER / employee_number / REQUEST_LOG_FILE
-    storage_provider.create_directory(str(log_path.parent))
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{timestamp}] {agent_name}/{service} - {status}"
-    if duration is not None:
-        log_entry += f" (fetch duration: {duration:.2f}s)"
-    log_entry += "\n"
+def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: float) -> None:
+    """Log the request details to a file.
     
-    # Append to the log file
-    existing_content = b""
-    if storage_provider.file_exists(str(log_path)):
-        existing_content = storage_provider.read_file(str(log_path))
-    storage_provider.write_file(str(log_path), existing_content + log_entry.encode())
+    Args:
+        employee_number: Employee identifier
+        agent_name: Name of the agent making the request
+        service: Service being called
+        status: Status of the request (success/failure)
+        duration: Duration of the request in seconds
+    """
+    try:
+        # Create employee cache directory if it doesn't exist
+        employee_cache_dir = CACHE_FOLDER / employee_number
+        storage_provider.create_directory(str(employee_cache_dir))
+        
+        # Construct log path and entry
+        log_path = employee_cache_dir / "request_log.txt"
+        timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+        log_entry = f"{timestamp} - {agent_name}/{service} - {status} in {duration:.2f}s\n"
+        
+        try:
+            # Read existing content if file exists
+            existing_content = ""
+            if storage_provider.file_exists(str(log_path)):
+                content = storage_provider.read_file(str(log_path))
+                if isinstance(content, bytes):
+                    existing_content = content.decode('utf-8')
+                else:
+                    existing_content = str(content)
+            
+            # Combine and write content
+            full_content = existing_content + log_entry
+            storage_provider.write_file(str(log_path), full_content)
+            logger.debug(f"Successfully logged request to {log_path}")
+            
+        except Exception as e:
+            logger.error(f"Error handling log file {log_path}: {str(e)}", exc_info=True)
+            # Create new file if reading/appending fails
+            storage_provider.write_file(str(log_path), log_entry)
+            logger.debug(f"Created new log file at {log_path}")
+            
+    except Exception as e:
+        logger.error(f"Failed to log request for {employee_number}: {str(e)}", exc_info=True)
+        # Don't raise the exception to avoid interrupting the main flow
 
 def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> tuple[Union[Optional[Dict], List[Dict]], Optional[float]]:
+    """Fetch data from the specified agent service, ensuring a single-item list for single-result agents."""
     try:
         agent_fn = AGENT_SERVICES[agent_name][service]
         start_time = time.time()
@@ -241,8 +318,8 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
                 params["organization_crd"] = params.pop("organization_crd_number")
             if "individual_name" not in params:
                 raise ValueError(f"Missing required 'individual_name' for {agent_name}/{service}")
-        elif service == "search_individual_by_firm" and "organization_crd" not in params:
-            raise ValueError(f"Missing required 'organization_crd' for {agent_name}/{service}")
+            if "organization_crd" not in params:
+                raise ValueError(f"Missing required 'organization_crd' for {agent_name}/{service}")
 
         if agent_name in SELENIUM_AGENTS:
             if driver is None:
@@ -255,30 +332,51 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
             result = agent_fn(**params, logger=logger)
         
         duration = time.time() - start_time
-        logger.debug(f"Fetched {agent_name}/{service}: result size = {len(result) if isinstance(result, list) else 1 if result else 0}")
-        return result if isinstance(result, list) else [result] if result else [], duration
+        result_size = len(result) if isinstance(result, list) else 1 if result else 0
+        logger.debug(f"Fetched {agent_name}/{service}: result size = {result_size}")
+        
+        # Handle empty or no-hits responses for single-result agents
+        empty_result = {"hits": {"total": 0, "hits": []}}
+        if agent_name in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"]:
+            if not result:  # Handles None or falsy results
+                logger.warning(f"No data returned for {agent_name}/{service} with params={params}")
+                return [empty_result], duration
+            if isinstance(result, list) and not result:  # Handles empty list
+                logger.warning(f"Empty list returned for {agent_name}/{service} with params={params}")
+                return [empty_result], duration
+            if isinstance(result, dict) and result.get("hits", {}).get("total", 0) == 0:  # Handles no-hits dictionary
+                logger.warning(f"No valid data returned for {agent_name}/{service} with params={params}")
+                return [result], duration
+            return [result] if isinstance(result, dict) else result, duration
+        else:
+            # For multi-result agents (e.g., arbitration), return as-is
+            return result if isinstance(result, list) else [result] if result else [], duration
     except Exception as e:
         logger.error(f"Agent {agent_name} service {service} failed: {str(e)}")
-        return [], None
+        # Return empty result for single-result agents, empty list for multi-result agents
+        return [empty_result] if agent_name in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"] else [], None
 
 def check_cache_or_fetch(
     agent_name: str, service: str, employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None
 ) -> Union[Optional[Dict], List[Dict]]:
+    """Check cache or fetch data, handling single-result and multi-result agents appropriately."""
     if not employee_number or employee_number.strip() == "":
         logger.error(f"Invalid employee_number: '{employee_number}' for agent {agent_name}/{service}")
         raise ValueError(f"employee_number must be a non-empty string, got '{employee_number}'")
     
     cache_path = build_cache_path(employee_number, agent_name, service)
     date = get_current_date()
-    cache_path.mkdir(parents=True, exist_ok=True)
+    
+    # Ensure cache directory exists
+    storage_provider.create_directory(str(cache_path))
 
     cached_date = read_manifest(cache_path)
     is_multiple = agent_name not in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"] and service != "search_individual_by_firm"
-    if cached_date and is_cache_valid(cached_date):
+    if cached_date and is_cache_valid(cache_path):
         cached_data = load_cached_data(cache_path, is_multiple)
         if cached_data is not None:
             logger.info(f"Cache hit for {agent_name}/{service}/{employee_number}")
-            log_request(employee_number, agent_name, service, "Cached")
+            log_request(employee_number, agent_name, service, "Cached", 0)
             return cached_data
 
     logger.info(f"Cache miss or stale for {agent_name}/{service}/{employee_number}")
@@ -287,12 +385,16 @@ def check_cache_or_fetch(
     
     file_name = build_file_name(agent_name, employee_number, service, date)
     if agent_name in ["SEC_IAPD_Agent", "FINRA_BrokerCheck_Agent"]:
-        save_cached_data(cache_path, file_name, results[0] if results else {"result": "No Results Found"})
+        # Save and return single result or empty result
+        result_to_save = results[0] if results else {"hits": {"total": 0, "hits": []}}
+        save_cached_data(cache_path, file_name, result_to_save)
+        write_manifest(cache_path, {"timestamp": get_manifest_timestamp()})
+        return result_to_save
     else:
+        # Handle multi-result agents
         save_multiple_results(cache_path, agent_name, employee_number, service, date, results)
-    write_manifest(cache_path, get_manifest_timestamp())
-    
-    return results[0] if len(results) == 1 and not is_multiple else results
+        write_manifest(cache_path, {"timestamp": get_manifest_timestamp()})
+        return results
 
 # Higher-order function to create service-specific fetchers
 def create_fetcher(agent_name: str, service: str) -> Callable[[str, Dict[str, Any], Optional[webdriver.Chrome]], Union[Optional[Dict], List[Dict]]]:
@@ -311,7 +413,7 @@ fetch_agent_sec_iapd_search = create_fetcher("SEC_IAPD_Agent", "search_individua
 fetch_agent_sec_iapd_detailed = create_fetcher("SEC_IAPD_Agent", "search_individual_detailed_info")
 fetch_agent_finra_bc_search = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual")
 fetch_agent_finra_bc_detailed = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual_detailed_info")
-fetch_agent_finra_bc_search_by_firm = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual_by_firm")  # New fetcher
+fetch_agent_finra_bc_search_by_firm = create_fetcher("FINRA_BrokerCheck_Agent", "search_individual_by_firm")
 fetch_agent_sec_arb_search = create_fetcher("SEC_Arbitration_Agent", "search_individual")
 fetch_agent_finra_disc_search = create_fetcher("FINRA_Disciplinary_Agent", "search_individual")
 fetch_agent_nfa_search = create_fetcher("NFA_Basic_Agent", "search_individual")
@@ -359,50 +461,6 @@ class Marshaller:
         """Ensure WebDriver is cleaned up when the object is destroyed."""
         self.cleanup()
 
-def fetch_agent_sec_iapd_search(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch SEC IAPD search results."""
-    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual", employee_number, params)
-
-def fetch_agent_sec_iapd_detailed(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch SEC IAPD detailed results."""
-    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual_detailed_info", employee_number, params)
-
-def fetch_agent_finra_bc_search(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch FINRA BrokerCheck search results."""
-    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual", employee_number, params)
-
-def fetch_agent_finra_bc_detailed(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch FINRA BrokerCheck detailed results."""
-    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual_detailed_info", employee_number, params)
-
-def fetch_agent_sec_arb_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-    """Fetch SEC Arbitration search results."""
-    return check_cache_or_fetch("SEC_Arbitration_Agent", "search_individual", employee_number, params, driver)
-
-def fetch_agent_finra_disc_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-    """Fetch FINRA Disciplinary search results."""
-    return check_cache_or_fetch("FINRA_Disciplinary_Agent", "search_individual", employee_number, params, driver)
-
-def fetch_agent_nfa_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-    """Fetch NFA search results."""
-    return check_cache_or_fetch("NFA_Basic_Agent", "search_individual", employee_number, params, driver)
-
-def fetch_agent_finra_arb_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-    """Fetch FINRA Arbitration search results."""
-    return check_cache_or_fetch("FINRA_Arbitration_Agent", "search_individual", employee_number, params, driver)
-
-def fetch_agent_sec_iapd_correlated(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch SEC IAPD correlated search results."""
-    return check_cache_or_fetch("SEC_IAPD_Agent", "search_individual_by_firm", employee_number, params)
-
-def fetch_agent_sec_disc_search(employee_number: str, params: Dict[str, Any], driver: Optional[webdriver.Chrome] = None) -> Optional[Dict]:
-    """Fetch SEC Disciplinary search results."""
-    return check_cache_or_fetch("SEC_Disciplinary_Agent", "search_individual", employee_number, params, driver)
-
-def fetch_agent_finra_bc_search_by_firm(employee_number: str, params: Dict[str, Any]) -> Optional[Dict]:
-    """Fetch FINRA BrokerCheck search results by firm."""
-    return check_cache_or_fetch("FINRA_BrokerCheck_Agent", "search_individual_by_firm", employee_number, params)
-
 def main():
     parser = argparse.ArgumentParser(description='Marshaller for Financial Regulatory Agents')
     parser.add_argument('--employee-number', help='Employee number for the search')
@@ -410,7 +468,7 @@ def main():
     parser.add_argument('--last-name', help='Last name for custom search')
     parser.add_argument('--crd-number', help='CRD number for custom search')
     parser.add_argument('--nfa-id', help='NFA ID for custom search')
-    parser.add_argument('--organization-crd', help='Organization CRD number for firm-based search')  # New argument
+    parser.add_argument('--organization-crd', help='Organization CRD number for firm-based search')
     parser.add_argument('--headless', action='store_true', default=RUN_HEADLESS, help='Run in headless mode')
     
     args = parser.parse_args()

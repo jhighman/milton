@@ -194,26 +194,42 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
         # Find existing files for this reference_id and date
         pattern = f"ComplianceReportAgent_{reference_id}_v*_{date}.json"
         logger.debug(f"Looking for existing files with pattern: {pattern}")
-        existing_files = sorted([f for f in storage_provider.list_files(cache_path) if f.endswith(f"_{date}.json")])
-        logger.debug(f"Found existing files: {existing_files}")
-        latest_file = existing_files[-1] if existing_files else None
-
-        # Load latest file for comparison, if it exists
-        if latest_file:
-            logger.debug(f"Loading latest file for comparison: {latest_file}")
-            try:
-                file_content = storage_provider.read_file(f"{cache_path}/{latest_file}")
-                old_report = json.loads(file_content)
-                logger.debug(f"Successfully loaded old report with keys: {list(old_report.keys())}")
-                needs_new_version = has_significant_changes(report, old_report)
-                version = len(existing_files) + 1 if needs_new_version else None
-                logger.debug(f"Version decision: needs_new_version={needs_new_version}, version={version}")
-            except json.JSONDecodeError as e:
-                logger.error(f"Failed to parse existing report: {str(e)}", exc_info=True)
-                version = 1  # Force new version if old file is corrupted
-        else:
-            version = 1  # First version if no prior file
-            logger.debug("No existing files found, creating version 1")
+        try:
+            existing_files = storage_provider.list_files(cache_path, pattern)
+            logger.debug(f"Found existing files: {existing_files}")
+            
+            # Sort files by version number
+            existing_files = sorted(
+                existing_files,
+                key=lambda x: int(Path(x).stem.split('_v')[1].split('_')[0])
+            )
+            latest_file = existing_files[-1] if existing_files else None
+            
+            # Load latest file for comparison, if it exists
+            if latest_file:
+                logger.debug(f"Loading latest file for comparison: {latest_file}")
+                try:
+                    # Extract just the filename from the full path
+                    file_name = Path(latest_file).name
+                    file_content = storage_provider.read_file(f"{cache_path}/{file_name}")
+                    if isinstance(file_content, bytes):
+                        file_content = file_content.decode('utf-8')
+                    old_report = json.loads(file_content)
+                    logger.debug(f"Successfully loaded old report with keys: {list(old_report.keys())}")
+                    needs_new_version = has_significant_changes(report, old_report)
+                    version = len(existing_files) + 1 if needs_new_version else None
+                    logger.debug(f"Version decision: needs_new_version={needs_new_version}, version={version}")
+                except Exception as e:
+                    logger.warning(f"Failed to load or parse existing report: {str(e)}", exc_info=True)
+                    version = len(existing_files) + 1  # Create new version if old file is inaccessible
+                    logger.debug(f"Creating new version {version} due to error loading existing report")
+            else:
+                version = 1  # First version if no prior file
+                logger.debug("No existing files found, creating version 1")
+        except Exception as e:
+            logger.warning(f"Error listing existing files: {str(e)}", exc_info=True)
+            version = 1  # Default to version 1 if we can't list files
+            logger.debug("Defaulting to version 1 due to error listing files")
 
         if version:
             file_name = f"ComplianceReportAgent_{reference_id}_v{version}_{date}.json"

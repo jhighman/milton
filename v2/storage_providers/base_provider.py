@@ -6,7 +6,7 @@ which provides a common interface for both local and S3 storage operations.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union, BinaryIO
+from typing import Any, List, Optional, Union, BinaryIO
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,21 +19,35 @@ class BaseStorageProvider(ABC):
         self.logger = logging.getLogger(self.__class__.__name__)
     
     @abstractmethod
-    def read_file(self, path: str) -> bytes:
-        """
-        Read a file and return its contents as bytes.
-        
-        Args:
-            path: The path to the file to read.
-            
-        Returns:
-            The contents of the file as bytes.
-            
-        Raises:
-            FileNotFoundError: If the file does not exist.
-            IOError: If there is an error reading the file.
-        """
+    def initialize(self, base_path: str):
+        """Initialize the provider with base path."""
         pass
+    
+    @abstractmethod
+    def save_file(self, file_path: str, content: Any) -> bool:
+        """Save content to a file."""
+        pass
+    
+    @abstractmethod
+    def read_file(self, file_path: str) -> Optional[Any]:
+        """Read content from a file."""
+        pass
+    
+    @abstractmethod
+    def delete_file(self, file_path: str) -> bool:
+        """Delete a file."""
+        pass
+    
+    @abstractmethod
+    def list_files(self, directory: str = "") -> List[str]:
+        """List files in directory."""
+        pass
+    
+    def move_file(self, source: str, dest: str) -> bool:
+        """Move a file from source to destination."""
+        if self.save_file(dest, self.read_file(source)):
+            return self.delete_file(source)
+        return False
     
     @abstractmethod
     def write_file(self, path: str, content: Union[str, bytes, BinaryIO]) -> bool:
@@ -49,59 +63,6 @@ class BaseStorageProvider(ABC):
             
         Raises:
             IOError: If there is an error writing the file.
-        """
-        pass
-    
-    @abstractmethod
-    def list_files(self, directory: str, pattern: Optional[str] = None) -> List[str]:
-        """
-        List files in a directory, optionally filtered by pattern.
-        
-        Args:
-            directory: The directory to list files from.
-            pattern: Optional glob pattern to filter files.
-            
-        Returns:
-            List of file paths relative to the base directory.
-            
-        Raises:
-            FileNotFoundError: If the directory does not exist.
-            IOError: If there is an error listing files.
-        """
-        pass
-    
-    @abstractmethod
-    def delete_file(self, path: str) -> bool:
-        """
-        Delete a file.
-        
-        Args:
-            path: The path to the file to delete.
-            
-        Returns:
-            True if the deletion was successful, False otherwise.
-            
-        Raises:
-            FileNotFoundError: If the file does not exist.
-            IOError: If there is an error deleting the file.
-        """
-        pass
-    
-    @abstractmethod
-    def move_file(self, source: str, destination: str) -> bool:
-        """
-        Move a file from source to destination.
-        
-        Args:
-            source: The path to the source file.
-            destination: The path to the destination.
-            
-        Returns:
-            True if the move was successful, False otherwise.
-            
-        Raises:
-            FileNotFoundError: If the source file does not exist.
-            IOError: If there is an error moving the file.
         """
         pass
     

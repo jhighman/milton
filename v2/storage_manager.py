@@ -14,15 +14,16 @@ from storage_providers.local_provider import LocalStorageProvider
 from storage_providers.s3_provider import S3StorageProvider
 from storage_providers.base_provider import BaseStorageProvider
 from utils.logger import logger
+from storage_providers.factory import StorageProviderFactory
 
 class StorageManager:
     """Manages file storage operations using different storage providers."""
 
-    def __init__(self, config: Union[str, Dict[str, Any]]):
+    def __init__(self, config: Dict[str, Any]):
         """Initialize the storage manager with the given configuration.
         
         Args:
-            config: Either a path to a JSON config file or a config dictionary
+            config: Storage configuration dictionary
         
         Raises:
             ValueError: If the configuration is invalid
@@ -32,90 +33,21 @@ class StorageManager:
         if config is None:
             raise TypeError("Configuration cannot be None")
 
-        if isinstance(config, str):
-            try:
-                with open(config, 'r') as f:
-                    config = json.load(f)
-            except Exception as e:
-                logger.error(f"Error loading config file {config}: {str(e)}")
-                raise
-
-        if not isinstance(config, dict):
-            raise ValueError("Configuration must be a dictionary or a path to a JSON file")
-
-        # Extract storage configuration, supporting both nested and top-level configs
-        if "storage" in config:
-            self.config = config["storage"]
-        else:
-            self.config = config
+        self.config = config
+        logger.debug(f"Initializing storage manager with config: {config}")
         
-        self.mode = self.config.get("mode")
-        if not self.mode:
-            raise ValueError("Storage mode not specified in configuration")
-                
-        if self.mode not in ["local", "s3"]:
-            raise ValueError(f"Unsupported storage mode: {self.mode}")
-
-        provider = self.create_provider(self.config)
-        
-        self.provider = provider
-        self.input_provider = provider
-        self.output_provider = provider
-        self.archive_provider = provider
-        self.cache_provider = provider
-
-        logger.info(f"Initialized storage manager in {self.mode} mode")
+        try:
+            # Create storage provider using factory
+            self.provider = StorageProviderFactory.create_provider(config)
+            logger.info(f"Initialized storage manager in {config.get('mode', 'local')} mode")
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize storage provider: {str(e)}")
+            raise
     
-    @staticmethod
-    def create_provider(config: Dict[str, Any]) -> BaseStorageProvider:
-        """Create a storage provider based on configuration."""
-        if "storage" in config:
-            storage_config = config["storage"]
-        else:
-            storage_config = config
-        
-        mode = storage_config.get("mode")
-        if not mode:
-            raise ValueError("Storage mode not specified in configuration")
-
-        if mode == "local":
-            local_config = storage_config.get("local", {})
-            input_folder = local_config.get("input_folder", "drop")
-            base_path = local_config.get("base_path", input_folder)
-            output_folder = local_config.get("output_folder", "output")
-            archive_folder = local_config.get("archive_folder", "archive")
-            cache_folder = local_config.get("cache_folder", "cache")
-            
-            return LocalStorageProvider(
-                base_path=base_path,
-                input_folder=input_folder,
-                output_folder=output_folder,
-                archive_folder=archive_folder,
-                cache_folder=cache_folder
-            )
-        elif mode == "s3":
-            s3_config = storage_config.get("s3")
-            if not s3_config:
-                raise ValueError("S3 configuration section missing")
-            
-            required_fields = ["aws_region", "input_bucket"]
-            missing_fields = [field for field in required_fields if field not in s3_config]
-            if missing_fields:
-                raise ValueError(f"Missing required S3 configuration fields: {', '.join(missing_fields)}")
-            
-            return S3StorageProvider(
-                aws_region=s3_config["aws_region"],
-                input_bucket=s3_config["input_bucket"],
-                output_bucket=s3_config.get("output_bucket"),
-                archive_bucket=s3_config.get("archive_bucket"),
-                cache_bucket=s3_config.get("cache_bucket"),
-                input_prefix=s3_config.get("input_prefix", ""),
-                output_prefix=s3_config.get("output_prefix", ""),
-                archive_prefix=s3_config.get("archive_prefix", ""),
-                cache_prefix=s3_config.get("cache_prefix", "")
-            )
-        else:
-            raise ValueError(f"Unsupported storage mode: {mode}")
+    def get_provider(self) -> BaseStorageProvider:
+        """Get the configured storage provider instance."""
+        return self.provider
     
     def read_file(self, path: str, storage_type: str = None) -> bytes:
         """Read a file from storage.

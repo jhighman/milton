@@ -17,6 +17,7 @@
   "storage": {
     "mode": "local",
     "local": {
+      "base_path": "/Users/jeffhighman/2025/milton/v2",
       "input_folder": "drop",
       "output_folder": "output",
       "archive_folder": "archive",

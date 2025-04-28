@@ -1,84 +1,120 @@
 """
-S3 storage provider implementation.
+AWS S3 storage provider implementation.
 
 This module implements the StorageProvider interface for AWS S3 operations.
 """
 
 import boto3
 from botocore.exceptions import ClientError
-from typing import List, Optional, Union, BinaryIO, Dict, Tuple
+from typing import List, Optional, Union, BinaryIO, Dict, Tuple, Any
 import logging
 import fnmatch
 import os
+import json
 from .base_provider import BaseStorageProvider
+from datetime import datetime
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
 class S3StorageProvider(BaseStorageProvider):
-    """Implementation of StorageProvider for AWS S3 operations."""
+    """Storage provider that uses AWS S3."""
     
-    def __init__(
-        self,
-        aws_region: str,
-        input_bucket: str,
-        input_prefix: str = "",
-        output_bucket: Optional[str] = None,
-        output_prefix: Optional[str] = None,
-        archive_bucket: Optional[str] = None,
-        archive_prefix: Optional[str] = None,
-        cache_bucket: Optional[str] = None,
-        cache_prefix: Optional[str] = None,
-        aws_access_key_id: Optional[str] = None,
-        aws_secret_access_key: Optional[str] = None
-    ):
-        """Initialize the S3 storage provider.
-
+    def __init__(self):
+        """Initialize S3 storage provider."""
+        super().__init__()
+        self.bucket_name: Optional[str] = None
+        self.base_prefix: Optional[str] = None
+        self.input_prefix: Optional[str] = None
+        self.output_prefix: Optional[str] = None
+        self.archive_prefix: Optional[str] = None
+        self.cache_prefix: Optional[str] = None
+        self.s3_client = None
+        
+    def initialize(self, config: Dict[str, Any]):
+        """Initialize with configuration dictionary.
+        
         Args:
-            aws_region: AWS region
-            input_bucket: Input S3 bucket name
-            input_prefix: Input prefix (folder path)
-            output_bucket: Output S3 bucket name (defaults to input_bucket)
-            output_prefix: Output prefix (defaults to "output/")
-            archive_bucket: Archive S3 bucket name (defaults to input_bucket)
-            archive_prefix: Archive prefix (defaults to "archive/")
-            cache_bucket: Cache S3 bucket name (defaults to input_bucket)
-            cache_prefix: Cache prefix (defaults to "cache/")
-            aws_access_key_id: AWS access key ID
-            aws_secret_access_key: AWS secret access key
+            config: Configuration dictionary containing S3 settings
+                Required keys:
+                - bucket_name: Name of the S3 bucket
+                - base_prefix: Base prefix for all operations (e.g. 'my-app/')
+                Optional keys:
+                - aws_access_key_id: AWS access key ID
+                - aws_secret_access_key: AWS secret access key
+                - aws_region: AWS region name
+                - input_prefix: Prefix for input files (default: base_prefix/input)
+                - output_prefix: Prefix for output files (default: base_prefix/output)
+                - archive_prefix: Prefix for archived files (default: base_prefix/archive)
+                - cache_prefix: Prefix for cached files (default: base_prefix/cache)
         """
-        super().__init__()  # Call parent class's __init__
-        self.aws_region = aws_region
-        self.input_bucket = input_bucket
-        self.input_prefix = self._normalize_prefix(input_prefix)
-        self.output_bucket = output_bucket or input_bucket
-        self.output_prefix = self._normalize_prefix(output_prefix or "output/")
-        self.archive_bucket = archive_bucket or input_bucket
-        self.archive_prefix = self._normalize_prefix(archive_prefix or "archive/")
-        self.cache_bucket = cache_bucket or input_bucket
-        self.cache_prefix = self._normalize_prefix(cache_prefix or "cache/")
-
-        # Initialize S3 client
-        self.client = boto3.client(
-            "s3",
-            region_name=aws_region,
-            aws_access_key_id=aws_access_key_id,
-            aws_secret_access_key=aws_secret_access_key
-        )
-
-        logger.info(f"Initialized S3StorageProvider with input bucket: {self.input_bucket}")
-    
+        if not isinstance(config, dict):
+            raise ValueError("Configuration must be a dictionary")
+            
+        required_keys = ['bucket_name', 'base_prefix']
+        missing_keys = [key for key in required_keys if key not in config]
+        if missing_keys:
+            raise ValueError(f"Missing required configuration keys: {', '.join(missing_keys)}")
+            
+        # Set up S3 client
+        client_kwargs = {
+            'aws_access_key_id': config.get('aws_access_key_id'),
+            'aws_secret_access_key': config.get('aws_secret_access_key'),
+            'region_name': config.get('aws_region')
+        }
+        # Remove None values
+        client_kwargs = {k: v for k, v in client_kwargs.items() if v is not None}
+        
+        try:
+            self.s3_client = boto3.client('s3', **client_kwargs)
+        except Exception as e:
+            logger.error(f"Error initializing S3 client: {str(e)}")
+            raise
+            
+        # Set up bucket and prefixes
+        self.bucket_name = config['bucket_name']
+        self.base_prefix = self._normalize_prefix(config['base_prefix'])
+        
+        # Set up other prefixes with defaults
+        self.input_prefix = self._normalize_prefix(config.get('input_prefix', f"{self.base_prefix}input/"))
+        self.output_prefix = self._normalize_prefix(config.get('output_prefix', f"{self.base_prefix}output/"))
+        self.archive_prefix = self._normalize_prefix(config.get('archive_prefix', f"{self.base_prefix}archive/"))
+        self.cache_prefix = self._normalize_prefix(config.get('cache_prefix', f"{self.base_prefix}cache/"))
+        
+        # Verify bucket exists and is accessible
+        try:
+            self.s3_client.head_bucket(Bucket=self.bucket_name)
+        except ClientError as e:
+            error_code = e.response['Error']['Code']
+            if error_code == '404':
+                raise ValueError(f"Bucket {self.bucket_name} does not exist")
+            elif error_code == '403':
+                raise ValueError(f"Access denied to bucket {self.bucket_name}")
+            else:
+                raise
+                
+        # Create prefix markers
+        for prefix in [self.base_prefix, self.input_prefix, self.output_prefix, self.archive_prefix, self.cache_prefix]:
+            try:
+                if not prefix.endswith('/'):
+                    prefix += '/'
+                self.s3_client.put_object(Bucket=self.bucket_name, Key=prefix)
+                logger.debug(f"Created prefix marker: s3://{self.bucket_name}/{prefix}")
+            except Exception as e:
+                logger.error(f"Error creating prefix marker {prefix}: {str(e)}")
+                raise
+                
+        logger.info(f"Initialized S3StorageProvider with:")
+        logger.info(f"  bucket: {self.bucket_name}")
+        logger.info(f"  base_prefix: {self.base_prefix}")
+        logger.info(f"  input_prefix: {self.input_prefix}")
+        logger.info(f"  output_prefix: {self.output_prefix}")
+        logger.info(f"  archive_prefix: {self.archive_prefix}")
+        logger.info(f"  cache_prefix: {self.cache_prefix}")
+        
     def _normalize_prefix(self, prefix: str) -> str:
-        """Normalize an S3 prefix by ensuring it ends with a slash.
-
-        Args:
-            prefix: Prefix to normalize
-
-        Returns:
-            Normalized prefix
-        """
-        if not prefix:
-            return ""
-        prefix = prefix.replace('\\', '/').strip('/')
+        """Ensure prefix ends with forward slash and has no leading slash."""
+        prefix = prefix.strip('/')
         return f"{prefix}/" if prefix else ""
 
     def _normalize_path(self, path: str) -> str:
@@ -106,61 +142,183 @@ class S3StorageProvider(BaseStorageProvider):
         
         # Special case for test_list_files
         if normalized_path == "input":
-            return self.input_bucket, "input/"
+            return self.bucket_name, "input/"
         
         # If the path already starts with 'input/', use it directly for read operations
         if not for_writing and normalized_path.startswith('input/'):
-            return self.input_bucket, normalized_path
+            return self.bucket_name, normalized_path
         
         # Determine bucket and prefix based on path
         if normalized_path.startswith('output/'):
-            bucket = self.output_bucket
+            bucket = self.bucket_name
             key = normalized_path
         elif normalized_path.startswith('archive/'):
-            bucket = self.archive_bucket
+            bucket = self.bucket_name
             key = normalized_path
         elif normalized_path.startswith('cache/'):
-            bucket = self.cache_bucket
+            bucket = self.bucket_name
             key = normalized_path
         elif normalized_path.startswith('input/'):
-            bucket = self.input_bucket
+            bucket = self.bucket_name
             key = normalized_path
         else:
             # For paths without a recognized prefix
             if for_writing:
                 # For write operations, assume it's for output
-                bucket = self.output_bucket
+                bucket = self.bucket_name
                 key = self.output_prefix + normalized_path
             else:
                 # For read operations, assume it's for input
-                bucket = self.input_bucket
+                bucket = self.bucket_name
                 key = self.input_prefix + normalized_path
         
         return bucket, key
 
-    def read_file(self, path: str) -> bytes:
-        """Read a file from S3.
-
-        Args:
-            path: Path to file
-
-        Returns:
-            File contents as bytes
-
-        Raises:
-            FileNotFoundError: If file does not exist
-        """
-        bucket, key = self._get_bucket_and_key(path, for_writing=False)
+    def save_file(self, file_path: str, content: Any) -> bool:
+        """Save content to S3."""
         try:
-            response = self.client.get_object(Bucket=bucket, Key=key)
-            return response['Body'].read()
+            bucket, key = self._get_bucket_and_key(file_path, for_writing=True)
+            
+            if isinstance(content, (dict, list)):
+                content = json.dumps(content, indent=2)
+                
+            self.s3_client.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=str(content)
+            )
+            
+            logger.debug(f"Successfully saved to S3: {bucket}/{key}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error saving to S3 {file_path}: {str(e)}")
+            return False
+            
+    def read_file(self, file_path: str) -> Optional[Any]:
+        """Read content from S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(file_path, for_writing=False)
+            
+            response = self.s3_client.get_object(
+                Bucket=bucket,
+                Key=key
+            )
+            
+            content = response['Body'].read().decode('utf-8')
+            try:
+                return json.loads(content)
+            except json.JSONDecodeError:
+                return content
+                
         except ClientError as e:
-            if e.response['Error']['Code'] == 'NoSuchKey' or e.response['Error']['Code'] == '404':
-                logger.error(f"File not found: {path}")
-                raise FileNotFoundError(f"File not found: {path}")
-            logger.error(f"Error reading file {path}: {str(e)}")
+            if e.response['Error']['Code'] == 'NoSuchKey':
+                raise FileNotFoundError(f"File not found in S3: {file_path}")
+            logger.error(f"Error reading from S3 {file_path}: {str(e)}")
             raise
-    
+            
+    def delete_file(self, file_path: str) -> bool:
+        """Delete file from S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(file_path, for_writing=True)
+            
+            self.s3_client.delete_object(
+                Bucket=bucket,
+                Key=key
+            )
+            
+            logger.debug(f"Successfully deleted from S3: {bucket}/{key}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error deleting from S3 {file_path}: {str(e)}")
+            return False
+            
+    def list_files(self, directory: str = "") -> List[str]:
+        """List files in S3 directory."""
+        try:
+            bucket = self.bucket_name
+            prefix = os.path.join(self.input_prefix, directory)
+            
+            response = self.s3_client.list_objects_v2(
+                Bucket=bucket,
+                Prefix=prefix
+            )
+            
+            files = []
+            for obj in response.get('Contents', []):
+                rel_path = os.path.relpath(obj['Key'], self.input_prefix)
+                files.append(rel_path)
+            return files
+            
+        except Exception as e:
+            logger.error(f"Error listing files in S3 {directory}: {str(e)}")
+            return []
+            
+    def file_exists(self, path: str) -> bool:
+        """Check if file exists in S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            
+            self.s3_client.head_object(
+                Bucket=bucket,
+                Key=key
+            )
+            return True
+            
+        except ClientError as e:
+            if e.response['Error']['Code'] == '404':
+                return False
+            raise
+            
+    def create_directory(self, path: str) -> bool:
+        """Create a directory marker in S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(path, for_writing=True)
+            
+            self.s3_client.put_object(
+                Bucket=bucket,
+                Key=key,
+                Body=''
+            )
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error creating directory in S3 {path}: {str(e)}")
+            return False
+            
+    def get_file_size(self, path: str) -> int:
+        """Get file size from S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            
+            response = self.s3_client.head_object(
+                Bucket=bucket,
+                Key=key
+            )
+            return response['ContentLength']
+            
+        except ClientError as e:
+            if e.response['Error']['Code'] == '404':
+                raise FileNotFoundError(f"File not found in S3: {path}")
+            raise
+            
+    def get_file_modified_time(self, path: str) -> float:
+        """Get file last modified time from S3."""
+        try:
+            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            
+            response = self.s3_client.head_object(
+                Bucket=bucket,
+                Key=key
+            )
+            return response['LastModified'].timestamp()
+            
+        except ClientError as e:
+            if e.response['Error']['Code'] == '404':
+                raise FileNotFoundError(f"File not found in S3: {path}")
+            raise
+
     def write_file(self, path: str, content: Union[str, bytes]) -> bool:
         """Write content to a file in S3.
 
@@ -180,7 +338,7 @@ class S3StorageProvider(BaseStorageProvider):
                 path = 'output/' + path
 
             bucket, key = self._get_bucket_and_key(path, for_writing=True)
-            self.client.put_object(
+            self.s3_client.put_object(
                 Bucket=bucket,
                 Key=key,
                 Body=content
@@ -188,70 +346,6 @@ class S3StorageProvider(BaseStorageProvider):
             return True
         except Exception as e:
             logger.error(f"Error writing file {path}: {str(e)}")
-            return False
-    
-    def list_files(self, path: str = "", pattern: str = None) -> List[str]:
-        """List files in an S3 prefix.
-
-        Args:
-            path: Base path to list from
-            pattern: Optional glob pattern to filter files
-
-        Returns:
-            List of file paths
-        """
-        try:
-            bucket, prefix = self._get_bucket_and_key(path, for_writing=False)
-            response = self.client.list_objects_v2(
-                Bucket=bucket,
-                Prefix=prefix
-            )
-
-            files = []
-            if 'Contents' in response:
-                for obj in response['Contents']:
-                    # Get the key relative to the prefix
-                    key = obj['Key']
-                    
-                    # Remove the input prefix from the key
-                    if key.startswith(self.input_prefix):
-                        relative_key = key[len(self.input_prefix):]
-                    elif prefix and key.startswith(prefix):
-                        relative_key = key[len(prefix):]
-                    else:
-                        relative_key = key
-                    
-                    # Skip files in subdirectories unless pattern is specified
-                    if '/' in relative_key and not pattern:
-                        continue
-                        
-                    # Include files in the specified directory
-                    if pattern:
-                        if fnmatch.fnmatch(relative_key, pattern):
-                            files.append(relative_key)
-                    else:
-                        files.append(relative_key)
-            
-            return files
-        except Exception as e:
-            logger.error(f"Error listing files in {path}: {str(e)}")
-            return []
-    
-    def delete_file(self, path: str) -> bool:
-        """Delete a file from S3.
-
-        Args:
-            path: Path to file
-
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
-            self.client.delete_object(Bucket=bucket, Key=key)
-            return True
-        except Exception as e:
-            logger.error(f"Error deleting file {path}: {str(e)}")
             return False
     
     def move_file(self, source: str, dest: str) -> bool:
@@ -273,7 +367,7 @@ class S3StorageProvider(BaseStorageProvider):
             dest_bucket, dest_key = self._get_bucket_and_key(dest, for_writing=True)
 
             # Copy the object
-            self.client.copy_object(
+            self.s3_client.copy_object(
                 Bucket=dest_bucket,
                 Key=dest_key,
                 CopySource={
@@ -283,7 +377,7 @@ class S3StorageProvider(BaseStorageProvider):
             )
 
             # Delete the original
-            self.client.delete_object(
+            self.s3_client.delete_object(
                 Bucket=source_bucket,
                 Key=source_key
             )
@@ -292,89 +386,3 @@ class S3StorageProvider(BaseStorageProvider):
         except Exception as e:
             logger.error(f"Error moving file from {source} to {dest}: {str(e)}")
             return False
-    
-    def file_exists(self, path: str) -> bool:
-        """Check if a file exists in S3.
-
-        Args:
-            path: Path to file
-
-        Returns:
-            True if file exists, False otherwise
-        """
-        try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
-            self.client.head_object(Bucket=bucket, Key=key)
-            return True
-        except ClientError as e:
-            if e.response['Error']['Code'] == '404':
-                return False
-            logger.error(f"Error checking if file exists {path}: {str(e)}")
-            return False
-    
-    def create_directory(self, path: str) -> bool:
-        """Create a directory in S3 (creates an empty object with trailing slash).
-
-        Args:
-            path: Directory path to create
-
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            # If path doesn't have a recognized prefix, assume it's for input
-            if not any(path.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
-                path = 'input/' + path
-                
-            bucket, key = self._get_bucket_and_key(path, for_writing=True)
-            
-            # Ensure the key ends with a slash to represent a directory
-            if not key.endswith('/'):
-                key += '/'
-                
-            # Create the directory marker object (no Body parameter)
-            self.client.put_object(Bucket=bucket, Key=key)
-            return True
-        except Exception as e:
-            logger.error(f"Error creating directory {path}: {str(e)}")
-            return False
-    
-    def get_file_size(self, path: str) -> Optional[int]:
-        """Get the size of a file in S3.
-
-        Args:
-            path: Path to file
-
-        Returns:
-            File size in bytes, or None if file does not exist
-        """
-        try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
-            response = self.client.head_object(Bucket=bucket, Key=key)
-            return response['ContentLength']
-        except ClientError as e:
-            if e.response['Error']['Code'] == '404':
-                logger.error(f"File not found: {path}")
-                raise FileNotFoundError(f"File not found: {path}")
-            logger.error(f"Error getting file size {path}: {str(e)}")
-            raise
-    
-    def get_file_modified_time(self, path: str) -> Optional[float]:
-        """Get the last modified time of a file in S3.
-
-        Args:
-            path: Path to file
-
-        Returns:
-            Last modified time as Unix timestamp, or None if file does not exist
-        """
-        try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
-            response = self.client.head_object(Bucket=bucket, Key=key)
-            return response['LastModified'].timestamp()
-        except ClientError as e:
-            if e.response['Error']['Code'] == '404':
-                logger.error(f"File not found: {path}")
-                raise FileNotFoundError(f"File not found: {path}")
-            logger.error(f"Error getting file modified time {path}: {str(e)}")
-            raise

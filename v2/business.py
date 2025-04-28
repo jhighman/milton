@@ -24,16 +24,28 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
     """Determine the appropriate search strategy based on claim data.
     
     The function handles both individual_name and separate first_name/last_name fields:
-    - If individual_name is present, it is used as is
+    - If individual_name is present, it is used as is.
     - If first_name and/or last_name are present but individual_name is not:
-      - They are combined into individual_name
-      - Spaces are properly handled
-      - The combined name is stored back in the claim
+      - They are combined into individual_name.
+      - Spaces are properly handled.
+      - The combined name is stored back in the claim.
+    Prioritizes crd_number for UC1, ignoring other inputs when present.
     """
-    # Get individual identifiers
-    individual_name = (claim.get("individual_name") or "").strip()
-    first_name = (claim.get("first_name") or "").strip()
-    last_name = (claim.get("last_name") or "").strip()
+    # Get individual identifiers, safely handling None
+    individual_name = claim.get("individual_name", "")
+    if individual_name is None:
+        individual_name = ""
+    individual_name = individual_name.strip()
+
+    first_name = claim.get("first_name", "")
+    if first_name is None:
+        first_name = ""
+    first_name = first_name.strip()
+
+    last_name = claim.get("last_name", "")
+    if last_name is None:
+        last_name = ""
+    last_name = last_name.strip()
 
     # Combine first_name and last_name into individual_name if needed
     if not individual_name and (first_name or last_name):
@@ -41,52 +53,56 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
         claim["individual_name"] = individual_name
         logger.debug(f"Combined first_name='{first_name}' and last_name='{last_name}' into individual_name='{individual_name}'")
 
-    # Get organization identifiers - keep them separate
-    crd_number = claim.get("crd_number")
-    organization_crd = claim.get("organization_crd")
-    organization_name = (claim.get("organization_name") or "").strip()
+    # Get organization identifiers, safely handling None
+    crd_number = claim.get("crd_number", "")
+    if crd_number is None:
+        crd_number = ""
+    crd_number = crd_number.strip()
+    if not crd_number:
+        crd_number = None
+        claim["crd_number"] = None
 
-    # Clean up CRD numbers and ensure they stay separate
-    if crd_number:
-        crd_number = crd_number.strip()
-        if not crd_number:
-            crd_number = None
-            claim["crd_number"] = None
+    organization_crd = claim.get("organization_crd", "")
+    if organization_crd is None:
+        organization_crd = ""
+    organization_crd = organization_crd.strip()
+    if not organization_crd:
+        organization_crd = None
+        claim["organization_crd"] = None
 
-    if organization_crd:
-        organization_crd = organization_crd.strip()
-        if not organization_crd:
-            organization_crd = None
-            claim["organization_crd"] = None
+    organization_name = claim.get("organization_name", "")
+    if organization_name is None:
+        organization_name = ""
+    organization_name = organization_name.strip()
 
     claim_summary = f"claim={json_dumps_with_alerts(claim)}"
     logger.debug(f"Determining search strategy for {claim_summary}")
 
-    if crd_number and organization_crd:
-        logger.info(f"Selected search_with_crd_and_org_crd for {claim_summary}")
-        return search_with_crd_and_org_crd
-    elif crd_number:
+    # Strategy selection (corrected to prioritize UC1 when crd_number is present)
+    if crd_number:  # UC1: Use crd_number only, ignore other inputs
         logger.info(f"Selected search_with_crd_only for {claim_summary}")
         return search_with_crd_only
-    elif individual_name and organization_crd:
+    elif individual_name and organization_crd:  # UC2: Name + Org CRD
         logger.info(f"Selected search_with_correlated for {claim_summary}")
         return search_with_correlated
-    elif individual_name and organization_name:
+    elif individual_name and organization_name:  # UC3: Name + Org Name
         logger.info(f"Selected search_with_correlated for {claim_summary}")
         return search_with_correlated
-    elif organization_crd:
+    elif organization_crd and not individual_name:  # Entity-only search
         logger.info(f"Selected search_with_entity for {claim_summary}")
         return search_with_entity
-    elif organization_name:
+    elif organization_name and not individual_name and not organization_crd:  # Org name only
         logger.info(f"Selected search_with_org_name_only for {claim_summary}")
         return search_with_org_name_only
-    else:
+    else:  # Fallback for insufficient data
         logger.info(f"Selected search_default for {claim_summary}")
         return search_default
 
 def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using both individual and organization CRDs."""
     crd_number = claim.get("crd_number", "")
+    if crd_number is None:
+        crd_number = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_both_crds for {claim_summary} with crd_number='{crd_number}'")
 
@@ -133,7 +149,11 @@ def search_with_both_crds(claim: Dict[str, Any], facade: FinancialServicesFacade
 def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using CRD and organization name."""
     crd_number = claim.get("crd_number", "")
+    if crd_number is None:
+        crd_number = ""
     org_name = claim.get("organization_name", "")
+    if org_name is None:
+        org_name = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_crd_and_org_name for {claim_summary} with crd_number='{crd_number}', org_name='{org_name}'")
 
@@ -226,8 +246,14 @@ def search_with_crd_and_org_name(claim: Dict[str, Any], facade: FinancialService
 def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using individual CRD and organization CRD, or name and organization CRD if individual CRD is missing."""
     crd_number = claim.get("crd_number", "")
+    if crd_number is None:
+        crd_number = ""
     individual_name = claim.get("individual_name", "")
+    if individual_name is None:
+        individual_name = ""
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
+    if organization_crd_number is None:
+        organization_crd_number = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     
     logger.info(f"Executing search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}' and organization_crd_number='{organization_crd_number}'")
@@ -321,6 +347,8 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
 def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only CRD number, ensuring compliance reflects data retrieval."""
     crd_number = claim.get("crd_number", "")
+    if crd_number is None:
+        crd_number = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_crd_only for {claim_summary} with crd_number='{crd_number}'")
 
@@ -399,6 +427,8 @@ def search_with_crd_only(claim: Dict[str, Any], facade: FinancialServicesFacade,
 def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only organization CRD number."""
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
+    if organization_crd_number is None:
+        organization_crd_number = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_entity for {claim_summary} with organization_crd_number='{organization_crd_number}'")
     logger.warning(f"Entity search not supported for {claim_summary}")
@@ -415,6 +445,8 @@ def search_with_entity(claim: Dict[str, Any], facade: FinancialServicesFacade, e
 def search_with_org_name_only(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using only organization name."""
     organization_name = claim.get("organization_name", "")
+    if organization_name is None:
+        organization_name = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     logger.info(f"Executing search_with_org_name_only for {claim_summary} with organization_name='{organization_name}'")
     logger.warning(f"Entity search not supported for {claim_summary}")
@@ -446,8 +478,14 @@ def search_default(claim: Dict[str, Any], facade: FinancialServicesFacade, emplo
 def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacade, employee_number: str) -> Dict[str, Any]:
     """Search using correlated individual and organization data."""
     individual_name = claim.get("individual_name", "")
+    if individual_name is None:
+        individual_name = ""
     organization_name = claim.get("organization_name", "")
+    if organization_name is None:
+        organization_name = ""
     organization_crd_number = claim.get("organization_crd_number", claim.get("organization_crd", ""))
+    if organization_crd_number is None:
+        organization_crd_number = ""
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
     
     logger.info(f"Executing search_with_correlated for {claim_summary} with individual_name='{individual_name}', "

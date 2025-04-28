@@ -158,43 +158,49 @@ def save_config(config: Dict[str, Any], config_path: str = CONFIG_FILE):
     except Exception as e:
         logger.error(f"Error saving config to {config_path}: {str(e)}")
 
-def get_storage_config(config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
-    """
-    Get storage configuration from the main config.
+def get_storage_config(config: Dict[str, Any]) -> Dict[str, Any]:
+    """Get storage configuration from main config.
     
     Args:
-        config: Optional configuration dictionary. If not provided,
-               loads from config file or uses defaults.
-               
-    Returns:
-        Dictionary containing storage configuration
-    """
-    if config is None:
-        config = load_config()
-    
-    logger.debug(f"Getting storage config from: {json.dumps(config, indent=2)}")
-    storage_config = config.get('storage', DEFAULT_CONFIG['storage'])
-    logger.debug(f"Retrieved storage config: {json.dumps(storage_config, indent=2)}")
-    
-    # Ensure the storage config has all required sections
-    if 'mode' not in storage_config:
-        storage_config['mode'] = DEFAULT_CONFIG['storage']['mode']
-    if 'local' not in storage_config:
-        storage_config['local'] = DEFAULT_CONFIG['storage']['local']
-    if 's3' not in storage_config:
-        storage_config['s3'] = DEFAULT_CONFIG['storage']['s3']
+        config: Main configuration dictionary
         
-    # Ensure local config has all required fields
+    Returns:
+        Storage configuration dictionary
+    """
+    logger.debug(f"Getting storage config from: {json.dumps(config, indent=2)}")
+    
+    # Get storage section with defaults
+    storage_config = config.get('storage', {})
+    
+    # Set default mode if not present
+    if 'mode' not in storage_config:
+        storage_config['mode'] = 'local'
+        
+    # Ensure local config exists with defaults
+    if 'local' not in storage_config:
+        storage_config['local'] = {}
+        
     local_config = storage_config['local']
-    for key in ['input_folder', 'output_folder', 'archive_folder', 'cache_folder']:
-        if key not in local_config:
-            local_config[key] = DEFAULT_CONFIG['storage']['local'][key]
-            
-    # Ensure S3 config has all required fields
-    s3_config = storage_config['s3']
-    for key in ['aws_region', 'input_bucket', 'input_prefix', 'output_bucket', 'output_prefix',
-                'archive_bucket', 'archive_prefix', 'cache_bucket', 'cache_prefix']:
-        if key not in s3_config:
-            s3_config[key] = DEFAULT_CONFIG['storage']['s3'][key]
-            
+    
+    # Set default paths relative to current directory
+    base_path = os.getcwd()
+    local_config.setdefault('base_path', base_path)
+    local_config.setdefault('input_folder', 'drop')
+    local_config.setdefault('output_folder', 'output')
+    local_config.setdefault('archive_folder', 'archive')
+    local_config.setdefault('cache_folder', 'cache')
+    
+    # Ensure S3 config exists with defaults
+    if 's3' not in storage_config:
+        storage_config['s3'] = {
+            'aws_region': 'us-east-1',
+            'bucket_name': '',
+            'base_prefix': 'milton/',
+            'input_prefix': 'input/',
+            'output_prefix': 'output/',
+            'archive_prefix': 'archive/',
+            'cache_prefix': 'cache/'
+        }
+    
+    logger.debug(f"Retrieved storage config: {json.dumps(storage_config, indent=2)}")
     return storage_config

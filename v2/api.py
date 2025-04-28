@@ -23,8 +23,10 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, validator
 import aiohttp
 import asyncio
+import os
 
 from logger_config import setup_logging  # Import centralized logging config
+from marshaller import Marshaller
 from services import FinancialServicesFacade
 from business import process_claim
 from cache_manager.cache_operations import CacheManager
@@ -33,6 +35,7 @@ from cache_manager.summary_generator import SummaryGenerator
 from cache_manager.file_handler import FileHandler
 from main_config import get_storage_config, load_config  # Import load_config
 from storage_manager import StorageManager  # Import storage manager
+from storage_providers.factory import StorageProviderFactory  # Import StorageProviderFactory
 
 # Setup logging using logger_config
 loggers = setup_logging(debug=True)  # Enable debug mode for detailed logs
@@ -59,56 +62,81 @@ file_handler = None
 compliance_handler = None
 summary_generator = None
 storage_manager = None
+marshaller = None
+financial_services = None
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize services with current settings on startup."""
-    global facade, cache_manager, file_handler, compliance_handler, summary_generator, storage_manager
-    
-    # Initialize storage configuration
-    config = load_config()  # Load the full configuration
-    logger.debug(f"Full config loaded: {json.dumps(config, indent=2)}")
-    storage_config = get_storage_config(config)  # Get storage section
-    logger.debug(f"Storage config retrieved: {json.dumps(storage_config, indent=2)}")
+    """Initialize API services on startup."""
+    global facade, storage_manager, marshaller, financial_services
     
     try:
-        # Ensure storage config has all required sections
-        if 'mode' not in storage_config:
-            storage_config['mode'] = 'local'
-        if 'local' not in storage_config:
-            storage_config['local'] = {
-                'input_folder': 'drop',
-                'output_folder': 'output',
-                'archive_folder': 'archive',
-                'cache_folder': 'cache'
-            }
-        if 's3' not in storage_config:
-            storage_config['s3'] = {
-                'aws_region': 'us-east-1',
-                'input_bucket': '',
-                'input_prefix': 'input/',
-                'output_bucket': '',
-                'output_prefix': 'output/',
-                'archive_bucket': '',
-                'archive_prefix': 'archive/',
-                'cache_bucket': '',
-                'cache_prefix': 'cache/'
-            }
+        # Load full configuration
+        config = load_config()
+        logger.debug(f"Full config loaded: {json.dumps(config, indent=2)}")
         
-        storage_manager = StorageManager(storage_config)  # Pass only the storage section
-        logger.debug("Successfully created StorageManager")
+        # Get storage configuration
+        storage_config = get_storage_config(config)
+        logger.debug(f"Storage config retrieved: {json.dumps(storage_config, indent=2)}")
+        
+        # Initialize storage manager
+        try:
+            storage_manager = StorageManager(storage_config)
+            logger.debug("Successfully created StorageManager")
+        except Exception as e:
+            logger.error(f"Error creating StorageManager: {str(e)}")
+            raise
+            
+        # Initialize compliance report agent storage
+        try:
+            compliance_report_storage = StorageProviderFactory.create_provider(storage_config)
+            logger.debug(f"Successfully initialized compliance_report_agent storage provider with base_path: {compliance_report_storage.base_path}")
+            
+            # Initialize compliance report agent's storage provider
+            from agents.compliance_report_agent import _storage_provider
+            import agents.compliance_report_agent as compliance_report_agent
+            compliance_report_agent._storage_provider = compliance_report_storage
+            
+        except Exception as e:
+            logger.error(f"Error initializing compliance report storage: {str(e)}")
+            raise
+            
+        # Initialize Marshaller first since FinancialServicesFacade depends on it
+        try:
+            marshaller = Marshaller(headless=True)
+            logger.debug("Successfully initialized Marshaller")
+        except Exception as e:
+            logger.error(f"Error initializing Marshaller: {str(e)}")
+            raise
+            
+        # Initialize FinancialServicesFacade with storage manager
+        try:
+            facade = FinancialServicesFacade(
+                headless=True,
+                storage_manager=storage_manager
+            )
+            logger.debug("Successfully initialized FinancialServicesFacade")
+        except Exception as e:
+            logger.error(f"Error initializing FinancialServicesFacade: {str(e)}")
+            raise
+            
+        # Initialize other services
+        try:
+            global cache_manager, file_handler, compliance_handler, summary_generator
+            cache_manager = CacheManager()
+            file_handler = FileHandler(cache_manager.cache_folder)
+            compliance_handler = ComplianceHandler(file_handler.base_path)
+            summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
+            logger.debug("Successfully initialized cache management services")
+        except Exception as e:
+            logger.error(f"Error initializing cache management services: {str(e)}")
+            raise
+            
+        logger.info("API services successfully initialized")
+        
     except Exception as e:
-        logger.error(f"Error creating StorageManager: {str(e)}", exc_info=True)
+        logger.error(f"Critical error during startup: {str(e)}", exc_info=True)
         raise
-    
-    # Initialize services with storage manager
-    facade = FinancialServicesFacade(headless=settings.headless, storage_manager=storage_manager)
-    cache_manager = CacheManager()
-    file_handler = FileHandler(cache_manager.cache_folder)
-    compliance_handler = ComplianceHandler(file_handler.base_path)
-    summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
-    
-    logger.info("API services initialized with storage configuration")
 
 @app.put("/settings")
 async def update_settings(new_settings: Settings):
@@ -394,10 +422,25 @@ async def get_data_quality_report():
     return summary_generator.generate_data_quality_report()
 
 @app.on_event("shutdown")
-def shutdown_event():
+async def shutdown_event():
     """Clean up resources on shutdown."""
+    global facade, marshaller
+    
     logger.info("Shutting down API server")
-    facade.cleanup()  # Explicitly close WebDriver
+    
+    try:
+        if facade:
+            facade.cleanup()
+            logger.debug("Successfully cleaned up FinancialServicesFacade")
+    except Exception as e:
+        logger.error(f"Error cleaning up FinancialServicesFacade: {str(e)}")
+        
+    try:
+        if marshaller:
+            marshaller.cleanup()
+            logger.debug("Successfully cleaned up Marshaller")
+    except Exception as e:
+        logger.error(f"Error cleaning up Marshaller: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
