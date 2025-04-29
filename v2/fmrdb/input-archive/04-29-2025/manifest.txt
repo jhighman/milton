@@ -1,0 +1,5 @@
+Date: 04-29-2025
+Input Bucket: cenxtgen-qa-brokersearch
+Output Bucket: cenxtgen-qa-brokersearch-response
+Removed local CSV files: 0
+Downloaded CSV files from S3: 0

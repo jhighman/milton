@@ -195,10 +195,36 @@ class S3StorageProvider(BaseStorageProvider):
             logger.error(f"Error saving to S3 {file_path}: {str(e)}")
             return False
             
-    def read_file(self, file_path: str) -> Optional[Any]:
-        """Read content from S3."""
+    def read_file(self, file_path: str, storage_type: str = None) -> Optional[Any]:
+        """Read content from S3.
+        
+        Args:
+            file_path: Path to the file to read
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            File contents
+        """
         try:
-            bucket, key = self._get_bucket_and_key(file_path, for_writing=False)
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the file path and join with the prefix
+                normalized_path = self._normalize_path(file_path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                bucket, key = self._get_bucket_and_key(file_path, for_writing=False)
             
             response = self.s3_client.get_object(
                 Bucket=bucket,
@@ -234,23 +260,77 @@ class S3StorageProvider(BaseStorageProvider):
             logger.error(f"Error deleting from S3 {file_path}: {str(e)}")
             return False
             
-    def list_files(self, directory: str = "") -> List[str]:
-        """List files in S3 directory."""
+    def list_files(self, directory: str = "", pattern: Optional[str] = None, storage_type: str = None) -> List[str]:
+        """List files in S3 directory.
+        
+        Args:
+            directory: Directory to list files from
+            pattern: Optional glob pattern to filter files
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            List of file paths relative to the storage type directory
+        """
         try:
             bucket = self.bucket_name
-            prefix = os.path.join(self.input_prefix, directory)
             
-            response = self.s3_client.list_objects_v2(
-                Bucket=bucket,
-                Prefix=prefix
-            )
+            # Determine the base prefix based on storage type
+            if storage_type == 'input':
+                base_prefix = self.input_prefix
+            elif storage_type == 'output':
+                base_prefix = self.output_prefix
+            elif storage_type == 'archive':
+                base_prefix = self.archive_prefix
+            elif storage_type == 'cache':
+                base_prefix = self.cache_prefix
+            else:
+                base_prefix = self.base_prefix
+                
+            # Join the base prefix with the directory using forward slashes
+            directory = self._normalize_path(directory)
+            prefix = f"{base_prefix}{directory}" if directory else base_prefix
             
+            # Ensure the prefix ends with a slash if it's not empty
+            if prefix and not prefix.endswith('/'):
+                prefix += '/'
+            
+            logger.debug(f"Listing files in S3 bucket {bucket} with prefix: {prefix}")
+            
+            # List objects in S3
+            paginator = self.s3_client.get_paginator('list_objects_v2')
             files = []
-            for obj in response.get('Contents', []):
-                rel_path = os.path.relpath(obj['Key'], self.input_prefix)
-                files.append(rel_path)
-            return files
             
+            try:
+                for page in paginator.paginate(Bucket=bucket, Prefix=prefix):
+                    for obj in page.get('Contents', []):
+                        # Skip if this is a directory marker (ends with /)
+                        if obj['Key'].endswith('/'):
+                            continue
+                            
+                        # Make path relative to the storage type directory
+                        rel_path = obj['Key'][len(base_prefix):] if obj['Key'].startswith(base_prefix) else obj['Key']
+                        
+                        # Apply pattern filtering if specified
+                        if pattern:
+                            if not fnmatch.fnmatch(rel_path, pattern):
+                                continue
+                        
+                        logger.debug(f"Found file: {rel_path}")
+                        files.append(rel_path)
+                
+                logger.info(f"Found {len(files)} files matching pattern {pattern or '*'} in {prefix}")
+                return files
+                
+            except ClientError as e:
+                if e.response['Error']['Code'] == 'NoSuchBucket':
+                    logger.error(f"Bucket {bucket} does not exist")
+                    return []
+                elif e.response['Error']['Code'] == 'NoSuchKey':
+                    logger.error(f"Prefix {prefix} does not exist in bucket {bucket}")
+                    return []
+                else:
+                    raise
+                    
         except Exception as e:
             logger.error(f"Error listing files in S3 {directory}: {str(e)}")
             return []
@@ -348,23 +428,65 @@ class S3StorageProvider(BaseStorageProvider):
             logger.error(f"Error writing file {path}: {str(e)}")
             return False
     
-    def move_file(self, source: str, dest: str) -> bool:
+    def move_file(self, source: str, dest: str, source_type: str = None, dest_type: str = None) -> bool:
         """Move a file within S3.
 
         Args:
             source: Source path
             dest: Destination path
+            source_type: Type of source storage (input, output, archive, cache)
+            dest_type: Type of destination storage (input, output, archive, cache)
 
         Returns:
             True if successful, False otherwise
         """
         try:
-            # If destination doesn't have a recognized prefix, assume it's for output
-            if not any(dest.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
-                dest = 'output/' + dest
-
-            source_bucket, source_key = self._get_bucket_and_key(source, for_writing=False)
-            dest_bucket, dest_key = self._get_bucket_and_key(dest, for_writing=True)
+            # Determine source and destination keys based on storage types
+            if source_type:
+                # Determine the base prefix based on storage type
+                if source_type == 'input':
+                    source_prefix = self.input_prefix
+                elif source_type == 'output':
+                    source_prefix = self.output_prefix
+                elif source_type == 'archive':
+                    source_prefix = self.archive_prefix
+                elif source_type == 'cache':
+                    source_prefix = self.cache_prefix
+                else:
+                    source_prefix = self.base_prefix
+                
+                # Normalize the source path and join with the prefix
+                normalized_source = self._normalize_path(source)
+                source_key = f"{source_prefix}{normalized_source}"
+                source_bucket = self.bucket_name
+            else:
+                # If destination doesn't have a recognized prefix, assume it's for input
+                if not any(source.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
+                    source = 'input/' + source
+                source_bucket, source_key = self._get_bucket_and_key(source, for_writing=False)
+            
+            if dest_type:
+                # Determine the base prefix based on storage type
+                if dest_type == 'input':
+                    dest_prefix = self.input_prefix
+                elif dest_type == 'output':
+                    dest_prefix = self.output_prefix
+                elif dest_type == 'archive':
+                    dest_prefix = self.archive_prefix
+                elif dest_type == 'cache':
+                    dest_prefix = self.cache_prefix
+                else:
+                    dest_prefix = self.base_prefix
+                
+                # Normalize the destination path and join with the prefix
+                normalized_dest = self._normalize_path(dest)
+                dest_key = f"{dest_prefix}{normalized_dest}"
+                dest_bucket = self.bucket_name
+            else:
+                # If destination doesn't have a recognized prefix, assume it's for output
+                if not any(dest.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
+                    dest = 'output/' + dest
+                dest_bucket, dest_key = self._get_bucket_and_key(dest, for_writing=True)
 
             # Copy the object
             self.s3_client.copy_object(

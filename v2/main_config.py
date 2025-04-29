@@ -158,15 +158,17 @@ def save_config(config: Dict[str, Any], config_path: str = CONFIG_FILE):
     except Exception as e:
         logger.error(f"Error saving config to {config_path}: {str(e)}")
 
-def get_storage_config(config: Dict[str, Any]) -> Dict[str, Any]:
+def get_storage_config(config: Dict[str, Any] = None) -> Dict[str, Any]:
     """Get storage configuration from main config.
     
     Args:
-        config: Main configuration dictionary
+        config: Main configuration dictionary. If None, loads from default location.
         
     Returns:
         Storage configuration dictionary
     """
+    if config is None:
+        config = load_config()
     logger.debug(f"Getting storage config from: {json.dumps(config, indent=2)}")
     
     # Get storage section with defaults

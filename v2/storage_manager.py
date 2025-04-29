@@ -64,7 +64,7 @@ class StorageManager:
             return b"test content"
             
         try:
-            return self.provider.read_file(path)
+            return self.provider.read_file(path, storage_type)
         except FileNotFoundError as e:
             logger.error(f"Error reading file {path}: {str(e)}")
             raise FileNotFoundError(f"File not found: {path}")
@@ -116,15 +116,8 @@ class StorageManager:
         if isinstance(self.provider, Mock) and hasattr(self.provider.list_files, 'side_effect') and isinstance(self.provider.list_files.side_effect, OSError):
             raise OSError("OS error")
             
-        # Special handling for other test cases
-        if not isinstance(self.provider, Mock):
-            if path == "":
-                return ["test.txt"]
-            elif path == "input/":
-                return ["test.txt"]
-            
         try:
-            return self.provider.list_files(path, pattern)
+            return self.provider.list_files(path, pattern, storage_type)
         except FileNotFoundError as e:
             logger.error(f"Error listing files in {path}: {str(e)}")
             raise
@@ -186,7 +179,7 @@ class StorageManager:
                 return True
             
         try:
-            return self.provider.move_file(source, dest)
+            return self.provider.move_file(source, dest, source_type, dest_type)
         except PermissionError as e:
             logger.error(f"Permission denied moving file from {source} to {dest}: {str(e)}")
             raise
@@ -286,6 +279,23 @@ class StorageManager:
             logger.error(f"Error getting file modified time {path}: {str(e)}")
             raise OSError(f"Error getting file modified time {path}: {str(e)}")
 
+    def get_output_path(self) -> str:
+        """Get the path to the output directory.
+        
+        Returns:
+            Path to the output directory
+        """
+        if self.config.get('mode', 'local') == 'local':
+            base_path = self.config.get('local', {}).get('base_path', '.')
+            output_folder = self.config.get('local', {}).get('output_folder', 'output')
+            return os.path.join(base_path, output_folder)
+        elif self.config.get('mode') == 's3':
+            # For S3, return a local temporary directory for output
+            return os.path.join(os.getcwd(), 'output')
+        else:
+            # Default fallback
+            return os.path.join(os.getcwd(), 'output')
+    
     def _get_default_config(self) -> Dict[str, Any]:
         """Get default storage configuration."""
         return {

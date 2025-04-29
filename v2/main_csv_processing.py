@@ -123,7 +123,14 @@ class CSVProcessor:
         try:
             # Read CSV file
             content = self.storage_manager.read_file(csv_file, storage_type='input')
-            reader = csv.DictReader(content.decode('utf-8').splitlines())
+            
+            # Handle both string and bytes content
+            if isinstance(content, bytes):
+                content_str = content.decode('utf-8')
+            else:
+                content_str = content
+                
+            reader = csv.DictReader(content_str.splitlines())
             
             # Skip to start line
             for _ in range(start_line):
@@ -156,8 +163,22 @@ class CSVProcessor:
         # Extract data from row
         data = self.extract_data(row)
         
-        # Process the data
-        result = facade.process_record(data, config)
+        # Import the process_claim function from business module
+        from business import process_claim
+        
+        # Process the data using process_claim
+        skip_disciplinary = config.get('skip_disciplinary', False)
+        skip_arbitration = config.get('skip_arbitration', False)
+        skip_regulatory = config.get('skip_regulatory', False)
+        
+        result = process_claim(
+            data,
+            facade,
+            employee_number=data.get('employee_number'),
+            skip_disciplinary=skip_disciplinary,
+            skip_arbitration=skip_arbitration,
+            skip_regulatory=skip_regulatory
+        )
         
         # Save result
         self.save_result(result)
@@ -168,16 +189,58 @@ class CSVProcessor:
 
     def extract_data(self, row: Dict[str, str]) -> Dict[str, Any]:
         """
-        Extract data from a CSV row.
+        Extract data from a CSV row and map to canonical field names.
         
         Args:
             row: Dictionary containing row data.
             
         Returns:
-            Dictionary containing extracted data.
+            Dictionary containing extracted data with canonical field names.
         """
-        # Implementation depends on your data structure
-        return row
+        from main_config import canonical_fields
+        
+        # Create a new dictionary for the extracted data
+        extracted = {}
+        
+        # Map fields to their canonical names
+        for canonical_name, aliases in canonical_fields.items():
+            # Check if any of the aliases exist in the row
+            for alias in aliases:
+                if alias in row and row[alias]:
+                    extracted[canonical_name] = row[alias]
+                    break
+        
+        # Add any remaining fields that don't have canonical mappings
+        for key, value in row.items():
+            # Check if this key is already mapped to a canonical name
+            is_mapped = False
+            for aliases in canonical_fields.values():
+                if key in aliases:
+                    is_mapped = True
+                    break
+            
+            # If not mapped and has a value, add it to the extracted data
+            if not is_mapped and value:
+                extracted[key] = value
+        
+        # Special handling for reference_id if it's not already set
+        if 'reference_id' not in extracted and 'referenceId' in row:
+            extracted['reference_id'] = row['referenceId']
+        
+        # Special handling for crdNumber -> crd_number mapping
+        if 'crd_number' not in extracted and 'crdNumber' in row and row['crdNumber']:
+            extracted['crd_number'] = row['crdNumber']
+            logger.debug(f"Mapped crdNumber '{row['crdNumber']}' to crd_number")
+        
+        # Special handling for organizationCRD -> organization_crd mapping
+        if 'organization_crd' not in extracted and 'organizationCRD' in row and row['organizationCRD']:
+            extracted['organization_crd'] = row['organizationCRD']
+            logger.debug(f"Mapped organizationCRD '{row['organizationCRD']}' to organization_crd")
+        
+        # Log the mapping for debugging
+        logger.debug(f"Mapped row fields: {row.keys()} to canonical fields: {extracted.keys()}")
+        
+        return extracted
 
     def save_result(self, result: Dict[str, Any]):
         """
@@ -189,16 +252,50 @@ class CSVProcessor:
         if not self.storage_manager:
             raise ValueError("Storage manager not set")
         
-        # Generate output filename
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = f"result_{timestamp}.json"
+        # Extract reference ID from the result or use a timestamp if not available
+        reference_id = None
         
-        # Save result
-        self.storage_manager.write_file(
-            output_file,
-            json.dumps(result, indent=2),
-            storage_type='output'
-        )
+        # Try to get reference_id from different possible locations in the result
+        if isinstance(result, dict):
+            # Try to get it directly from the result
+            reference_id = result.get('reference_id')
+            
+            # If not found, try to get it from the claim data if present
+            if not reference_id and 'claim' in result:
+                reference_id = result['claim'].get('reference_id')
+                
+            # If still not found, try to get it from search_evaluation if present
+            if not reference_id and 'search_evaluation' in result:
+                if isinstance(result['search_evaluation'], dict):
+                    reference_id = result['search_evaluation'].get('reference_id')
+        
+        # If reference_id is still not found, use a timestamp
+        if not reference_id:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_file = f"result_{timestamp}.json"
+        else:
+            # Clean the reference_id to make it a valid filename
+            reference_id = reference_id.replace('/', '_').replace('\\', '_').replace(':', '_')
+            output_file = f"{reference_id}.json"
+        
+        logger.info(f"Saving result to output file: {output_file}")
+        
+        # Get the output path from the storage manager
+        output_path = os.path.join(self.storage_manager.get_output_path(), output_file)
+        
+        # Save result to the output folder
+        try:
+            # Make sure the output directory exists
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            
+            # Write the file to the output directory
+            with open(output_path, 'w') as f:
+                f.write(json.dumps(result, indent=2))
+            
+            logger.debug(f"Successfully saved file: {output_path}")
+        except Exception as e:
+            logger.error(f"Error saving result to {output_path}: {str(e)}")
+            raise
 
     def _write_records(self, records: defaultdict, output_file: str, record_type: str):
         date_str = datetime.now().strftime("%m-%d-%Y")

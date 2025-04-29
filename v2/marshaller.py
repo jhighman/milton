@@ -180,6 +180,8 @@ def read_manifest(cache_path: Union[str, Path]) -> Optional[Dict[str, Any]]:
         manifest_path_str = str(Path(cache_path) / "manifest.json")
         if storage_provider.file_exists(manifest_path_str):
             content = storage_provider.read_file(manifest_path_str)
+            if isinstance(content, dict):
+                return content  # Already a dictionary, return as is
             if isinstance(content, bytes):
                 return json.loads(content.decode('utf-8'))
             return json.loads(content)
@@ -221,7 +223,14 @@ def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optio
                 return []
             for file_path in sorted(json_files):
                 try:
-                    content = storage_provider.read_file(file_path).decode().strip()
+                    content = storage_provider.read_file(file_path)
+                    if isinstance(content, dict):
+                        results.append(content)
+                        continue
+                    if isinstance(content, bytes):
+                        content = content.decode().strip()
+                    else:
+                        content = str(content).strip()
                     if not content:
                         logger.warning(f"Empty cache file: {file_path}")
                         continue
@@ -235,7 +244,13 @@ def load_cached_data(cache_path: Path, is_multiple: bool = False) -> Union[Optio
                 logger.debug(f"No JSON files in cache directory: {cache_path}")
                 return None
             try:
-                content = storage_provider.read_file(json_files[0]).decode().strip()
+                content = storage_provider.read_file(json_files[0])
+                if isinstance(content, dict):
+                    return content
+                if isinstance(content, bytes):
+                    content = content.decode().strip()
+                else:
+                    content = str(content).strip()
                 if content:
                     return json.loads(content)
             except Exception as e:

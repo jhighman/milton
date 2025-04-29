@@ -6,7 +6,7 @@ which provides a common interface for both local and S3 storage operations.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, List, Optional, Union, BinaryIO
+from typing import Any, Dict, List, Optional, Union, BinaryIO
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,8 +19,8 @@ class BaseStorageProvider(ABC):
         self.logger = logging.getLogger(self.__class__.__name__)
     
     @abstractmethod
-    def initialize(self, base_path: str):
-        """Initialize the provider with base path."""
+    def initialize(self, config: Dict[str, Any]):
+        """Initialize with configuration dictionary."""
         pass
     
     @abstractmethod
@@ -29,8 +29,16 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def read_file(self, file_path: str) -> Optional[Any]:
-        """Read content from a file."""
+    def read_file(self, file_path: str, storage_type: str = None) -> Optional[Any]:
+        """Read content from a file.
+        
+        Args:
+            file_path: Path to the file to read
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            File contents
+        """
         pass
     
     @abstractmethod
@@ -39,13 +47,32 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def list_files(self, directory: str = "") -> List[str]:
-        """List files in directory."""
+    def list_files(self, directory: str = "", pattern: Optional[str] = None, storage_type: str = None) -> List[str]:
+        """List files in directory.
+        
+        Args:
+            directory: Directory to list files from
+            pattern: Optional glob pattern to filter files
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            List of file paths relative to the storage type directory
+        """
         pass
     
-    def move_file(self, source: str, dest: str) -> bool:
-        """Move a file from source to destination."""
-        if self.save_file(dest, self.read_file(source)):
+    def move_file(self, source: str, dest: str, source_type: str = None, dest_type: str = None) -> bool:
+        """Move a file from source to destination.
+        
+        Args:
+            source: Source path
+            dest: Destination path
+            source_type: Type of source storage (input, output, archive, cache)
+            dest_type: Type of destination storage (input, output, archive, cache)
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        if self.save_file(dest, self.read_file(source, source_type)):
             return self.delete_file(source)
         return False
     

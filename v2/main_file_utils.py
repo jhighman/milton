@@ -17,10 +17,12 @@ logger = logging.getLogger('main_file_utils')
 def setup_folders(storage_manager: StorageManager):
     """Set up required folders using storage manager."""
     try:
-        for folder in ['input', 'output', 'archive', 'cache']:
-            # Create folder path
-            folder_path = os.path.join(folder, '')
-            storage_manager.create_directory(folder_path)
+        # Use the configured folder names from storage manager
+        storage_manager.create_directory('')  # Create base directory if needed
+        storage_manager.create_directory('', storage_type='input')
+        storage_manager.create_directory('', storage_type='output')
+        storage_manager.create_directory('', storage_type='archive')
+        storage_manager.create_directory('', storage_type='cache')
     except Exception as e:
         logger.error(f"Failed to create folders: {str(e)}")
         raise
@@ -31,17 +33,13 @@ def save_checkpoint(csv_file: str, line_number: int, storage_manager: StorageMan
         'csv_file': csv_file,
         'line_number': line_number
     }
-    # Write to output folder
-    output_path = os.path.join('output', 'checkpoint.json')
-    storage_manager.write_file(output_path, json.dumps(checkpoint))
+    storage_manager.write_file('checkpoint.json', json.dumps(checkpoint), storage_type='output')
 
 def load_checkpoint(storage_manager: StorageManager) -> tuple:
     """Load processing checkpoint using storage manager."""
     try:
-        # Read from output folder
-        output_path = os.path.join('output', 'checkpoint.json')
-        if storage_manager.file_exists(output_path):
-            content = storage_manager.read_file(output_path)
+        if storage_manager.file_exists('checkpoint.json', storage_type='output'):
+            content = storage_manager.read_file('checkpoint.json', storage_type='output')
             checkpoint = json.loads(content)
             return checkpoint.get('csv_file', ''), checkpoint.get('line_number', 0)
     except Exception as e:
@@ -49,13 +47,22 @@ def load_checkpoint(storage_manager: StorageManager) -> tuple:
     return '', 0
 
 def get_csv_files(storage_manager: StorageManager) -> list:
-    """Get list of CSV files from input folder using storage manager."""
+    """Get list of CSV files from input folder using storage manager.
+    
+    Args:
+        storage_manager: The storage manager instance to use for file operations.
+        
+    Returns:
+        list: A list of CSV filenames found in the input directory.
+    """
+    logger.debug("Attempting to list CSV files from input directory")
     try:
-        # List files in input folder
-        input_path = os.path.join('input', '')
-        return storage_manager.list_files(input_path, pattern='*.csv')
+        # List all CSV files in the root of the input directory
+        files = storage_manager.list_files('', pattern='*.csv', storage_type='input')
+        logger.debug(f"Found {len(files)} CSV files in input directory")
+        return files
     except Exception as e:
-        logger.error(f"Error getting CSV files: {str(e)}")
+        logger.error(f"Failed to list CSV files from input directory: {str(e)}", exc_info=True)
         return []
 
 def archive_file(file_path: str, storage_manager: StorageManager):
@@ -64,15 +71,8 @@ def archive_file(file_path: str, storage_manager: StorageManager):
         # file_path might be just the filename or a full path
         filename = os.path.basename(file_path)
         
-        # For testing purposes, just log success
+        # Move the file from input to archive
+        storage_manager.move_file(filename, filename, source_type='input', dest_type='archive')
         logger.info(f"Archived file: {filename}")
-        
-        # In a real implementation, we would do:
-        # source_path = os.path.join('input', filename)
-        # dest_path = os.path.join('archive', filename)
-        # if storage_manager.file_exists(source_path):
-        #     storage_manager.move_file(source_path, dest_path)
-        # else:
-        #     logger.warning(f"File not found for archiving: {source_path}")
     except Exception as e:
         logger.error(f"Error archiving file {file_path}: {str(e)}")

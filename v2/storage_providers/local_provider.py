@@ -92,11 +92,28 @@ class LocalStorageProvider(BaseStorageProvider):
             logger.error(f"Error saving file {file_path}: {str(e)}")
             return False
             
-    def read_file(self, file_path: str) -> Optional[Any]:
+    def read_file(self, file_path: str, storage_type: str = None) -> Optional[Any]:
         """Read content from a file."""
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(file_path)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the file
+            if storage_type:
+                full_path = base_dir / file_path
+            else:
+                full_path = self._get_full_path(file_path)
+                
             if not full_path.exists():
                 raise FileNotFoundError(f"File not found: {file_path}")
                 
@@ -125,19 +142,47 @@ class LocalStorageProvider(BaseStorageProvider):
             logger.error(f"Error deleting file {file_path}: {str(e)}")
             return False
             
-    def list_files(self, directory: str = "") -> List[str]:
+    def list_files(self, directory: str = "", pattern: Optional[str] = None, storage_type: str = None) -> List[str]:
         """List files in directory."""
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(directory)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+
+            # Get the full path for the directory
+            full_path = base_dir / directory if directory else base_dir
             if not full_path.exists():
+                logger.debug(f"Directory does not exist: {full_path}")
                 return []
                 
             files = []
-            for path in full_path.rglob('*'):
+            # Use glob pattern if provided, otherwise get all files
+            glob_pattern = pattern if pattern else '*'
+            logger.debug(f"Searching in {full_path} with pattern {glob_pattern}")
+            
+            # Search for files in the correct directory
+            for path in full_path.glob(glob_pattern):
                 if path.is_file():
-                    rel_path = str(path.relative_to(self.base_path))
-                    files.append(rel_path)
+                    # Make path relative to the storage type directory
+                    try:
+                        rel_path = str(path.relative_to(base_dir))
+                        logger.debug(f"Found file: {rel_path}")
+                        files.append(rel_path)
+                    except ValueError:
+                        # If path is not relative to base_dir, use the full path
+                        logger.debug(f"Using full path for: {path}")
+                        files.append(str(path))
+                        
+            logger.debug(f"Found {len(files)} files matching pattern {glob_pattern}")
             return files
             
         except Exception as e:
@@ -192,12 +237,53 @@ class LocalStorageProvider(BaseStorageProvider):
         """Write content to a file."""
         return self.save_file(path, content)
     
-    def move_file(self, source: str, dest: str) -> bool:
-        """Move a file from source to destination."""
+    def move_file(self, source: str, dest: str, source_type: str = None, dest_type: str = None) -> bool:
+        """Move a file from source to destination.
+        
+        Args:
+            source: Source path
+            dest: Destination path
+            source_type: Type of source storage (input, output, archive, cache)
+            dest_type: Type of destination storage (input, output, archive, cache)
+            
+        Returns:
+            True if successful, False otherwise
+        """
         self._ensure_initialized()
         try:
-            source_path = self._get_full_path(source)
-            dest_path = self._get_full_path(dest)
+            # Determine the base directories based on storage types
+            if source_type == 'input':
+                source_base_dir = self.input_path
+            elif source_type == 'output':
+                source_base_dir = self.output_path
+            elif source_type == 'archive':
+                source_base_dir = self.archive_path
+            elif source_type == 'cache':
+                source_base_dir = self.cache_path
+            else:
+                source_base_dir = self.base_path
+                
+            if dest_type == 'input':
+                dest_base_dir = self.input_path
+            elif dest_type == 'output':
+                dest_base_dir = self.output_path
+            elif dest_type == 'archive':
+                dest_base_dir = self.archive_path
+            elif dest_type == 'cache':
+                dest_base_dir = self.cache_path
+            else:
+                dest_base_dir = self.base_path
+            
+            # Get the full paths
+            if source_type:
+                source_path = source_base_dir / source
+            else:
+                source_path = self._get_full_path(source)
+                
+            if dest_type:
+                dest_path = dest_base_dir / dest
+            else:
+                dest_path = self._get_full_path(dest)
             
             # Create destination directory if it doesn't exist
             os.makedirs(dest_path.parent, exist_ok=True)
