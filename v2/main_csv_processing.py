@@ -290,7 +290,7 @@ class CSVProcessor:
             
             # Write the file to the output directory
             with open(output_path, 'w') as f:
-                f.write(json.dumps(result, indent=2))
+                f.write(json_dumps_with_alerts(result, indent=2))
             
             logger.debug(f"Successfully saved file: {output_path}")
         except Exception as e:
