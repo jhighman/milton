@@ -481,16 +481,23 @@ def create_arbitration_record(
             if respondents_str:
                 respondent_names = [name.strip() for name in respondents_str.split(",") if name.strip()]
         elif data_source == "SEC_Arbitration":
-            normalized_record["case_id"] = record.get("Enforcement Action", "Unknown")
-            normalized_record["date"] = record.get("Date Filed", "Unknown")
-            normalized_record["details"] = {
-                "action_type": "Award against individual",
-                "firms_individuals": searched_name,
-                "description": f"Case {normalized_record['case_id']} closed with outcome: Award against individual",
-                "enforcement_action": record.get("Enforcement Action"),
-                "documents": record.get("Documents", [])
-            }
-            respondent_names = [searched_name]  # Explicitly score searched_name
+            enforcement_action = record.get("Enforcement Action")
+            if enforcement_action and enforcement_action != "Unknown":
+                normalized_record["case_id"] = enforcement_action
+                normalized_record["date"] = record.get("Date Filed", "Unknown")
+                normalized_record["details"] = {
+                    "action_type": "Award against individual",
+                    "firms_individuals": searched_name,
+                    "description": f"Case {normalized_record['case_id']} closed with outcome: Award against individual",
+                    "enforcement_action": enforcement_action,
+                    "documents": record.get("Documents", [])
+                }
+                respondent_names = [searched_name]  # Only add searched_name if there's a valid enforcement action
+            else:
+                # Skip this record if there's no enforcement action
+                due_diligence["records_filtered"] += 1
+                logger.debug(f"No enforcement action found in record, skipping")
+                continue
 
         logger.debug(f"Extracted respondent_names: {respondent_names}")
         if respondent_names:

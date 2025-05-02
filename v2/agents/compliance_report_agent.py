@@ -212,9 +212,12 @@ def save_compliance_report(report: Dict[str, Any], employee_number: Optional[str
                     # Extract just the filename from the full path
                     file_name = Path(latest_file).name
                     file_content = storage_provider.read_file(f"{cache_path}/{file_name}")
-                    if isinstance(file_content, bytes):
-                        file_content = file_content.decode('utf-8')
-                    old_report = json.loads(file_content)
+                    if isinstance(file_content, dict):
+                        old_report = file_content
+                    else:
+                        if isinstance(file_content, bytes):
+                            file_content = file_content.decode('utf-8')
+                        old_report = json.loads(file_content)
                     logger.debug(f"Successfully loaded old report with keys: {list(old_report.keys())}")
                     needs_new_version = has_significant_changes(report, old_report)
                     version = len(existing_files) + 1 if needs_new_version else None

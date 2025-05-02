@@ -75,22 +75,70 @@ for formal_name, nicknames in nickname_dict.items():
     for nickname in nicknames:
         reverse_nickname_dict.setdefault(nickname, set()).add(formal_name)
 
+def extract_suffix(name_part: str) -> Tuple[str, Optional[str]]:
+    """Extract suffix from a name part if present."""
+    suffixes = ["SR", "JR", "II", "III", "IV", "V"]
+    name_part = name_part.strip()
+    
+    # Check for suffix at the end with space
+    for suffix in suffixes:
+        if name_part.upper().endswith(f" {suffix}"):
+            return name_part[:-len(suffix)-1].strip(), suffix
+    
+    # Check for suffix at the end without space
+    for suffix in suffixes:
+        if name_part.upper().endswith(suffix) and len(name_part) > len(suffix):
+            return name_part[:-len(suffix)].strip(), suffix
+            
+    return name_part, None
+
 def parse_name(name: str) -> Dict[str, Optional[str]]:
     name = name.strip()
     parts = [part.strip() for part in name.split(",")] if "," in name else name.split()
+    result = {"first": None, "middle": None, "last": None, "suffix": None}
+    
     if len(parts) == 1:
-        return {"first": parts[0], "middle": None, "last": None}
+        result["first"] = parts[0]
     elif len(parts) == 2:
         if "," in name:
-            return {"first": parts[1], "middle": None, "last": parts[0]}
+            result["first"] = parts[1]
+            last_part, suffix = extract_suffix(parts[0])
+            result["last"] = last_part
+            result["suffix"] = suffix
         else:
-            return {"first": parts[0], "middle": None, "last": parts[1]}
+            result["first"] = parts[0]
+            last_part, suffix = extract_suffix(parts[1])
+            result["last"] = last_part
+            result["suffix"] = suffix
     elif len(parts) >= 3:
         if "," in name:
-            return {"first": parts[1], "middle": " ".join(parts[2:]), "last": parts[0]}
+            result["first"] = parts[1]
+            result["middle"] = " ".join(parts[2:])
+            last_part, suffix = extract_suffix(parts[0])
+            result["last"] = last_part
+            result["suffix"] = suffix
         else:
-            return {"first": parts[0], "middle": " ".join(parts[1:-1]), "last": parts[-1]}
-    return {"first": None, "middle": None, "last": None}
+            result["first"] = parts[0]
+            
+            # Check if the last part contains a suffix
+            last_part, suffix = extract_suffix(parts[-1])
+            
+            if suffix:
+                result["last"] = last_part
+                result["suffix"] = suffix
+                if len(parts) > 2:
+                    result["middle"] = " ".join(parts[1:-1])
+            else:
+                result["last"] = parts[-1]
+                if len(parts) > 2:
+                    # Check if the second-to-last part is a suffix
+                    if len(parts) > 3 and parts[-2].upper() in ["SR", "JR", "II", "III", "IV", "V"]:
+                        result["middle"] = " ".join(parts[1:-2])
+                        result["suffix"] = parts[-2]
+                    else:
+                        result["middle"] = " ".join(parts[1:-1])
+    
+    return result
 
 def get_passed_exams(exams: List[Dict[str, Any]]) -> Set[str]:
     passed_exams = set()
@@ -148,22 +196,46 @@ def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name
 
 def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any], score_threshold: float = 80.0) -> Tuple[Dict[str, Any], Optional[Alert]]:
     claim_name = parse_name(expected_name)
-    searched_name = " ".join(filter(None, [claim_name["first"], claim_name["middle"], claim_name["last"]])).strip()
+    # Include suffix in the searched name if present
+    suffix_str = f" {claim_name['suffix']}" if claim_name["suffix"] else ""
+    searched_name = " ".join(filter(None, [claim_name["first"], claim_name["middle"], claim_name["last"]])).strip() + suffix_str
 
     def score_single_name(claim: Dict[str, Any], fetched: Any) -> Tuple[str, float]:
         fetched_parsed = parse_name(fetched)
-        weights = {"first": 40, "middle": 10, "last": 50}
+        weights = {"first": 40, "middle": 10, "last": 50, "suffix": 5}
+        
+        # Adjust weights if middle name is not present
         if not claim["middle"] and not fetched_parsed["middle"]:
             weights["middle"] = 0
+            
+        # Calculate scores for each name part
         first_score = match_name_part(claim["first"], fetched_parsed["first"], "first")
         middle_score = match_name_part(claim["middle"], fetched_parsed["middle"], "middle") if weights["middle"] else 0.0
         last_score = match_name_part(claim["last"], fetched_parsed["last"], "last")
+        
+        # Add suffix matching - exact match or both null gets 1.0, otherwise 0.0
+        suffix_score = 1.0 if (claim["suffix"] == fetched_parsed["suffix"] or
+                              (not claim["suffix"] and not fetched_parsed["suffix"])) else 0.0
+        
+        # Calculate total score with weights
         total_weight = sum(weights.values())
         total_score = (first_score * weights["first"] +
-                       middle_score * weights["middle"] +
-                       last_score * weights["last"])
+                      middle_score * weights["middle"] +
+                      last_score * weights["last"] +
+                      suffix_score * weights["suffix"])
+        
         normalized_score = (total_score / total_weight) * 100.0 if total_weight else 0.0
-        fetched_full_name = " ".join(filter(None, [fetched_parsed["first"], fetched_parsed["middle"], fetched_parsed["last"]])).strip()
+        
+        # Construct full name including suffix
+        fetched_suffix = f" {fetched_parsed['suffix']}" if fetched_parsed["suffix"] else ""
+        fetched_full_name = " ".join(filter(None, [fetched_parsed["first"],
+                                                  fetched_parsed["middle"],
+                                                  fetched_parsed["last"]])).strip() + fetched_suffix
+        
+        # Boost score if suffixes match and are present
+        if claim["suffix"] and fetched_parsed["suffix"] and claim["suffix"] == fetched_parsed["suffix"]:
+            normalized_score = min(100.0, normalized_score + 5.0)
+            
         return fetched_full_name, round(normalized_score, 2)
 
     names_found = []

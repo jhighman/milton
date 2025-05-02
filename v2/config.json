@@ -5,34 +5,13 @@
   "evaluate_disclosures": true,
   "skip_disciplinary": false,
   "skip_arbitration": false,
-  "skip_regulatory": false,
+  "skip_regulatory": true,
   "enabled_logging_groups": [
     "core"
   ],
   "logging_levels": {
-    "core": "DEBUG"
+    "core": "INFO"
   },
   "config_file": "config.json",
-  "default_wait_time": 7.0,
-  "storage": {
-    "mode": "local",
-    "local": {
-      "base_path": "/Users/cto/Desktop/projects/milton/v2",
-      "input_folder": "drop",
-      "output_folder": "output",
-      "archive_folder": "archive",
-      "cache_folder": "cache"
-    },
-    "s3": {
-      "aws_region": "us-east-1",
-      "input_bucket": "",
-      "input_prefix": "input/",
-      "output_bucket": "",
-      "output_prefix": "output/",
-      "archive_bucket": "",
-      "archive_prefix": "archive/",
-      "cache_bucket": "",
-      "cache_prefix": "cache/"
-    }
-  }
+  "default_wait_time": 7.0
 }
