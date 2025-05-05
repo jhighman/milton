@@ -3,7 +3,6 @@ import logging
 from evaluation_report_builder import EvaluationReportBuilder
 from evaluation_processor import (
     evaluate_registration_status,
-    evaluate_name,
     evaluate_license,
     evaluate_exams,
     evaluate_disclosures,
@@ -15,6 +14,7 @@ from evaluation_processor import (
     AlertSeverity,
     Alert
 )
+from name_matcher import evaluate_name
 
 logger = logging.getLogger('evaluation_report_director')
 
@@ -73,14 +73,24 @@ class EvaluationReportDirector:
                     alert_category=determine_alert_category(alert_type)
                 ).to_dict()]
             }
+            name_details, _ = evaluate_name(claim.get('first_name', '').strip() + ' ' + claim.get('last_name', '').strip(), fetched_name, extracted_info.get("other_names", []))
+            # If name_details contains 'due_diligence', merge it with the rest for full detail
+            if 'due_diligence' in name_details:
+                # This is the summary-style output from evaluation_processor; expand it
+                evaluation_details = name_details['due_diligence'].copy()
+                # Optionally, add compliance and compliance_explanation at the top level
+                evaluation_details['compliance'] = name_details.get('compliance')
+                evaluation_details['compliance_explanation'] = name_details.get('compliance_explanation')
+                # If the original name_details has more (like claimed_name, all_matches, best_match), merge them in
+                for key in ('claimed_name', 'all_matches', 'best_match'):
+                    if key in name_details:
+                        evaluation_details[key] = name_details[key]
+            else:
+                evaluation_details = name_details
             name_eval = {
-                "compliance": True,
-                "compliance_explanation": explanation,
-                "evaluation_details": {
-                    "expected_name": f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}",
-                    "fetched_name": "",
-                    "match_score": 0.0
-                },
+                "compliance": name_details.get("compliance", False),
+                "compliance_explanation": "Name matches fetched record." if name_details.get("compliance", False) else "Name mismatch detected.",
+                "evaluation_details": evaluation_details,
                 "alerts": []
             }
             license_eval = {
@@ -130,12 +140,25 @@ class EvaluationReportDirector:
             }
 
             expected_name = f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}".strip()
-            name_details, name_alert = evaluate_name(expected_name, fetched_name, extracted_info.get("other_names", []))
+            name_details, _ = evaluate_name(expected_name, fetched_name, extracted_info.get("other_names", []))
+            # If name_details contains 'due_diligence', merge it with the rest for full detail
+            if 'due_diligence' in name_details:
+                # This is the summary-style output from evaluation_processor; expand it
+                evaluation_details = name_details['due_diligence'].copy()
+                # Optionally, add compliance and compliance_explanation at the top level
+                evaluation_details['compliance'] = name_details.get('compliance')
+                evaluation_details['compliance_explanation'] = name_details.get('compliance_explanation')
+                # If the original name_details has more (like claimed_name, all_matches, best_match), merge them in
+                for key in ('claimed_name', 'all_matches', 'best_match'):
+                    if key in name_details:
+                        evaluation_details[key] = name_details[key]
+            else:
+                evaluation_details = name_details
             name_eval = {
                 "compliance": name_details.get("compliance", False),
                 "compliance_explanation": "Name matches fetched record." if name_details.get("compliance", False) else "Name mismatch detected.",
-                "evaluation_details": name_details,
-                "alerts": [name_alert.to_dict()] if name_alert else []
+                "evaluation_details": evaluation_details,
+                "alerts": []
             }
 
             csv_license = claim.get("license_type", "")

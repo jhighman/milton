@@ -1,0 +1,313 @@
+{
+  "reference_id": "SP38146264185190_PBI-0EBB4552CDA7428",
+  "claim": {
+    "reference_id": "SP38146264185190_PBI-0EBB4552CDA7428",
+    "first_name": "Jonathan",
+    "last_name": "Bacon",
+    "employee_number": "EN-044180",
+    "crdNumber": "6943842",
+    "requestType": "ENROLL",
+    "packageName": "BROKERCHECK",
+    "crd_number": "6943842",
+    "individual_name": "Jonathan Bacon",
+    "organization_crd": null
+  },
+  "search_evaluation": {
+    "source": "SEC_IAPD",
+    "basic_result": {
+      "fetched_name": "JONATHAN CARSON BACON",
+      "other_names": [
+        "Jon Carson Bacon"
+      ],
+      "bc_scope": "NotInScope",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [
+        {
+          "examCategory": "Series 65",
+          "examName": "Uniform Investment Adviser Law Examination",
+          "examTakenDate": "6/1/2017",
+          "examScope": "IA"
+        }
+      ],
+      "employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "registration_begin_date": "12/11/2020",
+          "branch_offices": [
+            {
+              "street": "25500 Hawthorne Blvd., Suite 1030",
+              "city": "TORRANCE",
+              "state": "CA",
+              "zip_code": "90503"
+            }
+          ],
+          "status": "current",
+          "type": "registered_firm"
+        },
+        {
+          "firm_id": "107510",
+          "firm_name": "HARRIS FINANCIAL ADVISORS, INC.",
+          "registration_begin_date": "5/10/2018",
+          "branch_offices": [],
+          "status": "previous",
+          "type": "registered_firm",
+          "registration_end_date": "11/23/2020"
+        }
+      ],
+      "crd_number": "6943842"
+    },
+    "detailed_result": {
+      "fetched_name": "JONATHAN CARSON BACON",
+      "other_names": [
+        "Jon Carson Bacon"
+      ],
+      "bc_scope": "NotInScope",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [
+        {
+          "examCategory": "Series 65",
+          "examName": "Uniform Investment Adviser Law Examination",
+          "examTakenDate": "6/1/2017",
+          "examScope": "IA"
+        }
+      ],
+      "employments": [
+        {
+          "firm_id": "111147",
+          "firm_name": "EP WEALTH ADVISORS",
+          "registration_begin_date": "12/11/2020",
+          "branch_offices": [
+            {
+              "street": "25500 Hawthorne Blvd., Suite 1030",
+              "city": "TORRANCE",
+              "state": "CA",
+              "zip_code": "90503"
+            }
+          ],
+          "status": "current",
+          "type": "registered_firm"
+        },
+        {
+          "firm_id": "107510",
+          "firm_name": "HARRIS FINANCIAL ADVISORS, INC.",
+          "registration_begin_date": "5/10/2018",
+          "branch_offices": [],
+          "status": "previous",
+          "type": "registered_firm",
+          "registration_end_date": "11/23/2020"
+        }
+      ],
+      "crd_number": "6943842"
+    },
+    "search_strategy": "search_with_crd_only",
+    "crd_number": "6943842",
+    "compliance": true,
+    "compliance_explanation": "Search completed successfully with SEC IAPD data, individual found."
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Registration status is valid.",
+    "alerts": []
+  },
+  "name_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Name matches fetched record.",
+    "evaluation_details": {
+      "compliance": true,
+      "compliance_explanation": "Name matches fetched record.",
+      "due_diligence": {
+        "searched_name": "Jonathan Bacon",
+        "records_found": 2,
+        "records_filtered": 0,
+        "names_found": [
+          "JONATHAN CARSON BACON",
+          "Jon Carson Bacon"
+        ],
+        "name_scores": {
+          "JONATHAN CARSON BACON": 95.24,
+          "Jon Carson Bacon": 57.14
+        },
+        "exact_match_found": true,
+        "status": "Exact matches found"
+      },
+      "alerts": []
+    },
+    "alerts": []
+  },
+  "license_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "License is active and compliant.",
+    "alerts": []
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Required exams are passed.",
+    "alerts": []
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Jonathan Bacon.",
+    "alerts": []
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No matching disciplinary records found for Jonathan Bacon, but 15 records were reviewed and filtered, suggesting possible alias or data issues.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Disciplinary Search Info",
+        "alert_category": "DISCIPLINARY",
+        "severity": "INFO",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Jonathan Bacon",
+            "sec_disciplinary": {
+              "records_found": 0,
+              "records_filtered": 0,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "No records fetched"
+            },
+            "finra_disciplinary": {
+              "records_found": 15,
+              "records_filtered": 15,
+              "names_found": [
+                "Jonathan E. Best",
+                "Jonathan Manuel Aguilera",
+                "Jonathan E. Best",
+                "Jonathan Neil Vagle",
+                "Jonathan Farchi-Segal",
+                "Jonathan Arthur Mayer",
+                "Jonathan Walter Way",
+                "Jonathan Jasper Norton",
+                "Jonathan Craig Rich",
+                "Jonathan William Affe",
+                "Jonathan A. Stuffer",
+                "Jonathan Michael Turner",
+                "Robert Jonathan Spencer",
+                "Jonathan H. Dudley",
+                "Jonathan Scot Zwickel"
+              ],
+              "name_scores": {
+                "Jonathan E. Best": 47.62,
+                "Jonathan Manuel Aguilera": 47.62,
+                "Jonathan Neil Vagle": 47.62,
+                "Jonathan Farchi-Segal": 47.37,
+                "Jonathan Arthur Mayer": 47.62,
+                "Jonathan Walter Way": 47.62,
+                "Jonathan Jasper Norton": 47.62,
+                "Jonathan Craig Rich": 47.62,
+                "Jonathan William Affe": 47.62,
+                "Jonathan A. Stuffer": 47.62,
+                "Jonathan Michael Turner": 47.62,
+                "Robert Jonathan Spencer": 9.52,
+                "Jonathan H. Dudley": 47.62,
+                "Jonathan Scot Zwickel": 47.62
+              },
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Jonathan Bacon'"
+            }
+          }
+        },
+        "description": "Found 15 disciplinary records for Jonathan Bacon, all filtered out due to name mismatch. Potential review needed."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Jonathan Bacon",
+      "sec_disciplinary": {
+        "records_found": 0,
+        "records_filtered": 0,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "No records fetched"
+      },
+      "finra_disciplinary": {
+        "records_found": 15,
+        "records_filtered": 15,
+        "names_found": [
+          "Jonathan E. Best",
+          "Jonathan Manuel Aguilera",
+          "Jonathan E. Best",
+          "Jonathan Neil Vagle",
+          "Jonathan Farchi-Segal",
+          "Jonathan Arthur Mayer",
+          "Jonathan Walter Way",
+          "Jonathan Jasper Norton",
+          "Jonathan Craig Rich",
+          "Jonathan William Affe",
+          "Jonathan A. Stuffer",
+          "Jonathan Michael Turner",
+          "Robert Jonathan Spencer",
+          "Jonathan H. Dudley",
+          "Jonathan Scot Zwickel"
+        ],
+        "name_scores": {
+          "Jonathan E. Best": 47.62,
+          "Jonathan Manuel Aguilera": 47.62,
+          "Jonathan Neil Vagle": 47.62,
+          "Jonathan Farchi-Segal": 47.37,
+          "Jonathan Arthur Mayer": 47.62,
+          "Jonathan Walter Way": 47.62,
+          "Jonathan Jasper Norton": 47.62,
+          "Jonathan Craig Rich": 47.62,
+          "Jonathan William Affe": 47.62,
+          "Jonathan A. Stuffer": 47.62,
+          "Jonathan Michael Turner": 47.62,
+          "Robert Jonathan Spencer": 9.52,
+          "Jonathan H. Dudley": 47.62,
+          "Jonathan Scot Zwickel": 47.62
+        },
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Jonathan Bacon'"
+      }
+    }
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No arbitration records found for Jonathan Bacon.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "searched_name": "Jonathan Bacon",
+      "sec_arbitration": {
+        "records_found": 0,
+        "records_filtered": 0,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "No records fetched"
+      },
+      "finra_arbitration": {
+        "records_found": 0,
+        "records_filtered": 0,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "No records fetched"
+      }
+    }
+  },
+  "regulatory_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No regulatory actions found for Jonathan Bacon; only registration records present.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped per configuration"
+    }
+  },
+  "final_evaluation": {
+    "overall_compliance": true,
+    "compliance_explanation": "All compliance checks completed successfully.",
+    "overall_risk_level": "Low",
+    "recommendations": "No immediate action required.",
+    "alerts": []
+  }
+}
