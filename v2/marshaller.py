@@ -276,7 +276,7 @@ def save_multiple_results(cache_path: Path, agent_name: str, employee_number: st
             file_name = build_file_name(agent_name, employee_number, service, date, i)
             save_cached_data(cache_path, file_name, result)
 
-def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: float) -> None:
+def log_request(employee_number: str, agent_name: str, service: str, status: str, duration: Optional[float]) -> None:
     """Log the request details to a file.
     
     Args:
@@ -284,7 +284,7 @@ def log_request(employee_number: str, agent_name: str, service: str, status: str
         agent_name: Name of the agent making the request
         service: Service being called
         status: Status of the request (success/failure)
-        duration: Duration of the request in seconds
+        duration: Duration of the request in seconds, or None if not available
     """
     try:
         # Create employee cache directory if it doesn't exist
@@ -294,7 +294,8 @@ def log_request(employee_number: str, agent_name: str, service: str, status: str
         # Construct log path and entry
         log_path = employee_cache_dir / "request_log.txt"
         timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
-        log_entry = f"{timestamp} - {agent_name}/{service} - {status} in {duration:.2f}s\n"
+        duration_str = f" in {duration:.2f}s" if duration is not None else ""
+        log_entry = f"{timestamp} - {agent_name}/{service} - {status}{duration_str}\n"
         
         try:
             # Read existing content if file exists
@@ -339,10 +340,7 @@ def fetch_agent_data(agent_name: str, service: str, params: Dict[str, Any], driv
         if agent_name in SELENIUM_AGENTS:
             if driver is None:
                 raise ValueError(f"Agent {agent_name} requires a WebDriver instance")
-            try:
-                result = agent_fn(**params, driver=driver, logger=logger)
-            except TypeError:
-                result = agent_fn(**params, logger=logger)
+            result = agent_fn(**params, driver=driver, logger=logger)
         else:
             result = agent_fn(**params, logger=logger)
         

@@ -60,10 +60,9 @@ class FinancialServicesFacade:
     def __init__(self, headless: bool = True, storage_manager=None):
         """Initialize the facade with configurable headless mode and storage manager."""
         self.headless = headless
-        self.storage_manager = storage_manager
-        self.marshaller = Marshaller(headless=headless)
         self.driver = None
         self._is_driver_managed = False
+        self.storage_manager = storage_manager
         self.logger = logging.getLogger("services")
         self.logger.debug(f"FinancialServicesFacade initialized with headless={headless}")
 
@@ -204,6 +203,7 @@ class FinancialServicesFacade:
         return self.search_finra_brokercheck_individual(crd_number, employee_number)
 
     def search_sec_arbitration(self, first_name: str, last_name: str, employee_number: Optional[str] = None) -> Optional[Dict]:
+        self._ensure_driver()  # Ensure driver exists before making the call
         logger.info(f"Fetching SEC Arbitration data for {first_name} {last_name}, Employee: {employee_number}")
         params = {"first_name": first_name, "last_name": last_name}
         searched_name = f"{first_name} {last_name}"

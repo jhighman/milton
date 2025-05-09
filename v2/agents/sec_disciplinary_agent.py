@@ -73,188 +73,130 @@ def get_driver(headless: bool = RUN_HEADLESS) -> Generator[webdriver.Chrome, Non
        driver.quit()
 
 
-def search_individual(first_name: str, last_name: str, employee_number: Optional[str] = None,
-                    logger: Logger = logger) -> Dict[str, Any]:
-   """
-   Search for an individual's disciplinary actions on the SEC SALI page.
+def search_individual(driver: webdriver.Chrome, first_name: str, last_name: str, 
+                     logger: Logger = logger) -> Dict[str, Any]:
+    """
+    Search for an individual's SEC disciplinary actions.
 
+    Args:
+        driver (webdriver.Chrome): Selenium WebDriver instance.
+        first_name (str): First name to search.
+        last_name (str): Last name to search.
+        logger (Logger): Logger instance for structured logging.
 
-   Args:
-       first_name (str): First name to search.
-       last_name (str): Last name to search (required by form).
-       employee_number (Optional[str]): Optional identifier for logging context.
-       logger (Logger): Logger instance for structured logging.
+    Returns:
+        Dict[str, Any]: Dictionary containing search results and individual info
+    """
+    logger.info("Searching SEC disciplinary actions", extra={"first_name": first_name, "last_name": last_name})
+    
+    try:
+        # Navigate to SEC SALI page
+        logger.debug("Navigating to SEC SALI page")
+        driver.get("https://www.sec.gov/litigations/sec-action-look-up")
+        
+        # Wait for form to load
+        logger.debug("Waiting for search form")
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "edit-last-name"))
+        )
 
+        # Fill in search fields
+        logger.debug("Filling in search fields")
+        last_name_input = driver.find_element(By.ID, "edit-last-name")
+        last_name_input.clear()
+        last_name_input.send_keys(last_name)
 
-   Returns:
-       Dict[str, Any]: Dictionary containing either:
-           - {"result": List[Dict]} for results found
-           - {"result": "No Results Found"} for no results
-           - {"error": str} for errors
+        first_name_input = driver.find_element(By.ID, "edit-first-name")
+        first_name_input.clear()
+        if first_name and isinstance(first_name, str) and first_name.strip():
+            first_name_input.send_keys(first_name)
 
+        # Submit the form
+        logger.debug("Submitting form")
+        submit_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "edit-submit-bad-actors"))
+        )
+        driver.execute_script("arguments[0].click();", submit_button)
 
-   Raises:
-       ValueError: If last_name is empty or None (form requirement).
-   """
-   if not last_name or not isinstance(last_name, str) or last_name.strip() == "":
-       raise ValueError("last_name cannot be empty or None")
+        # Wait for results or no-results message
+        logger.debug("Waiting for search results")
+        WebDriverWait(driver, 20).until(
+            lambda driver: driver.find_elements(By.CLASS_NAME, "card") or
+                           driver.find_elements(By.CLASS_NAME, "view-empty")
+        )
 
+        # Parse results
+        logger.debug("Parsing search results")
+        html_content = driver.page_source
+        soup = BeautifulSoup(html_content, 'html.parser')
+        cards = soup.find_all("div", class_="card border-divide views-row")
 
-   logger.info("Starting SEC disciplinary search",
-               extra={"first_name": first_name, "last_name": last_name, "employee_number": employee_number})
+        if not cards:
+            logger.info("No results found for search")
+            return {"result": "No Results Found"}
 
+        result_rows = []
+        for card in cards:
+            # Extract fields from the card
+            name = card.find("h2", class_="field-content card-title usa-collection__heading")
+            name_text = name.get_text(strip=True) if name else "Unknown"
 
-   try:
-       with get_driver(RUN_HEADLESS) as driver:
-           return process_sec_search(driver, first_name, last_name, logger)
-   except Exception as e:
-       logger.error("Search failed", extra={"error": str(e), "first_name": first_name, "last_name": last_name})
-       return {"error": str(e)}
+            aka = card.find("div", class_="views-field-field-also-known-as-1")
+            aka_text = aka.find("span", class_="field-content").get_text(strip=True) if aka else ""
 
+            age = card.find("div", class_="views-field-field-age-in-document")
+            age_text = age.find("span", class_="field-content").get_text(strip=True) if age else ""
 
-def process_sec_search(driver: webdriver.Chrome, first_name: str, last_name: str,
-                      logger: Logger) -> Dict[str, Any]:
-   """
-   Internal function to process the SEC SALI search with a WebDriver instance.
+            state = card.find("div", class_="views-field-field-state-idd")
+            state_text = state.find("span", class_="field-content").get_text(strip=True) if state else ""
 
+            action = card.find("div", class_="views-field-field-action-name-in-document")
+            action_text = action.find("span", class_="field-content").get_text(strip=True) if action else "Unknown"
 
-   Args:
-       driver (webdriver.Chrome): Selenium WebDriver instance.
-       first_name (str): First name to search.
-       last_name (str): Last name to search.
-       logger (Logger): Logger instance for structured logging.
+            date_filed = card.find("div", class_="views-field-field-date-filed")
+            date_text = date_filed.find("time", class_="datetime").get_text(strip=True) if date_filed else "Unknown"
 
+            documents_div = card.find("div", class_="views-field-field-related-documents")
+            documents = []
+            if documents_div:
+                doc_items = documents_div.find("div", class_="item-list")
+                if doc_items:
+                    for li in doc_items.find_all("li"):
+                        doc_link = li.find("a")
+                        doc_title = doc_link.get_text(strip=True) if doc_link else ""
+                        doc_url = doc_link.get("href") if doc_link else ""
+                        doc_date = li.find("time", class_="datetime")
+                        doc_date_text = doc_date.get_text(strip=True) if doc_date else ""
+                        if doc_title and doc_url:
+                            documents.append({
+                                "title": doc_title,
+                                "link": doc_url,
+                                "date": doc_date_text
+                            })
+                            logger.debug("Found document", extra={"title": doc_title, "link": doc_url, "date": doc_date_text})
 
-   Returns:
-       Dict[str, Any]: Dictionary with search results or error.
-   """
-   logger.info("Starting SEC search process", extra={"first_name": first_name, "last_name": last_name})
-  
-   try:
-       # Navigate to SEC SALI page
-       logger.debug("Navigating to SEC SALI page")
-       driver.get("https://www.sec.gov/litigations/sec-action-look-up")
+            result_rows.append({
+                "Name": name_text,
+                "Also Known As": aka_text,
+                "Current Age": age_text,
+                "State": state_text,
+                "Enforcement Action": action_text,
+                "Date Filed": date_text,
+                "Documents": documents
+            })
 
+        logger.info("Search completed successfully", extra={"result_count": len(result_rows)})
+        return {"result": result_rows}
 
-       # Wait for form to load
-       logger.debug("Waiting for search form")
-       WebDriverWait(driver, 10).until(
-           EC.presence_of_element_located((By.ID, "edit-last-name"))
-       )
-
-
-       # Fill in search fields
-       logger.debug("Filling in search fields")
-       last_name_input = driver.find_element(By.ID, "edit-last-name")
-       last_name_input.clear()
-       last_name_input.send_keys(last_name)
-
-
-       first_name_input = driver.find_element(By.ID, "edit-first-name")
-       first_name_input.clear()
-       if first_name and isinstance(first_name, str) and first_name.strip():
-           first_name_input.send_keys(first_name)
-
-
-       # Submit the form
-       logger.debug("Submitting form")
-       submit_button = WebDriverWait(driver, 10).until(
-           EC.element_to_be_clickable((By.ID, "edit-submit-bad-actors"))
-       )
-       driver.execute_script("arguments[0].click();", submit_button)
-
-
-       # Wait for results or no-results message
-       logger.debug("Waiting for search results")
-       WebDriverWait(driver, 20).until(
-           lambda driver: driver.find_elements(By.CLASS_NAME, "card") or
-                          driver.find_elements(By.CLASS_NAME, "view-empty")
-       )
-
-
-       # Parse results
-       logger.debug("Parsing search results")
-       html_content = driver.page_source
-       soup = BeautifulSoup(html_content, 'html.parser')
-       cards = soup.find_all("div", class_="card border-divide views-row")
-
-
-       if not cards:
-           logger.info("No results found for search")
-           return {"result": "No Results Found"}
-
-
-       result_rows = []
-       for card in cards:
-           # Extract fields from the card
-           name = card.find("h2", class_="field-content card-title usa-collection__heading")
-           name_text = name.get_text(strip=True) if name else "Unknown"
-
-
-           aka = card.find("div", class_="views-field-field-also-known-as-1")
-           aka_text = aka.find("span", class_="field-content").get_text(strip=True) if aka else ""
-
-
-           age = card.find("div", class_="views-field-field-age-in-document")
-           age_text = age.find("span", class_="field-content").get_text(strip=True) if age else ""
-
-
-           state = card.find("div", class_="views-field-field-state-idd")
-           state_text = state.find("span", class_="field-content").get_text(strip=True) if state else ""
-
-
-           action = card.find("div", class_="views-field-field-action-name-in-document")
-           action_text = action.find("span", class_="field-content").get_text(strip=True) if action else "Unknown"
-
-
-           date_filed = card.find("div", class_="views-field-field-date-filed")
-           date_text = date_filed.find("time", class_="datetime").get_text(strip=True) if date_filed else "Unknown"
-
-
-           documents_div = card.find("div", class_="views-field-field-related-documents")
-           documents = []
-           if documents_div:
-               doc_items = documents_div.find("div", class_="item-list")
-               if doc_items:
-                   for li in doc_items.find_all("li"):
-                       doc_link = li.find("a")
-                       doc_title = doc_link.get_text(strip=True) if doc_link else ""
-                       doc_url = doc_link.get("href") if doc_link else ""
-                       doc_date = li.find("time", class_="datetime")
-                       doc_date_text = doc_date.get_text(strip=True) if doc_date else ""
-                       if doc_title and doc_url:
-                           documents.append({
-                               "title": doc_title,
-                               "link": doc_url,
-                               "date": doc_date_text
-                           })
-                           logger.debug("Found document", extra={"title": doc_title, "link": doc_url, "date": doc_date_text})
-
-
-           result_rows.append({
-               "Name": name_text,
-               "Also Known As": aka_text,
-               "Current Age": age_text,
-               "State": state_text,
-               "Enforcement Action": action_text,
-               "Date Filed": date_text,
-               "Documents": documents
-           })
-
-
-       logger.info("Search completed successfully", extra={"result_count": len(result_rows)})
-       return {"result": result_rows}
-
-
-   except TimeoutException as e:
-       logger.error("Timeout during search process", extra={"error": str(e)})
-       return {"error": f"Timeout: {str(e)}"}
-   except WebDriverException as e:
-       logger.error("WebDriver error during search", extra={"error": str(e)})
-       return {"error": f"WebDriver error: {str(e)}"}
-   except Exception as e:
-       logger.error("Unexpected error in search process", extra={"error": str(e)})
-       return {"error": str(e)}
+    except TimeoutException as e:
+        logger.error("Timeout during search process", extra={"error": str(e)})
+        return {"error": f"Timeout: {str(e)}"}
+    except WebDriverException as e:
+        logger.error("WebDriver error during search", extra={"error": str(e)})
+        return {"error": f"WebDriver error: {str(e)}"}
+    except Exception as e:
+        logger.error("Unexpected error in search process", extra={"error": str(e)})
+        return {"error": str(e)}
 
 
 def main() -> None:
@@ -268,7 +210,7 @@ def main() -> None:
 
    def run_search(first_name: str, last_name: str, headless: bool):
        with get_driver(headless) as driver:
-           result = search_individual(first_name, last_name, logger=logger)
+           result = search_individual(driver, first_name, last_name, logger=logger)
            print(json.dumps(result, indent=2))
 
 
