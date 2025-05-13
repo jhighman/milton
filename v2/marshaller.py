@@ -438,6 +438,16 @@ fetch_agent_sec_disc_search = create_fetcher("SEC_Disciplinary_Agent", "search_i
 class Marshaller:
     """Class to manage browser automation and data fetching operations."""
     
+    _driver = None
+
+    @classmethod
+    def set_driver(cls, driver):
+        cls._driver = driver
+
+    @classmethod
+    def get_driver(cls):
+        return cls._driver
+
     def __init__(self, headless: bool = True):
         """Initialize the Marshaller with configurable headless mode."""
         self.headless = headless

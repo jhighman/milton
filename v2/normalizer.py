@@ -4,10 +4,10 @@ normalizer.py
 This module provides functions to normalize raw data from various financial service sources
 into consistent structures suitable for evaluation in the `evaluation_processor.py` module.
 It handles:
-- Individual records (e.g., IAPD, BrokerCheck)
-- Disciplinary records (e.g., SEC, FINRA)
-- Arbitration records (e.g., SEC, FINRA)
-- Regulatory records (e.g., NFA)
+- Individual records (e.g., FINRA BrokerCheck, SEC IAPD)
+- Disciplinary records (e.g., SEC Disciplinary, FINRA Disciplinary)
+- Arbitration records (e.g., SEC Arbitration, FINRA Arbitration)
+- Regulatory records (e.g., NFA Regulatory)
 """
 
 import json
@@ -23,19 +23,31 @@ class NormalizationError(Exception):
     """Exception raised for errors during normalization."""
     pass
 
+# Define valid data sources to ensure consistency
+VALID_DATA_SOURCES = {
+    "FINRA_BrokerCheck",
+    "IAPD",
+    "FINRA_Disciplinary",
+    "SEC_Disciplinary",
+    "FINRA_Arbitration",
+    "SEC_Arbitration",
+    "NFA_Regulatory"
+}
+
 def create_individual_record(
     data_source: str,
     basic_info: Optional[Dict[str, Any]],
     detailed_info: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
     """
-    Creates a unified "individual record" from BrokerCheck or IAPD data, handling both flat and nested structures.
+    Creates a unified "individual record" from FINRA BrokerCheck or SEC IAPD data, handling both flat and nested structures.
 
-    :param data_source: Either "BrokerCheck" or "IAPD".
+    :param data_source: Source of the data (e.g., "FINRA_BrokerCheck", "IAPD").
     :param basic_info: JSON structure from basic search (e.g., name, scopes).
     :param detailed_info: JSON structure from detailed search (e.g., disclosures, employments).
     :return: A normalized dictionary with keys like:
         {
+          "source": str,  # e.g., "FINRA_BrokerCheck"
           "fetched_name": str,
           "other_names": list,
           "bc_scope": str,
@@ -43,14 +55,21 @@ def create_individual_record(
           "disclosures": list,
           "arbitrations": list,
           "exams": list,
-          "employments": list,  # Consolidated employment section
+          "employments": list,
           "crd_number": str
         }
     Note: 'fetched_name' and 'other_names' are designed to be passed to evaluate_name for matching
     against an expected name, producing names_found, name_scores, exact_match_found, and status.
     """
-    logger.debug(f"Entering create_individual_record for {data_source} with basic_info={json.dumps(basic_info, indent=2)}")
+    logger.debug(f"Entering create_individual_record for {data_source} with basic_info={json.dumps(basic_info, indent=2) if basic_info else 'None'}")
+    
+    # Validate data_source
+    if data_source not in VALID_DATA_SOURCES:
+        logger.warning(f"Invalid data_source '{data_source}'. Expected one of {VALID_DATA_SOURCES}. Defaulting to empty record.")
+        data_source = "Unknown"
+
     extracted_info = {
+        "source": data_source,  # Explicitly include source
         "fetched_name": "",
         "other_names": [],
         "bc_scope": "",
@@ -58,16 +77,12 @@ def create_individual_record(
         "disclosures": [],
         "arbitrations": [],
         "exams": [],
-        "employments": [],  # Single section for all employments
+        "employments": [],
         "crd_number": None
     }
 
-    if data_source not in ["BrokerCheck", "IAPD"]:
-        logger.error(f"Unknown data source '{data_source}'. Returning minimal extracted_info.")
-        return extracted_info
-
     if not basic_info:
-        logger.warning("No basic_info provided. Returning empty extracted_info.")
+        logger.warning(f"No basic_info provided for {data_source}. Returning empty extracted_info.")
         return extracted_info
 
     hits_list = basic_info.get("hits", {}).get("hits", [])
@@ -103,7 +118,7 @@ def create_individual_record(
     def normalize_employment(emp: Dict[str, Any], status: str, emp_type: str) -> Dict[str, Any]:
         firm_id = emp.get("firmId")
         normalized = {
-            "firm_id": str(firm_id) if firm_id is not None else None,  # Convert firm_id to string if present
+            "firm_id": str(firm_id) if firm_id is not None else None,
             "firm_name": emp.get("firmName"),
             "registration_begin_date": emp.get("registrationBeginDate"),
             "branch_offices": [
@@ -115,8 +130,8 @@ def create_individual_record(
                 }
                 for office in emp.get("branchOfficeLocations", [])
             ],
-            "status": status,  # "current" or "previous"
-            "type": emp_type   # "registered_firm" or "employment_history"
+            "status": status,
+            "type": emp_type
         }
         if status == "previous":
             normalized["registration_end_date"] = emp.get("registrationEndDate")
@@ -124,12 +139,12 @@ def create_individual_record(
         return normalized
 
     # 10-year cutoff for IAPD employment history
-    current_date = datetime(2025, 3, 9)  # Updated to match current date from your context
+    current_date = datetime(2025, 5, 12)  # Updated to match current date
     ten_years_ago = current_date.replace(year=current_date.year - 10)
     logger.debug(f"Using 10-year cutoff: {ten_years_ago}")
 
     # Source-specific parsing
-    if data_source == "BrokerCheck":
+    if data_source == "FINRA_BrokerCheck":
         # Handle flat structure
         if "disclosures" in detailed_info:
             logger.debug("Detected flat BrokerCheck structure in detailed_info")
@@ -216,9 +231,9 @@ def create_individual_record(
                             logger.debug(f"Excluded previous employment ending {end_date_str} (older than 10 years)")
                     except ValueError:
                         logger.warning(f"Invalid registrationEndDate format: {end_date_str}")
-                        employments.append(normalized_emp)  # Include if parsing fails
+                        employments.append(normalized_emp)
                 else:
-                    employments.append(normalized_emp)  # Include if no end date
+                    employments.append(normalized_emp)
             extracted_info["employments"] = employments
             logger.debug(f"Flat structure employments: {len(employments)} entries")
 
@@ -288,14 +303,21 @@ def create_disciplinary_record(
     Normalize disciplinary data from SEC or FINRA sources into a consistent structure.
     Includes due_diligence section aligning with FINRA name handling convention.
 
-    :param data_source: Source of the data ("FINRA_Disciplinary" or "SEC_Disciplinary").
+    :param data_source: Source of the data (e.g., "FINRA_Disciplinary", "SEC_Disciplinary").
     :param data: Raw data from the source.
     :param searched_name: Name to match against respondent names.
     :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
-    :return: Normalized dictionary with actions and due_diligence.
+    :return: Normalized dictionary with source, actions, due_diligence, and raw_data.
     """
     logger.debug(f"Entering create_disciplinary_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
+    
+    # Validate data_source
+    if data_source not in VALID_DATA_SOURCES:
+        logger.warning(f"Invalid data_source '{data_source}'. Expected one of {VALID_DATA_SOURCES}. Defaulting to empty record.")
+        data_source = "Unknown"
+
     result = {
+        "source": data_source,
         "actions": [],
         "due_diligence": {
             "searched_name": searched_name,
@@ -306,12 +328,13 @@ def create_disciplinary_record(
             "exact_match_found": False,
             "status": "No records found"
         },
-        "raw_data": [data] if not isinstance(data, list) else data
+        "raw_data": [data] if data is not None and not isinstance(data, list) else data or []
     }
     logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
+        result["due_diligence"]["status"] = f"Error: {data['error']}"
         return result
 
     # Handle nested structure: extract "result" if present
@@ -321,7 +344,12 @@ def create_disciplinary_record(
         logger.debug(f"{data_source} data is a nested list, using 'result' key")
     elif isinstance(data, dict) and "result" in data:
         raw_results = data["result"]
-    elif not isinstance(data, list):
+    elif isinstance(data, list):
+        raw_results = data
+    elif data is None:
+        logger.info(f"No data provided for {data_source} for {searched_name}")
+        return result
+    else:
         logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
         return result
 
@@ -403,14 +431,21 @@ def create_arbitration_record(
     Normalize arbitration data from SEC or FINRA sources into a consistent structure.
     Includes due_diligence section aligning with FINRA name handling convention.
 
-    :param data_source: Source of the data ("FINRA_Arbitration" or "SEC_Arbitration").
+    :param data_source: Source of the data (e.g., "FINRA_Arbitration", "SEC_Arbitration").
     :param data: Raw data from the source.
     :param searched_name: Name to match against respondent names.
     :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
-    :return: Normalized dictionary with actions and due_diligence.
+    :return: Normalized dictionary with source, actions, due_diligence, and raw_data.
     """
     logger.debug(f"Entering create_arbitration_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
+    
+    # Validate data_source
+    if data_source not in VALID_DATA_SOURCES:
+        logger.warning(f"Invalid data_source '{data_source}'. Expected one of {VALID_DATA_SOURCES}. Defaulting to empty record.")
+        data_source = "Unknown"
+
     result = {
+        "source": data_source,
         "actions": [],
         "due_diligence": {
             "searched_name": searched_name,
@@ -421,12 +456,13 @@ def create_arbitration_record(
             "exact_match_found": False,
             "status": "No records found"
         },
-        "raw_data": [data] if not isinstance(data, list) else data
+        "raw_data": [data] if data is not None and not isinstance(data, list) else data or []
     }
     logger.debug(f"Raw data: {json.dumps(result['raw_data'], indent=2)}")
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
+        result["due_diligence"]["status"] = f"Error: {data['error']}"
         return result
 
     # Handle nested structure: extract "result" if present
@@ -439,6 +475,9 @@ def create_arbitration_record(
     elif isinstance(data, list):
         logger.debug(f"{data_source} data is a raw list, treating as results")
         raw_results = data
+    elif data is None:
+        logger.info(f"No data provided for {data_source} for {searched_name}")
+        return result
     else:
         logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
         return result
@@ -492,9 +531,8 @@ def create_arbitration_record(
                     "enforcement_action": enforcement_action,
                     "documents": record.get("Documents", [])
                 }
-                respondent_names = [searched_name]  # Only add searched_name if there's a valid enforcement action
+                respondent_names = [searched_name]
             else:
-                # Skip this record if there's no enforcement action
                 due_diligence["records_filtered"] += 1
                 logger.debug(f"No enforcement action found in record, skipping")
                 continue
@@ -538,8 +576,25 @@ def create_regulatory_record(
     searched_name: str,
     threshold: MatchThreshold = MatchThreshold.STRICT
 ) -> Dict[str, Any]:
+    """
+    Normalize regulatory data from NFA sources into a consistent structure.
+    Includes due_diligence section aligning with FINRA name handling convention.
+
+    :param data_source: Source of the data (e.g., "NFA_Regulatory").
+    :param data: Raw data from the source.
+    :param searched_name: Name to match against respondent names.
+    :param threshold: MatchThreshold enum value defining the minimum score for a match (default: STRICT).
+    :return: Normalized dictionary with source, actions, due_diligence, and raw_data.
+    """
     logger.debug(f"Entering create_regulatory_record for {data_source} with searched_name='{searched_name}', threshold={threshold.name}")
+    
+    # Validate data_source
+    if data_source not in VALID_DATA_SOURCES:
+        logger.warning(f"Invalid data_source '{data_source}'. Expected one of {VALID_DATA_SOURCES}. Defaulting to empty record.")
+        data_source = "Unknown"
+
     result = {
+        "source": data_source,
         "actions": [],
         "due_diligence": {
             "searched_name": searched_name,
@@ -549,11 +604,13 @@ def create_regulatory_record(
             "name_scores": {},
             "exact_match_found": False,
             "status": "No records found"
-        }
+        },
+        "raw_data": [data] if data is not None and not isinstance(data, list) else data or []
     }
 
     if isinstance(data, dict) and "error" in data:
         logger.warning(f"Error in {data_source} data: {data['error']}")
+        result["due_diligence"]["status"] = f"Error: {data['error']}"
         return result
 
     raw_results = data
@@ -562,7 +619,12 @@ def create_regulatory_record(
         logger.debug(f"{data_source} data is a nested list, using 'result' key")
     elif isinstance(data, dict) and "result" in data:
         raw_results = data["result"]
-    elif not isinstance(data, list):
+    elif isinstance(data, list):
+        raw_results = data
+    elif data is None:
+        logger.info(f"No data provided for {data_source} for {searched_name}")
+        return result
+    else:
         logger.warning(f"Unexpected {data_source} data format: {type(data)} - {data}")
         return result
 
@@ -585,18 +647,17 @@ def create_regulatory_record(
             continue
 
         logger.debug(f"Processing record: {json.dumps(record, indent=2)}")
-        # Parse Current Registration Types into a list
         reg_types_str = record.get("Current Registration Types", "-")
         registration_types = [rtype.strip() for rtype in reg_types_str.split(",")] if reg_types_str and reg_types_str != "-" else []
 
         normalized_record = {
-            "nfa_id": record.get("NFA ID", "Unknown"),  # Changed from case_id
+            "nfa_id": record.get("NFA ID", "Unknown"),
             "details": {
                 "action_type": "Regulatory" if record.get("Regulatory Actions") == "Yes" else "Registration",
-                "firms_individuals": record.get("Name", ""),  # Kept as-is per your original
-                "registration_types": registration_types,  # New list field
+                "firms_individuals": record.get("Name", ""),
+                "registration_types": registration_types,
                 "firm_name": record.get("Firm", ""),
-                "details_available": record.get("Details Available") == "Yes"  # Adjusted to boolean per your intent
+                "details_available": record.get("Details Available") == "Yes"
             }
         }
         respondent_name = record.get("Name", "").strip()
@@ -611,7 +672,7 @@ def create_regulatory_record(
                 score = dd["name_scores"].get(normalized_name, 0.0)
                 due_diligence["names_found"].append(respondent_name)
                 due_diligence["name_scores"][respondent_name] = score
-                if dd["exact_match_found"]:  # Removed "and record.get('Regulatory Actions') == 'Yes'"
+                if dd["exact_match_found"]:
                     result["actions"].append(normalized_record)
                     due_diligence["exact_match_found"] = True
                     logger.debug(f"Matched regulatory record {normalized_record['nfa_id']} with {respondent_name} (score: {score})")
@@ -631,10 +692,7 @@ def create_regulatory_record(
     logger.debug(f"Final due_diligence for {data_source}: {json.dumps(due_diligence, indent=2)}")
     return result
 
-
-
 if __name__ == "__main__":
-    # Configure logging for testing
     logging.basicConfig(level=logging.DEBUG)
     test_data = [{"result": [{"Name": "LANEY, DANNY", "NFA ID": "0569081", "Regulatory Actions": "Yes"}]}]
     result = create_regulatory_record("NFA_Regulatory", test_data, "Danny La")
