@@ -2,10 +2,10 @@
 evaluation_report_builder.py
 
 This module defines the EvaluationReportBuilder class. Its purpose is to
-incrementally assemble an evaluation report that collects various sub‐evaluations
-(such as registration status, name, license, exam, disclosure, disciplinary,
-arbitration, and regulatory). Each setter method returns self to allow method
-chaining. Finally, build() returns the fully constructed report (as an OrderedDict),
+incrementally assemble an evaluation report that collects various sub-evaluations
+(such as registration status, name, license, exam, employment history, disclosure,
+disciplinary, arbitration, and regulatory). Each setter method returns self to allow
+method chaining. Finally, build() returns the fully constructed report (as an OrderedDict),
 which downstream code can consume.
 """
 
@@ -23,10 +23,11 @@ class EvaluationReportBuilder:
         self.report["name_evaluation"] = {}
         self.report["license_evaluation"] = {}
         self.report["exam_evaluation"] = {}
+        self.report["employment_evaluation"] = {}  # New: Added for employment history review
         self.report["disclosure_review"] = {}
         self.report["disciplinary_evaluation"] = {}
         self.report["arbitration_review"] = {}
-        self.report["regulatory_evaluation"] = {}  # New: Added for NFA regulatory review
+        self.report["regulatory_evaluation"] = {}
         self.report["final_evaluation"] = {}
 
     def set_claim(self, claim: Dict[str, Any]) -> "EvaluationReportBuilder":
@@ -51,6 +52,11 @@ class EvaluationReportBuilder:
 
     def set_exam_evaluation(self, exam_evaluation: Dict[str, Any]) -> "EvaluationReportBuilder":
         self.report["exam_evaluation"] = exam_evaluation
+        return self
+
+    def set_employment_evaluation(self, employment_evaluation: Dict[str, Any]) -> "EvaluationReportBuilder":
+        """Set the employment evaluation section of the report."""
+        self.report["employment_evaluation"] = employment_evaluation
         return self
 
     def set_disclosure_review(self, disclosure_review: Dict[str, Any]) -> "EvaluationReportBuilder":

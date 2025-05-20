@@ -5,6 +5,7 @@ from evaluation_processor import (
     evaluate_registration_status,
     evaluate_license,
     evaluate_exams,
+    evaluate_employments,  # New: Added for employment evaluation
     evaluate_disclosures,
     evaluate_arbitration,
     evaluate_disciplinary,
@@ -25,7 +26,9 @@ class EvaluationReportDirector:
     def construct_evaluation_report(self, claim: Dict[str, Any], extracted_info: Dict[str, Any]) -> Dict[str, Any]:
         """
         Constructs a full evaluation report by performing evaluation steps via evaluation_processor.py,
-        applying skip logic, search failure logic, or full evaluation as needed.
+        applying skip logic, search failure logic, or full evaluation as needed. Evaluations include
+        registration status, name, license, exams, employment history, disclosures, disciplinary actions,
+        arbitration, and regulatory actions.
 
         :param claim: A dictionary containing claim data (e.g., from a CSV row), including employee_number.
         :param extracted_info: A dictionary of normalized data, potentially including skip_reasons.
@@ -76,12 +79,9 @@ class EvaluationReportDirector:
             name_details, _ = evaluate_name(claim.get('first_name', '').strip() + ' ' + claim.get('last_name', '').strip(), fetched_name, extracted_info.get("other_names", []))
             # If name_details contains 'due_diligence', merge it with the rest for full detail
             if 'due_diligence' in name_details:
-                # This is the summary-style output from evaluation_processor; expand it
                 evaluation_details = name_details['due_diligence'].copy()
-                # Optionally, add compliance and compliance_explanation at the top level
                 evaluation_details['compliance'] = name_details.get('compliance')
                 evaluation_details['compliance_explanation'] = name_details.get('compliance_explanation')
-                # If the original name_details has more (like claimed_name, all_matches, best_match), merge them in
                 for key in ('claimed_name', 'all_matches', 'best_match'):
                     if key in name_details:
                         evaluation_details[key] = name_details[key]
@@ -101,6 +101,11 @@ class EvaluationReportDirector:
             exam_eval = {
                 "compliance": True,
                 "compliance_explanation": explanation,
+                "alerts": []
+            }
+            employment_eval = {
+                "compliance": True,
+                "explanation": f"No employment history evaluated: {explanation}",
                 "alerts": []
             }
             disclosure_eval = {
@@ -141,14 +146,10 @@ class EvaluationReportDirector:
 
             expected_name = f"{claim.get('first_name', '').strip()} {claim.get('last_name', '').strip()}".strip()
             name_details, _ = evaluate_name(expected_name, fetched_name, extracted_info.get("other_names", []))
-            # If name_details contains 'due_diligence', merge it with the rest for full detail
             if 'due_diligence' in name_details:
-                # This is the summary-style output from evaluation_processor; expand it
                 evaluation_details = name_details['due_diligence'].copy()
-                # Optionally, add compliance and compliance_explanation at the top level
                 evaluation_details['compliance'] = name_details.get('compliance')
                 evaluation_details['compliance_explanation'] = name_details.get('compliance_explanation')
-                # If the original name_details has more (like claimed_name, all_matches, best_match), merge them in
                 for key in ('claimed_name', 'all_matches', 'best_match'):
                     if key in name_details:
                         evaluation_details[key] = name_details[key]
@@ -178,6 +179,17 @@ class EvaluationReportDirector:
                 "compliance": exam_compliant,
                 "compliance_explanation": "Required exams are passed." if exam_compliant else "Exam requirements not met.",
                 "alerts": [exam_alert.to_dict()] if exam_alert else []
+            }
+
+            employments = extracted_info.get("employments", [])
+            employment_evaluation = extracted_info.get("employment_evaluation", {})
+            employment_compliant, employment_explanation, employment_alerts = evaluate_employments(
+                employments, expected_name, csv_license, employment_evaluation.get("due_diligence")
+            )
+            employment_eval = {
+                "compliance": employment_compliant,
+                "explanation": employment_explanation,
+                "alerts": [alert.to_dict() for alert in employment_alerts]
             }
 
             disclosures = extracted_info.get("disclosures", [])
@@ -217,7 +229,7 @@ class EvaluationReportDirector:
                 regulatory_evaluation.get("actions", []), 
                 expected_name, 
                 regulatory_evaluation.get("due_diligence"),
-                employee_number  # Pass employee_number here
+                employee_number
             )
             regulatory_eval = {
                 "compliance": regulatory_compliant,
@@ -232,6 +244,7 @@ class EvaluationReportDirector:
         self.builder.set_name_evaluation(name_eval)
         self.builder.set_license_evaluation(license_eval)
         self.builder.set_exam_evaluation(exam_eval)
+        self.builder.set_employment_evaluation(employment_eval)  # New: Set employment evaluation
         self.builder.set_disclosure_review(disclosure_eval)
         self.builder.set_disciplinary_evaluation(disciplinary_eval)
         self.builder.set_arbitration_review(arbitration_eval)
@@ -244,6 +257,7 @@ class EvaluationReportDirector:
             name_eval.get("compliance", True) and
             license_eval.get("compliance", True) and
             exam_eval.get("compliance", True) and
+            employment_eval.get("compliance", True) and  # New: Include employment compliance
             disclosure_eval.get("compliance", True) and
             disciplinary_eval.get("compliance", True) and
             arbitration_eval.get("compliance", True) and
@@ -254,6 +268,7 @@ class EvaluationReportDirector:
             name_eval.get("alerts", []) +
             license_eval.get("alerts", []) +
             exam_eval.get("alerts", []) +
+            employment_eval.get("alerts", []) +  # New: Include employment alerts
             disclosure_eval.get("alerts", []) +
             disciplinary_eval.get("alerts", []) +
             arbitration_eval.get("alerts", []) +

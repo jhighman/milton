@@ -10,6 +10,7 @@ The module includes functions for:
   - Evaluating license compliance
   - Evaluating exam requirements
   - Evaluating registration status
+  - Evaluating employment history
   - Evaluating disclosures
   - Evaluating arbitrations
   - Evaluating disciplinary records
@@ -383,6 +384,68 @@ def evaluate_registration_status(individual_info: Dict[str, Any]) -> Tuple[bool,
         status_compliant = False
     return status_compliant, alerts
 
+def evaluate_employments(
+    employments: List[Dict[str, Any]],
+    name: str,
+    license_type: str = "",
+    due_diligence: Optional[Dict[str, Any]] = None
+) -> Tuple[bool, str, List[Alert]]:
+    """
+    Evaluate an individual's employment history with a simple alert system:
+    - HIGH severity if no employment records are found.
+    - MEDIUM severity if no record has a registration_end_date > current date (expired employment).
+
+    :param employments: List of normalized employment records with fields like
+        firm_id, firm_name, registration_begin_date (or start_date),
+        registration_end_date (or end_date).
+    :param name: Individual's name for alert descriptions.
+    :param license_type: Expected license type (e.g., 'B', 'IA', 'BIA'), unused in this version.
+    :param due_diligence: Optional metadata, unused in this version.
+    :return: Tuple of (compliance: bool, explanation: str, alerts: List[Alert]).
+    """
+    logger.debug(f"Evaluating employments for {name} with {len(employments)} records")
+    alerts = []
+    compliance = True
+    current_date = "2025-05-20"  # Hardcoded for simplicity, aligns with today’s date
+
+    # Check for no employment records
+    if not employments:
+        compliance = False
+        alerts.append(Alert(
+            alert_type="No Employment History",
+            severity=AlertSeverity.HIGH,
+            metadata={"employments_count": 0},
+            description=f"No employment history found for {name}.",
+            alert_category=determine_alert_category("No Employment History")
+        ))
+        explanation = f"No employment history found for {name}."
+        return compliance, explanation, alerts
+
+    # Check for active employment (end_date > current_date or null)
+    has_active_employment = False
+    for emp in employments:
+        end_date = emp.get("end_date") or emp.get("registration_end_date")
+        if end_date is None or end_date > current_date:
+            has_active_employment = True
+            break
+
+    if not has_active_employment:
+        compliance = False
+        latest_end_date = max((emp.get("end_date") or emp.get("registration_end_date") or "0000-00-00") for emp in employments)
+        alerts.append(Alert(
+            alert_type="Expired Employment",
+            severity=AlertSeverity.MEDIUM,
+            metadata={"latest_end_date": latest_end_date},
+            description=f"No active employment for {name}; all employment records have expired (end date <= {current_date}).",
+            alert_category=determine_alert_category("Expired Employment")
+        ))
+        explanation = f"No active employment found for {name}."
+    else:
+        explanation = f"Active employment found for {name}."
+
+    logger.debug(f"Employment evaluation result: compliance={compliance}, alerts={len(alerts)}")
+    return compliance, explanation, alerts
+
 def generate_regulatory_alert_description(event_date: str, resolution: str, details: Dict[str, Any]) -> str:
     initiated_by = details.get('Initiated By', 'Unknown')
     allegations = details.get('Allegations', 'Not specified')
@@ -716,7 +779,9 @@ def determine_alert_category(alert_type: str) -> str:
         "Arbitration Search Info": "ARBITRATION",
         "Disciplinary Search Info": "DISCIPLINARY",
         "Regulatory Search Info": "REGULATORY",
-        "Name Mismatch": "status_evaluation"
+        "Name Mismatch": "status_evaluation",
+        "No Employment History": "EMPLOYMENT",
+        "Expired Employment": "EMPLOYMENT"
     }
     return alert_type_to_category.get(alert_type, "status_evaluation")
 
@@ -747,8 +812,9 @@ if __name__ == "__main__":
         print("6. Evaluate Arbitration Records")
         print("7. Evaluate Disciplinary Records")
         print("8. Evaluate Regulatory Records (with secondary NFA search)")
-        print("9. Exit")
-        choice = input("Enter your choice (1-9): ").strip()
+        print("9. Evaluate Employment History")
+        print("10. Exit")
+        choice = input("Enter your choice (1-10): ").strip()
 
         if choice == "1":
             expected_name = input("Enter expected name (e.g., 'John Doe'): ").strip()
@@ -824,7 +890,18 @@ if __name__ == "__main__":
             print_result(result)
 
         elif choice == "9":
+            employments_input = input("Enter employments as JSON (e.g., '[{\"firm_name\": \"Firm A\", \"registration_begin_date\": \"2020-01-01\", \"registration_end_date\": \"2022-01-01\"}]') or press Enter for none: ").strip()
+            employments = json.loads(employments_input) if employments_input else []
+            name = input("Enter individual name (e.g., 'John Doe'): ").strip()
+            license_type = input("Enter license type (e.g., 'B', 'IA', 'BIA', or empty): ").strip()
+            due_diligence_input = input("Enter due diligence as JSON (e.g., '{\"records_found\": 5, \"records_filtered\": 0}') or press Enter for none: ").strip()
+            due_diligence = json.loads(due_diligence_input) if due_diligence_input else None
+            compliance, explanation, alerts = evaluate_employments(employments, name, license_type, due_diligence)
+            result = {"employment_evaluation": {"compliance": compliance, "explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
+            print_result(result)
+
+        elif choice == "10":
             print("Exiting...")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 9.")
+            print("Invalid choice. Please enter a number between 1 and 10.")

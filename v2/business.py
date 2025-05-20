@@ -307,7 +307,7 @@ def search_with_crd_and_org_crd(claim: Dict[str, Any], facade: FinancialServices
     organization_crd_number = claim.get("organization_crd_number", "") or claim.get("organization_crd", "") or ""
     package_name = claim.get("packageName", "FULL").upper()
     claim_summary = f"claim={json_dumps_with_alerts(claim)}, employee_number={employee_number}"
-    logger.info(f"Executing search_with_crd_and_org_crd for {claim_summary} with crd_number='{crd_number}', individual_name='{individual_name}', organization_crd_number='{organization_crd_number}', package_name='{package_name}'")
+    logger.info(f"Executing search_with_crd_and_org_crd for {claim_summary} with cr ascendancy: crd_number='{crd_number}', individual_name='{individual_name}', organization_crd_number='{organization_crd_number}', employee_number='{employee_number}', package_name='{package_name}'")
 
     broker_result = None
     sec_result = None
@@ -670,7 +670,7 @@ def search_with_correlated(claim: Dict[str, Any], facade: FinancialServicesFacad
             if basic_result and (basic_result.get("fetched_name", "").strip() or basic_result.get("crd_number")):
                 crd_number = basic_result.get("crd_number")
                 detailed_result = facade.search_finra_brokercheck_detailed(crd_number, employee_number) if crd_number else None
-                logger.debug(f"FINRA BrokerCheck detailed_result: {json_dumps_with_alerts(detailed_result)}")
+                logger.debug(f"FINRA BrokerCheck detailed_result.Setting extracted employments: {json_dumps_with_alerts(detailed_result)}")
                 logger.info(f"FINRA BrokerCheck returned valid data for {claim_summary}")
                 return {
                     "source": "FINRA_BrokerCheck",
@@ -787,15 +787,19 @@ def process_claim(
                 logger.error(f"Regulatory review failed for {claim_summary}: {str(e)}", exc_info=True)
                 extracted_info["regulatory_evaluation"] = {"actions": [], "due_diligence": {"status": f"Failed: {str(e)}"}}
 
+        detailed_result = search_evaluation.get("detailed_result", {})
+        logger.debug(f"Detailed result employments: {detailed_result.get('employments', [])}")
         extracted_info.update({
             "individual": search_evaluation.get("basic_result", {}),
             "fetched_name": search_evaluation.get("basic_result", {}).get("fetched_name", ""),
             "other_names": search_evaluation.get("basic_result", {}).get("other_names", []),
             "bc_scope": search_evaluation.get("basic_result", {}).get("bc_scope", "NotInScope"),
             "ia_scope": search_evaluation.get("basic_result", {}).get("ia_scope", "NotInScope"),
-            "exams": search_evaluation.get("detailed_result", {}).get("exams", []) if search_evaluation.get("detailed_result") else [],
-            "disclosures": search_evaluation.get("detailed_result", {}).get("disclosures", []) if search_evaluation.get("detailed_result") else []
+            "exams": detailed_result.get("exams", []) if search_evaluation.get("detailed_result") else [],
+            "disclosures": detailed_result.get("disclosures", []) if search_evaluation.get("detailed_result") else [],
+            "employments": detailed_result.get("employments", []) if search_evaluation.get("detailed_result") else []
         })
+        logger.debug(f"Extracted employments for evaluation: {extracted_info['employments']}")
 
     # Construct report via director
     builder = EvaluationReportBuilder(claim.get("reference_id", "UNKNOWN"))
