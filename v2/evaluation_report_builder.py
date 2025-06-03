@@ -121,7 +121,8 @@ class EvaluationReportBuilder:
         return self
 
     def set_final_evaluation(self, final_evaluation: Dict[str, Any]) -> "EvaluationReportBuilder":
-        self.report["final_evaluation"] = self._ensure_source_field(final_evaluation, "final_evaluation")
+        # Don't add source field to final_evaluation
+        self.report["final_evaluation"] = final_evaluation
         return self
 
     def build(self) -> Dict[str, Any]:

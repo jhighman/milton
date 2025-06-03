@@ -50,15 +50,19 @@ class Alert:
     metadata: Dict[str, Any]
     description: str
     alert_category: Optional[str] = field(default=None)
+    source: Optional[str] = field(default=None)
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        result = {
             "alert_type": self.alert_type,
             "alert_category": self.alert_category,
             "severity": self.severity.value,
             "metadata": self.metadata,
             "description": self.description
         }
+        if self.source:
+            result["source"] = self.source
+        return result
 
 # Constants and Helpers
 VALID_EXAM_PATTERNS = [
@@ -653,13 +657,16 @@ def generate_financial_alert_description(event_date: str, resolution: str, detai
     fin_type = details.get('Type', 'Not specified')
     return f"Financial disclosure on {event_date}. Resolution: {resolution}. Disposition: {disposition}. Type: {fin_type}"
 
-def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
+def generate_disclosure_alert(disclosure: Dict[str, Any], source: str = None) -> Optional[Alert]:
     disclosure_type = disclosure.get('disclosureType', 'Unknown')
     event_date = disclosure.get('eventDate', 'Unknown')
     resolution = disclosure.get('disclosureResolution', 'Unknown')
     details = disclosure.get('disclosureDetail', {})
     description = ""
     severity = AlertSeverity.HIGH
+    
+    # Use standardized source if provided, otherwise use FINRA_BrokerCheck as default for disclosures
+    standardized_source = DataSource.get_display_name(source) if source else DataSource.FINRA_BROKERCHECK.value
 
     if disclosure_type == 'Regulatory':
         description = generate_regulatory_alert_description(event_date, resolution, details)
@@ -672,7 +679,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Regulatory Disclosure")
+            alert_category=determine_alert_category("Regulatory Disclosure"),
+            source=standardized_source
         )
     elif disclosure_type == 'Customer Dispute':
         description = generate_customer_dispute_alert_description(event_date, resolution, details)
@@ -681,7 +689,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Customer Dispute Disclosure")
+            alert_category=determine_alert_category("Customer Dispute Disclosure"),
+            source=standardized_source
         )
     elif disclosure_type == 'Criminal':
         description = generate_criminal_alert_description(event_date, resolution, details)
@@ -690,7 +699,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Criminal Disclosure")
+            alert_category=determine_alert_category("Criminal Disclosure"),
+            source=standardized_source
         )
     elif disclosure_type == 'Civil':
         description = generate_civil_alert_description(event_date, resolution, details)
@@ -699,7 +709,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Civil Disclosure")
+            alert_category=determine_alert_category("Civil Disclosure"),
+            source=standardized_source
         )
     elif disclosure_type == 'Judgment / Lien':
         description = generate_judgment_lien_alert_description(event_date, resolution, details)
@@ -708,7 +719,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Judgment / Lien Disclosure")
+            alert_category=determine_alert_category("Judgment / Lien Disclosure"),
+            source=standardized_source
         )
     elif disclosure_type == 'Financial':
         description = generate_financial_alert_description(event_date, resolution, details)
@@ -717,7 +729,8 @@ def generate_disclosure_alert(disclosure: Dict[str, Any]) -> Optional[Alert]:
             severity=severity,
             metadata={"details": details, "event_date": event_date, "resolution": resolution},
             description=description,
-            alert_category=determine_alert_category("Financial Disclosure")
+            alert_category=determine_alert_category("Financial Disclosure"),
+            source=standardized_source
         )
     return None
 
@@ -727,7 +740,7 @@ def evaluate_disclosures(disclosures: List[Dict[str, Any]], name: str, source: s
     for disclosure in disclosures:
         dtype = disclosure.get('disclosureType', 'Unknown')
         disclosure_counts[dtype] = disclosure_counts.get(dtype, 0) + 1
-        alert = generate_disclosure_alert(disclosure)
+        alert = generate_disclosure_alert(disclosure, source)
         if alert:
             alerts.append(alert)
     if disclosure_counts:
