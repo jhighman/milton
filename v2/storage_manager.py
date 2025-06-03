@@ -90,7 +90,7 @@ class StorageManager:
             raise PermissionError(f"Permission denied: {path}")
             
         try:
-            result = self.provider.write_file(path, content)
+            result = self.provider.write_file(path, content, storage_type)
             if not result:
                 raise OSError(f"Failed to write file {path}")
             return result
@@ -202,7 +202,7 @@ class StorageManager:
                 return True
             
         try:
-            return self.provider.file_exists(path)
+            return self.provider.file_exists(path, storage_type)
         except PermissionError as e:
             logger.error(f"Permission denied checking file existence {path}: {str(e)}")
             raise
@@ -221,7 +221,7 @@ class StorageManager:
             True if successful, False otherwise
         """
         try:
-            return self.provider.create_directory(path)
+            return self.provider.create_directory(path, storage_type)
         except PermissionError as e:
             logger.error(f"Permission denied creating directory {path}: {str(e)}")
             raise
@@ -243,7 +243,7 @@ class StorageManager:
             return 11
             
         try:
-            return self.provider.get_file_size(path)
+            return self.provider.get_file_size(path, storage_type)
         except FileNotFoundError as e:
             logger.error(f"Error getting file size {path}: {str(e)}")
             raise
@@ -268,7 +268,7 @@ class StorageManager:
             return 1234567890.0
             
         try:
-            return self.provider.get_file_modified_time(path)
+            return self.provider.get_file_modified_time(path, storage_type)
         except FileNotFoundError as e:
             logger.error(f"Error getting file modified time {path}: {str(e)}")
             raise

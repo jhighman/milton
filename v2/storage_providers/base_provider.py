@@ -77,13 +77,14 @@ class BaseStorageProvider(ABC):
         return False
     
     @abstractmethod
-    def write_file(self, path: str, content: Union[str, bytes, BinaryIO]) -> bool:
+    def write_file(self, path: str, content: Union[str, bytes, BinaryIO], storage_type: str = None) -> bool:
         """
         Write content to a file.
         
         Args:
             path: The path where the file should be written.
             content: The content to write (string, bytes, or file-like object).
+            storage_type: Type of storage (input, output, archive, cache)
             
         Returns:
             True if the write was successful, False otherwise.
@@ -94,12 +95,13 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def file_exists(self, path: str) -> bool:
+    def file_exists(self, path: str, storage_type: str = None) -> bool:
         """
         Check if a file exists.
         
         Args:
             path: The path to check.
+            storage_type: Type of storage (input, output, archive, cache)
             
         Returns:
             True if the file exists, False otherwise.
@@ -110,12 +112,13 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def create_directory(self, path: str) -> bool:
+    def create_directory(self, path: str, storage_type: str = None) -> bool:
         """
         Create a directory.
         
         Args:
             path: The path to the directory to create.
+            storage_type: Type of storage (input, output, archive, cache)
             
         Returns:
             True if the directory was created successfully, False otherwise.
@@ -126,12 +129,13 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def get_file_size(self, path: str) -> int:
+    def get_file_size(self, path: str, storage_type: str = None) -> int:
         """
         Get the size of a file in bytes.
         
         Args:
             path: The path to the file.
+            storage_type: Type of storage (input, output, archive, cache)
             
         Returns:
             The size of the file in bytes.
@@ -143,12 +147,13 @@ class BaseStorageProvider(ABC):
         pass
     
     @abstractmethod
-    def get_file_modified_time(self, path: str) -> float:
+    def get_file_modified_time(self, path: str, storage_type: str = None) -> float:
         """
         Get the last modified time of a file.
         
         Args:
             path: The path to the file.
+            storage_type: Type of storage (input, output, archive, cache)
             
         Returns:
             The last modified time as a Unix timestamp.
@@ -157,4 +162,4 @@ class BaseStorageProvider(ABC):
             FileNotFoundError: If the file does not exist.
             IOError: If there is an error getting the modified time.
         """
-        pass 
+        pass

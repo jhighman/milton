@@ -8,7 +8,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any, List, Union
-from .base_provider import BaseStorageProvider
+from storage_providers.base_provider import BaseStorageProvider
 
 logger = logging.getLogger(__name__)
 
@@ -118,9 +118,20 @@ class LocalStorageProvider(BaseStorageProvider):
                 raise FileNotFoundError(f"File not found: {file_path}")
                 
             content = full_path.read_text()
-            try:
-                return json.loads(content)
-            except json.JSONDecodeError:
+            if not content.strip():
+                # Handle empty files
+                logger.warning(f"File {file_path} is empty")
+                return ""
+                
+            # Only try to parse JSON if the file has a .json extension
+            if file_path.lower().endswith('.json'):
+                try:
+                    return json.loads(content)
+                except json.JSONDecodeError:
+                    logger.warning(f"Failed to parse {file_path} as JSON, returning as text")
+                    return content
+            else:
+                # For non-JSON files, return the content as is
                 return content
                     
         except Exception as e:
@@ -233,9 +244,54 @@ class LocalStorageProvider(BaseStorageProvider):
             self.base_path = Path(self.base_path)
         return self.base_path / normalized_path
     
-    def write_file(self, path: str, content: Any) -> bool:
-        """Write content to a file."""
-        return self.save_file(path, content)
+    def write_file(self, path: str, content: Any, storage_type: str = None) -> bool:
+        """Write content to a file.
+        
+        Args:
+            path: Path to file
+            content: Content to write
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        self._ensure_initialized()
+        try:
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the file
+            if storage_type:
+                full_path = base_dir / path
+            else:
+                full_path = self._get_full_path(path)
+                
+            # Create parent directories if they don't exist
+            os.makedirs(full_path.parent, exist_ok=True)
+            
+            # Write the content
+            if isinstance(content, (dict, list)):
+                full_path.write_text(json.dumps(content, indent=2))
+            elif isinstance(content, bytes):
+                full_path.write_bytes(content)
+            else:
+                full_path.write_text(str(content))
+                    
+            logger.debug(f"Successfully wrote file: {full_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error writing file {path}: {str(e)}")
+            return False
     
     def move_file(self, source: str, dest: str, source_type: str = None, dest_type: str = None) -> bool:
         """Move a file from source to destination.
@@ -296,32 +352,107 @@ class LocalStorageProvider(BaseStorageProvider):
             logger.error(f"Error moving file from {source} to {dest}: {str(e)}")
             return False
     
-    def file_exists(self, path: str) -> bool:
-        """Check if a file exists."""
+    def file_exists(self, path: str, storage_type: str = None) -> bool:
+        """Check if a file exists.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            True if file exists, False otherwise
+        """
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(path)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the file
+            if storage_type:
+                full_path = base_dir / path
+            else:
+                full_path = self._get_full_path(path)
+                
             return full_path.exists()
         except Exception as e:
             logger.error(f"Error checking if file exists {path}: {str(e)}")
             return False
     
-    def create_directory(self, path: str) -> bool:
-        """Create a directory."""
+    def create_directory(self, path: str, storage_type: str = None) -> bool:
+        """Create a directory.
+        
+        Args:
+            path: Path to directory
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            True if successful, False otherwise
+        """
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(path)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the directory
+            if storage_type:
+                full_path = base_dir / path
+            else:
+                full_path = self._get_full_path(path)
+                
             full_path.mkdir(parents=True, exist_ok=True)
             return True
         except Exception as e:
             logger.error(f"Error creating directory {path}: {str(e)}")
             return False
     
-    def get_file_size(self, path: str) -> int:
-        """Get file size in bytes."""
+    def get_file_size(self, path: str, storage_type: str = None) -> int:
+        """Get file size in bytes.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            File size in bytes
+        """
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(path)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the file
+            if storage_type:
+                full_path = base_dir / path
+            else:
+                full_path = self._get_full_path(path)
+                
             return full_path.stat().st_size
         except FileNotFoundError:
             raise
@@ -329,14 +460,39 @@ class LocalStorageProvider(BaseStorageProvider):
             logger.error(f"Error getting file size {path}: {str(e)}")
             raise
     
-    def get_file_modified_time(self, path: str) -> float:
-        """Get file last modified time as Unix timestamp."""
+    def get_file_modified_time(self, path: str, storage_type: str = None) -> float:
+        """Get file last modified time as Unix timestamp.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            Last modified time as Unix timestamp
+        """
         self._ensure_initialized()
         try:
-            full_path = self._get_full_path(path)
+            # Determine the base directory based on storage type
+            if storage_type == 'input':
+                base_dir = self.input_path
+            elif storage_type == 'output':
+                base_dir = self.output_path
+            elif storage_type == 'archive':
+                base_dir = self.archive_path
+            elif storage_type == 'cache':
+                base_dir = self.cache_path
+            else:
+                base_dir = self.base_path
+                
+            # Get the full path for the file
+            if storage_type:
+                full_path = base_dir / path
+            else:
+                full_path = self._get_full_path(path)
+                
             return full_path.stat().st_mtime
         except FileNotFoundError:
             raise
         except Exception as e:
             logger.error(f"Error getting file modified time {path}: {str(e)}")
-            raise 
+            raise

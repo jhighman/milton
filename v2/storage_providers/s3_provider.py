@@ -11,7 +11,7 @@ import logging
 import fnmatch
 import os
 import json
-from .base_provider import BaseStorageProvider
+from storage_providers.base_provider import BaseStorageProvider
 from datetime import datetime
 from pathlib import Path
 
@@ -232,9 +232,20 @@ class S3StorageProvider(BaseStorageProvider):
             )
             
             content = response['Body'].read().decode('utf-8')
-            try:
-                return json.loads(content)
-            except json.JSONDecodeError:
+            if not content.strip():
+                # Handle empty files
+                logger.debug(f"File {file_path} is empty")
+                return ""
+                
+            # Only try to parse JSON if the file has a .json extension
+            if file_path.lower().endswith('.json'):
+                try:
+                    return json.loads(content)
+                except json.JSONDecodeError:
+                    logger.warning(f"Failed to parse {file_path} as JSON, returning as text")
+                    return content
+            else:
+                # For non-JSON files, return the content as is
                 return content
                 
         except ClientError as e:
@@ -335,10 +346,36 @@ class S3StorageProvider(BaseStorageProvider):
             logger.error(f"Error listing files in S3 {directory}: {str(e)}")
             return []
             
-    def file_exists(self, path: str) -> bool:
-        """Check if file exists in S3."""
+    def file_exists(self, path: str, storage_type: str = None) -> bool:
+        """Check if file exists in S3.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            True if file exists, False otherwise
+        """
         try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the file path and join with the prefix
+                normalized_path = self._normalize_path(path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                bucket, key = self._get_bucket_and_key(path, for_writing=False)
             
             self.s3_client.head_object(
                 Bucket=bucket,
@@ -351,11 +388,41 @@ class S3StorageProvider(BaseStorageProvider):
                 return False
             raise
             
-    def create_directory(self, path: str) -> bool:
-        """Create a directory marker in S3."""
-        try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=True)
+    def create_directory(self, path: str, storage_type: str = None) -> bool:
+        """Create a directory marker in S3.
+        
+        Args:
+            path: Path to directory
+            storage_type: Type of storage (input, output, archive, cache)
             
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the path and join with the prefix
+                normalized_path = self._normalize_path(path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                bucket, key = self._get_bucket_and_key(path, for_writing=True)
+            
+            # Ensure the key ends with a slash to indicate a directory
+            if not key.endswith('/'):
+                key += '/'
+                
             self.s3_client.put_object(
                 Bucket=bucket,
                 Key=key,
@@ -367,10 +434,36 @@ class S3StorageProvider(BaseStorageProvider):
             logger.error(f"Error creating directory in S3 {path}: {str(e)}")
             return False
             
-    def get_file_size(self, path: str) -> int:
-        """Get file size from S3."""
+    def get_file_size(self, path: str, storage_type: str = None) -> int:
+        """Get file size from S3.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            File size in bytes
+        """
         try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the file path and join with the prefix
+                normalized_path = self._normalize_path(path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                bucket, key = self._get_bucket_and_key(path, for_writing=False)
             
             response = self.s3_client.head_object(
                 Bucket=bucket,
@@ -383,10 +476,36 @@ class S3StorageProvider(BaseStorageProvider):
                 raise FileNotFoundError(f"File not found in S3: {path}")
             raise
             
-    def get_file_modified_time(self, path: str) -> float:
-        """Get file last modified time from S3."""
+    def get_file_modified_time(self, path: str, storage_type: str = None) -> float:
+        """Get file last modified time from S3.
+        
+        Args:
+            path: Path to file
+            storage_type: Type of storage (input, output, archive, cache)
+            
+        Returns:
+            Last modified time as Unix timestamp
+        """
         try:
-            bucket, key = self._get_bucket_and_key(path, for_writing=False)
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the file path and join with the prefix
+                normalized_path = self._normalize_path(path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                bucket, key = self._get_bucket_and_key(path, for_writing=False)
             
             response = self.s3_client.head_object(
                 Bucket=bucket,
@@ -399,12 +518,13 @@ class S3StorageProvider(BaseStorageProvider):
                 raise FileNotFoundError(f"File not found in S3: {path}")
             raise
 
-    def write_file(self, path: str, content: Union[str, bytes]) -> bool:
+    def write_file(self, path: str, content: Union[str, bytes], storage_type: str = None) -> bool:
         """Write content to a file in S3.
 
         Args:
             path: Path to write to
             content: Content to write (string or bytes)
+            storage_type: Type of storage (input, output, archive, cache)
 
         Returns:
             True if successful, False otherwise
@@ -413,16 +533,36 @@ class S3StorageProvider(BaseStorageProvider):
             if isinstance(content, str):
                 content = content.encode()
 
-            # If path doesn't have a recognized prefix, assume it's for output
-            if not any(path.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
-                path = 'output/' + path
+            if storage_type:
+                # Determine the base prefix based on storage type
+                if storage_type == 'input':
+                    prefix = self.input_prefix
+                elif storage_type == 'output':
+                    prefix = self.output_prefix
+                elif storage_type == 'archive':
+                    prefix = self.archive_prefix
+                elif storage_type == 'cache':
+                    prefix = self.cache_prefix
+                else:
+                    prefix = self.base_prefix
+                
+                # Normalize the file path and join with the prefix
+                normalized_path = self._normalize_path(path)
+                key = f"{prefix}{normalized_path}"
+                bucket = self.bucket_name
+            else:
+                # If path doesn't have a recognized prefix, assume it's for output
+                if not any(path.startswith(prefix) for prefix in ['input/', 'output/', 'archive/', 'cache/']):
+                    path = 'output/' + path
 
-            bucket, key = self._get_bucket_and_key(path, for_writing=True)
+                bucket, key = self._get_bucket_and_key(path, for_writing=True)
+            
             self.s3_client.put_object(
                 Bucket=bucket,
                 Key=key,
                 Body=content
             )
+            logger.debug(f"Successfully wrote file to S3: {bucket}/{key}")
             return True
         except Exception as e:
             logger.error(f"Error writing file {path}: {str(e)}")

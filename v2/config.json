@@ -10,7 +10,7 @@
     "core"
   ],
   "logging_levels": {
-    "core": "INFO"
+    "core": "DEBUG"
   },
   "config_file": "config.json",
   "default_wait_time": 7.0

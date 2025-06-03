@@ -10,9 +10,9 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Any, Optional
-from .base_provider import BaseStorageProvider
-from .local_provider import LocalStorageProvider
-from .s3_provider import S3StorageProvider
+from storage_providers.base_provider import BaseStorageProvider
+from storage_providers.local_provider import LocalStorageProvider
+from storage_providers.s3_provider import S3StorageProvider
 
 logger = logging.getLogger(__name__)
 

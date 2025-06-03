@@ -40,7 +40,19 @@ def load_checkpoint(storage_manager: StorageManager) -> tuple:
     try:
         if storage_manager.file_exists('checkpoint.json', storage_type='output'):
             content = storage_manager.read_file('checkpoint.json', storage_type='output')
-            checkpoint = json.loads(content)
+            if not content:
+                logger.warning("Checkpoint file is empty")
+                return '', 0
+                
+            if isinstance(content, str):
+                try:
+                    checkpoint = json.loads(content)
+                except json.JSONDecodeError:
+                    logger.error("Invalid JSON in checkpoint file")
+                    return '', 0
+            else:
+                checkpoint = content
+                
             return checkpoint.get('csv_file', ''), checkpoint.get('line_number', 0)
     except Exception as e:
         logger.error(f"Error loading checkpoint: {str(e)}")
