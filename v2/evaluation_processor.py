@@ -1177,7 +1177,7 @@ if __name__ == "__main__":
             due_diligence_input = input("Enter due diligence as JSON (e.g., '{\"sec_arbitration\": {\"records_found\": 5, \"records_filtered\": 5}}') or press Enter for none: ").strip()
             due_diligence = json.loads(due_diligence_input) if due_diligence_input else None
             compliance, explanation, alerts = evaluate_arbitration(actions, name, due_diligence)
-            result = {"arbitration_evaluation": {"compliance": compliance, "explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
+            result = {"arbitration_evaluation": {"compliance": compliance, "compliance_explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
             print_result(result)
 
         elif choice == "7":
@@ -1187,7 +1187,7 @@ if __name__ == "__main__":
             due_diligence_input = input("Enter due diligence as JSON (e.g., '{\"sec_disciplinary\": {\"records_found\": 3, \"records_filtered\": 3}}') or press Enter for none: ").strip()
             due_diligence = json.loads(due_diligence_input) if due_diligence_input else None
             compliance, explanation, alerts = evaluate_disciplinary(actions, name, due_diligence)
-            result = {"disciplinary_evaluation": {"compliance": compliance, "explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
+            result = {"disciplinary_evaluation": {"compliance": compliance, "compliance_explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
             print_result(result)
 
         elif choice == "8":
@@ -1198,7 +1198,7 @@ if __name__ == "__main__":
             due_diligence = json.loads(due_diligence_input) if due_diligence_input else None
             employee_number = input("Enter employee number (e.g., 'EN-046143') or press Enter to skip: ").strip() or None
             compliance, explanation, alerts = evaluate_regulatory(actions, name, due_diligence, employee_number)
-            result = {"regulatory_evaluation": {"compliance": compliance, "explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
+            result = {"regulatory_evaluation": {"compliance": compliance, "compliance_explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
             print_result(result)
 
         elif choice == "9":
@@ -1209,7 +1209,7 @@ if __name__ == "__main__":
             due_diligence_input = input("Enter due diligence as JSON (e.g., '{\"records_found\": 5, \"records_filtered\": 0}') or press Enter for none: ").strip()
             due_diligence = json.loads(due_diligence_input) if due_diligence_input else None
             compliance, explanation, alerts = evaluate_employments(employments, name, license_type, due_diligence)
-            result = {"employment_evaluation": {"compliance": compliance, "explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
+            result = {"employment_evaluation": {"compliance": compliance, "compliance_explanation": explanation, "alerts": [alert.to_dict() for alert in alerts]}}
             print_result(result)
 
         elif choice == "10":
