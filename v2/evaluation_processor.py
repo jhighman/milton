@@ -396,19 +396,6 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
     exact_match_found = any(score >= score_threshold for score in name_scores.values())
     compliance = exact_match_found
     
-    # Create evaluation details
-    evaluation_details = {
-        "searched_name": expected_name,
-        "records_found": len(names_found),
-        "records_filtered": 0,
-        "names_found": names_found,
-        "name_scores": name_scores,
-        "exact_match_found": exact_match_found,
-        "status": "Exact matches found" if exact_match_found else f"Records found but no matches for '{expected_name}'",
-        "compliance": compliance,
-        "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record."
-    }
-    
     # Create alert if needed
     alert = None
     if not compliance and name_scores:
@@ -426,9 +413,6 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
             description=f"Name match score {best_score:.1f} for '{best_match_name}' is below threshold {score_threshold}.",
             alert_category=determine_alert_category("Name Mismatch")
         )
-    
-    # Use standardized source if provided, otherwise use UNKNOWN
-    standardized_source = DataSource.get_display_name(source) if source else DataSource.UNKNOWN.value
     
     print("Returning from evaluate_name")
     
@@ -484,8 +468,8 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
             "score": name_scores[best_match_name]
         }
     
-    # Create the new structure
-    result = {
+    # Create the name evaluation structure directly matching the desired format
+    name_evaluation = {
         "expected_name": expected_name,  # Preserve original case
         "claimed_name": claimed_name,
         "all_matches": all_matches,
@@ -494,7 +478,7 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
         "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record."
     }
     
-    return result, alert
+    return name_evaluation, alert
 
 def interpret_license_type(license_type: str) -> Tuple[bool, bool]:
     license_type = license_type.upper() if license_type else ""
