@@ -431,13 +431,70 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
     standardized_source = DataSource.get_display_name(source) if source else DataSource.UNKNOWN.value
     
     print("Returning from evaluate_name")
-    return {
-        "source": standardized_source,
+    
+    # Parse expected name into components
+    expected_name_parts = parse_name(expected_name)
+    
+    # Create claimed_name structure
+    claimed_name = {
+        "first": expected_name_parts["first"] if expected_name_parts["first"] else None,
+        "middle": expected_name_parts["middle"] if expected_name_parts["middle"] else None,
+        "last": expected_name_parts["last"] if expected_name_parts["last"] else None
+    }
+    
+    # Create all_matches array
+    all_matches = []
+    for i, name in enumerate(names_found):
+        name_parts = parse_name(name)
+        
+        # Calculate individual component scores
+        first_score = 1.0 if name_parts["first"] and expected_name_parts["first"] and \
+                      (name_parts["first"].lower() == expected_name_parts["first"].lower() or \
+                       are_nicknames(name_parts["first"], expected_name_parts["first"])) else 0.0
+                       
+        middle_score = 0.5  # Default for middle names when one is present and one is not
+        if name_parts["middle"] and expected_name_parts["middle"]:
+            middle_score = 1.0 if name_parts["middle"].lower() == expected_name_parts["middle"].lower() else 0.0
+            
+        last_score = 1.0 if name_parts["last"] and expected_name_parts["last"] and \
+                     name_parts["last"].lower() == expected_name_parts["last"].lower() else 0.0
+        
+        match_entry = {
+            "name_source": "main_fetched_name" if i == 0 else f"other_names[{i-1}]",
+            "fetched_name": {
+                "first": name_parts["first"] if name_parts["first"] else None,
+                "middle": name_parts["middle"] if name_parts["middle"] else None,
+                "last": name_parts["last"] if name_parts["last"] else None
+            },
+            "score": name_scores[name],
+            "first_score": first_score,
+            "middle_score": middle_score,
+            "last_score": last_score
+        }
+        all_matches.append(match_entry)
+    
+    # Find best match
+    best_match_name = max(name_scores, key=name_scores.get) if name_scores else None
+    best_match = None
+    if best_match_name:
+        best_match_idx = names_found.index(best_match_name)
+        best_match = {
+            "name_source": "main_fetched_name" if best_match_idx == 0 else f"other_names[{best_match_idx-1}]",
+            "fetched_name": all_matches[best_match_idx]["fetched_name"],
+            "score": name_scores[best_match_name]
+        }
+    
+    # Create the new structure
+    result = {
+        "expected_name": expected_name,  # Preserve original case
+        "claimed_name": claimed_name,
+        "all_matches": all_matches,
+        "best_match": best_match,
         "compliance": compliance,
-        "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record.",
-        "due_diligence": evaluation_details,
-        "alerts": [alert] if alert else []
-    }, alert
+        "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record."
+    }
+    
+    return result, alert
 
 def interpret_license_type(license_type: str) -> Tuple[bool, bool]:
     license_type = license_type.upper() if license_type else ""
@@ -1182,6 +1239,11 @@ if __name__ == "__main__":
             other_names = [name.strip() for name in other_names_input.split(",")] if other_names_input else []
             result, alert = evaluate_name(expected_name, fetched_name, other_names)
             print_result({"name_evaluation": result})
+            
+            # Display alert if present
+            if alert:
+                print("\nAlert generated:")
+                print(json_dumps_with_alerts(alert, indent=2))
 
         elif choice == "2":
             csv_license = input("Enter CSV license type (e.g., 'B', 'IA', 'BIA', or empty): ").strip()
@@ -1274,6 +1336,11 @@ if __name__ == "__main__":
             result, alert = evaluate_name(expected_name, fetched_name, other_names)
             print_result({"name_evaluation": result})
             
+            # Display alert if present
+            if alert:
+                print("\nAlert generated:")
+                print(json_dumps_with_alerts(alert, indent=2))
+            
             # Additional test cases
             test_cases = [
                 ("John Smith", "JOHN ROBERT SMITH", ["Johnny R Smith"]),
@@ -1286,6 +1353,11 @@ if __name__ == "__main__":
                 print(f"\nTesting with: expected={expected}, fetched={fetched}, other={others}")
                 result, alert = evaluate_name(expected, fetched, others)
                 print_result({"name_evaluation": result})
+                
+                # Display alert if present
+                if alert:
+                    print("\nAlert generated:")
+                    print(json_dumps_with_alerts(alert, indent=2))
                 
         else:
             print("Invalid choice. Please enter a number between 1 and 11.")
