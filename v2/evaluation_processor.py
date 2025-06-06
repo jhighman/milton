@@ -309,30 +309,69 @@ def match_name_part(claim_part: Optional[str], fetched_part: Optional[str], name
     return 0.0
 
 def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any], score_threshold: float = 80.0, source: str = None) -> Tuple[Dict[str, Any], Optional[Alert]]:
-    print("\n\n==== COMPLETELY NEW IMPLEMENTATION ====")
+    print("\n\n==== IMPROVED NAME MATCHING IMPLEMENTATION ====")
     print(f"evaluate_name called with: expected_name={expected_name}, fetched_name={fetched_name}")
     
     # Simple implementation that doesn't use nested functions
     def calculate_name_score(name1: str, name2: str) -> float:
         print(f"calculate_name_score called with: name1={name1}, name2={name2}")
-        # Simple scoring - 100 if names are similar, 0 otherwise
-        name1_lower = name1.lower()
-        name2_lower = name2.lower()
         
-        # Special case for Douglas/Doug
-        if ("douglas" in name1_lower and "doug" in name2_lower) or ("doug" in name1_lower and "douglas" in name2_lower):
-            print("Found Douglas/Doug match!")
-            return 100.0
-            
-        # Exact match
-        if name1_lower == name2_lower:
-            return 100.0
-            
-        # Partial match - check if one is contained in the other
-        if name1_lower in name2_lower or name2_lower in name1_lower:
-            return 90.0
-            
-        return 0.0
+        # Parse names into components
+        name1_parts = parse_name(name1)
+        name2_parts = parse_name(name2)
+        
+        print(f"Parsed name1: {name1_parts}")
+        print(f"Parsed name2: {name2_parts}")
+        
+        # Score first name match (40% weight)
+        first_name_score = 0.0
+        if name1_parts["first"] and name2_parts["first"]:
+            # Check for exact match
+            if name1_parts["first"].lower() == name2_parts["first"].lower():
+                first_name_score = 100.0
+            # Check for nickname match
+            elif are_nicknames(name1_parts["first"], name2_parts["first"]):
+                first_name_score = 100.0
+            # Check for initial match
+            elif (len(name1_parts["first"]) == 1 and
+                  name2_parts["first"] and
+                  name2_parts["first"][0].lower() == name1_parts["first"].lower()):
+                first_name_score = 90.0
+            elif (len(name2_parts["first"]) == 1 and
+                  name1_parts["first"] and
+                  name1_parts["first"][0].lower() == name2_parts["first"].lower()):
+                first_name_score = 90.0
+            # Partial string match
+            elif (name1_parts["first"].lower() in name2_parts["first"].lower() or
+                  name2_parts["first"].lower() in name1_parts["first"].lower()):
+                first_name_score = 85.0
+        
+        # Score last name match (60% weight)
+        last_name_score = 0.0
+        if name1_parts["last"] and name2_parts["last"]:
+            # Check for exact match
+            if name1_parts["last"].lower() == name2_parts["last"].lower():
+                last_name_score = 100.0
+            # Partial string match
+            elif (name1_parts["last"].lower() in name2_parts["last"].lower() or
+                  name2_parts["last"].lower() in name1_parts["last"].lower()):
+                last_name_score = 90.0
+            # Use Levenshtein distance for similar last names
+            else:
+                distance = jellyfish.levenshtein_distance(
+                    name1_parts["last"].lower(),
+                    name2_parts["last"].lower()
+                )
+                max_len = max(len(name1_parts["last"]), len(name2_parts["last"]))
+                similarity = 1.0 - (distance / max_len) if max_len else 0.0
+                last_name_score = similarity * 100.0 if similarity >= 0.8 else 0.0
+        
+        # Calculate weighted score (60% last name, 40% first name)
+        weighted_score = (last_name_score * 0.6) + (first_name_score * 0.4)
+        
+        print(f"First name score: {first_name_score}, Last name score: {last_name_score}, Weighted score: {weighted_score}")
+        
+        return weighted_score
     
     print("About to calculate scores")
     names_found = []
@@ -365,7 +404,9 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
         "names_found": names_found,
         "name_scores": name_scores,
         "exact_match_found": exact_match_found,
-        "status": "Exact matches found" if exact_match_found else f"Records found but no matches for '{expected_name}'"
+        "status": "Exact matches found" if exact_match_found else f"Records found but no matches for '{expected_name}'",
+        "compliance": compliance,
+        "compliance_explanation": "Name matches fetched record." if compliance else "Name does not match fetched record."
     }
     
     # Create alert if needed
@@ -376,8 +417,13 @@ def evaluate_name(expected_name: Any, fetched_name: Any, other_names: List[Any],
         alert = Alert(
             alert_type="Name Mismatch",
             severity=AlertSeverity.MEDIUM,
-            metadata={"expected_name": expected_name, "best_score": best_score, "best_match": best_match_name},
-            description=f"Name match score {best_score} for '{best_match_name}' is below threshold {score_threshold}.",
+            metadata={
+                "expected_name": expected_name,
+                "best_score": best_score,
+                "best_match": best_match_name,
+                "score_threshold": score_threshold
+            },
+            description=f"Name match score {best_score:.1f} for '{best_match_name}' is below threshold {score_threshold}.",
             alert_category=determine_alert_category("Name Mismatch")
         )
     
@@ -1126,7 +1172,8 @@ if __name__ == "__main__":
         print("8. Evaluate Regulatory Records (with secondary NFA search)")
         print("9. Evaluate Employment History")
         print("10. Exit")
-        choice = input("Enter your choice (1-10): ").strip()
+        print("11. Test Name Matching with Middle Names")
+        choice = input("Enter your choice (1-11): ").strip()
 
         if choice == "1":
             expected_name = input("Enter expected name (e.g., 'John Doe'): ").strip()
@@ -1215,5 +1262,30 @@ if __name__ == "__main__":
         elif choice == "10":
             print("Exiting...")
             break
+            
+        elif choice == "11":
+            print("\n=== Testing Name Matching with Middle Names ===")
+            # Test case from the example that had issues
+            expected_name = "Jonathan Bacon"
+            fetched_name = "JONATHAN CARSON BACON"
+            other_names = ["Jon Carson Bacon"]
+            
+            print(f"Testing with: expected={expected_name}, fetched={fetched_name}, other={other_names}")
+            result, alert = evaluate_name(expected_name, fetched_name, other_names)
+            print_result({"name_evaluation": result})
+            
+            # Additional test cases
+            test_cases = [
+                ("John Smith", "JOHN ROBERT SMITH", ["Johnny R Smith"]),
+                ("Robert Jones", "BOB JONES", []),
+                ("William Brown", "BILL BROWN JR", ["Billy Brown"]),
+                ("Thomas Wilson", "TOM WILSON", [])
+            ]
+            
+            for expected, fetched, others in test_cases:
+                print(f"\nTesting with: expected={expected}, fetched={fetched}, other={others}")
+                result, alert = evaluate_name(expected, fetched, others)
+                print_result({"name_evaluation": result})
+                
         else:
-            print("Invalid choice. Please enter a number between 1 and 10.")
+            print("Invalid choice. Please enter a number between 1 and 11.")
