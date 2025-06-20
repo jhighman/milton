@@ -113,7 +113,7 @@ curl -X POST http://localhost:8000/process-claim-basic ^
   }"
 ```
 
-### 2. Process an Extended Claim with Webhook
+### 2. Process an Extended Claim with Webhook (Asynchronous)
 ```bash
 curl -X POST http://localhost:8000/process-claim-extended ^
   -H "Content-Type: application/json" ^
@@ -126,6 +126,17 @@ curl -X POST http://localhost:8000/process-claim-extended ^
     \"webhook_url\": \"http://your-webhook.com/endpoint\"
   }"
 ```
+
+When a webhook URL is provided, the API processes the claim asynchronously and returns an immediate response:
+```json
+{
+  "status": "processing_started",
+  "reference_id": "REF124",
+  "message": "Claim processing started; result will be sent to webhook"
+}
+```
+
+The complete result will be sent to the specified webhook URL once processing is complete.
 
 ### 3. Cache Management
 ```bash
@@ -184,24 +195,43 @@ Solution: Download the matching ChromeDriver version from https://chromedriver.c
    reconfigure_logging(loggers, {'services'}, {'services': 'DEBUG'})
    ```
 
-## Processing Modes
+## Processing Modes and Asynchronous Processing
 
-### Basic Mode
+### Processing Modes
+
+#### Basic Mode
 - Skips disciplinary reviews
 - Skips arbitration reviews
 - Skips regulatory reviews
 - Fastest processing time
 
-### Extended Mode
+#### Extended Mode
 - Includes disciplinary reviews
 - Includes arbitration reviews
 - Skips regulatory reviews
 - Moderate processing time
 
-### Complete Mode
+#### Complete Mode
 - Includes all reviews
 - Most comprehensive results
 - Longest processing time
+
+### Synchronous vs. Asynchronous Processing
+
+The API supports both synchronous and asynchronous processing:
+
+#### Synchronous Processing
+- Used when no webhook URL is provided
+- The API processes the claim and returns the complete result in the response
+- The client must wait for the entire processing to complete
+- Suitable for quick operations or when immediate results are needed
+
+#### Asynchronous Processing
+- Used when a webhook URL is provided in the request
+- The API returns an immediate acknowledgment response
+- Processing continues in the background
+- Results are sent to the specified webhook URL when complete
+- Suitable for long-running operations or when integrating with other systems
 
 ## API Endpoints
 
@@ -220,5 +250,102 @@ Solution: Download the matching ChromeDriver version from https://chromedriver.c
 - `GET /compliance/risk-dashboard`: View risk dashboard
 - `GET /compliance/data-quality`: Check data quality
 
+## Testing Webhooks Locally
+
+To test webhook functionality locally, you need a way to receive webhook callbacks. Here are several approaches:
+
+### 1. Using ngrok for Local Webhook Testing
+
+[ngrok](https://ngrok.com/) creates a public URL for your local server, allowing external services to send webhooks to your local machine:
+
+```bash
+# Install ngrok
+# Run your API server
+python -m uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+
+# In another terminal, start ngrok to expose your local server
+ngrok http 8000
+```
+
+Use the ngrok URL in your webhook_url parameter:
+```bash
+curl -X POST http://localhost:8000/process-claim-basic ^
+  -H "Content-Type: application/json" ^
+  -d "{
+    \"reference_id\": \"REF123\",
+    \"employee_number\": \"EMP456\",
+    \"first_name\": \"John\",
+    \"last_name\": \"Doe\",
+    \"organization_name\": \"ACME Corp\",
+    \"webhook_url\": \"https://your-ngrok-url.ngrok.io/webhook-receiver\"
+  }"
+```
+
+### 2. Using a Simple Local Webhook Receiver
+
+Create a simple webhook receiver using FastAPI in a separate file (e.g., `webhook_receiver.py`):
+
+```python
+from fastapi import FastAPI, Request
+import uvicorn
+import json
+
+app = FastAPI()
+
+@app.post("/webhook-receiver")
+async def webhook_receiver(request: Request):
+    data = await request.json()
+    print("Received webhook data:")
+    print(json.dumps(data, indent=2))
+    return {"status": "received"}
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8001)
+```
+
+Run this receiver on a different port:
+```bash
+python webhook_receiver.py
+```
+
+Then use `http://localhost:8001/webhook-receiver` as your webhook URL:
+```bash
+curl -X POST http://localhost:8000/process-claim-basic ^
+  -H "Content-Type: application/json" ^
+  -d "{
+    \"reference_id\": \"REF123\",
+    \"employee_number\": \"EMP456\",
+    \"first_name\": \"John\",
+    \"last_name\": \"Doe\",
+    \"organization_name\": \"ACME Corp\",
+    \"webhook_url\": \"http://localhost:8001/webhook-receiver\"
+  }"
+```
+
+### 3. Using Webhook Testing Services
+
+Online services like [Webhook.site](https://webhook.site/) provide temporary URLs for testing webhooks:
+
+1. Visit [Webhook.site](https://webhook.site/)
+2. Copy your unique URL
+3. Use it as the webhook_url in your API requests
+4. View incoming webhook data in real-time on the website
+
+## Running Automated Tests
+
+The project includes automated tests for the asynchronous webhook functionality:
+
+```bash
+# Run all API tests
+pytest test_api_async.py -v
+```
+
+These tests verify:
+- Synchronous processing works as expected
+- Asynchronous processing returns immediate responses
+- Background tasks are properly scheduled
+- Webhook delivery functions correctly
+- Error handling works in both modes
+
 ## Support
-For additional support or questions, contact the development team or refer to the internal documentation. 
+For additional support or questions, contact the development team or refer to the internal documentation.
