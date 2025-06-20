@@ -19,7 +19,7 @@ Use endpoints like `/process-claim-basic`, `/cache/clear`, `/compliance/risk-das
 
 import json
 from typing import Dict, Any, Optional
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from pydantic import BaseModel, validator
 import aiohttp
 import asyncio
@@ -216,13 +216,47 @@ async def send_to_webhook(webhook_url: str, report: Dict[str, Any], reference_id
         except Exception as e:
             logger.error(f"Error sending to webhook for reference_id={reference_id}: {str(e)}", exc_info=True)
 
-async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, Any]:
+
+async def process_claim_async(request: ClaimRequest, mode: str):
+    """
+    Process a claim asynchronously and send the result to the webhook.
+    
+    Args:
+        request (ClaimRequest): The claim data to process.
+        mode (str): Processing mode ("basic", "extended", "complete").
+    """
+    logger.info(f"Starting background processing for reference_id={request.reference_id} with mode={mode}")
+    
+    try:
+        # Process the claim with send_webhook=False since we'll handle it here
+        report = await process_claim_helper(request, mode, send_webhook=False)
+        
+        # Send the result to the webhook
+        if request.webhook_url and report:
+            await send_to_webhook(request.webhook_url, report, request.reference_id)
+            
+        logger.info(f"Background processing completed successfully for reference_id={request.reference_id}")
+        
+    except Exception as e:
+        logger.error(f"Error in background processing for reference_id={request.reference_id}: {str(e)}", exc_info=True)
+        
+        # Send error to webhook if webhook_url is provided
+        if request.webhook_url:
+            error_report = {
+                "status": "error",
+                "reference_id": request.reference_id,
+                "message": f"Claim processing failed: {str(e)}"
+            }
+            await send_to_webhook(request.webhook_url, error_report, request.reference_id)
+
+async def process_claim_helper(request: ClaimRequest, mode: str, send_webhook: bool = True) -> Dict[str, Any]:
     """
     Helper function to process a claim with the specified mode.
 
     Args:
         request (ClaimRequest): The claim data to process.
         mode (str): Processing mode ("basic", "extended", "complete").
+        send_webhook (bool): Whether to send the result to webhook if webhook_url is provided.
 
     Returns:
         Dict[str, Any]: Processed compliance report.
@@ -263,8 +297,8 @@ async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, An
         # Report is saved to cache/<employee_number>/ by process_claim
         logger.info(f"Successfully processed claim for reference_id={request.reference_id} with mode={mode}")
 
-        # Handle webhook if provided
-        if webhook_url:
+        # Handle webhook if provided and send_webhook is True
+        if webhook_url and send_webhook:
             asyncio.create_task(send_to_webhook(webhook_url, report, request.reference_id))
         
         return report
@@ -275,19 +309,100 @@ async def process_claim_helper(request: ClaimRequest, mode: str) -> Dict[str, An
 
 # Existing Claim Processing Endpoints
 @app.post("/process-claim-basic", response_model=Dict[str, Any])
-async def process_claim_basic(request: ClaimRequest):
-    """Process a claim with basic mode (skips all reviews)."""
-    return await process_claim_helper(request, "basic")
+async def process_claim_basic(request: ClaimRequest, background_tasks: BackgroundTasks):
+    """
+    Process a claim with basic mode (skips all reviews).
+    
+    If webhook_url is provided, processing happens asynchronously in the background
+    and an immediate response is returned. The result will be sent to the webhook_url.
+    
+    If no webhook_url is provided, processing happens synchronously and the full result is returned.
+    """
+    # Check if webhook_url is provided
+    if request.webhook_url:
+        logger.info(f"Asynchronous processing started for reference_id={request.reference_id} with webhook_url={request.webhook_url}")
+        
+        # Add the processing task to background tasks
+        background_tasks.add_task(
+            process_claim_async,
+            request=request,
+            mode="basic"
+        )
+        
+        # Return immediate response
+        return {
+            "status": "processing_started",
+            "reference_id": request.reference_id,
+            "message": "Claim processing started; result will be sent to webhook"
+        }
+    else:
+        # Process synchronously as before
+        logger.info(f"Synchronous processing started for reference_id={request.reference_id}")
+        return await process_claim_helper(request, "basic")
 
 @app.post("/process-claim-extended", response_model=Dict[str, Any])
-async def process_claim_extended(request: ClaimRequest):
-    """Process a claim with extended mode (includes disciplinary and arbitration, skips regulatory)."""
-    return await process_claim_helper(request, "extended")
+async def process_claim_extended(request: ClaimRequest, background_tasks: BackgroundTasks):
+    """
+    Process a claim with extended mode (includes disciplinary and arbitration, skips regulatory).
+    
+    If webhook_url is provided, processing happens asynchronously in the background
+    and an immediate response is returned. The result will be sent to the webhook_url.
+    
+    If no webhook_url is provided, processing happens synchronously and the full result is returned.
+    """
+    # Check if webhook_url is provided
+    if request.webhook_url:
+        logger.info(f"Asynchronous processing started for reference_id={request.reference_id} with webhook_url={request.webhook_url}")
+        
+        # Add the processing task to background tasks
+        background_tasks.add_task(
+            process_claim_async,
+            request=request,
+            mode="extended"
+        )
+        
+        # Return immediate response
+        return {
+            "status": "processing_started",
+            "reference_id": request.reference_id,
+            "message": "Claim processing started; result will be sent to webhook"
+        }
+    else:
+        # Process synchronously as before
+        logger.info(f"Synchronous processing started for reference_id={request.reference_id}")
+        return await process_claim_helper(request, "extended")
 
 @app.post("/process-claim-complete", response_model=Dict[str, Any])
-async def process_claim_complete(request: ClaimRequest):
-    """Process a claim with complete mode (includes all reviews)."""
-    return await process_claim_helper(request, "complete")
+async def process_claim_complete(request: ClaimRequest, background_tasks: BackgroundTasks):
+    """
+    Process a claim with complete mode (includes all reviews).
+    
+    If webhook_url is provided, processing happens asynchronously in the background
+    and an immediate response is returned. The result will be sent to the webhook_url.
+    
+    If no webhook_url is provided, processing happens synchronously and the full result is returned.
+    """
+    # Check if webhook_url is provided
+    if request.webhook_url:
+        logger.info(f"Asynchronous processing started for reference_id={request.reference_id} with webhook_url={request.webhook_url}")
+        
+        # Add the processing task to background tasks
+        background_tasks.add_task(
+            process_claim_async,
+            request=request,
+            mode="complete"
+        )
+        
+        # Return immediate response
+        return {
+            "status": "processing_started",
+            "reference_id": request.reference_id,
+            "message": "Claim processing started; result will be sent to webhook"
+        }
+    else:
+        # Process synchronously as before
+        logger.info(f"Synchronous processing started for reference_id={request.reference_id}")
+        return await process_claim_helper(request, "complete")
 
 @app.get("/processing-modes")
 async def get_processing_modes():
