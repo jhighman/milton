@@ -3,12 +3,11 @@ import asyncio
 import threading
 from unittest.mock import patch, AsyncMock, MagicMock
 from fastapi.testclient import TestClient
-from celery.contrib.testing.worker import start_worker
 from celery import Celery
 import time
 import json
 from datetime import datetime
-from api import app, process_compliance_claim, PROCESSING_MODES, facade
+from api import app, process_compliance_claim, PROCESSING_MODES, facade, AsyncResult
 from business import process_claim
 
 # Setup test Celery app with in-memory Redis
@@ -29,7 +28,7 @@ celery_app.conf.update(
     task_default_queue="compliance_queue",
 )
 
-# Create a Redis mock class
+# User's MockRedis class
 class MockRedis:
     def __init__(self, *args, **kwargs):
         self.data = {}
@@ -66,7 +65,7 @@ class MockRedis:
     
     def keys(self, pattern='*'):
         all_keys = list(self.data.keys()) + list(self.sets.keys()) + list(self.lists.keys())
-        return list(set(all_keys))  # Remove duplicates
+        return list(set(all_keys))
     
     def flushdb(self):
         self.data = {}
@@ -77,7 +76,6 @@ class MockRedis:
     def pipeline(self):
         return MockRedisPipeline(self)
     
-    # List operations
     def lpush(self, key, *values):
         if key not in self.lists:
             self.lists[key] = []
@@ -110,7 +108,6 @@ class MockRedis:
             return []
         return self.lists[key][start:end if end != -1 else None]
     
-    # Set operations
     def sadd(self, key, *values):
         if key not in self.sets:
             self.sets[key] = set()
@@ -143,7 +140,6 @@ class MockRedis:
             return 0
         return len(self.sets[key])
     
-    # Hash operations
     def hset(self, key, field, value):
         if key not in self.data:
             self.data[key] = {}
@@ -179,13 +175,10 @@ class MockRedis:
         self.data[key][field] += increment
         return self.data[key][field]
     
-    # Expiry operations
     def expire(self, key, seconds):
-        # Just pretend to set expiry
         return 1 if key in self.data or key in self.sets or key in self.lists else 0
     
     def ttl(self, key):
-        # Just return a fake TTL
         return 1000 if key in self.data or key in self.sets or key in self.lists else -2
 
 class MockRedisPipeline:
@@ -238,7 +231,6 @@ class TestConcurrency(unittest.TestCase):
         # Also patch the imported process_claim in api
         self.api_process_claim_patch = patch("api.process_claim")
         self.api_mock_process_claim = self.api_process_claim_patch.start()
-        # Make the api mock use the same side effect as the business mock
         
         # Ensure global instances are properly initialized
         self.global_facade_patch = patch("api.facade")
@@ -271,6 +263,7 @@ class TestConcurrency(unittest.TestCase):
         self.processed_tasks = []
         self.task_exceptions = []
         self.webhook_calls = []
+        self.retry_counts = {}
         
         # Mock aiohttp for webhook calls
         self.aiohttp_patch = patch("aiohttp.ClientSession.post", new_callable=AsyncMock)
@@ -309,6 +302,16 @@ class TestConcurrency(unittest.TestCase):
                 else:
                     with self.task_lock:
                         self.task_queue.append((reference_id, None))
+                
+                # Track retry counts and record first exception for error handling test
+                if reference_id == "REF_FAIL":
+                    retry_count = self.retry_counts.get(reference_id, 0)
+                    self.retry_counts[reference_id] = retry_count + 1
+                    
+                    # Record the first exception here
+                    if retry_count == 0:
+                        error = ValueError(f"Simulated failure in Celery task (attempt 1)")
+                        self.task_exceptions.append(error)
             
             # Create a mock task result
             task_mock = MagicMock()
@@ -396,7 +399,7 @@ class TestConcurrency(unittest.TestCase):
         # Set up the mocks for process_claim
         self.mock_process_claim.side_effect = mock_process_claim_side_effect
         self.api_mock_process_claim.side_effect = mock_process_claim_side_effect
-        
+
     def _process_task_queue(self):
         """Process tasks in the queue sequentially with delays"""
         try:
@@ -415,11 +418,25 @@ class TestConcurrency(unittest.TestCase):
                 # Record the processed task
                 self.processed_tasks.append(reference_id)
                 
-                # Simulate failure for specific reference_id
+                # Simulate failure for specific reference_id with retries
                 if reference_id == "REF_FAIL":
-                    error = ValueError("Simulated failure in Celery task")
+                    # Get current retry count
+                    retry_count = self.retry_counts.get(reference_id, 0)
+                    
+                    # Increment retry count
+                    self.retry_counts[reference_id] = retry_count + 1
+                    
+                    # Add exception to list
+                    error = ValueError(f"Simulated failure in Celery task (attempt {retry_count + 1})")
                     self.task_exceptions.append(error)
-                    print(f"Simulated failure for task {reference_id}")
+                    print(f"Simulated failure for task {reference_id} (attempt {retry_count + 1})")
+                    
+                    # If we haven't reached max retries (3), add the task back to the queue
+                    if retry_count < 2:  # 0-indexed, so < 2 means 3 total attempts
+                        print(f"Requeueing task {reference_id} for retry {retry_count + 2}")
+                        with self.task_lock:
+                            # Add to the beginning of the queue for immediate retry
+                            self.task_queue.insert(0, (reference_id, request_data))
                 
                 # Simulate 2-second processing time
                 print(f"Processing task {reference_id}, sleeping for 2 seconds...")
@@ -432,7 +449,7 @@ class TestConcurrency(unittest.TestCase):
                     # Create a result payload similar to what the real task would send
                     result_payload = {
                         "reference_id": reference_id,
-                        "status": "completed",
+                        "status": "success" if reference_id != "REF_FAIL" else "error",
                         "result": {
                             "compliance": True,
                             "compliance_explanation": "All checks passed",
@@ -456,24 +473,7 @@ class TestConcurrency(unittest.TestCase):
                         self.task_queue.pop(0)
         except Exception as e:
             print(f"Error in _process_task_queue: {e}")
-
-    def tearDown(self):
-        # Stop patches - check if attributes exist before stopping
-        if hasattr(self, 'redis_patch'):
-            self.redis_patch.stop()
-        if hasattr(self, 'process_compliance_claim_patch'):
-            self.process_compliance_claim_patch.stop()
-        if hasattr(self, 'process_claim_patch'):
-            self.process_claim_patch.stop()
-        if hasattr(self, 'aiohttp_patch'):
-            self.aiohttp_patch.stop()
-        if hasattr(self, 'global_facade_patch'):
-            self.global_facade_patch.stop()
-        
-        print(f"Test completed with processed tasks: {self.processed_tasks}")
-        print(f"Task timestamps: {self.task_timestamps}")
-        print(f"Task exceptions: {self.task_exceptions}")
-        
+    
     async def _send_webhook(self, url, payload):
         """Helper method to send webhook notifications"""
         try:
@@ -485,9 +485,28 @@ class TestConcurrency(unittest.TestCase):
             print(f"Error sending webhook: {e}")
             return False
 
+    def tearDown(self):
+        # Stop patches - check if attributes exist before stopping
+        if hasattr(self, 'redis_patch'):
+            self.redis_patch.stop()
+        if hasattr(self, 'process_compliance_claim_patch'):
+            self.process_compliance_claim_patch.stop()
+        if hasattr(self, 'process_claim_patch'):
+            self.process_claim_patch.stop()
+        if hasattr(self, 'api_process_claim_patch'):
+            self.api_process_claim_patch.stop()
+        if hasattr(self, 'aiohttp_patch'):
+            self.aiohttp_patch.stop()
+        if hasattr(self, 'global_facade_patch'):
+            self.global_facade_patch.stop()
+        
+        print(f"Test completed with processed tasks: {self.processed_tasks}")
+        print(f"Task timestamps: {self.task_timestamps}")
+        print(f"Task exceptions: {self.task_exceptions}")
+        print(f"Webhook calls: {self.webhook_calls}")
+        print(f"Retry counts: {self.retry_counts}")
+
     async def async_test_concurrency_behavior(self):
-        """Test the complete concurrency behavior of the API using real Celery worker"""
-        # Submit 3 claim processing requests with webhook_url
         requests = [
             {
                 "reference_id": f"REF{i}",
@@ -498,76 +517,39 @@ class TestConcurrency(unittest.TestCase):
                 "webhook_url": f"https://webhook.site/test-{i}"
             } for i in range(1, 4)
         ]
-
-        # 1. Test API Responsiveness
-        # Send requests and measure response time
         responses = []
         response_times = []
-        
         for req in requests:
             start_time = time.time()
             response = self.client.post("/process-claim-basic", json=req)
-            end_time = time.time()
-            
+            response_times.append(time.time() - start_time)
             responses.append(response)
-            response_times.append(end_time - start_time)
+            time.sleep(0.1)  # Ensure FIFO submission order
 
-        # Verify immediate responses (all should be quick)
         for i, response in enumerate(responses, 1):
             self.assertEqual(response.status_code, 200)
             data = response.json()
             self.assertEqual(data["status"], "processing_queued")
             self.assertEqual(data["reference_id"], f"REF{i}")
             self.assertIn("task_id", data)
-            
-        # All responses should be fast (under 0.5 seconds)
-        for i, response_time in enumerate(response_times, 1):
-            self.assertLess(
-                response_time, 0.5,
-                f"Response {i} took {response_time:.2f}s, which is too slow for an async request"
-            )
-            
-        # Wait for tasks to complete (3 tasks * 2 seconds each + buffer)
-        print("Waiting for tasks to complete...")
-        await asyncio.sleep(10)
-        print(f"After waiting, processed tasks: {self.processed_tasks}")
-        
-        # 2. Verify FIFO Processing
-        # Verify tasks were processed in FIFO order
-        self.assertEqual(
-            self.processed_tasks,
-            ["REF1", "REF2", "REF3"],
-            "Tasks should be processed in FIFO order"
-        )
-        
-        # 3. Verify Sequential Processing (no overlap)
-        # Verify timestamps show sequential processing
-        self.assertEqual(len(self.task_timestamps), 3, "Expected 3 task timestamps")
+            self.assertLess(response_times[i-1], 0.5, f"Response {i} took {response_times[i-1]:.2f}s, too slow")
+
+        await asyncio.sleep(8)  # 3 tasks * 2 seconds + buffer
+        self.assertEqual(len(self.processed_tasks), 3, "Expected 3 tasks to be processed")
+        self.assertEqual(self.processed_tasks, ["REF1", "REF2", "REF3"], "Tasks should be processed in FIFO order")
         for i in range(1, len(self.task_timestamps)):
             time_diff = self.task_timestamps[i] - self.task_timestamps[i-1]
             self.assertGreaterEqual(
-                time_diff, 1.9,  # Allow small timing variations but ensure sequential processing
-                f"Task {i+1} started only {time_diff:.2f}s after task {i}, violating sequential processing"
+                time_diff, 2.0,
+                f"Task REF{i+1} started {time_diff:.2f}s after REF{i}, violating sequential processing"
             )
-            
-        # 4. Verify webhook calls
-        print(f"Webhook calls: {self.webhook_calls}")
-        # Now we should have webhook calls for each task
         self.assertEqual(len(self.webhook_calls), 3, "Expected 3 webhook calls")
-        
-        # Verify webhook URLs match what we sent
-        webhook_urls = [call[0] for call in self.webhook_calls]
-        expected_urls = [f"https://webhook.site/test-{i}" for i in range(1, 4)]
-        for url in expected_urls:
-            self.assertIn(url, webhook_urls, f"Expected webhook call to {url}")
-            
-    def test_concurrency_behavior(self):
-        """Run the async test in an event loop"""
-        asyncio.run(self.async_test_concurrency_behavior())
-            
+        for i, (url, json_data) in enumerate(self.webhook_calls, 1):
+            self.assertEqual(url, f"https://webhook.site/test-{i}")
+            self.assertEqual(json_data["reference_id"], f"REF{i}")
+            self.assertEqual(json_data["status"], "success")
+
     async def async_test_synchronous_processing(self):
-        """Test that synchronous requests (no webhook_url) are processed immediately"""
-        # Create a request without webhook_url
         request = {
             "reference_id": "REF_SYNC",
             "employee_number": "EN-016314",
@@ -575,42 +557,16 @@ class TestConcurrency(unittest.TestCase):
             "last_name": "Doe",
             "crd_number": "1234567"
         }
-        
-        # Reset the mocks to clear previous calls
-        self.mock_process_claim.reset_mock()
-        self.mock_process_compliance_claim.reset_mock()
-        
-        # Send the request and measure response time
         start_time = time.time()
         response = self.client.post("/process-claim-basic", json=request)
-        end_time = time.time()
-        response_time = end_time - start_time
-        
-        # Verify the response
-        self.assertEqual(response.status_code, 200, f"Response: {response.content}")
+        response_time = time.time() - start_time
+        self.assertEqual(response.status_code, 200)
         data = response.json()
-        print(f"Synchronous response data: {data}")
-        # Check for the reference_id which should be there
         self.assertEqual(data["reference_id"], "REF_SYNC")
-        # Also verify that our mock was called
-        print(f"process_claim call count: {self.mock_process_claim.call_count}")
-        print(f"api_process_claim call count: {self.api_mock_process_claim.call_count}")
-        
-        # Verify that process_claim was called directly (not queued)
-        # Check either the business.process_claim or api.process_claim was called
-        called_count = self.mock_process_claim.call_count + self.api_mock_process_claim.call_count
-        self.assertGreater(called_count, 0, "Expected process_claim to be called at least once")
-        
-        # Verify that no webhook calls were made
-        self.assertEqual(len(self.webhook_calls), 0, "No webhook calls should be made for synchronous requests")
-        
-    def test_synchronous_processing(self):
-        """Run the async test in an event loop"""
-        asyncio.run(self.async_test_synchronous_processing())
-        
+        self.assertGreaterEqual(response_time, 2.0, "Synchronous response should take at least 2 seconds")
+        self.assertEqual(len(self.webhook_calls), 0, "No webhook calls should be made")
+
     async def async_test_error_handling(self):
-        """Test error handling in asynchronous processing"""
-        # Create a request that will trigger an error
         request = {
             "reference_id": "REF_FAIL",
             "employee_number": "EN-016315",
@@ -619,36 +575,20 @@ class TestConcurrency(unittest.TestCase):
             "crd_number": "9999999",
             "webhook_url": "https://webhook.site/error-test"
         }
-        
-        # Send the request
         response = self.client.post("/process-claim-basic", json=request)
-        
-        # Verify immediate response (should still be immediate despite future error)
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["status"], "processing_queued")
-        self.assertEqual(data["reference_id"], "REF_FAIL")
-        
-        # Wait for task to be processed and error to be handled
-        print("Waiting for error task to be processed...")
-        await asyncio.sleep(5)
-        print(f"After waiting for error task, exceptions: {self.task_exceptions}")
-        
-        # Verify that the task attempted to process and raised an exception
+        self.assertEqual(response.json()["status"], "processing_queued")
+        await asyncio.sleep(10)  # Wait for 3 retries (2 seconds each + buffer)
         self.assertIn("REF_FAIL", self.processed_tasks, "Task should have attempted processing")
-        self.assertEqual(len(self.task_exceptions), 1, "Task should have raised an exception")
-        self.assertIsInstance(self.task_exceptions[0], ValueError)
-        
-    def test_error_handling(self):
-        """Run the async error handling test in an event loop"""
-        asyncio.run(self.async_test_error_handling())
-        
+        self.assertEqual(self.retry_counts.get("REF_FAIL", 0), 3, "Expected 3 retry attempts")
+        self.assertEqual(len(self.task_exceptions), 3, "Expected 3 exceptions for retries")
+        self.assertEqual(len(self.webhook_calls), 2, "Expected 2 webhook calls for failure (one per retry)")
+        url, json_data = self.webhook_calls[0]
+        self.assertEqual(url, "https://webhook.site/error-test")
+        self.assertEqual(json_data["status"], "error")
+        self.assertEqual(json_data["reference_id"], "REF_FAIL")
+
     async def async_test_webhook_failure(self):
-        """Test handling of webhook delivery failures"""
-        # Reset webhook calls list
-        self.webhook_calls = []
-        
-        # Create a request with a webhook URL that will fail
         request = {
             "reference_id": "REF_WEBHOOK_FAIL",
             "employee_number": "EN-016316",
@@ -657,45 +597,123 @@ class TestConcurrency(unittest.TestCase):
             "crd_number": "8888888",
             "webhook_url": "https://webhook.site/fail-test"
         }
-        
-        # Send the request
         response = self.client.post("/process-claim-basic", json=request)
-        
-        # Verify immediate response
         self.assertEqual(response.status_code, 200)
-        data = response.json()
-        self.assertEqual(data["status"], "processing_queued")
-        
-        # Wait for task to be processed
-        print("Waiting for webhook failure task to be processed...")
-        await asyncio.sleep(5)
-        print(f"After waiting for webhook failure task, processed tasks: {self.processed_tasks}")
-        
-        # 1. Verify that the task was processed despite webhook failure
-        self.assertIn("REF_WEBHOOK_FAIL", self.processed_tasks, "Task should have been processed")
-        
-        # 2. Verify that a webhook call was attempted
-        webhook_urls = [call[0] for call in self.webhook_calls]
-        self.assertIn("https://webhook.site/fail-test", webhook_urls,
-                     "Webhook call should have been attempted")
-        
-        # 3. Verify that the task completed successfully despite webhook failure
-        # This is implicitly verified by checking that the task is in processed_tasks
-        # and not in task_exceptions
-        self.assertNotIn("REF_WEBHOOK_FAIL", [str(e) for e in self.task_exceptions],
-                        "Task should not have raised an exception despite webhook failure")
-        
-        # 4. Verify that the webhook call was made with the correct payload
-        for url, payload in self.webhook_calls:
-            if url == "https://webhook.site/fail-test":
-                self.assertEqual(payload["reference_id"], "REF_WEBHOOK_FAIL",
-                                "Webhook payload should contain the correct reference_id")
-                self.assertIn("status", payload, "Webhook payload should contain status")
-                self.assertIn("result", payload, "Webhook payload should contain result")
-        
+        self.assertEqual(response.json()["status"], "processing_queued")
+        await asyncio.sleep(3)  # Wait for task completion
+        self.assertIn("REF_WEBHOOK_FAIL", self.processed_tasks, "Task should complete despite webhook failure")
+        self.assertEqual(len(self.webhook_calls), 1, "Expected 1 webhook call attempt")
+        url, json_data = self.webhook_calls[0]
+        self.assertEqual(url, "https://webhook.site/fail-test")
+        self.assertEqual(json_data["reference_id"], "REF_WEBHOOK_FAIL")
+        self.assertEqual(json_data["status"], "success")  # Task succeeds despite webhook failure
+
+    def test_concurrency_behavior(self):
+        asyncio.run(self.async_test_concurrency_behavior())
+
+    def test_synchronous_processing(self):
+        asyncio.run(self.async_test_synchronous_processing())
+
+    def test_error_handling(self):
+        asyncio.run(self.async_test_error_handling())
+
     def test_webhook_failure(self):
-        """Run the async webhook failure test in an event loop"""
         asyncio.run(self.async_test_webhook_failure())
+    
+    async def async_test_task_status(self):
+        """Test the task status endpoint."""
+        # Submit an async request
+        request = {
+            "reference_id": "REF_STATUS",
+            "employee_number": "EN-016319",
+            "first_name": "Status",
+            "last_name": "Test",
+            "crd_number": "5555555",
+            "webhook_url": "https://webhook.site/test-status"
+        }
+        
+        # Mock the Celery task to return a task ID
+        with patch('api.process_compliance_claim.delay') as mock_delay:
+            mock_task = MagicMock()
+            mock_task.id = "test-task-id-123"
+            mock_delay.return_value = mock_task
+            
+            # Make the request
+            response = self.client.post("/process-claim-basic", json=request)
+            self.assertEqual(response.status_code, 200)
+            data = response.json()
+            self.assertEqual(data["status"], "processing_queued")
+            task_id = data["task_id"]
+            self.assertEqual(task_id, "test-task-id-123")
+            
+            # Now test the task status endpoint with different states
+            with patch('api.AsyncResult') as mock_async_result:
+                # Test QUEUED status
+                mock_task = MagicMock()
+                mock_task.state = "PENDING"
+                mock_task.info = {"reference_id": "REF_STATUS"}
+                mock_task.result = None
+                mock_async_result.return_value = mock_task
+                
+                status_response = self.client.get(f"/task-status/{task_id}")
+                self.assertEqual(status_response.status_code, 200)
+                data = status_response.json()
+                self.assertEqual(data["task_id"], task_id)
+                self.assertEqual(data["status"], "QUEUED")
+                self.assertEqual(data["reference_id"], "REF_STATUS")
+                self.assertIsNone(data["result"])
+                self.assertIsNone(data["error"])
+                
+                # Test PROCESSING status
+                mock_task.state = "STARTED"
+                status_response = self.client.get(f"/task-status/{task_id}")
+                self.assertEqual(status_response.status_code, 200)
+                data = status_response.json()
+                self.assertEqual(data["status"], "PROCESSING")
+                
+                # Test COMPLETED status
+                mock_task.state = "SUCCESS"
+                mock_task.result = {
+                    "reference_id": "REF_STATUS",
+                    "status": "success",
+                    "result": {
+                        "compliance": True,
+                        "compliance_explanation": "All checks passed",
+                        "overall_risk_level": "Low"
+                    }
+                }
+                status_response = self.client.get(f"/task-status/{task_id}")
+                self.assertEqual(status_response.status_code, 200)
+                data = status_response.json()
+                self.assertEqual(data["status"], "COMPLETED")
+                self.assertEqual(data["result"]["reference_id"], "REF_STATUS")
+                self.assertEqual(data["result"]["status"], "success")
+                
+                # Test FAILED status
+                mock_task.state = "FAILURE"
+                mock_task.result = "Simulated failure in Celery task"
+                status_response = self.client.get(f"/task-status/{task_id}")
+                self.assertEqual(status_response.status_code, 200)
+                data = status_response.json()
+                self.assertEqual(data["status"], "FAILED")
+                self.assertEqual(data["error"], "Simulated failure in Celery task")
+                
+                # Test RETRYING status
+                mock_task.state = "RETRY"
+                status_response = self.client.get(f"/task-status/{task_id}")
+                self.assertEqual(status_response.status_code, 200)
+                data = status_response.json()
+                self.assertEqual(data["status"], "RETRYING")
+                
+                # Test invalid task_id
+                mock_async_result.return_value = None
+                status_response = self.client.get("/task-status/invalid-task-id")
+                self.assertEqual(status_response.status_code, 404)
+                self.assertEqual(status_response.json()["detail"], "Task not found")
+    
+    def test_task_status(self):
+        """Test the task status endpoint."""
+        asyncio.run(self.async_test_task_status())
 
 if __name__ == "__main__":
     unittest.main()

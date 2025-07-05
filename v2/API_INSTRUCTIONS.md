@@ -293,6 +293,92 @@ The API supports both synchronous and asynchronous processing:
 - `POST /process-claim-extended`: Extended processing mode
 - `POST /process-claim-complete`: Complete processing mode
 
+### Task Status
+- `GET /task-status/{task_id}`: Check the status of a queued or in-progress task
+  - **Parameters**:
+    - `task_id` (path): The unique task ID returned in the response of an asynchronous claim processing request.
+  - **Response**:
+    ```json
+    {
+      "task_id": "string",
+      "status": "QUEUED | PROCESSING | COMPLETED | FAILED | RETRYING",
+      "reference_id": "string",
+      "result": {object} | null,
+      "error": "string" | null
+    }
+    ```
+  - **Example**:
+    ```bash
+    curl http://localhost:8000/task-status/123e4567-e89b-12d3-a456-426655440000
+    ```
+    Response:
+    ```json
+    {
+      "task_id": "123e4567-e89b-12d3-a456-426655440000",
+      "status": "QUEUED",
+      "reference_id": "REF123",
+      "result": null,
+      "error": null
+    }
+    ```
+  - **Notes**:
+    - Use the `task_id` returned from a `/process-claim-*` request with a `webhook_url`.
+    - Statuses: `QUEUED` (task in queue), `PROCESSING` (task started), `COMPLETED` (task succeeded), `FAILED` (task failed), `RETRYING` (task retrying after failure).
+    - In production, consider implementing rate-limiting to avoid overloading the Redis backend.
+
+#### Validating the Task Status Endpoint in Production
+
+To validate the endpoint in your production environment:
+
+1. Deploy the updated api.py to your production environment:
+```bash
+python -m uvicorn api:app --host 0.0.0.0 --port 8000
+```
+
+2. Start the Celery worker:
+```bash
+celery -A api.celery_app worker --loglevel=info --concurrency=1 --prefetch-multiplier=1
+```
+
+3. Submit multiple async requests to simulate a high-volume scenario:
+```bash
+for i in {1..5}; do
+  curl -X POST http://production-host:8000/process-claim-basic \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <your-token>" \
+    -d "{\"reference_id\": \"REF${i}\", \"employee_number\": \"EN-01631${i}\", \"first_name\": \"John\", \"last_name\": \"Doe\", \"crd_number\": \"123456${i}\", \"webhook_url\": \"https://webhook.site/test-${i}\"}"
+done
+```
+
+Expected responses:
+```json
+{"status": "processing_queued", "reference_id": "REF1", "task_id": "uuid1"}
+{"status": "processing_queued", "reference_id": "REF2", "task_id": "uuid2"}
+...
+```
+
+4. Query task status for each task_id:
+```bash
+curl -H "Authorization: Bearer <your-token>" http://production-host:8000/task-status/<task_id>
+```
+
+Expected response (e.g., for a queued task):
+```json
+{
+  "task_id": "uuid1",
+  "status": "QUEUED",
+  "reference_id": "REF1",
+  "result": null,
+  "error": null
+}
+```
+
+5. Monitor task progression through different states:
+   - Initially tasks will show as `QUEUED`
+   - As they start processing, they'll change to `PROCESSING`
+   - Finally, they'll show as `COMPLETED` or `FAILED`
+   - If errors occur and retries are triggered, they'll show as `RETRYING`
+
 ### Cache Management
 - `POST /cache/clear/{employee_number}`: Clear employee cache
 - `POST /cache/clear-all`: Clear all cache
@@ -395,6 +481,13 @@ pytest test_api_async.py -v
 # Run concurrency behavior tests
 pytest test_api_concurrency.py -v
 ```
+
+The tests include validation of:
+- Synchronous and asynchronous processing
+- Concurrency behavior (FIFO processing)
+- Error handling and retry logic
+- Webhook integration
+- Task status endpoint functionality
 
 These tests verify:
 - Synchronous processing works as expected
