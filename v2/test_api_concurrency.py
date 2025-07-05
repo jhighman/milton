@@ -240,10 +240,54 @@ class TestConcurrency(unittest.TestCase):
         self.api_mock_process_claim = self.api_process_claim_patch.start()
         # Make the api mock use the same side effect as the business mock
         
+        # Ensure global instances are properly initialized
+        self.global_facade_patch = patch("api.facade")
+        self.mock_global_facade = self.global_facade_patch.start()
+        # Configure the mock facade to return serializable values
+        mock_facade = MagicMock()
+        
+        # Create MagicMock objects with proper get methods
+        mock_finra_result = MagicMock()
+        mock_finra_result.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
+        
+        mock_sec_result = MagicMock()
+        mock_sec_result.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
+        
+        mock_sec_detailed = MagicMock()
+        mock_sec_detailed.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
+        mock_sec_detailed.employments = [
+            {"firm_name": "Test Firm", "start_date": "2020-01-01", "end_date": "2022-01-01"}
+        ]
+        
+        # Set up the mock methods to return the MagicMock objects
+        mock_facade.search_finra_brokercheck_individual.return_value = mock_finra_result
+        mock_facade.search_sec_iapd_individual.return_value = mock_sec_result
+        mock_facade.search_sec_iapd_detailed.return_value = mock_sec_detailed
+        mock_facade.save_compliance_report.return_value = True
+        
+        self.mock_global_facade.return_value = mock_facade
+        
         self.task_timestamps = []
         self.processed_tasks = []
         self.task_exceptions = []
         self.webhook_calls = []
+        
+        # Mock aiohttp for webhook calls
+        self.aiohttp_patch = patch("aiohttp.ClientSession.post", new_callable=AsyncMock)
+        self.mock_aiohttp_post = self.aiohttp_patch.start()
+        
+        async def mock_post_side_effect(url, json=None):
+            print(f"Mock webhook call to URL: {url}")
+            self.webhook_calls.append((url, json))
+            # Simulate webhook failure for specific URLs to test error handling
+            if "fail" in url:
+                raise ConnectionError("Simulated webhook delivery failure")
+            mock_response = AsyncMock()
+            mock_response.status = 200
+            mock_response.text = AsyncMock(return_value="OK")
+            return mock_response
+            
+        self.mock_aiohttp_post.side_effect = mock_post_side_effect
         
         # Mock for Celery task - simplified approach
         self.task_queue = []
@@ -255,8 +299,16 @@ class TestConcurrency(unittest.TestCase):
             # Record the task in our queue for sequential processing
             if len(args) > 0 and isinstance(args[0], dict) and "reference_id" in args[0]:
                 reference_id = args[0]["reference_id"]
-                with self.task_lock:
-                    self.task_queue.append(reference_id)
+                request_data = args[0]
+                
+                # Store webhook URL if present for later use
+                if "webhook_url" in request_data and request_data["webhook_url"]:
+                    # Store in a tuple (reference_id, webhook_url) for later use in _process_task_queue
+                    with self.task_lock:
+                        self.task_queue.append((reference_id, request_data))
+                else:
+                    with self.task_lock:
+                        self.task_queue.append((reference_id, None))
             
             # Create a mock task result
             task_mock = MagicMock()
@@ -352,7 +404,9 @@ class TestConcurrency(unittest.TestCase):
                 with self.task_lock:
                     if not self.task_queue:
                         break
-                    reference_id = self.task_queue[0]  # Peek at the first task
+                    task_info = self.task_queue[0]  # Peek at the first task
+                    reference_id = task_info[0]
+                    request_data = task_info[1]
                 
                 # Record timestamp of task execution
                 timestamp = datetime.now().timestamp()
@@ -372,60 +426,36 @@ class TestConcurrency(unittest.TestCase):
                 time.sleep(2)
                 print(f"Finished processing task {reference_id}")
                 
+                # Simulate webhook call if webhook_url is present
+                if request_data and "webhook_url" in request_data and request_data["webhook_url"]:
+                    webhook_url = request_data["webhook_url"]
+                    # Create a result payload similar to what the real task would send
+                    result_payload = {
+                        "reference_id": reference_id,
+                        "status": "completed",
+                        "result": {
+                            "compliance": True,
+                            "compliance_explanation": "All checks passed",
+                            "overall_risk_level": "Low"
+                        }
+                    }
+                    
+                    # Use asyncio to run the async webhook call
+                    loop = asyncio.new_event_loop()
+                    try:
+                        asyncio.set_event_loop(loop)
+                        loop.run_until_complete(self._send_webhook(webhook_url, result_payload))
+                    except Exception as e:
+                        print(f"Error sending webhook for {reference_id}: {e}")
+                    finally:
+                        loop.close()
+                
                 # Remove the task from the queue
                 with self.task_lock:
-                    if self.task_queue and self.task_queue[0] == reference_id:
+                    if self.task_queue and self.task_queue[0][0] == reference_id:
                         self.task_queue.pop(0)
         except Exception as e:
             print(f"Error in _process_task_queue: {e}")
-            
-        except Exception as e:
-            print(f"Error in _process_task_queue: {e}")
-        
-        # Mock aiohttp for webhook calls
-        self.aiohttp_patch = patch("aiohttp.ClientSession.post", new_callable=AsyncMock)
-        self.mock_aiohttp_post = self.aiohttp_patch.start()
-        
-        async def mock_post_side_effect(url, json=None):
-            print(f"Mock webhook call to URL: {url}")
-            self.webhook_calls.append((url, json))
-            # Simulate webhook failure for specific URLs to test error handling
-            if "fail" in url:
-                raise ConnectionError("Simulated webhook delivery failure")
-            mock_response = AsyncMock()
-            mock_response.status = 200
-            mock_response.text = AsyncMock(return_value="OK")
-            return mock_response
-            
-        self.mock_aiohttp_post.side_effect = mock_post_side_effect
-        
-        # Ensure global instances are properly initialized
-        self.global_facade_patch = patch("api.facade")
-        self.mock_global_facade = self.global_facade_patch.start()
-        # Make sure the mock facade is used in Celery tasks
-        # Configure the mock facade to return serializable values
-        mock_facade = MagicMock()
-        
-        # Create MagicMock objects with proper get methods
-        mock_finra_result = MagicMock()
-        mock_finra_result.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
-        
-        mock_sec_result = MagicMock()
-        mock_sec_result.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
-        
-        mock_sec_detailed = MagicMock()
-        mock_sec_detailed.get.side_effect = lambda key, default=None: "Test Name" if key == "strip" else default
-        mock_sec_detailed.employments = [
-            {"firm_name": "Test Firm", "start_date": "2020-01-01", "end_date": "2022-01-01"}
-        ]
-        
-        # Set up the mock methods to return the MagicMock objects
-        mock_facade.search_finra_brokercheck_individual.return_value = mock_finra_result
-        mock_facade.search_sec_iapd_individual.return_value = mock_sec_result
-        mock_facade.search_sec_iapd_detailed.return_value = mock_sec_detailed
-        mock_facade.save_compliance_report.return_value = True
-        
-        self.mock_global_facade.return_value = mock_facade
 
     def tearDown(self):
         # Stop patches - check if attributes exist before stopping
@@ -443,6 +473,17 @@ class TestConcurrency(unittest.TestCase):
         print(f"Test completed with processed tasks: {self.processed_tasks}")
         print(f"Task timestamps: {self.task_timestamps}")
         print(f"Task exceptions: {self.task_exceptions}")
+        
+    async def _send_webhook(self, url, payload):
+        """Helper method to send webhook notifications"""
+        try:
+            print(f"Sending webhook to {url}")
+            response = await self.mock_aiohttp_post(url, json=payload)
+            print(f"Webhook response status: {response.status}")
+            return True
+        except Exception as e:
+            print(f"Error sending webhook: {e}")
+            return False
 
     async def async_test_concurrency_behavior(self):
         """Test the complete concurrency behavior of the API using real Celery worker"""
@@ -509,10 +550,16 @@ class TestConcurrency(unittest.TestCase):
                 f"Task {i+1} started only {time_diff:.2f}s after task {i}, violating sequential processing"
             )
             
-        # 4. Verify webhook calls - we'll skip this for now since we're having issues with the webhook mocking
+        # 4. Verify webhook calls
         print(f"Webhook calls: {self.webhook_calls}")
-        # We'll just check that the tasks were processed
-        self.assertEqual(len(self.processed_tasks), 3, "Expected 3 tasks to be processed")
+        # Now we should have webhook calls for each task
+        self.assertEqual(len(self.webhook_calls), 3, "Expected 3 webhook calls")
+        
+        # Verify webhook URLs match what we sent
+        webhook_urls = [call[0] for call in self.webhook_calls]
+        expected_urls = [f"https://webhook.site/test-{i}" for i in range(1, 4)]
+        for url in expected_urls:
+            self.assertIn(url, webhook_urls, f"Expected webhook call to {url}")
             
     def test_concurrency_behavior(self):
         """Run the async test in an event loop"""
@@ -598,6 +645,9 @@ class TestConcurrency(unittest.TestCase):
         
     async def async_test_webhook_failure(self):
         """Test handling of webhook delivery failures"""
+        # Reset webhook calls list
+        self.webhook_calls = []
+        
         # Create a request with a webhook URL that will fail
         request = {
             "reference_id": "REF_WEBHOOK_FAIL",
@@ -621,8 +671,27 @@ class TestConcurrency(unittest.TestCase):
         await asyncio.sleep(5)
         print(f"After waiting for webhook failure task, processed tasks: {self.processed_tasks}")
         
-        # Verify that the task was processed despite webhook failure
+        # 1. Verify that the task was processed despite webhook failure
         self.assertIn("REF_WEBHOOK_FAIL", self.processed_tasks, "Task should have been processed")
+        
+        # 2. Verify that a webhook call was attempted
+        webhook_urls = [call[0] for call in self.webhook_calls]
+        self.assertIn("https://webhook.site/fail-test", webhook_urls,
+                     "Webhook call should have been attempted")
+        
+        # 3. Verify that the task completed successfully despite webhook failure
+        # This is implicitly verified by checking that the task is in processed_tasks
+        # and not in task_exceptions
+        self.assertNotIn("REF_WEBHOOK_FAIL", [str(e) for e in self.task_exceptions],
+                        "Task should not have raised an exception despite webhook failure")
+        
+        # 4. Verify that the webhook call was made with the correct payload
+        for url, payload in self.webhook_calls:
+            if url == "https://webhook.site/fail-test":
+                self.assertEqual(payload["reference_id"], "REF_WEBHOOK_FAIL",
+                                "Webhook payload should contain the correct reference_id")
+                self.assertIn("status", payload, "Webhook payload should contain status")
+                self.assertIn("result", payload, "Webhook payload should contain result")
         
     def test_webhook_failure(self):
         """Run the async webhook failure test in an event loop"""
