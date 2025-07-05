@@ -7,7 +7,7 @@ from celery import Celery
 import time
 import json
 from datetime import datetime
-from api import app, process_compliance_claim, PROCESSING_MODES, facade, AsyncResult
+from api import app, process_compliance_claim, PROCESSING_MODES, facade, AsyncResult, initialize_services
 from business import process_claim
 
 # Setup test Celery app with in-memory Redis
@@ -235,6 +235,10 @@ class TestConcurrency(unittest.TestCase):
         # Ensure global instances are properly initialized
         self.global_facade_patch = patch("api.facade")
         self.mock_global_facade = self.global_facade_patch.start()
+        
+        # Also patch the initialize_services function to prevent it from overriding our mocks
+        self.initialize_services_patch = patch("api.initialize_services")
+        self.mock_initialize_services = self.initialize_services_patch.start()
         # Configure the mock facade to return serializable values
         mock_facade = MagicMock()
         
@@ -499,6 +503,8 @@ class TestConcurrency(unittest.TestCase):
             self.aiohttp_patch.stop()
         if hasattr(self, 'global_facade_patch'):
             self.global_facade_patch.stop()
+        if hasattr(self, 'initialize_services_patch'):
+            self.initialize_services_patch.stop()
         
         print(f"Test completed with processed tasks: {self.processed_tasks}")
         print(f"Task timestamps: {self.task_timestamps}")
