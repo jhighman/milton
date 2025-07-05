@@ -11,7 +11,8 @@ This FastAPI application provides endpoints for processing individual compliance
 - Python 3.8+
 - Chrome/Chromium browser
 - ChromeDriver (matching your Chrome version)
-- Windows operating system
+- Redis server (for task queuing)
+- Windows or Linux operating system
 
 ## Local Development Setup
 
@@ -28,7 +29,59 @@ pip install -r requirements.txt
 # Add ChromeDriver to your system PATH
 ```
 
-### 2. Running the API Locally
+### 2. Redis Setup
+
+#### Installing Redis on Linux
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install redis-server
+
+# Start Redis service
+sudo systemctl start redis-server
+sudo systemctl enable redis-server
+
+# Verify Redis is running
+redis-cli ping
+# Should return "PONG"
+```
+
+#### Installing Redis on Windows
+Redis is not officially supported on Windows, but you can use:
+- [Redis for Windows](https://github.com/tporadowski/redis/releases)
+- [Memurai](https://www.memurai.com/) (Redis-compatible Windows service)
+- WSL (Windows Subsystem for Linux) to run Redis
+
+#### Redis Configuration
+The default configuration (localhost:6379) works for development. For production, consider:
+- Setting a password
+- Configuring persistence
+- Enabling protected mode
+
+```bash
+# Test Redis connection
+redis-cli
+> ping
+PONG
+> quit
+```
+
+### 3. Celery Worker Setup
+The API uses Celery with Redis for task queuing with specific configuration to ensure single-threaded, FIFO processing:
+
+```bash
+# Start Celery worker
+celery -A api.celery_app worker --loglevel=info --concurrency=1 --prefetch-multiplier=1
+```
+
+Key Celery configuration parameters:
+- `task_concurrency=1`: Ensures single-threaded processing
+- `worker_prefetch_multiplier=1`: Processes one task at a time (FIFO order)
+- `task_acks_late=True`: Acknowledges tasks after completion
+
+This configuration prevents resource contention by ensuring tasks are processed sequentially.
+
+### 4. Running the API Locally
 ```bash
 # Basic run command
 python -m uvicorn api:app --host 0.0.0.0 --port 8000 --reload
@@ -333,11 +386,14 @@ Online services like [Webhook.site](https://webhook.site/) provide temporary URL
 
 ## Running Automated Tests
 
-The project includes automated tests for the asynchronous webhook functionality:
+The project includes automated tests for the API functionality:
 
 ```bash
-# Run all API tests
+# Run asynchronous API tests
 pytest test_api_async.py -v
+
+# Run concurrency behavior tests
+pytest test_api_concurrency.py -v
 ```
 
 These tests verify:
@@ -346,6 +402,25 @@ These tests verify:
 - Background tasks are properly scheduled
 - Webhook delivery functions correctly
 - Error handling works in both modes
+- Concurrency behavior ensures FIFO, single-threaded processing
+- API remains responsive under load
+
+### Concurrency Testing
+
+The `test_api_concurrency.py` test specifically validates that:
+
+1. For asynchronous requests (with webhook_url):
+   - The API responds immediately with "processing_queued" status
+   - Tasks are processed in FIFO order
+   - Tasks are processed sequentially with no overlap (single-threaded execution)
+   - Each task starts only after the previous one completes
+
+2. For synchronous requests (without webhook_url):
+   - The API processes the request immediately
+   - The full report is returned directly in the response
+   - No tasks are queued
+
+This test ensures that the Celery configuration (task_concurrency=1, worker_prefetch_multiplier=1) successfully prevents resource contention crashes while maintaining API responsiveness.
 
 ## Support
 For additional support or questions, contact the development team or refer to the internal documentation.
