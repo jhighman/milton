@@ -4,9 +4,13 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel, validator
 from celery import Celery
 from celery.result import AsyncResult
-import aiohttp
-import asyncio
+import requests
+import time
+import random
 import os
+import asyncio  # Still needed for process_claim_helper
+from datetime import datetime
+from enum import Enum
 
 from logger_config import setup_logging  # Import centralized logging config
 from marshaller import Marshaller
@@ -36,10 +40,22 @@ celery_app.conf.update(
     result_serializer="json",
     task_track_started=True,
     task_time_limit=3600,  # 1-hour timeout for tasks
-    task_concurrency=1,    # Single-threaded worker
+    task_concurrency=4,    # Increased from 1 to 4 for better throughput
     worker_prefetch_multiplier=1,  # Process one task at a time (FIFO)
     task_acks_late=True,   # Acknowledge tasks after completion
     task_default_queue="compliance_queue",
+    
+    # Broker connection retry settings for improved reliability
+    broker_connection_retry=True,
+    broker_connection_retry_on_startup=True,
+    broker_connection_max_retries=10,
+    broker_connection_timeout=30,
+    
+    # Broker transport options with visibility timeout
+    broker_transport_options={
+        'visibility_timeout': 3600,  # 1 hour (matches task_time_limit)
+        'queue_name_prefix': 'compliance-',
+    },
 )
 
 # Settings, ClaimRequest, and TaskStatusResponse models
@@ -92,11 +108,145 @@ storage_manager = None
 marshaller = None
 financial_services = None
 
-# Startup event
-@app.on_event("startup")
-async def startup_event():
-    """Initialize API services on startup."""
+# Webhook status tracking
+class WebhookStatus(Enum):
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    DELIVERED = "delivered"
+    FAILED = "failed"
+    RETRYING = "retrying"
+
+# In-memory storage for webhook statuses
+# In a production environment, this could be replaced with a database
+webhook_statuses = {}
+
+@celery_app.task(
+    name="send_webhook_notification",
+    bind=True,
+    max_retries=5,
+    default_retry_delay=30,
+    autoretry_for=(Exception,),
+    retry_backoff=True,
+    retry_backoff_max=300,  # 5 minutes max delay
+    retry_jitter=True
+)
+def send_webhook_notification(self, webhook_url: str, payload: Dict[str, Any], reference_id: str):
+    """
+    Celery task to send a notification to a webhook URL with retry logic.
+    
+    Args:
+        webhook_url (str): The URL to send the webhook to
+        payload (Dict[str, Any]): The data to send to the webhook
+        reference_id (str): The reference ID for tracking
+        
+    Returns:
+        Dict[str, Any]: Status information about the webhook delivery
+    """
+    # Update webhook status to in progress
+    webhook_id = f"{reference_id}_{self.request.id}"
+    webhook_statuses[webhook_id] = {
+        "status": WebhookStatus.IN_PROGRESS.value,
+        "reference_id": reference_id,
+        "task_id": self.request.id,
+        "webhook_url": webhook_url,
+        "attempts": self.request.retries + 1,
+        "max_attempts": 5,
+        "last_attempt": datetime.utcnow().isoformat(),
+        "created_at": webhook_statuses.get(webhook_id, {}).get("created_at", datetime.utcnow().isoformat())
+    }
+    
+    try:
+        logger.info(f"Sending webhook notification to {webhook_url} for reference_id={reference_id} (attempt {self.request.retries + 1})")
+        
+        # Use synchronous requests instead of asyncio (better for Celery workers)
+        response = requests.post(
+            webhook_url,
+            json=payload,
+            timeout=30,  # 30 second timeout
+            headers={"Content-Type": "application/json", "X-Reference-ID": reference_id}
+        )
+        
+        if response.status_code >= 200 and response.status_code < 300:
+            logger.info(f"Successfully delivered webhook for reference_id={reference_id} (status={response.status_code})")
+            
+            # Update webhook status to delivered
+            webhook_statuses[webhook_id] = {
+                **webhook_statuses[webhook_id],
+                "status": WebhookStatus.DELIVERED.value,
+                "response_code": response.status_code,
+                "completed_at": datetime.utcnow().isoformat()
+            }
+            
+            return {
+                "success": True,
+                "reference_id": reference_id,
+                "status_code": response.status_code,
+                "webhook_id": webhook_id
+            }
+        else:
+            error_msg = f"Webhook delivery failed with status {response.status_code}: {response.text}"
+            logger.error(f"{error_msg} for reference_id={reference_id}")
+            
+            # Update webhook status to retrying or failed
+            if self.request.retries < 4:  # We have 5 max retries (0-4)
+                status = WebhookStatus.RETRYING.value
+            else:
+                status = WebhookStatus.FAILED.value
+                
+            webhook_statuses[webhook_id] = {
+                **webhook_statuses[webhook_id],
+                "status": status,
+                "response_code": response.status_code,
+                "error": error_msg
+            }
+            
+            # Calculate retry delay with exponential backoff and jitter
+            retry_delay = min(30 * (2 ** self.request.retries), 300)  # 30s to 5min
+            jitter = random.uniform(0, 0.3) * retry_delay  # Add up to 30% jitter
+            retry_delay_with_jitter = retry_delay + jitter
+            
+            logger.info(f"Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+            
+            raise self.retry(
+                exc=Exception(error_msg),
+                countdown=retry_delay_with_jitter
+            )
+    
+    except requests.RequestException as e:
+        error_msg = f"Webhook request failed: {str(e)}"
+        logger.error(f"{error_msg} for reference_id={reference_id}")
+        
+        # Update webhook status to retrying or failed
+        if self.request.retries < 4:  # We have 5 max retries (0-4)
+            status = WebhookStatus.RETRYING.value
+        else:
+            status = WebhookStatus.FAILED.value
+            
+        webhook_statuses[webhook_id] = {
+            **webhook_statuses[webhook_id],
+            "status": status,
+            "error": error_msg
+        }
+        
+        # Calculate retry delay with exponential backoff and jitter
+        retry_delay = min(30 * (2 ** self.request.retries), 300)  # 30s to 5min
+        jitter = random.uniform(0, 0.3) * retry_delay  # Add up to 30% jitter
+        retry_delay_with_jitter = retry_delay + jitter
+        
+        logger.info(f"Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+        
+        raise self.retry(
+            exc=e,
+            countdown=retry_delay_with_jitter
+        )
+
+def initialize_services():
+    """Initialize API services. Used by both FastAPI startup and Celery workers."""
     global facade, storage_manager, marshaller, financial_services, cache_manager, file_handler, compliance_handler, summary_generator
+    
+    # Skip initialization if already done
+    if facade is not None:
+        return
     
     try:
         # Load configuration
@@ -126,8 +276,14 @@ async def startup_event():
         logger.info("API services successfully initialized")
         
     except Exception as e:
-        logger.error(f"Critical error during startup: {str(e)}", exc_info=True)
+        logger.error(f"Critical error during initialization: {str(e)}", exc_info=True)
         raise
+
+# Startup event
+@app.on_event("startup")
+async def startup_event():
+    """Initialize API services on startup."""
+    initialize_services()
 
 # Shutdown event
 @app.on_event("shutdown")
@@ -167,6 +323,9 @@ def process_compliance_claim(self, request_dict: Dict[str, Any], mode: str):
     # Store reference_id in task metadata
     self.update_state(state="PENDING", meta={"reference_id": request_dict['reference_id']})
     
+    # Ensure services are initialized for Celery worker
+    initialize_services()
+    
     try:
         # Convert dict to ClaimRequest for validation
         request = ClaimRequest(**request_dict)
@@ -197,12 +356,8 @@ def process_compliance_claim(self, request_dict: Dict[str, Any], mode: str):
 
         # Send to webhook if provided
         if webhook_url:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                loop.run_until_complete(send_to_webhook(webhook_url, report, request.reference_id))
-            finally:
-                loop.close()
+            logger.info(f"Queuing webhook notification for reference_id={request.reference_id}")
+            send_webhook_notification.delay(webhook_url, report, request.reference_id)
         
         return report
     
@@ -214,28 +369,10 @@ def process_compliance_claim(self, request_dict: Dict[str, Any], mode: str):
             "message": f"Claim processing failed: {str(e)}"
         }
         if webhook_url:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                loop.run_until_complete(send_to_webhook(webhook_url, error_report, request_dict["reference_id"]))
-            finally:
-                loop.close()
+            logger.info(f"Queuing webhook notification for error report, reference_id={request_dict['reference_id']}")
+            send_webhook_notification.delay(webhook_url, error_report, request_dict["reference_id"])
         self.retry(exc=e, countdown=60)  # Retry after 60 seconds, up to 3 times
         return error_report
-
-# Webhook function
-async def send_to_webhook(webhook_url: str, report: Dict[str, Any], reference_id: str):
-    """Asynchronously send the report to the specified webhook URL."""
-    async with aiohttp.ClientSession() as session:
-        try:
-            logger.info(f"Sending report to webhook URL: {webhook_url} for reference_id={reference_id}")
-            async with session.post(webhook_url, json=report) as response:
-                if response.status == 200:
-                    logger.info(f"Successfully sent report to webhook for reference_id={reference_id}")
-                else:
-                    logger.error(f"Webhook delivery failed for reference_id={reference_id}: Status {response.status}, Response: {await response.text()}")
-        except Exception as e:
-            logger.error(f"Error sending to webhook for reference_id={reference_id}: {str(e)}", exc_info=True)
 
 # Helper function for synchronous claim processing
 async def process_claim_helper(request: ClaimRequest, mode: str, send_webhook: bool = True) -> Dict[str, Any]:
@@ -282,7 +419,8 @@ async def process_claim_helper(request: ClaimRequest, mode: str, send_webhook: b
         logger.info(f"Successfully processed claim for reference_id={request.reference_id} with mode={mode}")
 
         if webhook_url and send_webhook:
-            asyncio.create_task(send_to_webhook(webhook_url, report, request.reference_id))
+            logger.info(f"Queuing webhook notification for reference_id={request.reference_id}")
+            send_webhook_notification.delay(webhook_url, report, request.reference_id)
         
         return report
 
@@ -519,6 +657,152 @@ async def get_data_quality_report():
     Get a data quality report checking field value presence from the latest ComplianceReportAgent JSON files.
     """
     return summary_generator.generate_data_quality_report()
+
+# Webhook status tracking endpoints
+@app.get("/webhook-status/{webhook_id}", response_model=Dict[str, Any])
+async def get_webhook_status(webhook_id: str):
+    """
+    Get the status of a specific webhook delivery.
+    
+    Args:
+        webhook_id (str): The webhook ID to check.
+        
+    Returns:
+        Dict[str, Any]: The webhook status information.
+    """
+    if webhook_id not in webhook_statuses:
+        raise HTTPException(status_code=404, detail=f"Webhook status not found for ID: {webhook_id}")
+    
+    return webhook_statuses[webhook_id]
+
+@app.get("/webhook-statuses", response_model=Dict[str, Any])
+async def list_webhook_statuses(
+    reference_id: Optional[str] = None,
+    status: Optional[str] = None,
+    page: int = 1,
+    page_size: int = 10
+):
+    """
+    List all webhook statuses with optional filtering and pagination.
+    
+    Args:
+        reference_id (str, optional): Filter by reference ID.
+        status (str, optional): Filter by status (pending, in_progress, delivered, failed, retrying).
+        page (int): Page number for pagination.
+        page_size (int): Number of items per page.
+        
+    Returns:
+        Dict[str, Any]: Paginated list of webhook statuses.
+    """
+    # Filter statuses based on query parameters
+    filtered_statuses = webhook_statuses.copy()
+    
+    if reference_id:
+        filtered_statuses = {
+            k: v for k, v in filtered_statuses.items()
+            if v.get("reference_id") == reference_id
+        }
+    
+    if status:
+        filtered_statuses = {
+            k: v for k, v in filtered_statuses.items()
+            if v.get("status") == status
+        }
+    
+    # Paginate results
+    total_items = len(filtered_statuses)
+    total_pages = (total_items + page_size - 1) // page_size if total_items > 0 else 1
+    
+    # Ensure page is within valid range
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+    
+    # Get items for current page
+    start_idx = (page - 1) * page_size
+    end_idx = min(start_idx + page_size, total_items)
+    
+    # Convert dict to list for pagination
+    statuses_list = list(filtered_statuses.items())
+    paginated_statuses = dict(statuses_list[start_idx:end_idx])
+    
+    return {
+        "items": paginated_statuses,
+        "total_items": total_items,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": total_pages
+    }
+
+@app.delete("/webhook-status/{webhook_id}", response_model=Dict[str, Any])
+async def delete_webhook_status(webhook_id: str):
+    """
+    Delete a specific webhook status.
+    
+    Args:
+        webhook_id (str): The webhook ID to delete.
+        
+    Returns:
+        Dict[str, Any]: Confirmation of deletion.
+    """
+    if webhook_id not in webhook_statuses:
+        raise HTTPException(status_code=404, detail=f"Webhook status not found for ID: {webhook_id}")
+    
+    deleted_status = webhook_statuses.pop(webhook_id)
+    
+    return {
+        "message": f"Webhook status deleted for ID: {webhook_id}",
+        "deleted_status": deleted_status
+    }
+
+@app.delete("/webhook-statuses", response_model=Dict[str, Any])
+async def delete_all_webhook_statuses(
+    reference_id: Optional[str] = None,
+    status: Optional[str] = None
+):
+    """
+    Delete all webhook statuses with optional filtering.
+    
+    Args:
+        reference_id (str, optional): Filter by reference ID.
+        status (str, optional): Filter by status (pending, in_progress, delivered, failed, retrying).
+        
+    Returns:
+        Dict[str, Any]: Confirmation of deletion with count.
+    """
+    global webhook_statuses
+    
+    # If no filters, delete all statuses
+    if not reference_id and not status:
+        count = len(webhook_statuses)
+        webhook_statuses = {}
+        return {"message": f"All webhook statuses deleted ({count} total)"}
+    
+    # Filter statuses to delete
+    to_delete = []
+    
+    for webhook_id, status_info in webhook_statuses.items():
+        if reference_id and status_info.get("reference_id") != reference_id:
+            continue
+        
+        if status and status_info.get("status") != status:
+            continue
+        
+        to_delete.append(webhook_id)
+    
+    # Delete filtered statuses
+    for webhook_id in to_delete:
+        webhook_statuses.pop(webhook_id)
+    
+    return {
+        "message": f"Webhook statuses deleted ({len(to_delete)} total)",
+        "deleted_count": len(to_delete),
+        "filters": {
+            "reference_id": reference_id,
+            "status": status
+        }
+    }
 
 if __name__ == "__main__":
     import uvicorn

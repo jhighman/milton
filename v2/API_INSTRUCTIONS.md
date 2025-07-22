@@ -470,6 +470,233 @@ Online services like [Webhook.site](https://webhook.site/) provide temporary URL
 3. Use it as the webhook_url in your API requests
 4. View incoming webhook data in real-time on the website
 
+## Webhook Delivery System Improvements
+
+The API includes an improved webhook delivery system with enhanced reliability, monitoring, and observability features.
+
+### Key Improvements
+
+1. **Enhanced Celery Configuration**
+   - Increased task concurrency from 1 to 4 for better throughput
+   - Added broker connection retry settings for improved reliability
+   - Set broker transport options with visibility timeout
+   ```bash
+   # Start Celery worker with improved configuration
+   celery -A api.celery_app worker --loglevel=info --concurrency=4
+   ```
+
+2. **Dedicated Webhook Delivery Task**
+   - Separate Celery task for webhook delivery
+   - Exponential backoff with jitter for retries (30s to 5min)
+   - Synchronous HTTP requests for better Celery worker compatibility
+   - Detailed logging for webhook delivery attempts
+
+3. **Webhook Status Tracking**
+   - In-memory storage for webhook delivery statuses
+   - Status tracking throughout the webhook delivery process
+   - API endpoints for webhook status management
+
+### Webhook Status Endpoints
+
+- `GET /webhook-status/{webhook_id}`: Get status of a specific webhook delivery
+  ```bash
+  curl http://localhost:8000/webhook-status/ref123_task456
+  ```
+  Response:
+  ```json
+  {
+    "status": "delivered",
+    "reference_id": "ref123",
+    "task_id": "task456",
+    "webhook_url": "https://webhook.site/test-webhook",
+    "attempts": 1,
+    "max_attempts": 5,
+    "last_attempt": "2025-07-22T17:30:00.000Z",
+    "created_at": "2025-07-22T17:29:55.000Z",
+    "completed_at": "2025-07-22T17:30:01.000Z",
+    "response_code": 200
+  }
+  ```
+
+- `GET /webhook-statuses`: List all webhook statuses with pagination and filtering
+  ```bash
+  # List all webhook statuses
+  curl http://localhost:8000/webhook-statuses
+  
+  # Filter by reference_id
+  curl http://localhost:8000/webhook-statuses?reference_id=ref123
+  
+  # Filter by status
+  curl http://localhost:8000/webhook-statuses?status=failed
+  
+  # Pagination
+  curl http://localhost:8000/webhook-statuses?page=2&page_size=10
+  ```
+
+- `DELETE /webhook-status/{webhook_id}`: Delete a specific webhook status
+  ```bash
+  curl -X DELETE http://localhost:8000/webhook-status/ref123_task456
+  ```
+
+- `DELETE /webhook-statuses`: Delete all webhook statuses with optional filtering
+  ```bash
+  # Delete all webhook statuses
+  curl -X DELETE http://localhost:8000/webhook-statuses
+  
+  # Delete all failed webhook statuses
+  curl -X DELETE http://localhost:8000/webhook-statuses?status=failed
+  
+  # Delete all webhook statuses for a specific reference_id
+  curl -X DELETE http://localhost:8000/webhook-statuses?reference_id=ref123
+  ```
+
+### Production Considerations
+
+For production deployment, consider the following additional improvements:
+
+1. **Persistent Storage for Webhook Statuses**
+   - Replace the in-memory dictionary with a persistent storage solution (Redis, database)
+   - Example implementation:
+   ```python
+   # Using Redis for webhook status storage
+   def store_webhook_status(webhook_id, status_data):
+       redis_client.hset("webhook_statuses", webhook_id, json.dumps(status_data))
+   
+   def get_webhook_status(webhook_id):
+       data = redis_client.hget("webhook_statuses", webhook_id)
+       return json.loads(data) if data else None
+   ```
+
+2. **Monitoring and Alerting**
+   - Set up Prometheus metrics for webhook delivery success/failure rates
+   - Configure alerts for high failure rates or increased latency
+   - Monitor Celery queue length to detect backlog issues
+   - Example metrics to track:
+     - Webhook delivery success rate
+     - Webhook delivery latency
+     - Retry counts
+     - Queue backlog
+
+3. **Rate Limiting and Throttling**
+   - Implement per-endpoint rate limiting to prevent overwhelming webhook receivers
+   - Consider adding backpressure mechanisms for high-volume webhook destinations
+
+4. **Security Enhancements**
+   - Validate webhook URLs against an allowlist
+   - Add HMAC signatures to webhook payloads for verification
+   - Consider implementing webhook authentication
+   - Example signature implementation:
+   ```python
+   def sign_webhook_payload(payload, secret):
+       signature = hmac.new(
+           secret.encode(),
+           json.dumps(payload).encode(),
+           hashlib.sha256
+       ).hexdigest()
+       return signature
+   ```
+
+5. **Logging and Troubleshooting**
+   - Ensure comprehensive logging with correlation IDs
+   - Log full request/response details for failed webhooks
+   - Implement distributed tracing (e.g., OpenTelemetry)
+   - Troubleshooting commands:
+   ```bash
+   # Check Celery queue status
+   celery -A api.celery_app inspect active_queues
+   
+   # View active tasks
+   celery -A api.celery_app inspect active
+   
+   # Check webhook status via API
+   curl http://localhost:8000/webhook-status/{webhook_id}
+   
+   # List all failed webhooks
+   curl http://localhost:8000/webhook-statuses?status=failed
+   ```
+
+6. **Automatic Cleanup**
+   - Implement a scheduled task to clean up old webhook statuses
+   - Example cleanup task:
+   ```python
+   @celery_app.task(name="cleanup_old_webhook_statuses")
+   def cleanup_old_webhook_statuses():
+       """Remove webhook statuses older than 30 days."""
+       cutoff_date = datetime.now() - timedelta(days=30)
+       # If using Redis:
+       for webhook_id, status_json in redis_client.hscan_iter("webhook_statuses"):
+           status = json.loads(status_json)
+           created_at = datetime.fromisoformat(status.get("created_at"))
+           if created_at < cutoff_date:
+               redis_client.hdel("webhook_statuses", webhook_id)
+   ```
+
+7. **Circuit Breaker Pattern**
+   - Implement circuit breakers for webhook endpoints with high failure rates
+   - Temporarily disable delivery attempts to consistently failing endpoints
+   - Example implementation using a library like `pybreaker`:
+   ```python
+   from pybreaker import CircuitBreaker
+   
+   # Create circuit breakers for each webhook endpoint
+   webhook_breakers = {}
+   
+   def get_circuit_breaker(webhook_url):
+       domain = urlparse(webhook_url).netloc
+       if domain not in webhook_breakers:
+           webhook_breakers[domain] = CircuitBreaker(
+               fail_max=5,
+               reset_timeout=60,
+               exclude=[requests.exceptions.Timeout]
+           )
+       return webhook_breakers[domain]
+   
+   # Use in webhook delivery
+   breaker = get_circuit_breaker(webhook_url)
+   response = breaker.call(lambda: requests.post(webhook_url, json=payload))
+   ```
+
+8. **Webhook Replay Capability**
+   - Add functionality to manually replay failed webhooks
+   - Store the original payload for replay purposes
+   - Example API endpoint:
+   ```python
+   @app.post("/webhook-status/{webhook_id}/replay")
+   async def replay_webhook(webhook_id: str):
+       """Replay a failed webhook delivery."""
+       if webhook_id not in webhook_statuses:
+           raise HTTPException(status_code=404, detail="Webhook not found")
+           
+       status = webhook_statuses[webhook_id]
+       if status["status"] != WebhookStatus.FAILED.value:
+           raise HTTPException(status_code=400, detail="Only failed webhooks can be replayed")
+           
+       # Queue a new webhook delivery task
+       send_webhook_notification.delay(
+           status["webhook_url"],
+           status.get("payload", {}),
+           status["reference_id"]
+       )
+       
+       return {"message": f"Webhook {webhook_id} queued for replay"}
+   ```
+
+### Testing Webhook Delivery
+
+The project includes a dedicated test file for webhook delivery functionality:
+
+```bash
+# Run webhook delivery tests
+python test_webhook_delivery.py
+```
+
+This test verifies:
+- Webhook task is called when a webhook URL is provided
+- Webhook task is not called when no webhook URL is provided
+- Successful webhook delivery updates the status correctly
+- Failed webhook delivery triggers a retry with exponential backoff
+- Webhook status tracking endpoints work correctly
+
 ## Running Automated Tests
 
 The project includes automated tests for the API functionality:
