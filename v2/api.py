@@ -241,43 +241,78 @@ def send_webhook_notification(self, webhook_url: str, payload: Dict[str, Any], r
         )
 
 def initialize_services():
-    """Initialize API services. Used by both FastAPI startup and Celery workers."""
+    """Initialize API services. Used by both FastAPI startup and Celery workers.
+    
+    Returns:
+        bool: True if initialization was successful, False otherwise.
+    """
     global facade, storage_manager, marshaller, financial_services, cache_manager, file_handler, compliance_handler, summary_generator
     
     # Skip initialization if already done
     if facade is not None:
-        return
+        logger.debug("Services already initialized, skipping initialization")
+        return True
     
     try:
         # Load configuration
+        logger.info("Loading configuration...")
         config = load_config()
         logger.debug(f"Full config loaded: {json.dumps(config, indent=2)}")
         
         # Initialize storage
+        logger.info("Initializing storage...")
         storage_config = get_storage_config(config)
         logger.debug(f"Storage config retrieved: {json.dumps(storage_config, indent=2)}")
         storage_manager = StorageManager(storage_config)
         compliance_report_storage = StorageProviderFactory.create_provider(storage_config)
         logger.debug(f"Successfully initialized compliance_report_agent storage provider with base_path: {compliance_report_storage.base_path}")
         
-        from agents.compliance_report_agent import _storage_provider
-        import agents.compliance_report_agent as compliance_report_agent
-        compliance_report_agent._storage_provider = compliance_report_storage
+        logger.info("Configuring compliance report agent...")
+        try:
+            from agents.compliance_report_agent import _storage_provider
+            import agents.compliance_report_agent as compliance_report_agent
+            compliance_report_agent._storage_provider = compliance_report_storage
+            logger.debug("Successfully configured compliance report agent storage provider")
+        except ImportError as ie:
+            logger.error(f"Failed to import compliance_report_agent module: {str(ie)}", exc_info=True)
+            return False
+        except Exception as e:
+            logger.error(f"Failed to configure compliance report agent: {str(e)}", exc_info=True)
+            return False
         
         # Initialize Marshaller and FinancialServicesFacade
-        marshaller = Marshaller(headless=True)
-        facade = FinancialServicesFacade(headless=True, storage_manager=storage_manager)
+        logger.info("Initializing Marshaller and FinancialServicesFacade...")
+        try:
+            marshaller = Marshaller(headless=True)
+            # Set the facade variable
+            facade = FinancialServicesFacade(headless=True, storage_manager=storage_manager)
+            # Verify the facade was set
+            if facade is None:
+                logger.error("Failed to set global facade variable")
+                return False
+            logger.debug(f"Successfully initialized Marshaller and FinancialServicesFacade: {facade}")
+        except Exception as e:
+            logger.error(f"Failed to initialize Marshaller or FinancialServicesFacade: {str(e)}", exc_info=True)
+            return False
         
         # Initialize cache and compliance services
-        cache_manager = CacheManager()
-        file_handler = FileHandler(cache_manager.cache_folder)
-        compliance_handler = ComplianceHandler(file_handler.base_path)
-        summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
-        logger.info("API services successfully initialized")
+        logger.info("Initializing cache and compliance services...")
+        try:
+            cache_manager = CacheManager()
+            file_handler = FileHandler(cache_manager.cache_folder)
+            compliance_handler = ComplianceHandler(file_handler.base_path)
+            summary_generator = SummaryGenerator(file_handler=file_handler, compliance_handler=compliance_handler)
+            logger.debug("Successfully initialized cache and compliance services")
+        except Exception as e:
+            logger.error(f"Failed to initialize cache or compliance services: {str(e)}", exc_info=True)
+            return False
+        
+        logger.info(f"API services successfully initialized, facade: {facade}")
+        return True
         
     except Exception as e:
         logger.error(f"Critical error during initialization: {str(e)}", exc_info=True)
-        raise
+        return False
 
 # Startup event
 @app.on_event("startup")
@@ -324,7 +359,73 @@ def process_compliance_claim(self, request_dict: Dict[str, Any], mode: str):
     self.update_state(state="PENDING", meta={"reference_id": request_dict['reference_id']})
     
     # Ensure services are initialized for Celery worker
-    initialize_services()
+    initialization_success = initialize_services()
+    if not initialization_success:
+        error_message = "Failed to initialize services. Check logs for details."
+        logger.error(f"{error_message} for reference_id={request_dict['reference_id']}")
+        error_report = {
+            "status": "error",
+            "reference_id": request_dict["reference_id"],
+            "message": error_message
+        }
+        
+        # Try to send webhook notification if URL is provided
+        webhook_url = request_dict.get("webhook_url")
+        if webhook_url:
+            try:
+                logger.info(f"Queuing webhook notification for error report, reference_id={request_dict['reference_id']}")
+                send_webhook_notification.delay(webhook_url, error_report, request_dict["reference_id"])
+            except Exception as we:
+                logger.error(f"Failed to queue webhook notification: {str(we)}")
+        
+        return error_report
+    
+    # Validate that facade is properly initialized
+    logger.info(f"Checking facade initialization: {facade}")
+    if facade is None:
+        error_message = "Service facade is not initialized. Check logs for initialization errors."
+        logger.error(f"{error_message} for reference_id={request_dict['reference_id']}")
+        error_report = {
+            "status": "error",
+            "reference_id": request_dict["reference_id"],
+            "message": error_message
+        }
+        
+        # Try to send webhook notification if URL is provided
+        webhook_url = request_dict.get("webhook_url")
+        if webhook_url:
+            try:
+                logger.info(f"Queuing webhook notification for error report, reference_id={request_dict['reference_id']}")
+                send_webhook_notification.delay(webhook_url, error_report, request_dict["reference_id"])
+            except Exception as we:
+                logger.error(f"Failed to queue webhook notification: {str(we)}")
+        
+        return error_report
+    
+    # Create a local facade instance if needed
+    local_facade = facade
+    if local_facade is None:
+        logger.warning(f"Global facade is None, creating a local instance for reference_id={request_dict['reference_id']}")
+        try:
+            local_facade = FinancialServicesFacade(headless=True, storage_manager=storage_manager)
+            if local_facade is None:
+                error_message = "Failed to create local facade instance"
+                logger.error(f"{error_message} for reference_id={request_dict['reference_id']}")
+                error_report = {
+                    "status": "error",
+                    "reference_id": request_dict["reference_id"],
+                    "message": error_message
+                }
+                return error_report
+        except Exception as e:
+            error_message = f"Failed to create local facade instance: {str(e)}"
+            logger.error(f"{error_message} for reference_id={request_dict['reference_id']}")
+            error_report = {
+                "status": "error",
+                "reference_id": request_dict["reference_id"],
+                "message": error_message
+            }
+            return error_report
     
     try:
         # Convert dict to ClaimRequest for validation
@@ -341,7 +442,7 @@ def process_compliance_claim(self, request_dict: Dict[str, Any], mode: str):
         # Process the claim
         report = process_claim(
             claim=claim,
-            facade=facade,
+            facade=local_facade,  # Use local_facade instead of global facade
             employee_number=employee_number,
             skip_disciplinary=mode_settings["skip_disciplinary"],
             skip_arbitration=mode_settings["skip_arbitration"],
@@ -389,6 +490,19 @@ async def process_claim_helper(request: ClaimRequest, mode: str, send_webhook: b
     """
     logger.info(f"Processing claim with mode='{mode}': {request.dict()}")
 
+    # Ensure services are initialized
+    initialization_success = initialize_services()
+    if not initialization_success:
+        error_message = "Failed to initialize services. Check logs for details."
+        logger.error(f"{error_message} for reference_id={request.reference_id}")
+        raise HTTPException(status_code=500, detail=error_message)
+    
+    # Validate that facade is properly initialized
+    if facade is None:
+        error_message = "Service facade is not initialized. Check logs for initialization errors."
+        logger.error(f"{error_message} for reference_id={request.reference_id}")
+        raise HTTPException(status_code=500, detail=error_message)
+
     mode_settings = PROCESSING_MODES[mode]
     skip_disciplinary = mode_settings["skip_disciplinary"]
     skip_arbitration = mode_settings["skip_arbitration"]
@@ -405,7 +519,7 @@ async def process_claim_helper(request: ClaimRequest, mode: str, send_webhook: b
     try:
         report = process_claim(
             claim=claim,
-            facade=facade,
+            facade=local_facade,  # Use local_facade instead of global facade
             employee_number=employee_number,
             skip_disciplinary=skip_disciplinary,
             skip_arbitration=skip_arbitration,
