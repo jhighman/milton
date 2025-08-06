@@ -1,6 +1,6 @@
 import json
-from typing import Dict, Any, Optional, Union
-from fastapi import FastAPI, HTTPException, Depends
+from typing import Dict, Any, Optional, Union, List
+from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks
 from pydantic import BaseModel, validator
 from celery import Celery
 from celery.result import AsyncResult
@@ -11,6 +11,12 @@ import os
 import asyncio  # Still needed for process_claim_helper
 from datetime import datetime
 from enum import Enum
+import redis
+import uuid
+import traceback
+from prometheus_client import Counter, Histogram, Gauge, Summary, start_http_server
+import threading
+import functools
 
 from logger_config import setup_logging  # Import centralized logging config
 from marshaller import Marshaller
@@ -27,6 +33,52 @@ from storage_providers.factory import StorageProviderFactory
 # Setup logging
 loggers = setup_logging(debug=True)
 logger = loggers["api"]
+
+# Initialize Redis client
+redis_client = redis.Redis(
+    host=os.environ.get("REDIS_HOST", "localhost"),
+    port=int(os.environ.get("REDIS_PORT", 6379)),
+    db=int(os.environ.get("REDIS_DB", 0)),
+    decode_responses=True  # Automatically decode responses to strings
+)
+
+# Initialize Prometheus metrics
+WEBHOOK_COUNTER = Counter(
+    'webhook_delivery_total',
+    'Total number of webhook deliveries',
+    ['status', 'reference_id']
+)
+WEBHOOK_DELIVERY_TIME = Histogram(
+    'webhook_delivery_seconds',
+    'Time spent processing webhook deliveries',
+    ['reference_id']
+)
+TASK_COUNTER = Counter(
+    'task_processing_total',
+    'Total number of tasks processed',
+    ['status', 'mode']
+)
+TASK_PROCESSING_TIME = Histogram(
+    'task_processing_seconds',
+    'Time spent processing tasks',
+    ['mode']
+)
+CIRCUIT_BREAKER_STATUS = Gauge(
+    'circuit_breaker_status',
+    'Circuit breaker status (0=closed, 1=open, 0.5=half-open)',
+    ['service']
+)
+REDIS_KEYS_GAUGE = Gauge(
+    'redis_webhook_keys',
+    'Number of webhook keys in Redis',
+    ['status']
+)
+
+# Start Prometheus metrics server on a separate thread
+def start_metrics_server():
+    start_http_server(8000)
+
+threading.Thread(target=start_metrics_server, daemon=True).start()
 
 # Initialize Celery with Redis
 celery_app = Celery(
@@ -116,9 +168,195 @@ class WebhookStatus(Enum):
     FAILED = "failed"
     RETRYING = "retrying"
 
-# In-memory storage for webhook statuses
-# In a production environment, this could be replaced with a database
-webhook_statuses = {}
+# TTL values for different webhook statuses (in seconds)
+WEBHOOK_TTL = {
+    WebhookStatus.PENDING.value: 7 * 24 * 60 * 60,     # 7 days for pending
+    WebhookStatus.IN_PROGRESS.value: 7 * 24 * 60 * 60, # 7 days for in progress
+    WebhookStatus.DELIVERED.value: 30 * 60,            # 30 minutes for delivered
+    WebhookStatus.FAILED.value: 7 * 24 * 60 * 60,      # 7 days for failed
+    WebhookStatus.RETRYING.value: 7 * 24 * 60 * 60     # 7 days for retrying
+}
+
+# Redis-based webhook status storage
+def get_webhook_key(webhook_id):
+    """Generate Redis key for webhook status"""
+    return f"webhook_status:{webhook_id}"
+
+def save_webhook_status(webhook_id, status_data):
+    """Save webhook status to Redis with appropriate TTL"""
+    key = get_webhook_key(webhook_id)
+    status = status_data.get("status")
+    ttl = WEBHOOK_TTL.get(status, 7 * 24 * 60 * 60)  # Default to 7 days
+    
+    # Store as JSON string
+    redis_client.set(key, json.dumps(status_data))
+    redis_client.expire(key, ttl)
+
+def get_webhook_status(webhook_id):
+    """Get webhook status from Redis"""
+    key = get_webhook_key(webhook_id)
+    data = redis_client.get(key)
+    if data:
+        return json.loads(data)
+    return None
+
+def delete_webhook_status(webhook_id):
+    """Delete webhook status from Redis"""
+    key = get_webhook_key(webhook_id)
+    status_data = get_webhook_status(webhook_id)
+    if status_data:
+        redis_client.delete(key)
+        return status_data
+    return None
+
+def get_all_webhook_statuses(reference_id=None, status=None, page=1, page_size=10):
+    """Get all webhook statuses with optional filtering and pagination"""
+    # Get all webhook keys
+    pattern = "webhook_status:*"
+    all_keys = redis_client.keys(pattern)
+    
+    # Get data for all keys
+    all_statuses = {}
+    for key in all_keys:
+        webhook_id = key.split(":", 1)[1]  # Extract ID from key
+        status_data = get_webhook_status(webhook_id)
+        if status_data:
+            # Apply filters
+            if reference_id and status_data.get("reference_id") != reference_id:
+                continue
+            if status and status_data.get("status") != status:
+                continue
+            all_statuses[webhook_id] = status_data
+    
+    # Paginate results
+    total_items = len(all_statuses)
+    total_pages = (total_items + page_size - 1) // page_size if total_items > 0 else 1
+    
+    # Ensure page is within valid range
+    if page < 1:
+        page = 1
+    elif page > total_pages:
+        page = total_pages
+    
+    # Get items for current page
+    start_idx = (page - 1) * page_size
+    end_idx = min(start_idx + page_size, total_items)
+    
+    # Convert dict to list for pagination
+    statuses_list = list(all_statuses.items())
+    paginated_statuses = dict(statuses_list[start_idx:end_idx])
+    
+    return {
+        "items": paginated_statuses,
+        "total_items": total_items,
+        "page": page,
+        "page_size": page_size,
+        "total_pages": total_pages
+    }
+
+def delete_all_webhook_statuses(reference_id=None, status=None):
+    """Delete all webhook statuses with optional filtering"""
+    pattern = "webhook_status:*"
+    all_keys = redis_client.keys(pattern)
+    
+    to_delete = []
+    for key in all_keys:
+        webhook_id = key.split(":", 1)[1]  # Extract ID from key
+        status_data = get_webhook_status(webhook_id)
+        
+        if not status_data:
+            continue
+            
+        # Apply filters
+        if reference_id and status_data.get("reference_id") != reference_id:
+            continue
+        if status and status_data.get("status") != status:
+            continue
+            
+        to_delete.append(webhook_id)
+    
+    # Delete filtered statuses
+    for webhook_id in to_delete:
+        delete_webhook_status(webhook_id)
+    
+    return len(to_delete)
+
+# Circuit breaker implementation
+class CircuitBreaker:
+    def __init__(self, name, failure_threshold=5, reset_timeout=60):
+        self.name = name
+        self.failure_threshold = failure_threshold
+        self.reset_timeout = reset_timeout
+        self.failures = 0
+        self.state = "closed"  # closed, open, half-open
+        self.last_failure_time = 0
+        self.lock = threading.RLock()
+        
+        # Initialize gauge with closed state
+        CIRCUIT_BREAKER_STATUS.labels(service=name).set(0)
+    
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            with self.lock:
+                # Check if circuit is open
+                if self.state == "open":
+                    current_time = time.time()
+                    # Check if reset timeout has elapsed
+                    if current_time - self.last_failure_time > self.reset_timeout:
+                        logger.info(f"Circuit {self.name} transitioning from open to half-open")
+                        self.state = "half-open"
+                        CIRCUIT_BREAKER_STATUS.labels(service=self.name).set(0.5)
+                    else:
+                        raise CircuitBreakerOpenError(f"Circuit {self.name} is open")
+            
+            try:
+                # If circuit is closed or half-open, try the call
+                result = func(*args, **kwargs)
+                
+                # If call succeeds and circuit was half-open, close it
+                with self.lock:
+                    if self.state == "half-open":
+                        logger.info(f"Circuit {self.name} transitioning from half-open to closed")
+                        self.state = "closed"
+                        self.failures = 0
+                        CIRCUIT_BREAKER_STATUS.labels(service=self.name).set(0)
+                
+                return result
+                
+            except Exception as e:
+                with self.lock:
+                    # Increment failure counter
+                    self.failures += 1
+                    self.last_failure_time = time.time()
+                    
+                    # If we've reached the threshold and circuit isn't already open, open it
+                    if self.failures >= self.failure_threshold and self.state != "open":
+                        logger.warning(f"Circuit {self.name} transitioning to open after {self.failures} failures")
+                        self.state = "open"
+                        CIRCUIT_BREAKER_STATUS.labels(service=self.name).set(1)
+                
+                # Re-raise the original exception
+                raise
+        
+        return wrapper
+
+class CircuitBreakerOpenError(Exception):
+    """Exception raised when a circuit breaker is open"""
+    pass
+
+# Error classification
+class ValidationError(Exception):
+    """Exception raised for validation errors"""
+    pass
+
+class NetworkError(Exception):
+    """Exception raised for network-related errors"""
+    pass
+
+class UnexpectedError(Exception):
+    """Exception raised for unexpected errors"""
+    pass
 
 @celery_app.task(
     name="send_webhook_notification",
@@ -142,70 +380,156 @@ def send_webhook_notification(self, webhook_url: str, payload: Dict[str, Any], r
     Returns:
         Dict[str, Any]: Status information about the webhook delivery
     """
+    # Generate correlation ID for tracking this webhook delivery
+    correlation_id = str(uuid.uuid4())
+    
     # Update webhook status to in progress
     webhook_id = f"{reference_id}_{self.request.id}"
-    webhook_statuses[webhook_id] = {
+    status_data = {
         "status": WebhookStatus.IN_PROGRESS.value,
         "reference_id": reference_id,
         "task_id": self.request.id,
         "webhook_url": webhook_url,
         "attempts": self.request.retries + 1,
-        "max_attempts": 5,
+        "max_attempts": 3,  # Reduced from 5 to 3 to prevent excessive retries
         "last_attempt": datetime.utcnow().isoformat(),
-        "created_at": webhook_statuses.get(webhook_id, {}).get("created_at", datetime.utcnow().isoformat())
+        "correlation_id": correlation_id
     }
     
+    # Check if this is a new webhook or an update
+    existing_status = get_webhook_status(webhook_id)
+    if existing_status:
+        status_data["created_at"] = existing_status.get("created_at")
+    else:
+        status_data["created_at"] = datetime.utcnow().isoformat()
+    
+    # Save to Redis
+    save_webhook_status(webhook_id, status_data)
+    
     try:
-        logger.info(f"Sending webhook notification to {webhook_url} for reference_id={reference_id} (attempt {self.request.retries + 1})")
+        logger.info(f"[{correlation_id}] Sending webhook notification to {webhook_url} for reference_id={reference_id} (attempt {self.request.retries + 1})")
+        
+        # Pre-execution validation
+        if not webhook_url.startswith(('http://', 'https://')):
+            error_msg = f"Invalid webhook URL format: {webhook_url}"
+            logger.error(f"[{correlation_id}] {error_msg} for reference_id={reference_id}")
+            
+            # Update webhook status to failed
+            status_data.update({
+                "status": WebhookStatus.FAILED.value,
+                "error": error_msg,
+                "error_type": "validation_error"
+            })
+            save_webhook_status(webhook_id, status_data)
+            
+            # Store in dead letter queue
+            dead_letter_key = f"dead_letter:webhook:{webhook_id}"
+            redis_client.set(dead_letter_key, json.dumps({
+                "webhook_id": webhook_id,
+                "reference_id": reference_id,
+                "webhook_url": webhook_url,
+                "payload": payload,
+                "error": error_msg,
+                "attempts": self.request.retries + 1,
+                "last_attempt": datetime.utcnow().isoformat(),
+                "correlation_id": correlation_id
+            }))
+            redis_client.expire(dead_letter_key, 30 * 24 * 60 * 60)  # 30 days TTL
+            logger.warning(f"[{correlation_id}] Moved failed webhook to dead letter queue: {dead_letter_key}")
+            
+            # Don't retry for validation errors
+            return {
+                "success": False,
+                "reference_id": reference_id,
+                "error": error_msg,
+                "webhook_id": webhook_id,
+                "correlation_id": correlation_id
+            }
         
         # Use synchronous requests instead of asyncio (better for Celery workers)
         response = requests.post(
             webhook_url,
             json=payload,
             timeout=30,  # 30 second timeout
-            headers={"Content-Type": "application/json", "X-Reference-ID": reference_id}
+            headers={
+                "Content-Type": "application/json",
+                "X-Reference-ID": reference_id,
+                "X-Correlation-ID": correlation_id
+            }
         )
         
         if response.status_code >= 200 and response.status_code < 300:
-            logger.info(f"Successfully delivered webhook for reference_id={reference_id} (status={response.status_code})")
+            logger.info(f"[{correlation_id}] Successfully delivered webhook for reference_id={reference_id} (status={response.status_code})")
             
             # Update webhook status to delivered
-            webhook_statuses[webhook_id] = {
-                **webhook_statuses[webhook_id],
+            status_data.update({
                 "status": WebhookStatus.DELIVERED.value,
                 "response_code": response.status_code,
                 "completed_at": datetime.utcnow().isoformat()
-            }
+            })
+            save_webhook_status(webhook_id, status_data)
             
             return {
                 "success": True,
                 "reference_id": reference_id,
                 "status_code": response.status_code,
-                "webhook_id": webhook_id
+                "webhook_id": webhook_id,
+                "correlation_id": correlation_id
             }
         else:
             error_msg = f"Webhook delivery failed with status {response.status_code}: {response.text}"
-            logger.error(f"{error_msg} for reference_id={reference_id}")
+            logger.error(f"[{correlation_id}] {error_msg} for reference_id={reference_id}")
             
-            # Update webhook status to retrying or failed
-            if self.request.retries < 4:  # We have 5 max retries (0-4)
-                status = WebhookStatus.RETRYING.value
+            # Classify error based on status code
+            if response.status_code >= 400 and response.status_code < 500:
+                # 4xx errors are client errors - likely permanent
+                if self.request.retries >= 1:  # Only retry once for client errors
+                    status = WebhookStatus.FAILED.value
+                    error_type = "permanent_client_error"
+                else:
+                    status = WebhookStatus.RETRYING.value
+                    error_type = "client_error"
             else:
-                status = WebhookStatus.FAILED.value
-                
-            webhook_statuses[webhook_id] = {
-                **webhook_statuses[webhook_id],
+                # 5xx errors are server errors - likely transient
+                if self.request.retries < 2:  # We have 3 max retries (0-2)
+                    status = WebhookStatus.RETRYING.value
+                    error_type = "transient_server_error"
+                else:
+                    status = WebhookStatus.FAILED.value
+                    error_type = "repeated_server_error"
+            
+            # Update webhook status
+            status_data.update({
                 "status": status,
                 "response_code": response.status_code,
-                "error": error_msg
-            }
+                "error": error_msg,
+                "error_type": error_type
+            })
+            save_webhook_status(webhook_id, status_data)
             
             # Calculate retry delay with exponential backoff and jitter
             retry_delay = min(30 * (2 ** self.request.retries), 300)  # 30s to 5min
             jitter = random.uniform(0, 0.3) * retry_delay  # Add up to 30% jitter
             retry_delay_with_jitter = retry_delay + jitter
             
-            logger.info(f"Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+            logger.info(f"[{correlation_id}] Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+            
+            # If we've reached max retries, move to dead letter queue
+            if status == WebhookStatus.FAILED.value:
+                # Store in dead letter queue
+                dead_letter_key = f"dead_letter:webhook:{webhook_id}"
+                redis_client.set(dead_letter_key, json.dumps({
+                    "webhook_id": webhook_id,
+                    "reference_id": reference_id,
+                    "webhook_url": webhook_url,
+                    "payload": payload,
+                    "error": error_msg,
+                    "attempts": self.request.retries + 1,
+                    "last_attempt": datetime.utcnow().isoformat(),
+                    "correlation_id": correlation_id
+                }))
+                redis_client.expire(dead_letter_key, 30 * 24 * 60 * 60)  # 30 days TTL
+                logger.warning(f"[{correlation_id}] Moved failed webhook to dead letter queue: {dead_letter_key}")
             
             raise self.retry(
                 exc=Exception(error_msg),
@@ -213,32 +537,90 @@ def send_webhook_notification(self, webhook_url: str, payload: Dict[str, Any], r
             )
     
     except requests.RequestException as e:
+        # Network errors might be transient
         error_msg = f"Webhook request failed: {str(e)}"
-        logger.error(f"{error_msg} for reference_id={reference_id}")
+        logger.error(f"[{correlation_id}] {error_msg} for reference_id={reference_id}", exc_info=True)
         
-        # Update webhook status to retrying or failed
-        if self.request.retries < 4:  # We have 5 max retries (0-4)
+        # Classify network errors
+        if isinstance(e, requests.Timeout):
+            error_type = "timeout"
+        elif isinstance(e, requests.ConnectionError):
+            error_type = "connection_error"
+        else:
+            error_type = "request_error"
+        
+        # Update webhook status
+        if self.request.retries < 2:  # We have 3 max retries (0-2)
             status = WebhookStatus.RETRYING.value
         else:
             status = WebhookStatus.FAILED.value
             
-        webhook_statuses[webhook_id] = {
-            **webhook_statuses[webhook_id],
+        status_data.update({
             "status": status,
-            "error": error_msg
-        }
+            "error": error_msg,
+            "error_type": error_type
+        })
+        save_webhook_status(webhook_id, status_data)
         
         # Calculate retry delay with exponential backoff and jitter
         retry_delay = min(30 * (2 ** self.request.retries), 300)  # 30s to 5min
         jitter = random.uniform(0, 0.3) * retry_delay  # Add up to 30% jitter
         retry_delay_with_jitter = retry_delay + jitter
         
-        logger.info(f"Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+        logger.info(f"[{correlation_id}] Retrying webhook delivery for reference_id={reference_id} in {retry_delay_with_jitter:.2f} seconds")
+        
+        # If we've reached max retries, move to dead letter queue
+        if status == WebhookStatus.FAILED.value:
+            # Store in dead letter queue
+            dead_letter_key = f"dead_letter:webhook:{webhook_id}"
+            redis_client.set(dead_letter_key, json.dumps({
+                "webhook_id": webhook_id,
+                "reference_id": reference_id,
+                "webhook_url": webhook_url,
+                "payload": payload,
+                "error": error_msg,
+                "attempts": self.request.retries + 1,
+                "last_attempt": datetime.utcnow().isoformat(),
+                "correlation_id": correlation_id
+            }))
+            redis_client.expire(dead_letter_key, 30 * 24 * 60 * 60)  # 30 days TTL
+            logger.warning(f"[{correlation_id}] Moved failed webhook to dead letter queue: {dead_letter_key}")
         
         raise self.retry(
             exc=e,
             countdown=retry_delay_with_jitter
         )
+    except Exception as e:
+        # Unexpected errors
+        error_msg = f"Unexpected error during webhook delivery: {str(e)}"
+        logger.error(f"[{correlation_id}] {error_msg} for reference_id={reference_id}", exc_info=True)
+        
+        # Update webhook status
+        status_data.update({
+            "status": WebhookStatus.FAILED.value,
+            "error": error_msg,
+            "error_type": "unexpected_error",
+            "stack_trace": traceback.format_exc()
+        })
+        save_webhook_status(webhook_id, status_data)
+        
+        # Store in dead letter queue
+        dead_letter_key = f"dead_letter:webhook:{webhook_id}"
+        redis_client.set(dead_letter_key, json.dumps({
+            "webhook_id": webhook_id,
+            "reference_id": reference_id,
+            "webhook_url": webhook_url,
+            "payload": payload,
+            "error": error_msg,
+            "attempts": self.request.retries + 1,
+            "last_attempt": datetime.utcnow().isoformat(),
+            "correlation_id": correlation_id
+        }))
+        redis_client.expire(dead_letter_key, 30 * 24 * 60 * 60)  # 30 days TTL
+        logger.warning(f"[{correlation_id}] Moved failed webhook to dead letter queue: {dead_letter_key}")
+        
+        # Re-raise the exception
+        raise
 
 def initialize_services():
     """Initialize API services. Used by both FastAPI startup and Celery workers.
@@ -772,9 +1154,159 @@ async def get_data_quality_report():
     """
     return summary_generator.generate_data_quality_report()
 
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint that verifies the system's components are working correctly.
+    Returns status of Redis, Celery, and other critical services.
+    """
+    health_status = {
+        "status": "healthy",
+        "timestamp": datetime.utcnow().isoformat(),
+        "components": {}
+    }
+    
+    # Check Redis connection
+    try:
+        redis_ping = redis_client.ping()
+        redis_info = redis_client.info()
+        webhook_keys = len(redis_client.keys("webhook_status:*"))
+        dead_letter_keys = len(redis_client.keys("dead_letter:webhook:*"))
+        
+        health_status["components"]["redis"] = {
+            "status": "up" if redis_ping else "down",
+            "used_memory": redis_info.get("used_memory_human", "unknown"),
+            "webhook_keys": webhook_keys,
+            "dead_letter_keys": dead_letter_keys
+        }
+    except Exception as e:
+        health_status["components"]["redis"] = {
+            "status": "down",
+            "error": str(e)
+        }
+        health_status["status"] = "degraded"
+    
+    # Check Celery connection
+    try:
+        i = celery_app.control.inspect()
+        active_tasks = i.active()
+        scheduled_tasks = i.scheduled()
+        
+        health_status["components"]["celery"] = {
+            "status": "up",
+            "active_tasks": len(active_tasks) if active_tasks else 0,
+            "scheduled_tasks": len(scheduled_tasks) if scheduled_tasks else 0
+        }
+    except Exception as e:
+        health_status["components"]["celery"] = {
+            "status": "down",
+            "error": str(e)
+        }
+        health_status["status"] = "degraded"
+    
+    # Check facade initialization
+    health_status["components"]["facade"] = {
+        "status": "up" if facade is not None else "down"
+    }
+    if facade is None:
+        health_status["status"] = "degraded"
+    
+    # Check storage manager
+    health_status["components"]["storage"] = {
+        "status": "up" if storage_manager is not None else "down"
+    }
+    if storage_manager is None:
+        health_status["status"] = "degraded"
+    
+    # Check circuit breakers
+    circuit_breakers = {}
+    for metric in CIRCUIT_BREAKER_STATUS._metrics:
+        for labels, value in CIRCUIT_BREAKER_STATUS._metrics[metric].items():
+            service = labels[0]
+            state_value = value.get()
+            state = "closed"
+            if state_value == 1:
+                state = "open"
+            elif state_value == 0.5:
+                state = "half-open"
+            
+            circuit_breakers[service] = {
+                "state": state
+            }
+    
+    health_status["components"]["circuit_breakers"] = circuit_breakers
+    
+    # If any circuit breaker is open, mark as degraded
+    if any(cb["state"] == "open" for cb in circuit_breakers.values()):
+        health_status["status"] = "degraded"
+    
+    # Return appropriate HTTP status code based on health
+    return health_status
+
+# Webhook cleanup endpoint
+@app.post("/webhook-cleanup")
+async def cleanup_webhooks(
+    status: Optional[str] = None,
+    older_than_days: Optional[int] = None,
+    reference_id: Optional[str] = None
+):
+    """
+    Cleanup webhook statuses based on criteria.
+    
+    Args:
+        status (str, optional): Only clean webhooks with this status
+        older_than_days (int, optional): Only clean webhooks older than this many days
+        reference_id (str, optional): Only clean webhooks for this reference ID
+        
+    Returns:
+        Dict[str, Any]: Count of deleted webhook statuses
+    """
+    pattern = "webhook_status:*"
+    all_keys = redis_client.keys(pattern)
+    
+    to_delete = []
+    for key in all_keys:
+        webhook_id = key.split(":", 1)[1]  # Extract ID from key
+        status_data = get_webhook_status(webhook_id)
+        
+        if not status_data:
+            continue
+            
+        # Apply status filter
+        if status and status_data.get("status") != status:
+            continue
+            
+        # Apply reference_id filter
+        if reference_id and status_data.get("reference_id") != reference_id:
+            continue
+            
+        # Apply age filter
+        if older_than_days:
+            created_at = datetime.fromisoformat(status_data.get("created_at", datetime.utcnow().isoformat()))
+            age_days = (datetime.utcnow() - created_at).days
+            if age_days < older_than_days:
+                continue
+                
+        to_delete.append(webhook_id)
+    
+    # Delete filtered statuses
+    for webhook_id in to_delete:
+        delete_webhook_status(webhook_id)
+    
+    return {
+        "message": f"Webhook cleanup completed. Deleted {len(to_delete)} webhook statuses.",
+        "deleted_count": len(to_delete),
+        "filters": {
+            "status": status,
+            "older_than_days": older_than_days,
+            "reference_id": reference_id
+        }
+    }
+
 # Webhook status tracking endpoints
 @app.get("/webhook-status/{webhook_id}", response_model=Dict[str, Any])
-async def get_webhook_status(webhook_id: str):
+async def get_webhook_status_endpoint(webhook_id: str):
     """
     Get the status of a specific webhook delivery.
     
@@ -784,13 +1316,14 @@ async def get_webhook_status(webhook_id: str):
     Returns:
         Dict[str, Any]: The webhook status information.
     """
-    if webhook_id not in webhook_statuses:
+    status_data = get_webhook_status(webhook_id)
+    if not status_data:
         raise HTTPException(status_code=404, detail=f"Webhook status not found for ID: {webhook_id}")
     
-    return webhook_statuses[webhook_id]
+    return status_data
 
 @app.get("/webhook-statuses", response_model=Dict[str, Any])
-async def list_webhook_statuses(
+async def list_webhook_statuses_endpoint(
     reference_id: Optional[str] = None,
     status: Optional[str] = None,
     page: int = 1,
@@ -808,49 +1341,11 @@ async def list_webhook_statuses(
     Returns:
         Dict[str, Any]: Paginated list of webhook statuses.
     """
-    # Filter statuses based on query parameters
-    filtered_statuses = webhook_statuses.copy()
-    
-    if reference_id:
-        filtered_statuses = {
-            k: v for k, v in filtered_statuses.items()
-            if v.get("reference_id") == reference_id
-        }
-    
-    if status:
-        filtered_statuses = {
-            k: v for k, v in filtered_statuses.items()
-            if v.get("status") == status
-        }
-    
-    # Paginate results
-    total_items = len(filtered_statuses)
-    total_pages = (total_items + page_size - 1) // page_size if total_items > 0 else 1
-    
-    # Ensure page is within valid range
-    if page < 1:
-        page = 1
-    elif page > total_pages:
-        page = total_pages
-    
-    # Get items for current page
-    start_idx = (page - 1) * page_size
-    end_idx = min(start_idx + page_size, total_items)
-    
-    # Convert dict to list for pagination
-    statuses_list = list(filtered_statuses.items())
-    paginated_statuses = dict(statuses_list[start_idx:end_idx])
-    
-    return {
-        "items": paginated_statuses,
-        "total_items": total_items,
-        "page": page,
-        "page_size": page_size,
-        "total_pages": total_pages
-    }
+    # Use the Redis-based function to get webhook statuses
+    return get_all_webhook_statuses(reference_id, status, page, page_size)
 
 @app.delete("/webhook-status/{webhook_id}", response_model=Dict[str, Any])
-async def delete_webhook_status(webhook_id: str):
+async def delete_webhook_status_endpoint(webhook_id: str):
     """
     Delete a specific webhook status.
     
@@ -860,10 +1355,9 @@ async def delete_webhook_status(webhook_id: str):
     Returns:
         Dict[str, Any]: Confirmation of deletion.
     """
-    if webhook_id not in webhook_statuses:
+    deleted_status = delete_webhook_status(webhook_id)
+    if not deleted_status:
         raise HTTPException(status_code=404, detail=f"Webhook status not found for ID: {webhook_id}")
-    
-    deleted_status = webhook_statuses.pop(webhook_id)
     
     return {
         "message": f"Webhook status deleted for ID: {webhook_id}",
@@ -871,7 +1365,7 @@ async def delete_webhook_status(webhook_id: str):
     }
 
 @app.delete("/webhook-statuses", response_model=Dict[str, Any])
-async def delete_all_webhook_statuses(
+async def delete_all_webhook_statuses_endpoint(
     reference_id: Optional[str] = None,
     status: Optional[str] = None
 ):
@@ -885,33 +1379,12 @@ async def delete_all_webhook_statuses(
     Returns:
         Dict[str, Any]: Confirmation of deletion with count.
     """
-    global webhook_statuses
-    
-    # If no filters, delete all statuses
-    if not reference_id and not status:
-        count = len(webhook_statuses)
-        webhook_statuses = {}
-        return {"message": f"All webhook statuses deleted ({count} total)"}
-    
-    # Filter statuses to delete
-    to_delete = []
-    
-    for webhook_id, status_info in webhook_statuses.items():
-        if reference_id and status_info.get("reference_id") != reference_id:
-            continue
-        
-        if status and status_info.get("status") != status:
-            continue
-        
-        to_delete.append(webhook_id)
-    
-    # Delete filtered statuses
-    for webhook_id in to_delete:
-        webhook_statuses.pop(webhook_id)
+    # Use the Redis-based function to delete webhook statuses
+    deleted_count = delete_all_webhook_statuses(reference_id, status)
     
     return {
-        "message": f"Webhook statuses deleted ({len(to_delete)} total)",
-        "deleted_count": len(to_delete),
+        "message": f"Webhook statuses deleted ({deleted_count} total)",
+        "deleted_count": deleted_count,
         "filters": {
             "reference_id": reference_id,
             "status": status
