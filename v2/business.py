@@ -42,16 +42,24 @@ def determine_search_strategy(claim: Dict[str, Any]) -> Callable[[Dict[str, Any]
         first_name = ""
     first_name = first_name.strip()
 
+    middle_name = claim.get("middle_name", "")
+    if middle_name is None:
+        middle_name = ""
+    middle_name = middle_name.strip()
+
     last_name = claim.get("last_name", "")
     if last_name is None:
         last_name = ""
     last_name = last_name.strip()
 
-    # Combine first_name and last_name into individual_name if needed
+    # Combine first_name, middle_name, and last_name into individual_name if needed
     if not individual_name and (first_name or last_name):
-        individual_name = f"{first_name} {last_name}".strip()
+        if middle_name:
+            individual_name = f"{first_name} {middle_name} {last_name}".strip()
+        else:
+            individual_name = f"{first_name} {last_name}".strip()
         claim["individual_name"] = individual_name
-        logger.debug(f"Combined first_name='{first_name}' and last_name='{last_name}' into individual_name='{individual_name}'")
+        logger.debug(f"Combined first_name='{first_name}', middle_name='{middle_name}', and last_name='{last_name}' into individual_name='{individual_name}'")
 
     # Get organization identifiers, safely handling None
     crd_number = claim.get("crd_number", "")
