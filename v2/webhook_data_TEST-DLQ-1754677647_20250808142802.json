@@ -1,0 +1,207 @@
+{
+  "headers": {
+    "Host": "localhost:9001",
+    "User-Agent": "python-requests/2.32.4",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Reference-ID": "TEST-DLQ-1754677647",
+    "X-Correlation-ID": "74744c96-2d9f-497a-9ee0-dac182881d0f",
+    "X-Idempotency-Key": "TEST-DLQ-1754677647_8bd554a5-e977-4832-8c7f-1d6a35c95cc4",
+    "Content-Length": "4554"
+  },
+  "data": {
+    "reference_id": "TEST-DLQ-1754677647",
+    "claim": {
+      "reference_id": "TEST-DLQ-1754677647",
+      "first_name": "Test",
+      "last_name": "User",
+      "individual_name": "Test User",
+      "crd_number": "12345",
+      "organization_crd": "67890",
+      "organization_name": "Test Organization"
+    },
+    "search_evaluation": {
+      "source": "CRD_Validation",
+      "basic_result": {
+        "source": "FINRA_BrokerCheck",
+        "fetched_name": "",
+        "other_names": [],
+        "bc_scope": "",
+        "ia_scope": "",
+        "disclosures": [],
+        "arbitrations": [],
+        "exams": [],
+        "employments": [],
+        "crd_number": null
+      },
+      "detailed_result": null,
+      "search_strategy": "search_with_crd_only",
+      "crd_number": "12345",
+      "compliance": false,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+      "is_invalid_crd": true
+    },
+    "status_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+      "alerts": [
+        {
+          "alert_type": "IndividualNotFound",
+          "alert_category": "status_evaluation",
+          "severity": "HIGH",
+          "metadata": {
+            "search_evaluation": {
+              "source": "CRD_Validation",
+              "basic_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "",
+                "other_names": [],
+                "bc_scope": "",
+                "ia_scope": "",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [],
+                "employments": [],
+                "crd_number": null
+              },
+              "detailed_result": null,
+              "search_strategy": "search_with_crd_only",
+              "crd_number": "12345",
+              "compliance": false,
+              "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+              "is_invalid_crd": true
+            }
+          },
+          "description": "CRD number mismatch: requested 12345 but found None."
+        }
+      ],
+      "source": "CRD_Validation"
+    },
+    "name_evaluation": {
+      "compliance": false,
+      "compliance_explanation": "Name mismatch detected.",
+      "evaluation_details": {
+        "expected_name": "Test User",
+        "claimed_name": {
+          "first": "Test",
+          "middle": null,
+          "last": "User"
+        },
+        "all_matches": [
+          {
+            "name_source": "main_fetched_name",
+            "fetched_name": {
+              "first": null,
+              "middle": null,
+              "last": null
+            },
+            "score": 0.0,
+            "first_score": 0.0,
+            "middle_score": 0.5,
+            "last_score": 0.0
+          }
+        ],
+        "best_match": null,
+        "compliance": false,
+        "compliance_explanation": "Name does not match fetched record."
+      },
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "license_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "exam_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "employment_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No employment history evaluated: CRD number mismatch: requested 12345 but found None.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "disclosure_review": {
+      "compliance": true,
+      "compliance_explanation": "No disclosures evaluated: CRD number mismatch: requested 12345 but found None.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "disciplinary_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No disciplinary actions evaluated: CRD number mismatch: requested 12345 but found None.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "arbitration_review": {
+      "compliance": true,
+      "compliance_explanation": "No arbitration actions evaluated: CRD number mismatch: requested 12345 but found None.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "regulatory_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No regulatory actions evaluated: CRD number mismatch: requested 12345 but found None.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "final_evaluation": {
+      "compliance": false,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+      "overall_compliance": false,
+      "overall_risk_level": "High",
+      "recommendations": "Review input data or search failure reason.",
+      "alerts": [
+        {
+          "alert_type": "IndividualNotFound",
+          "alert_category": "status_evaluation",
+          "severity": "HIGH",
+          "metadata": {
+            "search_evaluation": {
+              "source": "CRD_Validation",
+              "basic_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "",
+                "other_names": [],
+                "bc_scope": "",
+                "ia_scope": "",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [],
+                "employments": [],
+                "crd_number": null
+              },
+              "detailed_result": null,
+              "search_strategy": "search_with_crd_only",
+              "crd_number": "12345",
+              "compliance": false,
+              "compliance_explanation": "CRD number mismatch: requested 12345 but found None.",
+              "is_invalid_crd": true
+            }
+          },
+          "description": "CRD number mismatch: requested 12345 but found None."
+        }
+      ]
+    }
+  },
+  "received_at": "2025-08-08T14:28:02.712033"
+}

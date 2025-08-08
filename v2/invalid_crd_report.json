@@ -1,0 +1,249 @@
+{
+  "reference_id": "TEST-INVALID-CRD-001",
+  "claim": {
+    "first_name": "Ralph",
+    "last_name": "Segall",
+    "crd_number": "111",
+    "employee_number": "EMP-TEST-INVALID-CRD",
+    "reference_id": "TEST-INVALID-CRD-001",
+    "individual_name": "Ralph Segall",
+    "organization_crd": null
+  },
+  "search_evaluation": {
+    "source": "CRD_Validation",
+    "basic_result": {
+      "source": "FINRA_BrokerCheck",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "detailed_result": {
+      "source": "FINRA_BrokerCheck",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "search_strategy": "search_with_crd_only",
+    "crd_number": "111",
+    "compliance": false,
+    "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+    "is_invalid_crd": true
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+    "alerts": [
+      {
+        "alert_type": "IndividualNotFound",
+        "alert_category": "status_evaluation",
+        "severity": "HIGH",
+        "metadata": {
+          "search_evaluation": {
+            "source": "CRD_Validation",
+            "basic_result": {
+              "source": "FINRA_BrokerCheck",
+              "fetched_name": "RAYMOND ARTHUR EVANS",
+              "other_names": [
+                "RAY  EVANS III",
+                "RAYMOND ARTHUR EVANS III",
+                "RAYMOND ARTHUR EVANS"
+              ],
+              "bc_scope": "Active",
+              "ia_scope": "Active",
+              "disclosures": [],
+              "arbitrations": [],
+              "exams": [],
+              "employments": [],
+              "crd_number": "1858973"
+            },
+            "detailed_result": {
+              "source": "FINRA_BrokerCheck",
+              "fetched_name": "RAYMOND ARTHUR EVANS",
+              "other_names": [
+                "RAY  EVANS III",
+                "RAYMOND ARTHUR EVANS III",
+                "RAYMOND ARTHUR EVANS"
+              ],
+              "bc_scope": "Active",
+              "ia_scope": "Active",
+              "disclosures": [],
+              "arbitrations": [],
+              "exams": [],
+              "employments": [],
+              "crd_number": "1858973"
+            },
+            "search_strategy": "search_with_crd_only",
+            "crd_number": "111",
+            "compliance": false,
+            "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+            "is_invalid_crd": true
+          }
+        },
+        "description": "CRD number mismatch: requested 111 but found 1858973."
+      }
+    ],
+    "source": "CRD_Validation"
+  },
+  "name_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "Name mismatch detected.",
+    "evaluation_details": {
+      "expected_name": "Ralph Segall",
+      "claimed_name": {
+        "first": "Ralph",
+        "middle": null,
+        "last": "Segall"
+      },
+      "all_matches": [
+        {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": null,
+            "middle": null,
+            "last": null
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        }
+      ],
+      "best_match": null,
+      "compliance": false,
+      "compliance_explanation": "Name does not match fetched record."
+    },
+    "alerts": [],
+    "source": "CRD_Validation"
+  },
+  "license_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+    "alerts": [],
+    "source": "CRD_Validation"
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+    "alerts": [],
+    "source": "CRD_Validation"
+  },
+  "employment_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No employment history evaluated: CRD number mismatch: requested 111 but found 1858973.",
+    "alerts": [],
+    "source": "CRD_Validation"
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures evaluated: CRD number mismatch: requested 111 but found 1858973.",
+    "alerts": [],
+    "source": "CRD_Validation"
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No disciplinary actions evaluated: CRD number mismatch: requested 111 but found 1858973.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped"
+    },
+    "source": "CRD_Validation"
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No arbitration actions evaluated: CRD number mismatch: requested 111 but found 1858973.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped"
+    },
+    "source": "CRD_Validation"
+  },
+  "regulatory_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No regulatory actions evaluated: CRD number mismatch: requested 111 but found 1858973.",
+    "actions": [],
+    "alerts": [],
+    "due_diligence": {
+      "status": "Skipped"
+    },
+    "source": "CRD_Validation"
+  },
+  "final_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Review input data or search failure reason.",
+    "alerts": [
+      {
+        "alert_type": "IndividualNotFound",
+        "alert_category": "status_evaluation",
+        "severity": "HIGH",
+        "metadata": {
+          "search_evaluation": {
+            "source": "CRD_Validation",
+            "basic_result": {
+              "source": "FINRA_BrokerCheck",
+              "fetched_name": "RAYMOND ARTHUR EVANS",
+              "other_names": [
+                "RAY  EVANS III",
+                "RAYMOND ARTHUR EVANS III",
+                "RAYMOND ARTHUR EVANS"
+              ],
+              "bc_scope": "Active",
+              "ia_scope": "Active",
+              "disclosures": [],
+              "arbitrations": [],
+              "exams": [],
+              "employments": [],
+              "crd_number": "1858973"
+            },
+            "detailed_result": {
+              "source": "FINRA_BrokerCheck",
+              "fetched_name": "RAYMOND ARTHUR EVANS",
+              "other_names": [
+                "RAY  EVANS III",
+                "RAYMOND ARTHUR EVANS III",
+                "RAYMOND ARTHUR EVANS"
+              ],
+              "bc_scope": "Active",
+              "ia_scope": "Active",
+              "disclosures": [],
+              "arbitrations": [],
+              "exams": [],
+              "employments": [],
+              "crd_number": "1858973"
+            },
+            "search_strategy": "search_with_crd_only",
+            "crd_number": "111",
+            "compliance": false,
+            "compliance_explanation": "CRD number mismatch: requested 111 but found 1858973.",
+            "is_invalid_crd": true
+          }
+        },
+        "description": "CRD number mismatch: requested 111 but found 1858973."
+      }
+    ]
+  }
+}

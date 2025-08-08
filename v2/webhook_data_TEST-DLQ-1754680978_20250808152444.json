@@ -1,0 +1,876 @@
+{
+  "headers": {
+    "Host": "localhost:9001",
+    "User-Agent": "python-requests/2.32.4",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Reference-ID": "TEST-DLQ-1754680978",
+    "X-Correlation-ID": "90d28e17-9ea9-4955-a6f6-96d81b2bb802",
+    "X-Idempotency-Key": "TEST-DLQ-1754680978_1badde5c-bdee-4b86-a673-665e305a5879",
+    "Content-Length": "18651"
+  },
+  "data": {
+    "reference_id": "TEST-DLQ-1754680978",
+    "claim": {
+      "reference_id": "TEST-DLQ-1754680978",
+      "first_name": "Test",
+      "last_name": "User",
+      "individual_name": "Test User",
+      "crd_number": "12345",
+      "organization_crd": "67890",
+      "organization_name": "Test Organization"
+    },
+    "search_evaluation": {
+      "source": "CRD_Validation",
+      "basic_result": {
+        "source": "FINRA_BrokerCheck",
+        "fetched_name": "JASON RICHARD CHANDLER",
+        "other_names": [
+          "JASON  CHANDLER"
+        ],
+        "bc_scope": "Active",
+        "ia_scope": "NotInScope",
+        "disclosures": [],
+        "arbitrations": [],
+        "exams": [
+          {
+            "examCategory": "Series 65",
+            "examName": "Uniform Investment Adviser Law Examination",
+            "examTakenDate": "9/7/1995",
+            "examScope": "IA"
+          },
+          {
+            "examCategory": "Series 63",
+            "examName": "Uniform Securities Agent State Law Examination",
+            "examTakenDate": "7/6/1994",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 9",
+            "examName": "General Securities Sales Supervisor - Options Module Examination",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 10",
+            "examName": "General Securities Sales Supervisor - General Module Examination",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 24",
+            "examName": "General Securities Principal Examination",
+            "examTakenDate": "4/18/1997",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 8",
+            "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+            "examTakenDate": "4/4/1995",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 57TO",
+            "examName": "Securities Trader Exam",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "SIE",
+            "examName": "Securities Industry Essentials Examination",
+            "examTakenDate": "10/1/2018",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 3",
+            "examName": "National Commodity Futures Examination",
+            "examTakenDate": "7/28/1995",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 7",
+            "examName": "General Securities Representative Examination",
+            "examTakenDate": "6/8/1994",
+            "examScope": "BC"
+          }
+        ],
+        "employments": [
+          {
+            "firm_id": "8174",
+            "firm_name": "UBS FINANCIAL SERVICES INC.",
+            "registration_begin_date": "6/27/1994",
+            "branch_offices": [
+              {
+                "street": "1285 AVENUE OF THE AMERICAS",
+                "city": "NEW YORK",
+                "state": "NY",
+                "zip_code": "10019"
+              },
+              {
+                "street": "LINCOLN HARBOR",
+                "city": "WEEHAWKEN",
+                "state": "NJ",
+                "zip_code": "07086"
+              },
+              {
+                "street": "315 DEADRICK STREET",
+                "city": "NASHVILLE",
+                "state": "TN",
+                "zip_code": "37238"
+              },
+              {
+                "street": "600 Washington Blvd 9th floor",
+                "city": "STAMFORD",
+                "state": "CT",
+                "zip_code": "06901"
+              }
+            ],
+            "status": "current",
+            "type": "registered_firm"
+          },
+          {
+            "firm_id": "107726",
+            "firm_name": "UBS INTERNATIONAL INC.",
+            "registration_begin_date": "7/17/2009",
+            "branch_offices": [],
+            "status": "previous",
+            "type": "registered_firm",
+            "registration_end_date": "1/1/2010"
+          }
+        ],
+        "crd_number": "2382465"
+      },
+      "detailed_result": {
+        "source": "FINRA_BrokerCheck",
+        "fetched_name": "JASON RICHARD CHANDLER",
+        "other_names": [
+          "JASON  CHANDLER"
+        ],
+        "bc_scope": "Active",
+        "ia_scope": "NotInScope",
+        "disclosures": [],
+        "arbitrations": [],
+        "exams": [
+          {
+            "examCategory": "Series 65",
+            "examName": "Uniform Investment Adviser Law Examination",
+            "examTakenDate": "9/7/1995",
+            "examScope": "IA"
+          },
+          {
+            "examCategory": "Series 63",
+            "examName": "Uniform Securities Agent State Law Examination",
+            "examTakenDate": "7/6/1994",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 9",
+            "examName": "General Securities Sales Supervisor - Options Module Examination",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 10",
+            "examName": "General Securities Sales Supervisor - General Module Examination",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 24",
+            "examName": "General Securities Principal Examination",
+            "examTakenDate": "4/18/1997",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 8",
+            "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+            "examTakenDate": "4/4/1995",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 57TO",
+            "examName": "Securities Trader Exam",
+            "examTakenDate": "1/2/2023",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "SIE",
+            "examName": "Securities Industry Essentials Examination",
+            "examTakenDate": "10/1/2018",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 3",
+            "examName": "National Commodity Futures Examination",
+            "examTakenDate": "7/28/1995",
+            "examScope": "BC"
+          },
+          {
+            "examCategory": "Series 7",
+            "examName": "General Securities Representative Examination",
+            "examTakenDate": "6/8/1994",
+            "examScope": "BC"
+          }
+        ],
+        "employments": [
+          {
+            "firm_id": "8174",
+            "firm_name": "UBS FINANCIAL SERVICES INC.",
+            "registration_begin_date": "6/27/1994",
+            "branch_offices": [
+              {
+                "street": "1285 AVENUE OF THE AMERICAS",
+                "city": "NEW YORK",
+                "state": "NY",
+                "zip_code": "10019"
+              },
+              {
+                "street": "LINCOLN HARBOR",
+                "city": "WEEHAWKEN",
+                "state": "NJ",
+                "zip_code": "07086"
+              },
+              {
+                "street": "315 DEADRICK STREET",
+                "city": "NASHVILLE",
+                "state": "TN",
+                "zip_code": "37238"
+              },
+              {
+                "street": "600 Washington Blvd 9th floor",
+                "city": "STAMFORD",
+                "state": "CT",
+                "zip_code": "06901"
+              }
+            ],
+            "status": "current",
+            "type": "registered_firm"
+          },
+          {
+            "firm_id": "107726",
+            "firm_name": "UBS INTERNATIONAL INC.",
+            "registration_begin_date": "7/17/2009",
+            "branch_offices": [],
+            "status": "previous",
+            "type": "registered_firm",
+            "registration_end_date": "1/1/2010"
+          }
+        ],
+        "crd_number": "2382465"
+      },
+      "search_strategy": "search_with_crd_only",
+      "crd_number": "12345",
+      "compliance": false,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+      "is_invalid_crd": true
+    },
+    "status_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+      "alerts": [
+        {
+          "alert_type": "IndividualNotFound",
+          "alert_category": "status_evaluation",
+          "severity": "HIGH",
+          "metadata": {
+            "search_evaluation": {
+              "source": "CRD_Validation",
+              "basic_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "JASON RICHARD CHANDLER",
+                "other_names": [
+                  "JASON  CHANDLER"
+                ],
+                "bc_scope": "Active",
+                "ia_scope": "NotInScope",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [
+                  {
+                    "examCategory": "Series 65",
+                    "examName": "Uniform Investment Adviser Law Examination",
+                    "examTakenDate": "9/7/1995",
+                    "examScope": "IA"
+                  },
+                  {
+                    "examCategory": "Series 63",
+                    "examName": "Uniform Securities Agent State Law Examination",
+                    "examTakenDate": "7/6/1994",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 9",
+                    "examName": "General Securities Sales Supervisor - Options Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 10",
+                    "examName": "General Securities Sales Supervisor - General Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 24",
+                    "examName": "General Securities Principal Examination",
+                    "examTakenDate": "4/18/1997",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 8",
+                    "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+                    "examTakenDate": "4/4/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 57TO",
+                    "examName": "Securities Trader Exam",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "SIE",
+                    "examName": "Securities Industry Essentials Examination",
+                    "examTakenDate": "10/1/2018",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 3",
+                    "examName": "National Commodity Futures Examination",
+                    "examTakenDate": "7/28/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 7",
+                    "examName": "General Securities Representative Examination",
+                    "examTakenDate": "6/8/1994",
+                    "examScope": "BC"
+                  }
+                ],
+                "employments": [
+                  {
+                    "firm_id": "8174",
+                    "firm_name": "UBS FINANCIAL SERVICES INC.",
+                    "registration_begin_date": "6/27/1994",
+                    "branch_offices": [
+                      {
+                        "street": "1285 AVENUE OF THE AMERICAS",
+                        "city": "NEW YORK",
+                        "state": "NY",
+                        "zip_code": "10019"
+                      },
+                      {
+                        "street": "LINCOLN HARBOR",
+                        "city": "WEEHAWKEN",
+                        "state": "NJ",
+                        "zip_code": "07086"
+                      },
+                      {
+                        "street": "315 DEADRICK STREET",
+                        "city": "NASHVILLE",
+                        "state": "TN",
+                        "zip_code": "37238"
+                      },
+                      {
+                        "street": "600 Washington Blvd 9th floor",
+                        "city": "STAMFORD",
+                        "state": "CT",
+                        "zip_code": "06901"
+                      }
+                    ],
+                    "status": "current",
+                    "type": "registered_firm"
+                  },
+                  {
+                    "firm_id": "107726",
+                    "firm_name": "UBS INTERNATIONAL INC.",
+                    "registration_begin_date": "7/17/2009",
+                    "branch_offices": [],
+                    "status": "previous",
+                    "type": "registered_firm",
+                    "registration_end_date": "1/1/2010"
+                  }
+                ],
+                "crd_number": "2382465"
+              },
+              "detailed_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "JASON RICHARD CHANDLER",
+                "other_names": [
+                  "JASON  CHANDLER"
+                ],
+                "bc_scope": "Active",
+                "ia_scope": "NotInScope",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [
+                  {
+                    "examCategory": "Series 65",
+                    "examName": "Uniform Investment Adviser Law Examination",
+                    "examTakenDate": "9/7/1995",
+                    "examScope": "IA"
+                  },
+                  {
+                    "examCategory": "Series 63",
+                    "examName": "Uniform Securities Agent State Law Examination",
+                    "examTakenDate": "7/6/1994",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 9",
+                    "examName": "General Securities Sales Supervisor - Options Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 10",
+                    "examName": "General Securities Sales Supervisor - General Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 24",
+                    "examName": "General Securities Principal Examination",
+                    "examTakenDate": "4/18/1997",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 8",
+                    "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+                    "examTakenDate": "4/4/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 57TO",
+                    "examName": "Securities Trader Exam",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "SIE",
+                    "examName": "Securities Industry Essentials Examination",
+                    "examTakenDate": "10/1/2018",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 3",
+                    "examName": "National Commodity Futures Examination",
+                    "examTakenDate": "7/28/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 7",
+                    "examName": "General Securities Representative Examination",
+                    "examTakenDate": "6/8/1994",
+                    "examScope": "BC"
+                  }
+                ],
+                "employments": [
+                  {
+                    "firm_id": "8174",
+                    "firm_name": "UBS FINANCIAL SERVICES INC.",
+                    "registration_begin_date": "6/27/1994",
+                    "branch_offices": [
+                      {
+                        "street": "1285 AVENUE OF THE AMERICAS",
+                        "city": "NEW YORK",
+                        "state": "NY",
+                        "zip_code": "10019"
+                      },
+                      {
+                        "street": "LINCOLN HARBOR",
+                        "city": "WEEHAWKEN",
+                        "state": "NJ",
+                        "zip_code": "07086"
+                      },
+                      {
+                        "street": "315 DEADRICK STREET",
+                        "city": "NASHVILLE",
+                        "state": "TN",
+                        "zip_code": "37238"
+                      },
+                      {
+                        "street": "600 Washington Blvd 9th floor",
+                        "city": "STAMFORD",
+                        "state": "CT",
+                        "zip_code": "06901"
+                      }
+                    ],
+                    "status": "current",
+                    "type": "registered_firm"
+                  },
+                  {
+                    "firm_id": "107726",
+                    "firm_name": "UBS INTERNATIONAL INC.",
+                    "registration_begin_date": "7/17/2009",
+                    "branch_offices": [],
+                    "status": "previous",
+                    "type": "registered_firm",
+                    "registration_end_date": "1/1/2010"
+                  }
+                ],
+                "crd_number": "2382465"
+              },
+              "search_strategy": "search_with_crd_only",
+              "crd_number": "12345",
+              "compliance": false,
+              "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+              "is_invalid_crd": true
+            }
+          },
+          "description": "CRD number mismatch: requested 12345 but found 2382465."
+        }
+      ],
+      "source": "CRD_Validation"
+    },
+    "name_evaluation": {
+      "compliance": false,
+      "compliance_explanation": "Name mismatch detected.",
+      "evaluation_details": {
+        "expected_name": "Test User",
+        "claimed_name": {
+          "first": "Test",
+          "middle": null,
+          "last": "User"
+        },
+        "all_matches": [
+          {
+            "name_source": "main_fetched_name",
+            "fetched_name": {
+              "first": null,
+              "middle": null,
+              "last": null
+            },
+            "score": 0.0,
+            "first_score": 0.0,
+            "middle_score": 0.5,
+            "last_score": 0.0
+          }
+        ],
+        "best_match": null,
+        "compliance": false,
+        "compliance_explanation": "Name does not match fetched record."
+      },
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "license_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "exam_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "employment_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No employment history evaluated: CRD number mismatch: requested 12345 but found 2382465.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "disclosure_review": {
+      "compliance": true,
+      "compliance_explanation": "No disclosures evaluated: CRD number mismatch: requested 12345 but found 2382465.",
+      "alerts": [],
+      "source": "CRD_Validation"
+    },
+    "disciplinary_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No disciplinary actions evaluated: CRD number mismatch: requested 12345 but found 2382465.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "arbitration_review": {
+      "compliance": true,
+      "compliance_explanation": "No arbitration actions evaluated: CRD number mismatch: requested 12345 but found 2382465.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "regulatory_evaluation": {
+      "compliance": true,
+      "compliance_explanation": "No regulatory actions evaluated: CRD number mismatch: requested 12345 but found 2382465.",
+      "actions": [],
+      "alerts": [],
+      "due_diligence": {
+        "status": "Skipped"
+      },
+      "source": "CRD_Validation"
+    },
+    "final_evaluation": {
+      "compliance": false,
+      "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+      "overall_compliance": false,
+      "overall_risk_level": "High",
+      "recommendations": "Review input data or search failure reason.",
+      "alerts": [
+        {
+          "alert_type": "IndividualNotFound",
+          "alert_category": "status_evaluation",
+          "severity": "HIGH",
+          "metadata": {
+            "search_evaluation": {
+              "source": "CRD_Validation",
+              "basic_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "JASON RICHARD CHANDLER",
+                "other_names": [
+                  "JASON  CHANDLER"
+                ],
+                "bc_scope": "Active",
+                "ia_scope": "NotInScope",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [
+                  {
+                    "examCategory": "Series 65",
+                    "examName": "Uniform Investment Adviser Law Examination",
+                    "examTakenDate": "9/7/1995",
+                    "examScope": "IA"
+                  },
+                  {
+                    "examCategory": "Series 63",
+                    "examName": "Uniform Securities Agent State Law Examination",
+                    "examTakenDate": "7/6/1994",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 9",
+                    "examName": "General Securities Sales Supervisor - Options Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 10",
+                    "examName": "General Securities Sales Supervisor - General Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 24",
+                    "examName": "General Securities Principal Examination",
+                    "examTakenDate": "4/18/1997",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 8",
+                    "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+                    "examTakenDate": "4/4/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 57TO",
+                    "examName": "Securities Trader Exam",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "SIE",
+                    "examName": "Securities Industry Essentials Examination",
+                    "examTakenDate": "10/1/2018",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 3",
+                    "examName": "National Commodity Futures Examination",
+                    "examTakenDate": "7/28/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 7",
+                    "examName": "General Securities Representative Examination",
+                    "examTakenDate": "6/8/1994",
+                    "examScope": "BC"
+                  }
+                ],
+                "employments": [
+                  {
+                    "firm_id": "8174",
+                    "firm_name": "UBS FINANCIAL SERVICES INC.",
+                    "registration_begin_date": "6/27/1994",
+                    "branch_offices": [
+                      {
+                        "street": "1285 AVENUE OF THE AMERICAS",
+                        "city": "NEW YORK",
+                        "state": "NY",
+                        "zip_code": "10019"
+                      },
+                      {
+                        "street": "LINCOLN HARBOR",
+                        "city": "WEEHAWKEN",
+                        "state": "NJ",
+                        "zip_code": "07086"
+                      },
+                      {
+                        "street": "315 DEADRICK STREET",
+                        "city": "NASHVILLE",
+                        "state": "TN",
+                        "zip_code": "37238"
+                      },
+                      {
+                        "street": "600 Washington Blvd 9th floor",
+                        "city": "STAMFORD",
+                        "state": "CT",
+                        "zip_code": "06901"
+                      }
+                    ],
+                    "status": "current",
+                    "type": "registered_firm"
+                  },
+                  {
+                    "firm_id": "107726",
+                    "firm_name": "UBS INTERNATIONAL INC.",
+                    "registration_begin_date": "7/17/2009",
+                    "branch_offices": [],
+                    "status": "previous",
+                    "type": "registered_firm",
+                    "registration_end_date": "1/1/2010"
+                  }
+                ],
+                "crd_number": "2382465"
+              },
+              "detailed_result": {
+                "source": "FINRA_BrokerCheck",
+                "fetched_name": "JASON RICHARD CHANDLER",
+                "other_names": [
+                  "JASON  CHANDLER"
+                ],
+                "bc_scope": "Active",
+                "ia_scope": "NotInScope",
+                "disclosures": [],
+                "arbitrations": [],
+                "exams": [
+                  {
+                    "examCategory": "Series 65",
+                    "examName": "Uniform Investment Adviser Law Examination",
+                    "examTakenDate": "9/7/1995",
+                    "examScope": "IA"
+                  },
+                  {
+                    "examCategory": "Series 63",
+                    "examName": "Uniform Securities Agent State Law Examination",
+                    "examTakenDate": "7/6/1994",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 9",
+                    "examName": "General Securities Sales Supervisor - Options Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 10",
+                    "examName": "General Securities Sales Supervisor - General Module Examination",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 24",
+                    "examName": "General Securities Principal Examination",
+                    "examTakenDate": "4/18/1997",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 8",
+                    "examName": "General  Securities Sales Supervisor Examination (Options Module & General Module)",
+                    "examTakenDate": "4/4/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 57TO",
+                    "examName": "Securities Trader Exam",
+                    "examTakenDate": "1/2/2023",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "SIE",
+                    "examName": "Securities Industry Essentials Examination",
+                    "examTakenDate": "10/1/2018",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 3",
+                    "examName": "National Commodity Futures Examination",
+                    "examTakenDate": "7/28/1995",
+                    "examScope": "BC"
+                  },
+                  {
+                    "examCategory": "Series 7",
+                    "examName": "General Securities Representative Examination",
+                    "examTakenDate": "6/8/1994",
+                    "examScope": "BC"
+                  }
+                ],
+                "employments": [
+                  {
+                    "firm_id": "8174",
+                    "firm_name": "UBS FINANCIAL SERVICES INC.",
+                    "registration_begin_date": "6/27/1994",
+                    "branch_offices": [
+                      {
+                        "street": "1285 AVENUE OF THE AMERICAS",
+                        "city": "NEW YORK",
+                        "state": "NY",
+                        "zip_code": "10019"
+                      },
+                      {
+                        "street": "LINCOLN HARBOR",
+                        "city": "WEEHAWKEN",
+                        "state": "NJ",
+                        "zip_code": "07086"
+                      },
+                      {
+                        "street": "315 DEADRICK STREET",
+                        "city": "NASHVILLE",
+                        "state": "TN",
+                        "zip_code": "37238"
+                      },
+                      {
+                        "street": "600 Washington Blvd 9th floor",
+                        "city": "STAMFORD",
+                        "state": "CT",
+                        "zip_code": "06901"
+                      }
+                    ],
+                    "status": "current",
+                    "type": "registered_firm"
+                  },
+                  {
+                    "firm_id": "107726",
+                    "firm_name": "UBS INTERNATIONAL INC.",
+                    "registration_begin_date": "7/17/2009",
+                    "branch_offices": [],
+                    "status": "previous",
+                    "type": "registered_firm",
+                    "registration_end_date": "1/1/2010"
+                  }
+                ],
+                "crd_number": "2382465"
+              },
+              "search_strategy": "search_with_crd_only",
+              "crd_number": "12345",
+              "compliance": false,
+              "compliance_explanation": "CRD number mismatch: requested 12345 but found 2382465.",
+              "is_invalid_crd": true
+            }
+          },
+          "description": "CRD number mismatch: requested 12345 but found 2382465."
+        }
+      ]
+    }
+  },
+  "received_at": "2025-08-08T15:24:44.917154"
+}

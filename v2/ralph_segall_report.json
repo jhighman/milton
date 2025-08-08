@@ -1,0 +1,558 @@
+{
+  "reference_id": "TEST-RALPH-SEGALL-001",
+  "claim": {
+    "first_name": "Ralph",
+    "last_name": "Segall",
+    "crd_number": "111",
+    "employee_number": "EMP-TEST-RALPH",
+    "reference_id": "TEST-RALPH-SEGALL-001",
+    "individual_name": "Ralph Segall",
+    "organization_crd": null
+  },
+  "search_evaluation": {
+    "source": "IAPD",
+    "basic_result": {
+      "source": "IAPD",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "detailed_result": {
+      "source": "IAPD",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "search_strategy": "search_with_crd_only",
+    "crd_number": "111",
+    "compliance": true,
+    "compliance_explanation": "Search completed successfully with SEC IAPD data, individual found."
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Registration status is valid.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "name_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "Name mismatch detected.",
+    "evaluation_details": {
+      "expected_name": "Ralph Segall",
+      "claimed_name": {
+        "first": "Ralph",
+        "middle": null,
+        "last": "Segall"
+      },
+      "all_matches": [
+        {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR",
+            "last": "EVANS"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[0]",
+          "fetched_name": {
+            "first": "RAY",
+            "middle": "EVANS",
+            "last": "I"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[1]",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR EVANS",
+            "last": "I"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[2]",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR",
+            "last": "EVANS"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        }
+      ],
+      "best_match": {
+        "name_source": "main_fetched_name",
+        "fetched_name": {
+          "first": "RAYMOND",
+          "middle": "ARTHUR",
+          "last": "EVANS"
+        },
+        "score": 0.0
+      },
+      "compliance": false,
+      "compliance_explanation": "Name does not match fetched record."
+    },
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "license_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "License is active and compliant.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Required exams are passed.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "employment_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "No employment history found for Ralph Segall.",
+    "alerts": [
+      {
+        "alert_type": "No Employment History",
+        "alert_category": "EMPLOYMENT",
+        "severity": "HIGH",
+        "metadata": {
+          "employments_count": 0
+        },
+        "description": "No employment history found for Ralph Segall."
+      }
+    ],
+    "source": "IAPD"
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Ralph Segall.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No matching disciplinary records found for Ralph Segall, but 15 records were reviewed and filtered, suggesting possible alias or data issues.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Disciplinary Search Info",
+        "alert_category": "DISCIPLINARY",
+        "severity": "INFO",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "sec_disciplinary": {
+              "source": "SEC_Disciplinary",
+              "records_found": 0,
+              "records_filtered": 0,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "No records found"
+            },
+            "finra_disciplinary": {
+              "source": "FINRA_Disciplinary",
+              "records_found": 15,
+              "records_filtered": 15,
+              "names_found": [
+                "Ralph G. Adamo",
+                "Ralph Richard Von Lutzow",
+                "RALPH EDWARD MARTIN",
+                "RALPH VILLANUEVA VILLAVICENCIO",
+                "RALPH B. MARRA",
+                "RALPH ADAME",
+                "RALPH W. SAVOIE",
+                "RALPH IRWIN PENCE",
+                "RALPH LORD",
+                "ERIC SEGALL",
+                "RALPH JOSEPH MANGINI",
+                "RALPH SAVIANO",
+                "RALPH WILLIAM HICKS JR.",
+                "RICHARD RALPH MONTANARO",
+                "RALPH THOMAS GANNETT"
+              ],
+              "name_scores": {
+                "Ralph G. Adamo": 0.0,
+                "Ralph Richard Von Lutzow": 0.0,
+                "RALPH EDWARD MARTIN": 0.0,
+                "RALPH VILLANUEVA VILLAVICENCIO": 0.0,
+                "RALPH B. MARRA": 0.0,
+                "RALPH ADAME": 0.0,
+                "RALPH W. SAVOIE": 0.0,
+                "RALPH IRWIN PENCE": 0.0,
+                "RALPH LORD": 0.0,
+                "ERIC SEGALL": 0.0,
+                "RALPH JOSEPH MANGINI": 0.0,
+                "RALPH SAVIANO": 0.0,
+                "RALPH WILLIAM HICKS JR.": 0.0,
+                "RICHARD RALPH MONTANARO": 0.0,
+                "RALPH THOMAS GANNETT": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Partial failure: Error processing 'RALPH THOMAS GANNETT'"
+            }
+          }
+        },
+        "description": "Found 15 disciplinary records for Ralph Segall, all filtered out due to name mismatch. Potential review needed."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "sec_disciplinary": {
+        "source": "SEC_Disciplinary",
+        "records_found": 0,
+        "records_filtered": 0,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "No records found"
+      },
+      "finra_disciplinary": {
+        "source": "FINRA_Disciplinary",
+        "records_found": 15,
+        "records_filtered": 15,
+        "names_found": [
+          "Ralph G. Adamo",
+          "Ralph Richard Von Lutzow",
+          "RALPH EDWARD MARTIN",
+          "RALPH VILLANUEVA VILLAVICENCIO",
+          "RALPH B. MARRA",
+          "RALPH ADAME",
+          "RALPH W. SAVOIE",
+          "RALPH IRWIN PENCE",
+          "RALPH LORD",
+          "ERIC SEGALL",
+          "RALPH JOSEPH MANGINI",
+          "RALPH SAVIANO",
+          "RALPH WILLIAM HICKS JR.",
+          "RICHARD RALPH MONTANARO",
+          "RALPH THOMAS GANNETT"
+        ],
+        "name_scores": {
+          "Ralph G. Adamo": 0.0,
+          "Ralph Richard Von Lutzow": 0.0,
+          "RALPH EDWARD MARTIN": 0.0,
+          "RALPH VILLANUEVA VILLAVICENCIO": 0.0,
+          "RALPH B. MARRA": 0.0,
+          "RALPH ADAME": 0.0,
+          "RALPH W. SAVOIE": 0.0,
+          "RALPH IRWIN PENCE": 0.0,
+          "RALPH LORD": 0.0,
+          "ERIC SEGALL": 0.0,
+          "RALPH JOSEPH MANGINI": 0.0,
+          "RALPH SAVIANO": 0.0,
+          "RALPH WILLIAM HICKS JR.": 0.0,
+          "RICHARD RALPH MONTANARO": 0.0,
+          "RALPH THOMAS GANNETT": 0.0
+        },
+        "exact_match_found": false,
+        "status": "Partial failure: Error processing 'RALPH THOMAS GANNETT'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No matching arbitration records found for Ralph Segall, but 15 records were reviewed and filtered, suggesting possible alias or data issues.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Arbitration Search Info",
+        "alert_category": "ARBITRATION",
+        "severity": "INFO",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "sec_arbitration": {
+              "source": "SEC_Arbitration",
+              "records_found": 0,
+              "records_filtered": 0,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "No records found"
+            },
+            "finra_arbitration": {
+              "source": "FINRA_Arbitration",
+              "records_found": 15,
+              "records_filtered": 15,
+              "names_found": [
+                "Wedbush Securities Inc.",
+                "Edward Wedbush",
+                "Eric Segall",
+                "Michael Gardner",
+                "R Richards",
+                "Robert Woods",
+                "Todd Brooks",
+                "Morgan Stanley",
+                "Wade Martin",
+                "Comerica Bank",
+                "VALIC Financial Advisors",
+                "Inc.",
+                "Harvest Capital LLC",
+                "Ralph Schneider",
+                "Okoboji Financial Services",
+                "Inc.",
+                "Donahue Jones",
+                "Ralph Schneider",
+                "Okoboji Financial Services",
+                "Inc.",
+                "Ralph Schneider",
+                "Ronald Kerher",
+                "Okoboji Financial Services",
+                "Inc.",
+                "Barouch Anteby",
+                "Grace Anteby",
+                "Ralph Anteby",
+                "Ralph Gannett",
+                "Cullum & Burks Securities",
+                "Inc.",
+                "Morgan Stanley",
+                "UBS Financial Services Inc.",
+                "Cetera Advisor Networks",
+                "LLC"
+              ],
+              "name_scores": {
+                "Wedbush Securities Inc.": 0.0,
+                "Edward Wedbush": 0.0,
+                "Eric Segall": 0.0,
+                "Michael Gardner": 0.0,
+                "R Richards": 0.0,
+                "Robert Woods": 0.0,
+                "Todd Brooks": 0.0,
+                "Morgan Stanley": 0.0,
+                "Wade Martin": 0.0,
+                "Comerica Bank": 0.0,
+                "VALIC Financial Advisors": 0.0,
+                "Inc.": 0.0,
+                "Harvest Capital LLC": 0.0,
+                "Ralph Schneider": 0.0,
+                "Okoboji Financial Services": 0.0,
+                "Donahue Jones": 0.0,
+                "Ronald Kerher": 0.0,
+                "Barouch Anteby": 0.0,
+                "Grace Anteby": 0.0,
+                "Ralph Anteby": 0.0,
+                "Ralph Gannett": 0.0,
+                "Cullum & Burks Securities": 0.0,
+                "UBS Financial Services Inc.": 0.0,
+                "Cetera Advisor Networks": 0.0,
+                "LLC": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Ralph Segall'"
+            }
+          }
+        },
+        "description": "Found 15 arbitration records for Ralph Segall, all filtered outta due to name mismatch. Potential review needed."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "sec_arbitration": {
+        "source": "SEC_Arbitration",
+        "records_found": 0,
+        "records_filtered": 0,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "No records found"
+      },
+      "finra_arbitration": {
+        "source": "FINRA_Arbitration",
+        "records_found": 15,
+        "records_filtered": 15,
+        "names_found": [
+          "Wedbush Securities Inc.",
+          "Edward Wedbush",
+          "Eric Segall",
+          "Michael Gardner",
+          "R Richards",
+          "Robert Woods",
+          "Todd Brooks",
+          "Morgan Stanley",
+          "Wade Martin",
+          "Comerica Bank",
+          "VALIC Financial Advisors",
+          "Inc.",
+          "Harvest Capital LLC",
+          "Ralph Schneider",
+          "Okoboji Financial Services",
+          "Inc.",
+          "Donahue Jones",
+          "Ralph Schneider",
+          "Okoboji Financial Services",
+          "Inc.",
+          "Ralph Schneider",
+          "Ronald Kerher",
+          "Okoboji Financial Services",
+          "Inc.",
+          "Barouch Anteby",
+          "Grace Anteby",
+          "Ralph Anteby",
+          "Ralph Gannett",
+          "Cullum & Burks Securities",
+          "Inc.",
+          "Morgan Stanley",
+          "UBS Financial Services Inc.",
+          "Cetera Advisor Networks",
+          "LLC"
+        ],
+        "name_scores": {
+          "Wedbush Securities Inc.": 0.0,
+          "Edward Wedbush": 0.0,
+          "Eric Segall": 0.0,
+          "Michael Gardner": 0.0,
+          "R Richards": 0.0,
+          "Robert Woods": 0.0,
+          "Todd Brooks": 0.0,
+          "Morgan Stanley": 0.0,
+          "Wade Martin": 0.0,
+          "Comerica Bank": 0.0,
+          "VALIC Financial Advisors": 0.0,
+          "Inc.": 0.0,
+          "Harvest Capital LLC": 0.0,
+          "Ralph Schneider": 0.0,
+          "Okoboji Financial Services": 0.0,
+          "Donahue Jones": 0.0,
+          "Ronald Kerher": 0.0,
+          "Barouch Anteby": 0.0,
+          "Grace Anteby": 0.0,
+          "Ralph Anteby": 0.0,
+          "Ralph Gannett": 0.0,
+          "Cullum & Burks Securities": 0.0,
+          "UBS Financial Services Inc.": 0.0,
+          "Cetera Advisor Networks": 0.0,
+          "LLC": 0.0
+        },
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Ralph Segall'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "regulatory_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No matching regulatory records found for Ralph Segall, processing failed: Partial failure: Error processing 'SEGALL, RALPH MARVIN'.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Regulatory Search Info",
+        "alert_category": "REGULATORY",
+        "severity": "MEDIUM",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "nfa_regulatory_actions": {
+              "source": "NFA_Regulatory",
+              "records_found": 1,
+              "records_filtered": 1,
+              "names_found": [
+                "SEGALL, RALPH MARVIN"
+              ],
+              "name_scores": {
+                "SEGALL, RALPH MARVIN": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+            }
+          }
+        },
+        "description": "Regulatory record processing failed for Ralph Segall: Partial failure: Error processing 'SEGALL, RALPH MARVIN'. Review raw data."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "nfa_regulatory_actions": {
+        "source": "NFA_Regulatory",
+        "records_found": 1,
+        "records_filtered": 1,
+        "names_found": [
+          "SEGALL, RALPH MARVIN"
+        ],
+        "name_scores": {
+          "SEGALL, RALPH MARVIN": 0.0
+        },
+        "exact_match_found": false,
+        "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "final_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "One or more compliance checks failed.",
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "No Employment History",
+        "alert_category": "EMPLOYMENT",
+        "severity": "HIGH",
+        "metadata": {
+          "employments_count": 0
+        },
+        "description": "No employment history found for Ralph Segall."
+      },
+      {
+        "alert_type": "Regulatory Search Info",
+        "alert_category": "REGULATORY",
+        "severity": "MEDIUM",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "nfa_regulatory_actions": {
+              "source": "NFA_Regulatory",
+              "records_found": 1,
+              "records_filtered": 1,
+              "names_found": [
+                "SEGALL, RALPH MARVIN"
+              ],
+              "name_scores": {
+                "SEGALL, RALPH MARVIN": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+            }
+          }
+        },
+        "description": "Regulatory record processing failed for Ralph Segall: Partial failure: Error processing 'SEGALL, RALPH MARVIN'. Review raw data."
+      }
+    ]
+  }
+}

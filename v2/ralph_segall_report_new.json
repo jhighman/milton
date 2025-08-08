@@ -1,0 +1,372 @@
+{
+  "reference_id": "TEST-RALPH-SEGALL-001",
+  "claim": {
+    "first_name": "Ralph",
+    "last_name": "Segall",
+    "crd_number": "111",
+    "employee_number": "EMP-TEST-RALPH",
+    "reference_id": "TEST-RALPH-SEGALL-001",
+    "individual_name": "Ralph Segall",
+    "organization_crd": null
+  },
+  "search_evaluation": {
+    "source": "IAPD",
+    "basic_result": {
+      "source": "IAPD",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "detailed_result": {
+      "source": "IAPD",
+      "fetched_name": "RAYMOND ARTHUR EVANS",
+      "other_names": [
+        "RAY  EVANS III",
+        "RAYMOND ARTHUR EVANS III",
+        "RAYMOND ARTHUR EVANS"
+      ],
+      "bc_scope": "Active",
+      "ia_scope": "Active",
+      "disclosures": [],
+      "arbitrations": [],
+      "exams": [],
+      "employments": [],
+      "crd_number": "1858973"
+    },
+    "search_strategy": "search_with_crd_only",
+    "crd_number": "111",
+    "compliance": true,
+    "compliance_explanation": "Search completed successfully with SEC IAPD data, individual found."
+  },
+  "status_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Registration status is valid.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "name_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "Name mismatch detected.",
+    "evaluation_details": {
+      "expected_name": "Ralph Segall",
+      "claimed_name": {
+        "first": "Ralph",
+        "middle": null,
+        "last": "Segall"
+      },
+      "all_matches": [
+        {
+          "name_source": "main_fetched_name",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR",
+            "last": "EVANS"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[0]",
+          "fetched_name": {
+            "first": "RAY",
+            "middle": "EVANS",
+            "last": "I"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[1]",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR EVANS",
+            "last": "I"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        },
+        {
+          "name_source": "other_names[2]",
+          "fetched_name": {
+            "first": "RAYMOND",
+            "middle": "ARTHUR",
+            "last": "EVANS"
+          },
+          "score": 0.0,
+          "first_score": 0.0,
+          "middle_score": 0.5,
+          "last_score": 0.0
+        }
+      ],
+      "best_match": {
+        "name_source": "main_fetched_name",
+        "fetched_name": {
+          "first": "RAYMOND",
+          "middle": "ARTHUR",
+          "last": "EVANS"
+        },
+        "score": 0.0
+      },
+      "compliance": false,
+      "compliance_explanation": "Name does not match fetched record."
+    },
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "license_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "License is active and compliant.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "exam_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "Required exams are passed.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "employment_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "No employment history found for Ralph Segall.",
+    "alerts": [
+      {
+        "alert_type": "No Employment History",
+        "alert_category": "EMPLOYMENT",
+        "severity": "HIGH",
+        "metadata": {
+          "employments_count": 0
+        },
+        "description": "No employment history found for Ralph Segall."
+      }
+    ],
+    "source": "IAPD"
+  },
+  "disclosure_review": {
+    "compliance": true,
+    "compliance_explanation": "No disclosures found for Ralph Segall.",
+    "alerts": [],
+    "source": "IAPD"
+  },
+  "disciplinary_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No matching disciplinary records found for Ralph Segall, 4 records reviewed with 4 filtered.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Disciplinary Search Info",
+        "alert_category": "DISCIPLINARY",
+        "severity": "INFO",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "sec_disciplinary": {
+              "source": "SEC_Disciplinary",
+              "records_found": 2,
+              "records_filtered": 2,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Ralph Segall'"
+            },
+            "finra_disciplinary": {
+              "source": "FINRA_Disciplinary",
+              "records_found": 2,
+              "records_filtered": 2,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Ralph Segall'"
+            }
+          }
+        },
+        "description": "Found 4 disciplinary records for Ralph Segall, 4 filtered out."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "sec_disciplinary": {
+        "source": "SEC_Disciplinary",
+        "records_found": 2,
+        "records_filtered": 2,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Ralph Segall'"
+      },
+      "finra_disciplinary": {
+        "source": "FINRA_Disciplinary",
+        "records_found": 2,
+        "records_filtered": 2,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Ralph Segall'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "arbitration_review": {
+    "compliance": true,
+    "compliance_explanation": "No matching arbitration records found for Ralph Segall, 4 records reviewed with 4 filtered.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Arbitration Search Info",
+        "alert_category": "ARBITRATION",
+        "severity": "INFO",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "sec_arbitration": {
+              "source": "SEC_Arbitration",
+              "records_found": 2,
+              "records_filtered": 2,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Ralph Segall'"
+            },
+            "finra_arbitration": {
+              "source": "FINRA_Arbitration",
+              "records_found": 2,
+              "records_filtered": 2,
+              "names_found": [],
+              "name_scores": {},
+              "exact_match_found": false,
+              "status": "Records found but no matches for 'Ralph Segall'"
+            }
+          }
+        },
+        "description": "Found 4 arbitration records for Ralph Segall, 4 filtered out."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "sec_arbitration": {
+        "source": "SEC_Arbitration",
+        "records_found": 2,
+        "records_filtered": 2,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Ralph Segall'"
+      },
+      "finra_arbitration": {
+        "source": "FINRA_Arbitration",
+        "records_found": 2,
+        "records_filtered": 2,
+        "names_found": [],
+        "name_scores": {},
+        "exact_match_found": false,
+        "status": "Records found but no matches for 'Ralph Segall'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "regulatory_evaluation": {
+    "compliance": true,
+    "compliance_explanation": "No matching regulatory records found for Ralph Segall, processing failed: Partial failure: Error processing 'SEGALL, RALPH MARVIN'.",
+    "actions": [],
+    "alerts": [
+      {
+        "alert_type": "Regulatory Search Info",
+        "alert_category": "REGULATORY",
+        "severity": "MEDIUM",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "nfa_regulatory_actions": {
+              "source": "NFA_Regulatory",
+              "records_found": 1,
+              "records_filtered": 1,
+              "names_found": [
+                "SEGALL, RALPH MARVIN"
+              ],
+              "name_scores": {
+                "SEGALL, RALPH MARVIN": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+            }
+          }
+        },
+        "description": "Regulatory record processing failed for Ralph Segall: Partial failure: Error processing 'SEGALL, RALPH MARVIN'. Review raw data."
+      }
+    ],
+    "due_diligence": {
+      "searched_name": "Ralph Segall",
+      "nfa_regulatory_actions": {
+        "source": "NFA_Regulatory",
+        "records_found": 1,
+        "records_filtered": 1,
+        "names_found": [
+          "SEGALL, RALPH MARVIN"
+        ],
+        "name_scores": {
+          "SEGALL, RALPH MARVIN": 0.0
+        },
+        "exact_match_found": false,
+        "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+      }
+    },
+    "source": "IAPD"
+  },
+  "final_evaluation": {
+    "compliance": false,
+    "compliance_explanation": "One or more compliance checks failed.",
+    "overall_compliance": false,
+    "overall_risk_level": "High",
+    "recommendations": "Immediate action required due to critical compliance issues.",
+    "alerts": [
+      {
+        "alert_type": "No Employment History",
+        "alert_category": "EMPLOYMENT",
+        "severity": "HIGH",
+        "metadata": {
+          "employments_count": 0
+        },
+        "description": "No employment history found for Ralph Segall."
+      },
+      {
+        "alert_type": "Regulatory Search Info",
+        "alert_category": "REGULATORY",
+        "severity": "MEDIUM",
+        "metadata": {
+          "due_diligence": {
+            "searched_name": "Ralph Segall",
+            "nfa_regulatory_actions": {
+              "source": "NFA_Regulatory",
+              "records_found": 1,
+              "records_filtered": 1,
+              "names_found": [
+                "SEGALL, RALPH MARVIN"
+              ],
+              "name_scores": {
+                "SEGALL, RALPH MARVIN": 0.0
+              },
+              "exact_match_found": false,
+              "status": "Partial failure: Error processing 'SEGALL, RALPH MARVIN'"
+            }
+          }
+        },
+        "description": "Regulatory record processing failed for Ralph Segall: Partial failure: Error processing 'SEGALL, RALPH MARVIN'. Review raw data."
+      }
+    ]
+  }
+}

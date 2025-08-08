@@ -1,0 +1,20 @@
+{
+  "headers": {
+    "Host": "localhost:9001",
+    "User-Agent": "python-requests/2.32.4",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "*/*",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Reference-ID": "TEST-efe0af3a",
+    "X-Correlation-ID": "bbcaae74-edb2-4e9f-97ac-97bd341d57e6",
+    "X-Idempotency-Key": "TEST-efe0af3a_a1ac974a-02c8-4648-ad06-298e82b9f932",
+    "Content-Length": "34"
+  },
+  "data": {
+    "test_payload": {
+      "key": "value"
+    }
+  },
+  "received_at": "2025-08-08T15:42:14.576010"
+}
